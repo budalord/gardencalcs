@@ -3,3 +3,4 @@ node_modules/
 out/
 *.tar.gz
 .vercel/
+vercel.json

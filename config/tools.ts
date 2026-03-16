@@ -30,14 +30,32 @@ export interface Tool {
 // 工具交互组件写在 tools/<slug>/<SlugTool>.tsx，然后在 app/tools/[slug]/page.tsx 里 import 并注册
 export const tools: Tool[] = [
   {
-    slug: "placeholder",
-    name: "Placeholder Tool",
-    tagline: "Replace this with your actual tool.",
-    category: "General",
-    keywords: ["placeholder"],
-    params: [{ id: "input", label: "Input", type: "text", placeholder: "Enter value..." }],
-    howToSteps: ["Enter a value.", "See the result."],
-    faqs: [{ q: "What does this tool do?", a: "This is a placeholder. Replace it with your actual tool." }],
+    slug: "fertilizer-calculator",
+    name: "Fertilizer Calculator",
+    tagline: "Calculate NPK fertilizer dosage for any crop or garden area.",
+    category: "Garden",
+    keywords: ["fertilizer calculator", "NPK calculator", "garden fertilizer", "fertilizer dosage", "urea calculator"],
+    params: [
+      { id: "preset", label: "Fertilizer Type", type: "select", options: [
+        { label: "Urea (46-0-0)", value: "urea" },
+        { label: "Compound (15-15-15)", value: "compound" },
+        { label: "DAP (18-46-0)", value: "dap" },
+        { label: "Custom", value: "custom" },
+      ]},
+      { id: "area", label: "Area (m²)", type: "number", placeholder: "e.g. 100", required: true },
+    ],
+    howToSteps: [
+      "Select your fertilizer type from the dropdown (Urea, Compound, DAP, or Custom).",
+      "If using Custom, enter the N, P₂O₅, and K₂O percentages from your fertilizer label.",
+      "Enter your garden area in square meters.",
+      "Click Calculate to see the recommended fertilizer amount and nutrient breakdown.",
+    ],
+    faqs: [
+      { q: "What do N, P, and K mean on a fertilizer label?", a: "N is nitrogen (promotes leafy growth), P is phosphorus expressed as P₂O₅ (supports roots and flowering), and K is potassium expressed as K₂O (improves overall plant health and disease resistance)." },
+      { q: "Why does this calculator use P₂O₅ instead of elemental phosphorus?", a: "Commercial fertilizer labels report phosphorus as P₂O₅ (phosphorus pentoxide), which is the industry standard. To convert to elemental P, multiply the P₂O₅ value by 0.436." },
+      { q: "How much fertilizer do I need for 100 m²?", a: "It depends on the fertilizer type and NPK ratio. For example, Urea (46-0-0) requires about 0.65 kg per 100 m² to supply the recommended nitrogen dose. Use this calculator to get an exact figure for your specific fertilizer." },
+      { q: "Can I use this calculator for any fertilizer brand?", a: "Yes. Select Custom and enter the N, P₂O₅, and K₂O percentages printed on your fertilizer bag. The calculator will compute the required amount based on standard nutrient application rates." },
+    ],
   },
 ];
 
