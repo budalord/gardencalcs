@@ -1,7 +1,7 @@
 // AGENT: 每次建新站只需修改这个文件
 export const siteConfig = {
   name: "Garden Tools Hub",               // AGENT: 站点名称
-  domain: "https://example.com",  // AGENT: 站点域名（无尾斜杠）
+  domain: "https://gardencalcs.com",  // AGENT: 站点域名（无尾斜杠）
   description: "Free online gardening calculators. Calculate fertilizer NPK dosage, seed spacing, and more for your garden.", // AGENT: 站点描述
   locale: "en",
   twitterHandle: "",              // AGENT: 可选
