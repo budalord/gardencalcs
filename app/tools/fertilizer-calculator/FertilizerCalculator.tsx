@@ -88,7 +88,9 @@ export default function FertilizerCalculator() {
     const res = calculate(n, p, k, areaSqm)
     if (!res) { setError('Calculation failed. Check your inputs.'); return }
     setResult(res)
-  }  return (
+  }
+
+  return (
     <div className="max-w-xl mx-auto p-4 space-y-6">
       {/* Preset selector */}
       <div>
