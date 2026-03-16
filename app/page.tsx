@@ -1,3 +1,10 @@
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Fertilizer Calculator & Seed Spacing Calculator – Free Garden Tools",
+  description: "Free online garden calculators. Calculate fertilizer NPK dosage, seed spacing, and more. Simple tools for home gardeners and small farms.",
+};
+
 import Link from "next/link";
 import { tools, getToolsByCategory } from "@/config/tools";
 import { siteConfig } from "@/config/site";
