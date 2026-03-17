@@ -30,6 +30,105 @@ export interface Tool {
 // 工具交互组件写在 tools/<slug>/<SlugTool>.tsx，然后在 app/tools/[slug]/page.tsx 里 import 并注册
 export const tools: Tool[] = [
   {
+    slug: "watering-schedule-calculator",
+    name: "Watering Schedule Calculator",
+    tagline: "Get a personalized watering schedule based on your plant, soil, season, and growing method.",
+    category: "Garden",
+    keywords: [
+      "watering schedule calculator",
+      "how often to water vegetable garden",
+      "plant watering calculator",
+      "garden watering guide by plant",
+      "watering frequency vegetables",
+      "how much to water plants",
+    ],
+    params: [
+      {
+        id: "plant",
+        label: "Plant Type",
+        type: "select",
+        options: [
+          { label: "Tomato", value: "tomato" },
+          { label: "Pepper", value: "pepper" },
+          { label: "Cucumber", value: "cucumber" },
+          { label: "Lettuce", value: "lettuce" },
+          { label: "Carrot", value: "carrot" },
+          { label: "Zucchini", value: "zucchini" },
+          { label: "Basil", value: "basil" },
+          { label: "Rose", value: "rose" },
+          { label: "Lavender", value: "lavender" },
+          { label: "Sunflower", value: "sunflower" },
+          { label: "Strawberry", value: "strawberry" },
+          { label: "Blueberry", value: "blueberry" },
+        ],
+        required: true,
+      },
+      {
+        id: "soilType",
+        label: "Soil Type",
+        type: "select",
+        options: [
+          { label: "Sandy", value: "sandy" },
+          { label: "Loamy", value: "loamy" },
+          { label: "Clay", value: "clay" },
+        ],
+        required: true,
+      },
+      {
+        id: "season",
+        label: "Season",
+        type: "select",
+        options: [
+          { label: "Spring", value: "spring" },
+          { label: "Summer", value: "summer" },
+          { label: "Fall", value: "fall" },
+          { label: "Winter", value: "winter" },
+        ],
+        required: true,
+      },
+      {
+        id: "method",
+        label: "Growing Method",
+        type: "select",
+        options: [
+          { label: "In-Ground", value: "in-ground" },
+          { label: "Raised Bed", value: "raised-bed" },
+          { label: "Container", value: "container" },
+        ],
+        required: true,
+      },
+    ],
+    howToSteps: [
+      "Select your plant type from the dropdown list.",
+      "Choose your soil type — sandy soils drain faster and need more frequent watering.",
+      "Select the current season to account for temperature and evaporation differences.",
+      "Choose your growing method — containers dry out faster than in-ground beds.",
+      "Click Calculate to get your personalized weekly watering schedule.",
+    ],
+    faqs: [
+      {
+        q: "How often should I water my vegetable garden?",
+        a: "Most vegetable gardens need about 1–2 inches of water per week, either from rain or irrigation. Frequency depends on your soil type, season, and plant variety. Sandy soils may need watering every 2–3 days in summer, while clay soils can go 5–7 days between waterings.",
+      },
+      {
+        q: "What is the best time of day to water plants?",
+        a: "Early morning (6–10 AM) is ideal. Watering in the morning allows foliage to dry during the day, reducing the risk of fungal diseases. Evening watering is acceptable but leaves wet overnight, which can promote mold and mildew. Avoid watering in the midday heat — water evaporates quickly and can stress plants.",
+      },
+      {
+        q: "How do I know if I am overwatering?",
+        a: "Signs of overwatering include yellowing leaves, wilting despite wet soil, root rot, and a musty smell from the soil. The best test is to stick your finger 2 inches into the soil — if it feels wet, wait before watering again. Overwatering is one of the most common causes of plant death in home gardens.",
+      },
+      {
+        q: "Does soil type affect watering frequency?",
+        a: "Yes, significantly. Sandy soil drains quickly and needs more frequent watering (up to 30% more). Clay soil retains moisture longer and needs less frequent watering (up to 30% less), but is prone to waterlogging. Loamy soil is the ideal balance and is used as the baseline for most watering recommendations.",
+      },
+      {
+        q: "Do container plants need more water than in-ground plants?",
+        a: "Yes. Containers have limited soil volume and no connection to groundwater, so they dry out much faster — especially in summer heat. Container plants may need watering daily in hot weather, compared to every 2–3 days for in-ground plants.",
+      },
+    ],
+  },
+  {
     slug: "soil-ph-calculator",
     name: "Soil pH Calculator",
     tagline: "Calculate how much lime or sulfur you need to reach your target soil pH.",
