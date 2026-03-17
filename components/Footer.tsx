@@ -48,6 +48,11 @@ export default function Footer() {
           )}
         </div>
 
+        <div className="flex flex-wrap justify-center gap-4 mb-3 text-xs text-gray-400">
+          <a href="/about" className="hover:text-gray-600">About</a>
+          <a href="/privacy" className="hover:text-gray-600">Privacy</a>
+          <a href="/contact" className="hover:text-gray-600">Contact</a>
+        </div>
         <p className="text-xs text-gray-400 text-center">
           © {year} {siteConfig.name}. All rights reserved.
         </p>

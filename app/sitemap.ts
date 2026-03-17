@@ -24,6 +24,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "composting-guide",
   ];
 
+  const staticPages = ["/about", "/privacy", "/contact"].map((p) => ({
+    url: `${siteConfig.domain}${p}`,
+    lastModified: new Date(),
+    changeFrequency: "yearly" as const,
+    priority: 0.3,
+  }));
+
   const guideRoutes: MetadataRoute.Sitemap = guides.map((slug) => ({
     url: `${base}/guides/${slug}`,
     lastModified: now,
@@ -31,5 +38,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.7,
   }));
 
-  return [...staticRoutes, ...toolRoutes, ...guideRoutes];
+  return [...staticRoutes, ...toolRoutes, ...guideRoutes, ...staticPages];
 }
