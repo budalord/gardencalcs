@@ -32,6 +32,7 @@ export function generateMetadata({ params }: { params: { slug: string } }): Meta
 // AGENT: 在此 import 各工具的交互组件
 // import JsonFormatterTool from "@/tools/json-formatter/JsonFormatterTool";
 // import Base64Tool from "@/tools/base64/Base64Tool";
+import FertilizerCalculator from "@/components/FertilizerCalculator";
 import SeedSpacingCalculator from "@/components/SeedSpacingCalculator";
 import SoilPHCalculator from "@/components/SoilPHCalculator";
 import WateringScheduleCalculator from "@/components/WateringScheduleCalculator";
@@ -41,6 +42,7 @@ import CompostCalculator from "@/components/CompostCalculator";
 const toolComponents: Record<string, React.ComponentType> = {
   // "json-formatter": JsonFormatterTool,
   // "base64": Base64Tool,
+  "fertilizer-calculator": FertilizerCalculator,
   "seed-spacing-calculator": SeedSpacingCalculator,
   "soil-ph-calculator": SoilPHCalculator,
   "watering-schedule-calculator": WateringScheduleCalculator,
