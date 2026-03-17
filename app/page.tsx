@@ -56,6 +56,28 @@ export default function HomePage() {
           </div>
         </section>
       )}
+      {/* Guides */}
+      <section className="mt-12">
+        <div className="flex items-center justify-between mb-5">
+          <h2 className="text-xl font-semibold text-gray-900">Garden Guides</h2>
+          <Link href="/guides" className="text-sm text-blue-600 hover:underline">View all →</Link>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          {[
+            { slug: "how-to-fertilize-vegetable-garden", title: "How to Fertilize Your Vegetable Garden", desc: "NPK basics, timing, and rates for common vegetables." },
+            { slug: "understanding-soil-ph", title: "Understanding Soil pH for Beginners", desc: "What pH is, why it matters, and how to adjust it." },
+            { slug: "composting-guide", title: "Complete Guide to Composting at Home", desc: "Greens vs browns, C:N ratio, and troubleshooting tips." },
+          ].map((g) => (
+            <Link key={g.slug} href={`/guides/${g.slug}`}
+              className="block p-5 bg-white border border-gray-200 rounded-xl hover:border-green-500 hover:shadow-md transition-all">
+              <p className="font-semibold text-gray-900 text-sm">{g.title}</p>
+              <p className="text-xs text-gray-500 mt-1">{g.desc}</p>
+              <span className="inline-block mt-3 text-xs text-green-700 font-medium">Read guide →</span>
+            </Link>
+          ))}
+        </div>
+      </section>
+
     </div>
   );
 }

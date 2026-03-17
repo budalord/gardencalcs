@@ -18,6 +18,7 @@ export default function Header() {
         {/* Desktop nav */}
         <nav className="hidden md:flex items-center gap-6 text-sm">
           <Link href="/tools" className="text-gray-600 hover:text-blue-600">All Tools</Link>
+          <Link href="/guides" className="text-gray-600 hover:text-blue-600">Guides</Link>
           {categories.slice(0, 4).map((cat) => (
             <Link key={cat} href={`/tools?category=${encodeURIComponent(cat)}`}
               className="text-gray-600 hover:text-blue-600">{cat}</Link>
@@ -35,6 +36,7 @@ export default function Header() {
       {open && (
         <div className="md:hidden bg-white border-t border-gray-100 px-4 py-3 flex flex-col gap-3 text-sm">
           <Link href="/tools" className="text-gray-700" onClick={() => setOpen(false)}>All Tools</Link>
+          <Link href="/guides" className="text-gray-700" onClick={() => setOpen(false)}>Guides</Link>
           {categories.map((cat) => (
             <Link key={cat} href={`/tools?category=${encodeURIComponent(cat)}`}
               className="text-gray-700" onClick={() => setOpen(false)}>{cat}</Link>
