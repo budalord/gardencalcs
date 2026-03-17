@@ -18,5 +18,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.8,
   }));
 
-  return [...staticRoutes, ...toolRoutes];
+  const guides = [
+    "how-to-fertilize-vegetable-garden",
+    "understanding-soil-ph",
+    "composting-guide",
+  ];
+
+  const guideRoutes: MetadataRoute.Sitemap = guides.map((slug) => ({
+    url: `${base}/guides/${slug}`,
+    lastModified: now,
+    changeFrequency: "monthly" as const,
+    priority: 0.7,
+  }));
+
+  return [...staticRoutes, ...toolRoutes, ...guideRoutes];
 }
