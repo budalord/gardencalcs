@@ -154,6 +154,9 @@ export default function SeedSpacingCalculator() {
           <p className="text-xs text-gray-400">
             Spacing based on standard USDA extension guidelines. Assumes square garden layout.
           </p>
+          <p className="text-xs text-gray-400">
+            Calculation assumes a square garden layout. Results may vary for non-square plots.
+          </p>
         </div>
       )}
     </div>

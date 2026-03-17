@@ -78,7 +78,7 @@ export default function SoilPHCalculator() {
 
     const phDiff = Math.abs(tgt - cur);
 
-    if (phDiff < 0.05) {
+    if (phDiff <= 0.05) {
       setResult({ direction: "none", material: "", amountLbs: 0, amountKg: 0, amountPerSqM: 0, phDiff: 0 });
       return;
     }
