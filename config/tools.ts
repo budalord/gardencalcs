@@ -30,6 +30,65 @@ export interface Tool {
 // 工具交互组件写在 tools/<slug>/<SlugTool>.tsx，然后在 app/tools/[slug]/page.tsx 里 import 并注册
 export const tools: Tool[] = [
   {
+    slug: "soil-ph-calculator",
+    name: "Soil pH Calculator",
+    tagline: "Calculate how much lime or sulfur you need to reach your target soil pH.",
+    category: "Garden",
+    keywords: [
+      "soil ph calculator",
+      "garden soil ph adjuster",
+      "how much lime to raise soil ph",
+      "how much sulfur to lower soil ph",
+      "soil ph for vegetables",
+      "lime calculator garden",
+    ],
+    params: [
+      { id: "currentPH", label: "Current Soil pH", type: "number", placeholder: "e.g. 5.5", required: true },
+      { id: "targetPH", label: "Target pH", type: "number", placeholder: "e.g. 6.5", required: true },
+      {
+        id: "soilType",
+        label: "Soil Type",
+        type: "select",
+        options: [
+          { label: "Sandy", value: "sandy" },
+          { label: "Loamy", value: "loamy" },
+          { label: "Clay", value: "clay" },
+        ],
+        required: true,
+      },
+      { id: "area", label: "Area (sq ft)", type: "number", placeholder: "e.g. 100", required: true },
+    ],
+    howToSteps: [
+      "Test your current soil pH using a home test kit or send a sample to your local extension office.",
+      "Select your plant type from the dropdown to auto-fill the recommended target pH, or enter a custom target.",
+      "Choose your soil type — clay soils require more amendment than sandy soils.",
+      "Enter your garden area and click Calculate to see the recommended lime or sulfur amount.",
+      "Apply the amendment evenly and water in well. Retest your soil pH after 2–3 months.",
+    ],
+    faqs: [
+      {
+        q: "Why does soil pH matter for plants?",
+        a: "Soil pH controls nutrient availability. Most nutrients are most accessible to plants between pH 6.0 and 7.0. Outside this range, essential nutrients like iron, manganese, and phosphorus become locked in the soil, causing deficiencies even when fertilizer is applied.",
+      },
+      {
+        q: "How do I test my soil pH?",
+        a: "You can use an inexpensive home test kit (strips or a digital meter) for a quick reading. For more accurate results, send a soil sample to your local university extension service — they typically charge $10–$20 and provide detailed amendment recommendations.",
+      },
+      {
+        q: "How long does it take for lime or sulfur to change soil pH?",
+        a: "Garden lime (calcium carbonate) works slowly — expect 2–6 months for a noticeable shift, depending on soil moisture and temperature. Elemental sulfur is also slow, taking 2–4 months. Faster-acting forms like hydrated lime or sulfur-coated urea can show results in weeks but require careful application to avoid burning plants.",
+      },
+      {
+        q: "Can I change soil pH in containers or raised beds?",
+        a: "Yes, but it is easier than in-ground soil. Start with a quality potting mix at the correct pH for your plants. To lower pH, mix in acidic amendments like peat moss or pine bark. To raise pH, add garden lime. Retest every season as container soil pH can drift over time.",
+      },
+      {
+        q: "What is the difference between garden lime and agricultural lime?",
+        a: "Garden lime (calcium carbonate, CaCO₃) and agricultural lime are essentially the same product — finely ground limestone. The finer the grind, the faster it reacts. Dolomitic lime also contains magnesium and is a good choice if your soil is magnesium-deficient.",
+      },
+    ],
+  },
+  {
     slug: "seed-spacing-calculator",
     name: "Seed Spacing Calculator",
     tagline: "Calculate recommended row spacing, plant spacing, and total seed count for your garden.",

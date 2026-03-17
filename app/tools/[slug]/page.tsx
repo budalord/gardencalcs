@@ -33,12 +33,14 @@ export function generateMetadata({ params }: { params: { slug: string } }): Meta
 // import JsonFormatterTool from "@/tools/json-formatter/JsonFormatterTool";
 // import Base64Tool from "@/tools/base64/Base64Tool";
 import SeedSpacingCalculator from "@/components/SeedSpacingCalculator";
+import SoilPHCalculator from "@/components/SoilPHCalculator";
 
 // AGENT: 在此映射 slug → 组件
 const toolComponents: Record<string, React.ComponentType> = {
   // "json-formatter": JsonFormatterTool,
   // "base64": Base64Tool,
   "seed-spacing-calculator": SeedSpacingCalculator,
+  "soil-ph-calculator": SoilPHCalculator,
 };
 
 export default function ToolPage({ params }: { params: { slug: string } }) {
