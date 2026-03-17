@@ -30,6 +30,50 @@ export interface Tool {
 // 工具交互组件写在 tools/<slug>/<SlugTool>.tsx，然后在 app/tools/[slug]/page.tsx 里 import 并注册
 export const tools: Tool[] = [
   {
+    slug: "compost-calculator",
+    name: "Compost Calculator",
+    tagline: "Calculate your compost C:N ratio, bin volume, and get balancing recommendations.",
+    category: "Garden",
+    keywords: [
+      "compost calculator",
+      "compost carbon nitrogen ratio calculator",
+      "how much compost do I need",
+      "composting ratio green brown",
+      "compost bin calculator",
+      "carbon to nitrogen ratio compost",
+    ],
+    params: [
+      { id: "length", label: "Bin Length (ft)", type: "number", placeholder: "e.g. 3", required: true },
+      { id: "width",  label: "Bin Width (ft)",  type: "number", placeholder: "e.g. 3", required: true },
+      { id: "height", label: "Bin Height (ft)", type: "number", placeholder: "e.g. 3", required: true },
+    ],
+    howToSteps: [
+      "Enter your compost bin dimensions (length, width, height).",
+      "Add your compost materials using the material selector — choose from greens (nitrogen-rich) and browns (carbon-rich).",
+      "Enter the weight or volume of each material you plan to add.",
+      "Click Calculate to see your current C:N ratio and whether you need more greens or browns.",
+      "Follow the balancing recommendation to reach the ideal 25:1–30:1 ratio for fast composting.",
+    ],
+    faqs: [
+      {
+        q: "What is the ideal carbon to nitrogen ratio for compost?",
+        a: "The ideal C:N ratio for active composting is between 25:1 and 30:1. Below 20:1 (too much nitrogen), your pile may smell like ammonia. Above 40:1 (too much carbon), decomposition slows significantly. Achieving the right balance is the single most important factor for fast, odor-free composting.",
+      },
+      {
+        q: "What can I put in my compost bin?",
+        a: "Greens (nitrogen sources): grass clippings, vegetable scraps, coffee grounds, fresh manure, and green leaves. Browns (carbon sources): dry leaves, straw, cardboard, wood chips, sawdust, and newspaper. Avoid meat, dairy, oily foods, diseased plants, and pet waste, as these attract pests or introduce pathogens.",
+      },
+      {
+        q: "How long does composting take?",
+        a: "Hot composting (actively managed, turned regularly, correct C:N ratio) takes 4–8 weeks. Cold composting (passive, minimal turning) takes 3–6 months or longer. The key factors are C:N ratio, moisture (should feel like a wrung-out sponge), aeration (turn every 1–2 weeks), and particle size (smaller pieces decompose faster).",
+      },
+      {
+        q: "Why does my compost smell bad?",
+        a: "A rotten egg smell usually means the pile is too wet and anaerobic — turn it and add dry browns. An ammonia smell means too much nitrogen (greens) — add more carbon-rich browns like dry leaves or cardboard. A well-balanced, properly aerated compost pile should smell earthy, not unpleasant.",
+      },
+    ],
+  },
+  {
     slug: "watering-schedule-calculator",
     name: "Watering Schedule Calculator",
     tagline: "Get a personalized watering schedule based on your plant, soil, season, and growing method.",

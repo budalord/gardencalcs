@@ -35,6 +35,7 @@ export function generateMetadata({ params }: { params: { slug: string } }): Meta
 import SeedSpacingCalculator from "@/components/SeedSpacingCalculator";
 import SoilPHCalculator from "@/components/SoilPHCalculator";
 import WateringScheduleCalculator from "@/components/WateringScheduleCalculator";
+import CompostCalculator from "@/components/CompostCalculator";
 
 // AGENT: 在此映射 slug → 组件
 const toolComponents: Record<string, React.ComponentType> = {
@@ -43,6 +44,7 @@ const toolComponents: Record<string, React.ComponentType> = {
   "seed-spacing-calculator": SeedSpacingCalculator,
   "soil-ph-calculator": SoilPHCalculator,
   "watering-schedule-calculator": WateringScheduleCalculator,
+  "compost-calculator": CompostCalculator,
 };
 
 export default function ToolPage({ params }: { params: { slug: string } }) {
