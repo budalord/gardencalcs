@@ -41,6 +41,35 @@ export default function ToolLayout({ tool, children }: ToolLayoutProps) {
         </section>
       )}
 
+      {tool.contentSections && tool.contentSections.length > 0 && (
+        <section className="mb-8 space-y-6">
+          {tool.contentSections.map((section) => (
+            <div key={section.heading}>
+              <h2 className="text-lg font-semibold text-gray-900 mb-3">{section.heading}</h2>
+              <div className="space-y-3 text-sm leading-7 text-gray-600">
+                {section.paragraphs.map((paragraph, i) => (
+                  <p key={i}>{paragraph}</p>
+                ))}
+              </div>
+            </div>
+          ))}
+        </section>
+      )}
+
+      {tool.workedExamples && tool.workedExamples.length > 0 && (
+        <section className="mb-8">
+          <h2 className="text-lg font-semibold text-gray-900 mb-4">Worked Examples</h2>
+          <div className="space-y-3">
+            {tool.workedExamples.map((example) => (
+              <div key={example.title} className="rounded-lg border border-gray-200 bg-gray-50 p-4">
+                <h3 className="text-sm font-semibold text-gray-900">{example.title}</h3>
+                <p className="mt-2 text-sm leading-7 text-gray-600">{example.summary}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
       {/* FAQ */}
       {tool.faqs.length > 0 && <FAQSection faqs={tool.faqs} />}
 

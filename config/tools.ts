@@ -14,6 +14,16 @@ export interface ToolParam {
   required?: boolean;
 }
 
+export interface ToolContentSection {
+  heading: string;
+  paragraphs: string[];
+}
+
+export interface ToolWorkedExample {
+  title: string;
+  summary: string;
+}
+
 export interface Tool {
   slug: string;           // URL slug，如 "json-formatter"
   name: string;           // 显示名，如 "JSON Formatter"
@@ -23,6 +33,8 @@ export interface Tool {
   params: ToolParam[];    // 输入参数定义（供工具组件参考）
   howToSteps: string[];   // HowTo schema 步骤（英文）
   faqs: { q: string; a: string }[]; // FAQ schema + 页面展示（英文，至少 4 条）
+  contentSections?: ToolContentSection[];
+  workedExamples?: ToolWorkedExample[];
 }
 
 // AGENT: 替换下方占位工具，填入实际工具列表
@@ -70,6 +82,43 @@ export const tools: Tool[] = [
       {
         q: "Why does my compost smell bad?",
         a: "A rotten egg smell usually means the pile is too wet and anaerobic — turn it and add dry browns. An ammonia smell means too much nitrogen (greens) — add more carbon-rich browns like dry leaves or cardboard. A well-balanced, properly aerated compost pile should smell earthy, not unpleasant.",
+      },
+    ],
+    contentSections: [
+      {
+        heading: "What the compost calculator actually solves",
+        paragraphs: [
+          "A compost pile works best when three basics are in balance: carbon, nitrogen, and air. Browns such as dry leaves, straw, cardboard, and sawdust supply carbon. Greens such as grass clippings, food scraps, coffee grounds, and fresh manure supply nitrogen. The job of a compost calculator is to turn those materials into a practical number you can work with before you build the pile. Instead of guessing, you can estimate your bin volume, compare your ingredient mix, and see whether you are close to the target carbon-to-nitrogen ratio that supports fast decomposition.",
+          "That matters because many home compost problems start with a ratio mistake. A pile that is too green heats up fast but can smell sour or release ammonia. A pile that is too brown stays cool and seems to sit there for weeks. When you know your dimensions and the rough weights of what you are adding, you can correct the mix early. This saves time, reduces odor, and gives you a more predictable path to finished compost that is crumbly, dark, and safe to spread on beds.",
+        ],
+      },
+      {
+        heading: "How to interpret your ratio and bin size",
+        paragraphs: [
+          "Most gardeners aim for an initial C:N ratio between 25:1 and 30:1. Think of that range as the sweet spot where microbes have enough energy from carbon and enough protein-building nitrogen to multiply quickly. If your result is below that range, the pile is nitrogen-heavy. You usually fix that by mixing in dry leaves, shredded paper, or cardboard. If your result is above the range, the pile is carbon-heavy. In that case, add fresh grass clippings, kitchen scraps, or other moist green materials and then turn the pile so the new material is distributed evenly.",
+          "Volume matters too. A pile that is too small often cannot hold heat, even with a good ratio. Many gardeners find that a bin around 3 ft by 3 ft by 3 ft is a practical minimum for hot composting. Larger piles hold temperature better, but they still need oxygen and moisture. Use the calculator's volume output as a planning number. If your bin is large enough but decomposition is still slow, the culprit is usually moisture or aeration rather than size alone.",
+        ],
+      },
+      {
+        heading: "How to use the result in the real garden",
+        paragraphs: [
+          "Use the recommendation as a starting point, not as a rigid lab formula. Material weights vary by moisture level, and a bag of leaves in autumn is not exactly the same as a pile of partly wet leaves after rain. The best workflow is to build the pile in layers, compare the live texture to the calculator output, and then adjust. A good pile should feel about as damp as a wrung-out sponge. If it is slimy or compacted, add dry browns and turn. If it is dusty and cool, add greens and a little water.",
+          "After setup, check the pile every few days in the first two weeks. Hot piles often peak in temperature quickly, then need turning as oxygen drops. If your ratio is in range and your pile is at least moderately large, you can expect visible shrinkage within a week or two. Once the material looks more uniform and no longer resembles the original scraps, shift from chasing speed to letting the compost cure. Finished compost should smell earthy and no longer show obvious food waste, grass clumps, or intact cardboard pieces.",
+        ],
+      },
+    ],
+    workedExamples: [
+      {
+        title: "Example: a balanced backyard pile",
+        summary: "A gardener builds a 3 ft × 3 ft × 3 ft bin, which is 27 cubic feet. They add 20 lbs of grass clippings, 10 lbs of food scraps, and 25 lbs of dry leaves. The weighted ratio lands close to the ideal range, so the pile should heat up quickly if moisture and aeration are correct.",
+      },
+      {
+        title: "Example: fixing a pile that smells like ammonia",
+        summary: "Suppose your current mix is 30 lbs of grass clippings and 10 lbs of coffee grounds. That is heavy on nitrogen. If the calculator reports a low C:N ratio, adding roughly 20 to 25 lbs of dry leaves or shredded cardboard brings the pile back toward a safer and faster-composting balance.",
+      },
+      {
+        title: "Example: waking up a slow carbon-heavy pile",
+        summary: "If you fill a bin with 40 lbs of straw and 20 lbs of dry leaves, the ratio will usually be too high. Adding 15 to 20 lbs of fresh green material such as grass clippings lowers the ratio, adds moisture, and gives microbes the nitrogen they need to restart active decomposition.",
       },
     ],
   },
@@ -230,6 +279,43 @@ export const tools: Tool[] = [
         a: "Garden lime (calcium carbonate, CaCO₃) and agricultural lime are essentially the same product — finely ground limestone. The finer the grind, the faster it reacts. Dolomitic lime also contains magnesium and is a good choice if your soil is magnesium-deficient.",
       },
     ],
+    contentSections: [
+      {
+        heading: "Why a soil pH calculator is more useful than guessing",
+        paragraphs: [
+          "Soil pH affects how easily plant roots can take up nutrients that are already present in the soil. Two gardens can receive the same fertilizer and still perform very differently if one bed is too acidic or too alkaline. A soil pH calculator helps you move from a vague reading like 5.4 or 7.3 to a practical amendment plan. Instead of applying lime or sulfur by feel, you can estimate the amount needed based on the pH gap, the bed size, and the soil texture. That is important because heavy clay needs more amendment than light sandy soil to shift the same pH amount.",
+          "This tool is most useful when you already have a test result from a meter, strip test, or extension lab. Once you know your current pH and your crop target, the calculator gives you an amendment amount that is realistic for a home garden. It will not replace a full soil analysis, but it does answer the question most gardeners actually ask: how much lime or sulfur should I spread on this bed before I plant?",
+        ],
+      },
+      {
+        heading: "How to choose a realistic target pH",
+        paragraphs: [
+          "Most vegetables perform well in slightly acidic to neutral soil, usually around pH 6.0 to 7.0. That range keeps phosphorus, potassium, calcium, and most micronutrients available without creating major lockout issues. Some crops want narrower ranges. Blueberries and azaleas prefer acidic soil around 4.5 to 5.5, while tomatoes, peppers, lettuce, and cucumbers usually do best around the mid-sixes. The target pH should match the crop you are actually growing, not a generic garden average.",
+          "It is also better to make moderate moves than extreme ones. For example, if your loamy garden bed tests at pH 5.2 and you want tomatoes, moving toward 6.2 or 6.4 is sensible. Trying to jump all the way to 7.0 in one pass is slower, less predictable, and easier to overshoot. Likewise, if your soil is slightly alkaline and you are growing blueberries, lowering pH may take multiple rounds over a season rather than one huge sulfur application.",
+        ],
+      },
+      {
+        heading: "Practical application and retesting advice",
+        paragraphs: [
+          "Apply amendments evenly and treat the calculator result as a total application amount for the stated area. Spread the material across the whole bed rather than concentrating it in one spot, then water it in or work it lightly into the top few inches. Lime and sulfur are not instant fixes. They need moisture, time, and soil contact to react. That means planning ahead matters. Lime is often applied in fall or several weeks before planting, while sulfur also benefits from an early application window.",
+          "Retesting is part of the process. If you are adjusting a large pH gap, use the first application to move in the right direction, then test again after a couple of months. This is especially important in raised beds and containers, where mixes can shift faster than in-ground soil. If your crop is already planted, make smaller corrections and avoid dramatic changes around roots. The best result is not the largest application. It is reaching the crop-friendly range steadily without stressing the soil ecosystem.",
+        ],
+      },
+    ],
+    workedExamples: [
+      {
+        title: "Example: raising pH for tomatoes in a 100 sq ft bed",
+        summary: "A loamy bed tests at pH 5.5 and the gardener wants pH 6.5 for tomatoes. The difference is 1.0 pH unit. Using a loam factor of 5 lbs of lime per 100 sq ft per pH unit, the calculator recommends about 5 lbs of garden lime for the bed.",
+      },
+      {
+        title: "Example: lowering pH for blueberries in sandy soil",
+        summary: "A sandy bed is at pH 6.5 and the target for blueberries is pH 5.0. The difference is 1.5 units. With a sulfur rate of 1 lb per 100 sq ft per pH unit in sandy soil, a 100 sq ft bed needs about 1.5 lbs of elemental sulfur, applied evenly and followed by retesting later in the season.",
+      },
+      {
+        title: "Example: converting metric area",
+        summary: "If a raised bed is 12 square meters and you want to raise pH by 0.8 in loamy soil, the tool first converts 12 m² to about 129 sq ft. It then applies the same extension-style rate to estimate the total lime required, giving you a result in both pounds and kilograms.",
+      },
+    ],
   },
   {
     slug: "seed-spacing-calculator",
@@ -296,6 +382,43 @@ export const tools: Tool[] = [
       {
         q: "What if I want to use square-foot gardening?",
         a: "Square-foot gardening uses a fixed 1 ft × 1 ft grid. The number of plants per square foot varies by plant size — for example, 1 tomato per square foot vs. 16 carrots per square foot. This calculator uses traditional row spacing, which is compatible with most garden layouts.",
+      },
+    ],
+    contentSections: [
+      {
+        heading: "What a seed spacing calculator helps you avoid",
+        paragraphs: [
+          "Planting too close is one of the easiest ways to reduce yield without noticing it until mid-season. Seedlings may germinate well, look healthy for a while, and then start competing for light, airflow, and root space once they size up. A seed spacing calculator helps you turn a bed size into a layout plan before you sow. That means you can estimate how many rows fit, how many plants belong in each row, and how many seeds to buy with a realistic germination buffer built in.",
+          "Spacing is not just about maximizing the number of plants. It is about matching plant size to the conditions the crop needs later. Tomatoes and zucchini need room for canopy growth and airflow. Lettuce and spinach can be grown more tightly, but still benefit from enough distance to reduce mildew and bolting stress. When spacing is correct, plants fill the bed at maturity instead of fighting each other halfway through the season.",
+        ],
+      },
+      {
+        heading: "How to use row spacing and plant spacing together",
+        paragraphs: [
+          "Row spacing and plant spacing answer two different questions. Row spacing controls how many lines of a crop you can fit across the bed. Plant spacing controls how many individual plants fit within each line. If a crop needs 24 inches between rows and 18 inches between plants, you need both numbers to estimate total plant count. Gardeners often remember one and forget the other, which is why their shopping list or transplant tray count ends up wrong.",
+          "This calculator assumes a simple square or rectangular planning approach, which is ideal for quick layout work. Use the row spacing result to mark parallel lines first. Then use the plant spacing result to mark holes or seed stations along each row. Once you have the total plant count, add around 10 to 20 percent extra seed for normal germination losses. That buffer is especially useful for direct-sown crops like carrots, beets, spinach, and radishes.",
+        ],
+      },
+      {
+        heading: "Using spacing rules in raised beds and intensive gardens",
+        paragraphs: [
+          "Raised beds and intensive systems can sometimes tighten spacing slightly, but the safe starting point is still the standard row and in-row spacing shown by the calculator. If you are gardening in a small space, treat the output as a baseline and only reduce spacing when you know the crop tolerates it. Leafy crops can often handle more density than fruiting crops. Large plants such as zucchini, tomatoes, and broccoli usually need the full recommendation to avoid disease pressure and disappointing yields.",
+          "The best way to use the result is to compare your available area with your harvest goal. If the calculator says your 100 sq ft bed fits only 50 broccoli plants, that may sound low, but each plant needs room to make a proper head. Overpacking the bed rarely increases the final harvest. It usually just creates smaller plants, more thinning work, and less airflow. Good spacing feels conservative at planting time and smart at harvest time.",
+        ],
+      },
+    ],
+    workedExamples: [
+      {
+        title: "Example: tomatoes in a 100 sq ft bed",
+        summary: "A 100 sq ft bed is roughly 10 ft by 10 ft. With tomatoes spaced 36 inches between rows and 24 inches between plants, the calculator estimates 3 rows with 5 plants per row, or about 15 tomato plants total. Adding a 15% buffer suggests starting with 18 seeds or transplants.",
+      },
+      {
+        title: "Example: carrots for a dense sowing plan",
+        summary: "In the same 100 sq ft bed, carrots at 12 inches between rows and 3 inches between plants fit many more stations. The calculator estimates 10 rows and around 40 planting positions per row, giving roughly 400 plants. A germination buffer pushes the recommended seed count to about 460 seeds.",
+      },
+      {
+        title: "Example: raised-bed lettuce planning",
+        summary: "If a raised bed has 32 sq ft of growing space and lettuce needs 12 inches between rows with 8 inches between plants, the tool helps you see that you can grow multiple short rows without crowding. That lets you stagger sowings and still maintain airflow for cleaner heads.",
       },
     ],
   },
