@@ -57,11 +57,11 @@ No calculator business logic was changed.
 
 ### FAQ questions + PAA sources
 1. `What is the difference between plant spacing and row spacing?`
-   - source query: `row spacing vs plant spacing`
-   - source URL: https://www.reddit.com/r/gardening/comments/ihltqr/why_are_there_different_values_for_row_spacing/
+   - source query: `site:.edu extension row spacing plant spacing vegetables`
+   - source URL: https://extension.usu.edu/vegetableguide/leafy-greens/planting-spacing
 2. `What is row spacing in plants?`
-   - source query: `row spacing vs plant spacing`
-   - source URL: https://brainly.in/question/61288027
+   - source query: `site:.edu extension row spacing plant spacing vegetables`
+   - source URL: https://www.uvm.edu/vtvegandberry/factsheets/rowspacing.html
 3. `How close can you plant vegetables to each other?`
    - source query: `how close together can you plant vegetables`
    - source URL: https://home.howstuffworks.com/vegetable-spacing-guide.htm

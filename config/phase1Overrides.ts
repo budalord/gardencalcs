@@ -117,16 +117,16 @@ export const phase1Overrides: Record<string, ToolOverride> = {
     faqs: [
       {
         q: "What is the difference between plant spacing and row spacing?",
-        a: "Plant spacing is the distance between individual plants in the same line, while row spacing is the distance between one row and the next. You need both values to estimate how many plants fit in a bed, how much airflow stays around leaves, and whether harvesting paths remain practical through the season.",
-        displayHtml: "Plant spacing is the distance between individual plants in the same line, while row spacing is the distance between one row and the next. You need both values to estimate how many plants fit in a bed, how much airflow stays around leaves, and whether harvesting paths remain practical through the season. If you are planning tomatoes or peppers next, pair this with our <a href=\"/tools/watering-schedule-calculator\">vegetable watering schedule calculator</a> so spacing and irrigation stay aligned.",
-        sourceQuery: "row spacing vs plant spacing",
-        sourceUrl: "https://www.reddit.com/r/gardening/comments/ihltqr/why_are_there_different_values_for_row_spacing/",
+        a: "Plant spacing is the distance between neighboring plants within a row, while row spacing is the distance between one planted row and the next. Growers use both numbers together because each one changes airflow, cultivation access, and the final plant population in a bed or field. Using only one of the two leads to crowding mistakes.",
+        displayHtml: "Plant spacing is the distance between neighboring plants within a row, while row spacing is the distance between one planted row and the next. Growers use both numbers together because each one changes airflow, cultivation access, and the final plant population in a bed or field. Using only one of the two leads to crowding mistakes. If you are planning tomatoes or peppers next, pair this with our <a href=\"/tools/watering-schedule-calculator\">vegetable watering schedule calculator</a> so spacing and irrigation stay aligned.",
+        sourceQuery: "site:.edu extension row spacing plant spacing vegetables",
+        sourceUrl: "https://extension.usu.edu/vegetableguide/leafy-greens/planting-spacing",
       },
       {
         q: "What is row spacing in plants?",
-        a: "Row spacing is the side-to-side distance between two planted rows. It matters because rows that are too tight reduce airflow, make weeding harder, and create more leaf contact. Fruiting crops usually need wider rows than quick leaf crops, even when the in-row spacing between plants is moderate.",
-        sourceQuery: "row spacing vs plant spacing",
-        sourceUrl: "https://brainly.in/question/61288027",
+        a: "Row spacing is the measured width from the center of one planted row to the center of the next row. It is set wide enough for light, airflow, cultivation, and harvest access, but narrow enough to use bed space efficiently. The right row spacing changes with crop size, planting method, and whether you need room for tools between rows.",
+        sourceQuery: "site:.edu extension row spacing plant spacing vegetables",
+        sourceUrl: "https://www.uvm.edu/vtvegandberry/factsheets/rowspacing.html",
       },
       {
         q: "How close can you plant vegetables to each other?",
