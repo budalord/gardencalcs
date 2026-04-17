@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { tools } from "@/config/tools";
 import { siteConfig } from "@/config/site";
+import { phase1Overrides } from "@/config/phase1Overrides";
 import ToolLayout from "@/components/ToolLayout";
 import { ToolJsonLd } from "@/components/ToolJsonLd";
 
@@ -11,18 +12,19 @@ export function generateStaticParams() {
 }
 
 export function generateMetadata({ params }: { params: { slug: string } }): Metadata {
-  const tool = tools.find((t) => t.slug === params.slug);
-  if (!tool) return {};
+  const baseTool = tools.find((t) => t.slug === params.slug);
+  if (!baseTool) return {};
+  const tool = { ...baseTool, ...(phase1Overrides[params.slug] ?? {}) };
 
   const url = `${siteConfig.domain}/tools/${tool.slug}`;
   return {
-    title: tool.name,
-    description: tool.tagline,
+    title: tool.metaTitle ? { absolute: tool.metaTitle } : tool.name,
+    description: tool.metaDescription ?? tool.tagline,
     keywords: tool.keywords,
     alternates: { canonical: url },
     openGraph: {
-      title: `${tool.name} | ${siteConfig.name}`,
-      description: tool.tagline,
+      title: tool.metaTitle ?? `${tool.name} | ${siteConfig.name}`,
+      description: tool.metaDescription ?? tool.tagline,
       url,
       type: "website",
     },
@@ -50,9 +52,10 @@ const toolComponents: Record<string, React.ComponentType> = {
 };
 
 export default function ToolPage({ params }: { params: { slug: string } }) {
-  const tool = tools.find((t) => t.slug === params.slug);
-  if (!tool) notFound();
+  const baseTool = tools.find((t) => t.slug === params.slug);
+  if (!baseTool) notFound();
 
+  const tool = { ...baseTool, ...(phase1Overrides[params.slug] ?? {}) };
   const ToolComponent = toolComponents[tool.slug];
 
   return (
