@@ -24,15 +24,41 @@ export interface ToolWorkedExample {
   summary: string;
 }
 
+export interface ToolQuickAnswer {
+  definition: string;
+  recommendation: string;
+  columns: string[];
+  rows: string[][];
+  sourceHtml?: string;
+}
+
+export interface ToolInternalLink {
+  href: string;
+  anchor: string;
+  description: string;
+}
+
+export interface ToolFAQ {
+  q: string;
+  a: string;
+  displayHtml?: string;
+  sourceQuery?: string;
+  sourceUrl?: string;
+}
+
 export interface Tool {
   slug: string;           // URL slug，如 "json-formatter"
   name: string;           // 显示名，如 "JSON Formatter"
-  tagline: string;        // 一句话描述，用于 meta description 和卡片
+  tagline: string;        // 页面顶部一句话描述
+  metaTitle?: string;     // SEO title override
+  metaDescription?: string; // SEO meta description override
   category: string;       // 分类，用于导航分组
   keywords: string[];     // SEO 关键词
   params: ToolParam[];    // 输入参数定义（供工具组件参考）
   howToSteps: string[];   // HowTo schema 步骤（英文）
-  faqs: { q: string; a: string }[]; // FAQ schema + 页面展示（英文，至少 4 条）
+  faqs: ToolFAQ[]; // FAQ schema + 页面展示（英文，至少 4 条）
+  quickAnswer?: ToolQuickAnswer;
+  internalLinks?: ToolInternalLink[];
   contentSections?: ToolContentSection[];
   workedExamples?: ToolWorkedExample[];
 }
