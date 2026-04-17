@@ -4,3 +4,7 @@ out/
 *.tar.gz
 .vercel/
 vercel.json
+
+.secrets/
+reports/lighthouse/*.json
+!reports/lighthouse/_summary.json

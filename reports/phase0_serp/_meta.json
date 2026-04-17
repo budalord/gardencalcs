@@ -1,0 +1,27 @@
+[
+  {
+    "query": "soil ph calculator",
+    "fetched_at_utc": "2026-04-17T09:05:36Z",
+    "result_count": 10
+  },
+  {
+    "query": "seed spacing calculator",
+    "fetched_at_utc": "2026-04-17T09:06:38Z",
+    "result_count": 10
+  },
+  {
+    "query": "watering schedule calculator",
+    "fetched_at_utc": "2026-04-17T09:07:24Z",
+    "result_count": 10
+  },
+  {
+    "query": "fertilizer calculator",
+    "fetched_at_utc": "2026-04-17T09:07:43Z",
+    "result_count": 10
+  },
+  {
+    "query": "compost calculator",
+    "fetched_at_utc": "2026-04-17T09:08:08Z",
+    "result_count": 10
+  }
+]

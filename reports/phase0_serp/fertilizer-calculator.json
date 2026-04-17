@@ -1,0 +1,115 @@
+{
+  "searchParameters": {
+    "q": "fertilizer calculator",
+    "gl": "us",
+    "hl": "en",
+    "type": "search",
+    "num": 10,
+    "engine": "google"
+  },
+  "organic": [
+    {
+      "title": "Lawn Fertilizer Calculator - MU Extension",
+      "link": "http://agebb.missouri.edu/fertcalc/",
+      "snippet": "Calculating fertilizer amounts based on nitrogen recommendations from an extension person, literature, or soil test report.",
+      "position": 1
+    },
+    {
+      "title": "NPK Fertilizer Calculator - AESL",
+      "link": "https://aesl.ces.uga.edu/soil/fertcalc/",
+      "snippet": "The calculator ranks various fertilizer combinations, with the best getting the highest score. You can use it to: Calculate the weight of fertilizer materials ...",
+      "position": 2
+    },
+    {
+      "title": "Purdue Turf Fertilizer Calculator",
+      "link": "https://turf.purdue.edu/fertilizer-calculator/",
+      "snippet": "Purdue Turf Fertilizer Calculator. How Much Do I Need - Calculate how much fertilizer you need given an nutrient application rate.",
+      "date": "Sep 24, 2021",
+      "position": 3
+    },
+    {
+      "title": "Dry Fertilizer Calculator - Nutrien eKonomics",
+      "link": "https://nutrien-ekonomics.com/tools-to-calculate-fertilizer-needs/calculators/dry-fertilizer-calculator/",
+      "snippet": "Use the Dry Fertilizer Calculator to build accurate, cost-effective NPKS blends and hit your nutrient targets per acre.",
+      "position": 4
+    },
+    {
+      "title": "Ag Based Calculators - Soil, Water and Forage Testing Laboratory",
+      "link": "https://soiltesting.tamu.edu/ag-calculator/",
+      "snippet": "Ag Based Calculators: Agricultural Fertilizer Calculator, Open Fertilizer Calculator, Liquid Fertilizer Calculator, Open Liquid Fertilizer Calculator.",
+      "position": 5
+    },
+    {
+      "title": "Lawn Fertilizer Calculator - Lawn Insider",
+      "link": "https://lawninsider.com/lawn-fert-calculator/",
+      "snippet": "Lawn Fertilizer Calculator. Fertilizer Calculator. Lawn Size (sq ft). Price ($). Product Weight (lbs). Desired N per 1000 (lbs).",
+      "position": 6
+    },
+    {
+      "title": "Multi Fert. Rate Calculator",
+      "link": "https://www.rs.uky.edu/soil/calculators/mult_fert.php",
+      "snippet": "Fertilizer Rate Calculator-calculate the optimal amount of given fertilizer(s) for a given recommendation rate.",
+      "position": 7
+    },
+    {
+      "title": "Fertilizer Calculator - DCR.Virginia.gov",
+      "link": "https://www.dcr.virginia.gov/soil-and-water/fertcalc",
+      "snippet": "The following table and calculator will help you determine how much slow-release nitrogen fertilizer to apply to your lawn.",
+      "date": "Oct 3, 2023",
+      "position": 8
+    },
+    {
+      "title": "NPK Recommendation Calculator - Clemson University",
+      "link": "https://precisionag.sites.clemson.edu/Calculators/Fertility/npkRec/",
+      "snippet": "This free web app was developed to provide N, P, and K fertilizer recommendations for agricultural, turf, silvicultural, and home/garden producers.",
+      "position": 9
+    },
+    {
+      "title": "Water Soluble Fertilizer Calculator",
+      "link": "https://www.omnicalculator.com/biology/water-soluble-fertilizer",
+      "snippet": "The water soluble fertilizer calculator helps you make a water soluble fertilizer solution to achieve a desired ppm of an element.",
+      "position": 10
+    }
+  ],
+  "peopleAlsoAsk": [
+    {
+      "question": "How do you calculate how much fertilizer you need?",
+      "snippet": "Two pounds of nitrogen per 1,000 square feet* is recommended, and your fertilizer contains 20% nitrogen. You should apply 10 pounds of the fertilizer per 1,000 square feet (five pounds from the table multiplied by the two pound recommendation).",
+      "title": "FS839: How to Calculate the Amount of Fertilizer Needed for Your Lawn ...",
+      "link": "https://njaes.rutgers.edu/FS839/"
+    },
+    {
+      "question": "How to calculate fertiliser requirements?",
+      "snippet": "Amount of fertiliser kg/ha = kg/ha nutrient ÷ % nutrient in fertiliser x 100. Example: You need 20 units (kg) /ha of phosphorus (P) and you plan to use single superphosphate with 8.8% P. You can reverse this calculation to work out how much of a nutrient you are applying.",
+      "title": "Fertiliser Calculations - NSW Department of Primary Industries",
+      "link": "https://www.dpi.nsw.gov.au/__data/assets/pdf_file/0004/166153/fertiliser-calculations.pdf"
+    }
+  ],
+  "relatedSearches": [
+    {
+      "query": "Fertilizer Calculator app"
+    },
+    {
+      "query": "Fertilizer calculator formula"
+    },
+    {
+      "query": "Fertilizer calculator excel"
+    },
+    {
+      "query": "Fertilizer calculator formula per acre"
+    },
+    {
+      "query": "Liquid fertilizer calculator"
+    },
+    {
+      "query": "Dry fertilizer Calculator"
+    },
+    {
+      "query": "Fertilizer calculator npk"
+    },
+    {
+      "query": "Free fertilizer calculator"
+    }
+  ],
+  "credits": 1
+}
