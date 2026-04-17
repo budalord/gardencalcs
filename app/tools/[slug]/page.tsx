@@ -8,7 +8,7 @@ import { ToolJsonLd } from "@/components/ToolJsonLd";
 
 // 静态导出：预生成所有工具页
 export function generateStaticParams() {
-  return tools.map((t) => ({ slug: t.slug }));
+  return tools.filter((t) => t.slug !== 'fertilizer-calculator').map((t) => ({ slug: t.slug }));
 }
 
 export function generateMetadata({ params }: { params: { slug: string } }): Metadata {
