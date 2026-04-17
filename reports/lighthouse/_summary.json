@@ -1,0 +1,191 @@
+{
+  "lighthouse_version": "13.1.0",
+  "pages": {
+    "compost-calculator": {
+      "runs": [
+        {
+          "file": "compost-calculator-run1.json",
+          "lcp": 11768.933500000003,
+          "cls": 7.1e-05,
+          "inp": null,
+          "performance": 55.0
+        },
+        {
+          "file": "compost-calculator-run2.json",
+          "lcp": 3419.8125000000005,
+          "cls": 7.1e-05,
+          "inp": null,
+          "performance": 86.0
+        },
+        {
+          "file": "compost-calculator-run3.json",
+          "lcp": 16380.525499999998,
+          "cls": 0,
+          "inp": null,
+          "performance": 55.0
+        }
+      ],
+      "median": {
+        "lcp": 11768.933500000003,
+        "cls": 7.1e-05,
+        "inp": null,
+        "performance": 55.0
+      }
+    },
+    "fertilizer-calculator": {
+      "runs": [
+        {
+          "file": "fertilizer-calculator-run1.json",
+          "lcp": 3114.185,
+          "cls": 0,
+          "inp": null,
+          "performance": 87.0
+        },
+        {
+          "file": "fertilizer-calculator-run2.json",
+          "lcp": 1901.3045,
+          "cls": 0,
+          "inp": null,
+          "performance": 99.0
+        },
+        {
+          "file": "fertilizer-calculator-run3.json",
+          "lcp": 16384.7315,
+          "cls": 0,
+          "inp": null,
+          "performance": 55.0
+        }
+      ],
+      "median": {
+        "lcp": 3114.185,
+        "cls": 0,
+        "inp": null,
+        "performance": 87.0
+      }
+    },
+    "home": {
+      "runs": [
+        {
+          "file": "home-run1.json",
+          "lcp": 1725.484,
+          "cls": 0,
+          "inp": null,
+          "performance": 94.0
+        },
+        {
+          "file": "home-run2.json",
+          "lcp": null,
+          "cls": null,
+          "inp": null,
+          "performance": null
+        },
+        {
+          "file": "home-run3.json",
+          "lcp": 3201.923,
+          "cls": 0,
+          "inp": null,
+          "performance": 82.0
+        }
+      ],
+      "median": {
+        "lcp": 2463.7034999999996,
+        "cls": 0.0,
+        "inp": null,
+        "performance": 88.0
+      }
+    },
+    "seed-spacing-calculator": {
+      "runs": [
+        {
+          "file": "seed-spacing-calculator-run1.json",
+          "lcp": 2590.958,
+          "cls": 0,
+          "inp": null,
+          "performance": 94.0
+        },
+        {
+          "file": "seed-spacing-calculator-run2.json",
+          "lcp": 5267.3724999999995,
+          "cls": 0,
+          "inp": null,
+          "performance": 68.0
+        },
+        {
+          "file": "seed-spacing-calculator-run3.json",
+          "lcp": 3294.6365000000005,
+          "cls": 0,
+          "inp": null,
+          "performance": 78.0
+        }
+      ],
+      "median": {
+        "lcp": 3294.6365000000005,
+        "cls": 0,
+        "inp": null,
+        "performance": 78.0
+      }
+    },
+    "soil-ph-calculator": {
+      "runs": [
+        {
+          "file": "soil-ph-calculator-run1.json",
+          "lcp": 2416.3334999999997,
+          "cls": 0,
+          "inp": null,
+          "performance": 88.0
+        },
+        {
+          "file": "soil-ph-calculator-run2.json",
+          "lcp": 3126.8225,
+          "cls": 0,
+          "inp": null,
+          "performance": 85.0
+        },
+        {
+          "file": "soil-ph-calculator-run3.json",
+          "lcp": 1961.9140000000002,
+          "cls": 0,
+          "inp": null,
+          "performance": 95.0
+        }
+      ],
+      "median": {
+        "lcp": 2416.3334999999997,
+        "cls": 0,
+        "inp": null,
+        "performance": 88.0
+      }
+    },
+    "watering-schedule-calculator": {
+      "runs": [
+        {
+          "file": "watering-schedule-calculator-run1.json",
+          "lcp": 12468.238,
+          "cls": 0,
+          "inp": null,
+          "performance": 55.0
+        },
+        {
+          "file": "watering-schedule-calculator-run2.json",
+          "lcp": 3778.567500000001,
+          "cls": 0,
+          "inp": null,
+          "performance": 81.0
+        },
+        {
+          "file": "watering-schedule-calculator-run3.json",
+          "lcp": 5854.864,
+          "cls": 0,
+          "inp": null,
+          "performance": 59.0
+        }
+      ],
+      "median": {
+        "lcp": 5854.864,
+        "cls": 0,
+        "inp": null,
+        "performance": 59.0
+      }
+    }
+  }
+}
