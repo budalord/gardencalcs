@@ -1,0 +1,74 @@
+# Cloudflare Pages _headers
+# Phase 5: edge cache fix
+#
+# Strategy:
+#   - Static assets (hashed filenames): 1-year immutable
+#   - HTML pages: browser no-store, edge cache 1h
+#   - sitemap/robots: edge cache 5 min
+#
+# CF Pages matches most-specific paths first; order below is defensive.
+
+# --- Hashed static assets: long immutable ---
+/_next/static/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# --- Static asset extensions anywhere on site ---
+/*.css
+  Cache-Control: public, max-age=31536000, immutable
+
+/*.js
+  Cache-Control: public, max-age=31536000, immutable
+
+/*.png
+  Cache-Control: public, max-age=31536000, immutable
+
+/*.jpg
+  Cache-Control: public, max-age=31536000, immutable
+
+/*.jpeg
+  Cache-Control: public, max-age=31536000, immutable
+
+/*.webp
+  Cache-Control: public, max-age=31536000, immutable
+
+/*.svg
+  Cache-Control: public, max-age=31536000, immutable
+
+/*.ico
+  Cache-Control: public, max-age=31536000, immutable
+
+/*.woff
+  Cache-Control: public, max-age=31536000, immutable
+
+/*.woff2
+  Cache-Control: public, max-age=31536000, immutable
+
+# --- Feed-like files: short edge TTL so Google picks up changes fast ---
+/sitemap.xml
+  Cache-Control: public, max-age=0, s-maxage=300, must-revalidate
+
+/robots.txt
+  Cache-Control: public, max-age=0, s-maxage=300, must-revalidate
+
+# --- HTML pages: browser no-store, edge cache 1h ---
+/tools/*
+  Cache-Control: public, max-age=0, s-maxage=3600, must-revalidate
+
+/guides/*
+  Cache-Control: public, max-age=0, s-maxage=3600, must-revalidate
+
+/about
+  Cache-Control: public, max-age=0, s-maxage=3600, must-revalidate
+
+/privacy
+  Cache-Control: public, max-age=0, s-maxage=3600, must-revalidate
+
+/contact
+  Cache-Control: public, max-age=0, s-maxage=3600, must-revalidate
+
+/tools
+  Cache-Control: public, max-age=0, s-maxage=3600, must-revalidate
+
+# --- Homepage (match exact "/" only) ---
+/
+  Cache-Control: public, max-age=0, s-maxage=3600, must-revalidate
