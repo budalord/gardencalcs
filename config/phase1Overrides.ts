@@ -1,3 +1,4 @@
+import { seedSpacingCropLinks } from "@/config/seedSpacingCrops";
 import type { Tool } from "@/config/tools";
 
 type ToolOverride = Partial<Tool>;
@@ -153,33 +154,7 @@ export const phase1Overrides: Record<string, ToolOverride> = {
         sourceUrl: "https://yardandgarden.extension.iastate.edu/how-to/how-determine-plant-quantity-planting-beds",
       },
     ],
-    internalLinks: [
-      {
-        href: "/guides/understanding-soil-ph",
-        anchor: "Check bed chemistry before layout",
-        description: "Confirm the soil pH is right before you commit spacing and sowing dates.",
-      },
-      {
-        href: "/tools/soil-ph-calculator",
-        anchor: "Adjust pH before planting rows",
-        description: "Estimate lime or sulfur first if a soil test says the bed is outside the crop range.",
-      },
-      {
-        href: "/tools/watering-schedule-calculator",
-        anchor: "Match spacing to watering frequency",
-        description: "Use crop spacing and irrigation timing together so dense beds do not stay wet too long.",
-      },
-      {
-        href: "/guides/how-to-fertilize-vegetable-garden",
-        anchor: "Tie spacing to feeding plans",
-        description: "Estimate how planting density changes nutrient demand through the season.",
-      },
-      {
-        href: "/tools/compost-calculator",
-        anchor: "Balance compost before bed prep",
-        description: "Use compost wisely when you are preparing raised beds for direct sowing.",
-      },
-    ],
+    internalLinks: seedSpacingCropLinks,
   },
   "watering-schedule-calculator": {
     tagline: "Estimate weekly garden watering by crop, soil, season, and growing method with a quick chart first.",
