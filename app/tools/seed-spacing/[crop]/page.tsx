@@ -34,6 +34,15 @@ export default function SeedSpacingCropPage({ params }: { params: { crop: string
   if (!crop) notFound()
 
   const url = `${siteConfig.domain}/tools/seed-spacing/${crop.slug}`
+  const softwareApplicationSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'SoftwareApplication',
+    name: 'Seed Spacing Calculator',
+    applicationCategory: 'UtilityApplication',
+    url: `${siteConfig.domain}/tools/seed-spacing-calculator`,
+    operatingSystem: 'Web',
+  }
+
   const faqSchema = {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
@@ -71,6 +80,7 @@ export default function SeedSpacingCropPage({ params }: { params: { crop: string
 
   return (
     <main className="bg-gray-50 py-10">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareApplicationSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
 

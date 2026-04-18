@@ -196,3 +196,44 @@ LCP element trace (run 2):
 
 - The crop pages intentionally do **not** reuse the heavy generic `ToolLayout` shell. This keeps the first screen lightweight and makes the LCP element a server-rendered text paragraph instead of a client-side calculator block or embed.
 - The mother page keeps the calculator, while the child pages act as crop-specific answer pages. That separation is what makes the cluster behave like a tool + guide system instead of 15 doorway clones.
+
+## Hotfix: SoftwareApplication schema
+
+### What was missing
+Phase 4 crop pages shipped with `FAQPage` and `BreadcrumbList`, but **missed `SoftwareApplication`** on the deployed child-page template. That made the Phase 4 report and the real deployed HTML inconsistent.
+
+### Root cause
+I followed the Phase 4.5 plan at the architectural level (child pages should point back to the mother tool), but when I implemented `app/tools/seed-spacing/[crop]/page.tsx`, I only wired `faqSchema` and `breadcrumbSchema`. In other words, I preserved the template split but dropped one required schema block while translating the plan into code.
+
+### Fix applied
+I added a template-level `SoftwareApplication` JSON-LD block to `app/tools/seed-spacing/[crop]/page.tsx` so all 15 crop pages inherit it automatically.
+
+Injected schema:
+- `@type`: `SoftwareApplication`
+- `name`: `Seed Spacing Calculator`
+- `applicationCategory`: `UtilityApplication`
+- `url`: `https://gardencalcs.com/tools/seed-spacing-calculator`
+- `operatingSystem`: `Web`
+
+### Local verification command
+Command run against the local export:
+
+```bash
+curl -s http://127.0.0.1:3020/tools/seed-spacing/tomato.html | grep -oE '"@type":"[^"]+"' | sort -u
+```
+
+Expected top-level set after hotfix:
+- `"@type":"BreadcrumbList"`
+- `"@type":"FAQPage"`
+- `"@type":"SoftwareApplication"`
+
+### Process correction for next phase
+This bug exposed a gap in the old JSON-LD checklist: it only verified that schema `<script>` tags existed, not that the expected `@type` names were all present.
+
+For the next phase, the acceptance script should explicitly run:
+
+```bash
+grep -oE '"@type":"[^"]+"' <page.html> | sort -u
+```
+
+and compare the actual set against the expected schema set before any report claims “JSON-LD complete.”
