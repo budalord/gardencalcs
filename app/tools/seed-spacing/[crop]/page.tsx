@@ -253,6 +253,10 @@ export default function SeedSpacingCropPage({ params }: { params: { crop: string
               <strong>Secondary source ({crop.secondarySource.fieldUsed}):</strong>{' '}
               <a className="text-green-700 underline break-all" href={crop.secondarySource.url}>{crop.secondarySource.label}</a>
             </li>
+            <li>
+              <strong>Tertiary source ({crop.tertiarySource.fieldUsed}):</strong>{' '}
+              <a className="text-green-700 underline break-all" href={crop.tertiarySource.url}>{crop.tertiarySource.label}</a>
+            </li>
           </ul>
         </section>
 

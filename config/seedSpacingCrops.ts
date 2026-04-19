@@ -1,7 +1,7 @@
 export interface SeedSpacingCropSource {
   label: string;
   url: string;
-  role: 'primary' | 'secondary';
+  role: 'primary' | 'secondary' | 'tertiary';
   fieldUsed: string;
 }
 
@@ -28,6 +28,7 @@ export interface SeedSpacingCrop {
   harvestNote: string;
   primarySource: SeedSpacingCropSource;
   secondarySource: SeedSpacingCropSource;
+  tertiarySource: SeedSpacingCropSource;
   uniqueFaq: SeedSpacingCropFaq;
 }
 
@@ -58,6 +59,12 @@ export const seedSpacingCrops: SeedSpacingCrop[] = [
       url: 'https://extension.uga.edu/content/dam/extension-county-offices/gwinnett-county/anr/homeshow-resources/Vegetable%20Planting%20Chart.pdf',
       role: 'secondary',
       fieldUsed: 'seed depth cross-check',
+    },
+    tertiarySource: {
+      label: 'Penn State Extension — Tomato Production',
+      url: 'https://extension.psu.edu/tomato-production',
+      role: 'tertiary',
+      fieldUsed: 'row spacing and plant spacing reference',
     },
     uniqueFaq: {
       q: 'How far apart should caged tomato plants be in a home garden?',
@@ -92,6 +99,12 @@ export const seedSpacingCrops: SeedSpacingCrop[] = [
       role: 'secondary',
       fieldUsed: 'seed depth and timing cross-check',
     },
+    tertiarySource: {
+      label: 'University of Maryland Extension — Growing Lettuce in a Home Garden',
+      url: 'https://extension.umd.edu/resource/growing-lettuce-home-garden',
+      role: 'tertiary',
+      fieldUsed: 'head and leaf lettuce spacing reference',
+    },
     uniqueFaq: {
       q: 'Should head lettuce be spaced wider than cut-and-come-again lettuce?',
       a: 'Yes. Head lettuce needs enough space to size up and close its canopy, while cut-and-come-again plantings are intentionally tighter because the harvest happens earlier and before each plant reaches full head size. The spacing decision should match the harvest style, not just the seed packet crop name.',
@@ -124,6 +137,12 @@ export const seedSpacingCrops: SeedSpacingCrop[] = [
       url: 'https://extension.usu.edu/vegetableguide/root-crops/beets-and-turnips',
       role: 'secondary',
       fieldUsed: 'root-crop spacing pattern cross-check',
+    },
+    tertiarySource: {
+      label: 'University of Maryland Extension — Growing Carrots in a Home Garden',
+      url: 'https://extension.umd.edu/resource/growing-carrots-home-garden',
+      role: 'tertiary',
+      fieldUsed: 'thinning and in-row spacing reference',
     },
     uniqueFaq: {
       q: 'Why do crowded carrots stay thin even when the tops look healthy?',
@@ -158,6 +177,12 @@ export const seedSpacingCrops: SeedSpacingCrop[] = [
       role: 'secondary',
       fieldUsed: 'seed depth cross-check',
     },
+    tertiarySource: {
+      label: 'Penn State Extension — Pepper Production',
+      url: 'https://extension.psu.edu/pepper-production',
+      role: 'tertiary',
+      fieldUsed: 'row spacing and plant spacing reference',
+    },
     uniqueFaq: {
       q: 'Can bell peppers be planted closer together than tomatoes?',
       a: 'Usually yes, because bell peppers stay shorter and narrower than indeterminate tomatoes, but “closer” does not mean crowded. Peppers still need enough space for branching, fruit set, and air movement through the canopy, especially when plants are loaded with fruit in humid weather.',
@@ -190,6 +215,12 @@ export const seedSpacingCrops: SeedSpacingCrop[] = [
       url: 'https://extension.uga.edu/content/dam/extension-county-offices/gwinnett-county/anr/homeshow-resources/Vegetable%20Planting%20Chart.pdf',
       role: 'secondary',
       fieldUsed: 'seed depth cross-check',
+    },
+    tertiarySource: {
+      label: 'Iowa State University Extension — Growing Cucumbers in the Home Garden',
+      url: 'https://yardandgarden.extension.iastate.edu/how-to/growing-cucumbers-home-garden',
+      role: 'tertiary',
+      fieldUsed: 'hill and row spacing reference',
     },
     uniqueFaq: {
       q: 'Does trellising let cucumber plants stay on tighter spacing?',
@@ -224,6 +255,12 @@ export const seedSpacingCrops: SeedSpacingCrop[] = [
       role: 'secondary',
       fieldUsed: 'seed depth cross-check',
     },
+    tertiarySource: {
+      label: 'University of Maryland Extension — Growing Broccoli in a Home Garden',
+      url: 'https://extension.umd.edu/resource/growing-broccoli-home-garden',
+      role: 'tertiary',
+      fieldUsed: 'row spacing and plant spacing reference',
+    },
     uniqueFaq: {
       q: 'Will broccoli heads stay smaller if I plant broccoli too close together?',
       a: 'Usually yes. Broccoli can still produce a crop when crowded, but close spacing often shifts the plant toward smaller central heads because each plant has less room to build a large leaf engine before heading. The result is often more plants but less individual head size and less uniform harvest timing.',
@@ -256,6 +293,12 @@ export const seedSpacingCrops: SeedSpacingCrop[] = [
       url: 'https://extension.uga.edu/content/dam/extension-county-offices/gwinnett-county/anr/homeshow-resources/Vegetable%20Planting%20Chart.pdf',
       role: 'secondary',
       fieldUsed: 'seed depth cross-check',
+    },
+    tertiarySource: {
+      label: 'University of Maryland Extension — Growing Beans in a Home Garden',
+      url: 'https://extension.umd.edu/resource/growing-beans-home-garden',
+      role: 'tertiary',
+      fieldUsed: 'bush snap bean row and plant spacing reference',
     },
     uniqueFaq: {
       q: 'Why do bush beans need less space than pole beans but still not zero room?',
@@ -290,6 +333,12 @@ export const seedSpacingCrops: SeedSpacingCrop[] = [
       role: 'secondary',
       fieldUsed: 'seed depth cross-check',
     },
+    tertiarySource: {
+      label: 'University of Maryland Extension — Growing Sweet Corn in a Home Garden',
+      url: 'https://extension.umd.edu/resource/growing-sweet-corn-home-garden',
+      role: 'tertiary',
+      fieldUsed: 'row spacing and block planting reference',
+    },
     uniqueFaq: {
       q: 'Why is block planting more important than one long row for sweet corn spacing?',
       a: 'Sweet corn depends on wind pollination, so a block of plants improves the chance that pollen falls across many silks instead of blowing past a single narrow row. You can hit the “right” in-row spacing and still get poor ear fill if the planting shape is wrong. Block layout is part of spacing strategy for corn, not a separate decision.',
@@ -322,6 +371,12 @@ export const seedSpacingCrops: SeedSpacingCrop[] = [
       url: 'https://extension.uga.edu/content/dam/extension-county-offices/gwinnett-county/anr/homeshow-resources/Vegetable%20Planting%20Chart.pdf',
       role: 'secondary',
       fieldUsed: 'seed depth cross-check',
+    },
+    tertiarySource: {
+      label: 'University of Maryland Extension — Growing Spinach in a Home Garden',
+      url: 'https://extension.umd.edu/resource/growing-spinach-home-garden',
+      role: 'tertiary',
+      fieldUsed: 'row and plant spacing reference',
     },
     uniqueFaq: {
       q: 'Can spinach stay closer together if I only want baby leaves?',
@@ -356,6 +411,12 @@ export const seedSpacingCrops: SeedSpacingCrop[] = [
       role: 'secondary',
       fieldUsed: 'seed depth cross-check',
     },
+    tertiarySource: {
+      label: 'University of Maryland Extension — Growing Leafy Greens in a Home Garden',
+      url: 'https://extension.umd.edu/resource/growing-leafy-greens-home-garden',
+      role: 'tertiary',
+      fieldUsed: 'row and plant spacing reference',
+    },
     uniqueFaq: {
       q: 'Why does kale need more space for repeated harvest than for baby-leaf production?',
       a: 'Baby-leaf kale is harvested before each plant expands much, so it can stay closer. Repeated harvest kale is expected to keep producing large outer leaves over time, which means the mature plant needs more room for canopy growth, airflow, and hand access during harvest.',
@@ -388,6 +449,12 @@ export const seedSpacingCrops: SeedSpacingCrop[] = [
       url: 'https://extension.uga.edu/content/dam/extension-county-offices/gwinnett-county/anr/homeshow-resources/Vegetable%20Planting%20Chart.pdf',
       role: 'secondary',
       fieldUsed: 'seed depth cross-check',
+    },
+    tertiarySource: {
+      label: 'University of Maryland Extension — Growing Onions in a Home Garden',
+      url: 'https://extension.umd.edu/resource/growing-onions-home-garden',
+      role: 'tertiary',
+      fieldUsed: 'row and plant spacing reference',
     },
     uniqueFaq: {
       q: 'Should onions be spaced differently for scallions versus storage bulbs?',
@@ -422,6 +489,12 @@ export const seedSpacingCrops: SeedSpacingCrop[] = [
       role: 'secondary',
       fieldUsed: 'seed depth cross-check',
     },
+    tertiarySource: {
+      label: 'University of Maryland Extension — Growing Radishes in a Home Garden',
+      url: 'https://extension.umd.edu/resource/growing-radishes-home-garden',
+      role: 'tertiary',
+      fieldUsed: 'in-row spacing and seed depth reference',
+    },
     uniqueFaq: {
       q: 'Why do radishes crack or stay tiny when I skip thinning?',
       a: 'When radishes are not thinned, each root has less room to expand and the stand competes harder for moisture. That competition can leave roots undersized, irregular, or prone to splitting once water swings sharply. For a crop this fast, thinning is one of the highest-return spacing jobs you can do.',
@@ -454,6 +527,12 @@ export const seedSpacingCrops: SeedSpacingCrop[] = [
       url: 'https://extension.uga.edu/content/dam/extension-county-offices/gwinnett-county/anr/homeshow-resources/Vegetable%20Planting%20Chart.pdf',
       role: 'secondary',
       fieldUsed: 'seed depth cross-check',
+    },
+    tertiarySource: {
+      label: 'University of Maryland Extension — Growing Beets in a Home Garden',
+      url: 'https://extension.umd.edu/resource/growing-beets-home-garden',
+      role: 'tertiary',
+      fieldUsed: 'in-row spacing and seed depth reference',
     },
     uniqueFaq: {
       q: 'Do beet seedlings need thinning even when the bed already looks sparse?',
@@ -488,6 +567,12 @@ export const seedSpacingCrops: SeedSpacingCrop[] = [
       role: 'secondary',
       fieldUsed: 'maturity habit cross-check',
     },
+    tertiarySource: {
+      label: 'University of Maryland Extension — Growing Summer Squash (Zucchini) in a Home Garden',
+      url: 'https://extension.umd.edu/resource/growing-summer-squash-zucchini-home-garden',
+      role: 'tertiary',
+      fieldUsed: 'hill and row spacing reference',
+    },
     uniqueFaq: {
       q: 'Why does one zucchini plant seem to take over an entire corner of the bed?',
       a: 'Zucchini builds a large, broadleaf canopy very quickly once warm weather arrives, so the mature plant occupies far more room than the seedling or transplant suggests. That is why spacing has to be set for the adult mound and harvest access, not just for the young plant you put in the ground.',
@@ -520,6 +605,12 @@ export const seedSpacingCrops: SeedSpacingCrop[] = [
       url: 'https://extension.uga.edu/content/dam/extension-county-offices/gwinnett-county/anr/homeshow-resources/Vegetable%20Planting%20Chart.pdf',
       role: 'secondary',
       fieldUsed: 'planting depth cross-check',
+    },
+    tertiarySource: {
+      label: 'Iowa State University Extension — Planting Potatoes in the Home Garden',
+      url: 'https://yardandgarden.extension.iastate.edu/article/2020/03/planting-potatoes-home-garden',
+      role: 'tertiary',
+      fieldUsed: 'row spacing, plant spacing, and seed depth reference',
     },
     uniqueFaq: {
       q: 'Why does potato spacing have to leave room for hilling as well as plant growth?',
