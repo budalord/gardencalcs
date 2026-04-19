@@ -79,3 +79,16 @@ PR 范围：为 15 个 crop 页各补一个独立第三方 `.edu` extension 引�
 ---
 
 ## 部署日志
+
+提交：`3c2361e` on `master` + `main` (ff)
+Push：`git push origin master` 和 `git push origin main` 均成功（`2f73843..3c2361e`）。
+
+Wrangler deploy：
+- master 分支：`✨ Deployment complete! https://df81090a.gardencalcs-3f7.pages.dev`（上传 68/98 新文件）
+- main 分支：`✨ Deployment complete! https://ba6c89a5.gardencalcs-3f7.pages.dev`（0/98 新文件，复用缓存）
+
+远程 curl 验证：
+- `https://gardencalcs.com/tools/seed-spacing/tomato` 返回 `Tertiary source (...)` + `Penn State Extension — Tomato Production` 链接 ✓
+- `https://gardencalcs.com/tools/seed-spacing/potato` 返回 `Iowa State University Extension — Planting Potatoes in the Home Garden` 链接 ✓
+
+PR-3 全部绿灯。下一步：PR-4（H2 直答句）。
