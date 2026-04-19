@@ -2,23 +2,19 @@
 # Phase 5: edge cache fix
 #
 # Strategy:
-#   - Static assets (hashed filenames): 1-year immutable
+#   - Hashed static bundles (/_next/static/*): 1-year immutable
+#   - Images & fonts at any path: 1-year immutable
 #   - HTML pages: browser no-store, edge cache 1h
 #   - sitemap/robots: edge cache 5 min
 #
-# CF Pages matches most-specific paths first; order below is defensive.
+# CF Pages applies every matching rule, so we keep patterns
+# non-overlapping to avoid duplicated Cache-Control values.
 
-# --- Hashed static assets: long immutable ---
+# --- Next.js hashed bundles (CSS, JS, chunks) ---
 /_next/static/*
   Cache-Control: public, max-age=31536000, immutable
 
-# --- Static asset extensions anywhere on site ---
-/*.css
-  Cache-Control: public, max-age=31536000, immutable
-
-/*.js
-  Cache-Control: public, max-age=31536000, immutable
-
+# --- Images anywhere on site ---
 /*.png
   Cache-Control: public, max-age=31536000, immutable
 
@@ -37,6 +33,7 @@
 /*.ico
   Cache-Control: public, max-age=31536000, immutable
 
+# --- Fonts anywhere on site ---
 /*.woff
   Cache-Control: public, max-age=31536000, immutable
 
@@ -69,6 +66,5 @@
 /tools
   Cache-Control: public, max-age=0, s-maxage=3600, must-revalidate
 
-# --- Homepage (match exact "/" only) ---
 /
   Cache-Control: public, max-age=0, s-maxage=3600, must-revalidate

@@ -1,5 +1,43 @@
 # Phase 5 Changes — Cloudflare Edge Cache Fix
 
+## Final status (2026-04-19)
+
+**Phase 5 is fully passing. All hard acceptance items verified live.**
+
+- Static assets `/_next/static/*`: `cf-cache-status: HIT`, `Cache-Control: public, max-age=31536000, immutable`
+- HTML pages (`/`, `/tools/*`): `cf-cache-status: HIT`, `Cache-Control: public, max-age=0, s-maxage=3600, must-revalidate`
+- `sitemap.xml`: `cf-cache-status: HIT`, `s-maxage=300`
+- `robots.txt`: `cf-cache-status: HIT / REVALIDATED`, `s-maxage=300`
+- Cloudflare GraphQL `httpRequests1dGroups`: `cachedRequests` = 49 on 2026-04-18 (was long-term 0 before Phase 5)
+
+The HTML edge-caching that initially showed as `DYNAMIC` was resolved after a one-time zone-level Cache Rule was added in the Cloudflare Dashboard (rule: `(http.host eq "gardencalcs.com")` → Eligible for cache, Edge TTL = Use cache-control if present, Browser TTL = Respect origin). The sections below preserve the historical progression; the state after that rule was saved is what's live now.
+
+### Cleanup (2026-04-19)
+
+During post-deploy verification, a duplicate `Cache-Control` header was observed on `/_next/static/*.css` and `*.js` responses:
+
+```
+cache-control: public, max-age=31536000, immutable, public, max-age=31536000, immutable
+```
+
+Root cause: both `/_next/static/*` and `/*.css` / `/*.js` rules matched the same hashed bundle. In Cloudflare Pages `_headers`, every matching rule is applied and values concatenated.
+
+Fix: removed the generic `/*.css` and `/*.js` entries from `public/_headers`. The `/_next/static/*` rule alone covers all hashed bundles in a Next.js static export. Image and font rules (`/*.png`, `/*.woff2`, etc.) are retained since they don't overlap with `/_next/static/*`.
+
+Post-cleanup verification:
+
+```
+# Direct to Pages deployment (no zone edge cache in between)
+curl -sI https://main.gardencalcs-3f7.pages.dev/_next/static/css/a99bcab7e9c49810.css | grep -i cache-control
+cache-control: public, max-age=31536000, immutable
+
+# Custom domain with cache-busting query (forces origin fetch)
+curl -sI "https://gardencalcs.com/_next/static/css/a99bcab7e9c49810.css?v=cleanup" | grep -i cache-control
+cache-control: public, max-age=31536000, immutable
+```
+
+Single `Cache-Control` value confirmed. The custom domain may continue serving the pre-cleanup duplicated header for existing cached responses until the next deploy that changes the asset hash — this is an edge cache staleness artifact, not a header configuration issue.
+
 ## Scope
 
 Phase 5 adds a single file that makes the Cloudflare edge actually cache static assets and feeds, with the intent that HTML pages also cache once a zone-level Cache Rule is created (see "Remaining manual step" below).
