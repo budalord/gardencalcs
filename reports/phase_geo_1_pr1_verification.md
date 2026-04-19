@@ -91,4 +91,18 @@ Hermes 首轮跑本地 Lighthouse 得 Perf 83 / LCP 4.81s / CLS 0，按硬门槛
 
 ## 部署日志
 
-待 deploy 完成后填充。
+提交：`73b4064` on `main` + `master` (ff)
+Wrangler deploy：
+- main 分支：`✨ Deployment complete! https://061d5556.gardencalcs-3f7.pages.dev`（上传 68/98 文件）
+- master 分支：`✨ Deployment complete! https://3a97c7c9.gardencalcs-3f7.pages.dev`（0/98 新文件，复用缓存）
+
+远程 curl 验证：
+```
+HTTP/2 200
+content-type: text/plain; charset=utf-8
+content-length: 2096
+etag: "5e08a0965f46943a9fd2c020b55e392b"
+```
+内容前 6 行远程返回与 `out/llms.txt` 完全一致。
+
+PR-1 全部绿灯，放行 PR-2。

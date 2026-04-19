@@ -75,4 +75,11 @@ robots.txt 与 llms.txt 同类：**不被任何 HTML 加载，物理上不影响
 
 ## 6. 部署日志
 
-待 deploy 完成后填充。
+提交：`8619c74` on `main` + `master` (ff)
+Wrangler deploy：
+- main 分支：`✨ Deployment complete! https://830d5d07.gardencalcs-3f7.pages.dev`
+- master 分支：`✨ Deployment complete! https://6c34e441.gardencalcs-3f7.pages.dev`
+
+远程 curl：`curl -s https://gardencalcs.com/robots.txt` 返回 5 段 User-Agent + Sitemap，顺序和 `out/robots.txt` 完全一致。
+
+PR-2 全部绿灯。P0 批完成。
