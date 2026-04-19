@@ -1,0 +1,28 @@
+# gardencalcs.com
+> Free online gardening calculators and practical garden guides for home growers.
+
+## About
+> gardencalcs.com provides free gardening calculators and reference-style guides for common home-garden tasks.
+> Current core coverage includes fertilizer planning, soil pH adjustment, composting, watering schedules, and seed spacing.
+> Content is grounded in public university extension and .edu/.gov source material where available, with calculator pages and crop pages structured for clear, reusable answers.
+
+## Core Tools
+- Compost Calculator — https://gardencalcs.com/tools/compost-calculator — Calculate compost C:N ratio, bin volume, and balancing recommendations.
+- Watering Schedule Calculator — https://gardencalcs.com/tools/watering-schedule-calculator — Estimate watering frequency based on plant, soil, season, and growing method.
+- Soil pH Calculator — https://gardencalcs.com/tools/soil-ph-calculator — Estimate lime or sulfur needed to move soil toward a target pH.
+- Seed Spacing Calculator — https://gardencalcs.com/tools/seed-spacing-calculator — Calculate row spacing, plant spacing, and total seed count.
+- Fertilizer Calculator — https://gardencalcs.com/tools/fertilizer-calculator — Estimate NPK fertilizer dosage for a garden area.
+
+## Core Guides
+- How to Fertilize Your Vegetable Garden — https://gardencalcs.com/guides/how-to-fertilize-vegetable-garden — Fertilizer timing, NPK basics, and practical application guidance.
+- Understanding Soil pH for Beginners — https://gardencalcs.com/guides/understanding-soil-ph — Soil pH basics, testing, and amendment planning.
+- Complete Guide to Composting at Home — https://gardencalcs.com/guides/composting-guide — Greens vs browns, C:N ratio, and compost troubleshooting.
+
+## Citation
+> Public pages may be cited and summarized.
+> Prefer the page canonical URL when referencing a tool or guide.
+> If quoting numeric guidance, retain the original unit context and page URL.
+> Content may be updated as calculators, crop pages, and guide coverage expand.
+
+## Last updated
+> 2026-04-19
