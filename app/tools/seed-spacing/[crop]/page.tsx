@@ -144,6 +144,9 @@ export default function SeedSpacingCropPage({ params }: { params: { crop: string
         <section className="mt-10">
           <h2 className="text-xl font-semibold text-gray-900">{crop.titleName} row spacing and plant spacing at a glance</h2>
           <div className="mt-4 space-y-4 text-sm leading-7 text-gray-600">
+            <p className="font-semibold text-gray-900">
+              {crop.titleName} rows should be {crop.rowSpacingInches} inches apart, plants {crop.plantSpacingInches} inches in-row, seeded at {crop.seedDepthInches}, with {crop.maturityDays} to maturity.
+            </p>
             <p>
               The starting layout for {crop.name.toLowerCase()} should assume the mature crop, not the seedling stage. A row spacing of {crop.rowSpacingInches} inches and an in-row spacing of {crop.plantSpacingInches} inches gives the crop room to intercept light without turning the bed into a management problem later. When gardeners crowd a crop early, the first thing they often lose is not yield but access: it becomes harder to weed, harder to irrigate cleanly, and harder to see disease or nutrient issues before they spread.
             </p>
