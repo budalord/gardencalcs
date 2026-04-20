@@ -76,13 +76,35 @@ export default function SeedSpacingCropPage({ params }: { params: { crop: string
     ],
   }
 
-  const preFaqWordyIntro = `${crop.titleName} spacing decisions look simple when the crop is still a seed or a small transplant, but the mature plant is the number that matters. This guide keeps the quick answer close to the top so you can see the row spacing, plant spacing, seed depth, and maturity window before you commit a bed. The goal is not just to fit as many plants as possible into a rectangle. The goal is to protect light, airflow, harvest access, and the final size of the part you actually want to harvest. ${crop.maturitySpacingNote}`
+  const datasetSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Dataset',
+    name: `${crop.titleName} seed spacing dataset`,
+    description: `Row spacing, plant spacing, seed depth, and days-to-maturity for ${crop.name.toLowerCase()} grown in a home garden, cross-checked against three independent university extension sources.`,
+    url,
+    license: 'https://creativecommons.org/licenses/by/4.0/',
+    creator: { '@type': 'Organization', name: 'gardencalcs.com', url: siteConfig.domain },
+    isBasedOn: [
+      { '@type': 'CreativeWork', name: crop.primarySource.label, url: crop.primarySource.url },
+      { '@type': 'CreativeWork', name: crop.secondarySource.label, url: crop.secondarySource.url },
+      { '@type': 'CreativeWork', name: crop.tertiarySource.label, url: crop.tertiarySource.url },
+    ],
+    variableMeasured: [
+      { '@type': 'PropertyValue', name: 'Row spacing', value: crop.rowSpacingInches, unitText: 'inch' },
+      { '@type': 'PropertyValue', name: 'Plant spacing', value: crop.plantSpacingInches, unitText: 'inch' },
+      { '@type': 'PropertyValue', name: 'Seed depth', value: crop.seedDepthInches },
+      { '@type': 'PropertyValue', name: 'Days to maturity', value: crop.maturityDays },
+    ],
+  }
+
+  const preFaqWordyIntro =`${crop.titleName} spacing decisions look simple when the crop is still a seed or a small transplant, but the mature plant is the number that matters. This guide keeps the quick answer close to the top so you can see the row spacing, plant spacing, seed depth, and maturity window before you commit a bed. The goal is not just to fit as many plants as possible into a rectangle. The goal is to protect light, airflow, harvest access, and the final size of the part you actually want to harvest. ${crop.maturitySpacingNote}`
 
   return (
     <main className="bg-gray-50 py-10">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareApplicationSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(datasetSchema) }} />
 
       <div className="mx-auto max-w-5xl px-4">
         <nav className="mb-4 text-sm text-gray-500" aria-label="Breadcrumb">
