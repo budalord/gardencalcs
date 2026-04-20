@@ -87,3 +87,22 @@ PR 范围：15 crop 页新增第 4 个 JSON-LD schema（`Dataset` + 嵌套 `Prop
 ---
 
 ## 部署日志
+
+Preview 分支：`geo-p1-pr5-preview` → `https://aa953adf.gardencalcs-3f7.pages.dev`（用于严格 gate 验证）。
+
+通过 gate 后正式提交：`7db5d8a` on `master` + `main` (ff)。
+Push：`026acf0..7db5d8a` 成功推至 origin 双分支。
+
+Wrangler 生产 deploy：
+- master：`✨ Deployment complete! https://fff50afb.gardencalcs-3f7.pages.dev`
+- main：`✨ Deployment complete! https://514ad4c6.gardencalcs-3f7.pages.dev`
+
+生产远程 curl + validator.schema.org 复验 `https://gardencalcs.com/tools/seed-spacing/tomato`：
+```
+SoftwareApplication: err=0 warn=0
+BreadcrumbList: err=0 warn=0
+Dataset: err=0 warn=0
+FAQPage: err=0 warn=0
+```
+
+PR-5 全部绿灯。下一步：PR-6（首页 JSON-LD 补齐）。
