@@ -12,9 +12,44 @@ import { siteConfig } from "@/config/site";
 export default function HomePage() {
   const byCategory = getToolsByCategory();
   const featured = tools.slice(0, 6);
+  const organizationSchema = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: siteConfig.name,
+    url: siteConfig.domain,
+    description: siteConfig.description,
+  };
+  const websiteSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: siteConfig.name,
+    url: siteConfig.domain,
+    description: siteConfig.description,
+    inLanguage: siteConfig.locale,
+    publisher: {
+      "@type": "Organization",
+      name: siteConfig.name,
+      url: siteConfig.domain,
+    },
+  };
+  const itemListSchema = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: "Garden calculators",
+    itemListElement: tools.map((tool, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name: tool.name,
+      url: `${siteConfig.domain}/tools/${tool.slug}`,
+      description: tool.tagline,
+    })),
+  };
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-12">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema) }} />
       {/* Hero */}
       <section className="text-center mb-14">
         <h1 className="text-4xl font-bold text-gray-900 mb-4">{siteConfig.name}</h1>
