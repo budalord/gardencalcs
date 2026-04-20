@@ -64,3 +64,17 @@ PR 范围：15 crop 页第一个 H2 之下插入一段 chunk-extractable 数值�
 ---
 
 ## 部署日志
+
+提交：`3d60b33` on `master` + `main` (ff)
+Push：`052a866..3d60b33` 成功推至 origin 双分支。
+
+Wrangler deploy：
+- master：`✨ Deployment complete! https://e87d9230.gardencalcs-3f7.pages.dev`
+- main：`✨ Deployment complete! https://97036f9d.gardencalcs-3f7.pages.dev`
+
+远程 curl 验证（strip `<!-- -->` 注释后）：
+```
+Tomato rows should be 36 inches apart, plants 24 inches in-row, seeded at 1/4 inch, with 70-85 days to maturity.
+```
+
+PR-4 全部绿灯。下一步：PR-5（Dataset schema，RRT 严格 gate）。
