@@ -1,0 +1,1411 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>P00 · Garden Tools Hub — Design System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;0,8..60,700;1,8..60,400&display=swap" rel="stylesheet" />
+<style>
+/* =========================================================
+   P00 · Design System — Source of truth for gardencalcs.com
+   Copy these custom properties into any downstream mock.
+   ========================================================= */
+:root {
+  /* Palette */
+  --ink:        oklch(0.22 0.03 150);
+  --cream:      oklch(0.97 0.02 95);
+  --paper:      oklch(0.94 0.025 95);
+  --moss:       oklch(0.55 0.13 150);
+  --moss-deep:  oklch(0.35 0.10 150);
+  --leaf:       oklch(0.72 0.16 145);
+  --soil:       oklch(0.40 0.06 60);
+  --terracotta: oklch(0.68 0.14 45);
+
+  /* Type stacks */
+  --font-serif: "Source Serif 4", "Iowan Old Style", "Iowan Old Style BT", Georgia, "Times New Roman", serif;
+  --font-sans:  "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  --font-mono:  "JetBrains Mono", "SF Mono", "Menlo", "Consolas", monospace;
+
+  /* Radii */
+  --r-sm: 4px;
+  --r-md: 8px;
+  --r-lg: 12px;
+  --r-xl: 16px;
+
+  /* Motion */
+  --dur-fast:   150ms;
+  --dur-medium: 300ms;
+  --ease:       cubic-bezier(0.2, 0.6, 0.2, 1);
+
+  /* Max-widths */
+  --w-prose:  640px;
+  --w-canvas: 1024px;
+  --w-wide:   1280px;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  background: var(--cream);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Canvas --------------------------------------------------- */
+.ds-canvas {
+  max-width: var(--w-wide);
+  margin: 0 auto;
+  padding: 72px 56px 120px;
+}
+
+.ds-cover-eyebrow {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--soil);
+  margin: 0 0 16px;
+}
+.ds-cover-title {
+  font-family: var(--font-serif);
+  font-size: 56px;
+  line-height: 1.05;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin: 0 0 12px;
+  color: var(--ink);
+}
+.ds-cover-sub {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 20px;
+  color: var(--soil);
+  margin: 0 0 32px;
+  max-width: var(--w-prose);
+}
+.ds-cover-meta {
+  display: flex;
+  gap: 32px;
+  font-size: 13px;
+  color: var(--soil);
+  border-top: 1px solid var(--soil);
+  border-bottom: 1px solid var(--soil);
+  padding: 12px 0;
+  max-width: var(--w-canvas);
+}
+.ds-cover-meta > div > span { color: var(--ink); font-weight: 500; }
+
+/* Section dividers with centered botanical glyph --------- */
+.ds-divider {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin: 96px 0 48px;
+  color: var(--soil);
+}
+.ds-divider::before,
+.ds-divider::after {
+  content: "";
+  flex: 1;
+  border-top: 1px dashed var(--soil);
+  opacity: 0.5;
+}
+.ds-divider svg { flex-shrink: 0; opacity: 0.7; }
+
+.ds-section { max-width: var(--w-canvas); margin: 0 auto; }
+
+.ds-section-header { margin-bottom: 32px; }
+.ds-section-eyebrow {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--soil);
+  margin: 0 0 6px;
+}
+.ds-section-title {
+  font-family: var(--font-serif);
+  font-size: 32px;
+  line-height: 1.15;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin: 0 0 10px;
+  color: var(--moss-deep);
+}
+.ds-section-desc {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 17px;
+  color: var(--soil);
+  margin: 0;
+  max-width: var(--w-prose);
+}
+
+/* 01 · Masthead ------------------------------------------- */
+.ds-masthead-rows { display: flex; flex-direction: column; gap: 24px; }
+.ds-masthead-row {
+  display: grid;
+  grid-template-columns: 120px 1fr auto;
+  align-items: baseline;
+  gap: 24px;
+  padding: 20px 0;
+  border-bottom: 1px dashed var(--soil);
+}
+.ds-masthead-row:last-child { border-bottom: none; }
+.ds-usage { font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--soil); }
+.ds-wordmark {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+.ds-wordmark .amp { color: var(--terracotta); font-style: italic; }
+.ds-wordmark-display { font-size: 64px; line-height: 1; }
+.ds-wordmark-nav { font-size: 20px; line-height: 1.2; }
+.ds-wordmark-footer { font-size: 14px; line-height: 1.2; }
+.ds-tagline-serif {
+  font-family: var(--font-serif);
+  font-style: italic;
+  color: var(--moss-deep);
+  font-size: 20px;
+  margin-top: 8px;
+}
+.ds-specs { font-family: var(--font-mono); font-size: 11px; color: var(--soil); }
+
+/* 02 · Palette -------------------------------------------- */
+.ds-swatch-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+.ds-swatch {
+  border: 1px solid var(--soil);
+  border-radius: var(--r-md);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.ds-swatch-chip { height: 96px; }
+.ds-swatch-info { padding: 12px 14px 14px; background: var(--cream); }
+.ds-swatch-var {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--ink);
+  font-weight: 500;
+}
+.ds-swatch-val {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--soil);
+  margin-top: 2px;
+}
+.ds-swatch-use {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 13px;
+  color: var(--soil);
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px dashed var(--soil);
+}
+
+/* 03 · Type scale ----------------------------------------- */
+.ds-type-table {
+  display: grid;
+  grid-template-columns: 90px 1fr 220px;
+  border: 1px solid var(--soil);
+  border-radius: var(--r-md);
+  overflow: hidden;
+  background: var(--cream);
+}
+.ds-type-row {
+  display: contents;
+}
+.ds-type-row > * {
+  padding: 18px 18px;
+  border-bottom: 1px dashed var(--soil);
+}
+.ds-type-row:last-child > * { border-bottom: none; }
+.ds-type-label {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--soil);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  align-self: start;
+}
+.ds-type-specimen { color: var(--ink); }
+.ds-type-meta {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--soil);
+  line-height: 1.5;
+  align-self: center;
+  border-left: 1px dashed var(--soil);
+}
+
+/* Concrete type classes (also reused elsewhere) */
+.t-h1     { font-family: var(--font-serif); font-weight: 600; font-size: 48px; line-height: 1.1;  letter-spacing: -0.01em; }
+.t-h2     { font-family: var(--font-serif); font-weight: 600; font-size: 32px; line-height: 1.2;  letter-spacing: -0.005em; }
+.t-h3     { font-family: var(--font-serif); font-weight: 600; font-size: 22px; line-height: 1.3; }
+.t-lede   { font-family: var(--font-serif); font-style: italic; font-weight: 400; font-size: 20px; line-height: 1.5; color: var(--soil); }
+.t-body   { font-family: var(--font-sans); font-size: 16px; line-height: 1.6; }
+.t-caption{ font-family: var(--font-sans); font-size: 13px; line-height: 1.45; color: var(--soil); }
+.t-micro  { font-family: var(--font-sans); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--soil); }
+.t-mono   { font-family: var(--font-mono); font-size: 13px; line-height: 1.5; font-variant-numeric: tabular-nums; }
+
+/* 04 · Buttons -------------------------------------------- */
+.ds-btn-matrix {
+  display: grid;
+  grid-template-columns: 120px repeat(4, 1fr);
+  gap: 0;
+  border: 1px solid var(--soil);
+  border-radius: var(--r-md);
+  overflow: hidden;
+  background: var(--cream);
+}
+.ds-btn-matrix > * {
+  padding: 20px;
+  border-right: 1px dashed var(--soil);
+  border-bottom: 1px dashed var(--soil);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 80px;
+}
+.ds-btn-matrix > *:nth-child(5n) { border-right: none; }
+.ds-btn-matrix .corner { background: var(--paper); }
+.ds-btn-matrix .col-head, .ds-btn-matrix .row-head {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--soil);
+  background: var(--paper);
+}
+.ds-btn-matrix > .last-row { border-bottom: none; }
+
+/* Button base */
+.btn {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  padding: 10px 18px;
+  border-radius: var(--r-md);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: background-color var(--dur-fast) var(--ease),
+              color var(--dur-fast) var(--ease),
+              border-color var(--dur-fast) var(--ease);
+  background: transparent;
+}
+.btn-primary     { background: var(--moss); color: var(--cream); border-color: var(--moss); }
+.btn-primary:hover,   .btn-primary.is-hover    { background: var(--moss-deep); border-color: var(--moss-deep); }
+.btn-primary:active,  .btn-primary.is-active   { background: var(--moss-deep); filter: brightness(0.92); }
+.btn-primary:disabled,.btn-primary.is-disabled { background: var(--paper); color: var(--soil); border-color: var(--soil); opacity: 0.6; cursor: not-allowed; }
+
+.btn-secondary   { background: transparent; color: var(--ink); border-color: var(--ink); }
+.btn-secondary:hover,  .btn-secondary.is-hover   { background: var(--ink); color: var(--cream); }
+.btn-secondary:active, .btn-secondary.is-active  { background: var(--moss-deep); color: var(--cream); border-color: var(--moss-deep); }
+.btn-secondary:disabled,.btn-secondary.is-disabled { color: var(--soil); border-color: var(--soil); opacity: 0.5; cursor: not-allowed; }
+
+.btn-ghost       { background: transparent; color: var(--moss-deep); border-color: transparent; }
+.btn-ghost:hover,      .btn-ghost.is-hover       { background: var(--paper); color: var(--moss-deep); }
+.btn-ghost:active,     .btn-ghost.is-active      { background: var(--paper); text-decoration: underline; text-underline-offset: 3px; }
+.btn-ghost:disabled,   .btn-ghost.is-disabled    { color: var(--soil); opacity: 0.5; cursor: not-allowed; }
+
+.btn-destructive { background: transparent; color: var(--terracotta); border-color: var(--terracotta); }
+.btn-destructive:hover,   .btn-destructive.is-hover    { background: var(--terracotta); color: var(--cream); }
+.btn-destructive:active,  .btn-destructive.is-active   { background: var(--terracotta); filter: brightness(0.92); color: var(--cream); }
+.btn-destructive:disabled,.btn-destructive.is-disabled { color: var(--soil); border-color: var(--soil); opacity: 0.5; cursor: not-allowed; }
+
+/* 05 · Form elements -------------------------------------- */
+.ds-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px 48px;
+}
+.ds-field-label {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink);
+  margin-bottom: 8px;
+  display: block;
+}
+.ds-field-help {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 12px;
+  color: var(--soil);
+  margin-top: 6px;
+}
+
+.input {
+  width: 100%;
+  font-family: var(--font-sans);
+  font-size: 15px;
+  color: var(--ink);
+  background: var(--cream);
+  border: 1px solid var(--soil);
+  border-radius: var(--r-md);
+  padding: 10px 14px;
+  transition: border-color var(--dur-fast) var(--ease), background var(--dur-fast) var(--ease);
+  font-variant-numeric: tabular-nums;
+}
+.input:focus { outline: none; border-color: var(--moss); background: #fff; }
+.input::placeholder { color: var(--soil); opacity: 0.7; }
+
+.number-with-toggle {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0;
+  border: 1px solid var(--soil);
+  border-radius: var(--r-md);
+  overflow: hidden;
+  background: var(--cream);
+}
+.number-with-toggle input {
+  border: none; background: transparent; padding: 10px 14px;
+  font-family: var(--font-sans); font-size: 15px; color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+.number-with-toggle input:focus { outline: none; background: #fff; }
+.seg {
+  display: flex;
+  border-left: 1px dashed var(--soil);
+}
+.seg button {
+  font-family: var(--font-sans); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase;
+  padding: 0 14px; border: none; background: transparent; color: var(--soil); cursor: pointer;
+  transition: background var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease);
+}
+.seg button + button { border-left: 1px dashed var(--soil); }
+.seg button.active { background: var(--moss); color: var(--cream); }
+
+.select-wrap { position: relative; }
+.select-closed {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 14px; border: 1px solid var(--soil); border-radius: var(--r-md);
+  background: var(--cream); font-family: var(--font-sans); font-size: 15px; color: var(--ink);
+}
+.select-closed .caret { color: var(--soil); font-family: var(--font-mono); }
+.select-open-panel {
+  margin-top: 8px; border: 1px solid var(--moss); border-radius: var(--r-md);
+  background: var(--cream); overflow: hidden;
+}
+.select-open-panel .opt {
+  padding: 10px 14px; font-family: var(--font-sans); font-size: 14px; color: var(--ink); cursor: pointer;
+  border-bottom: 1px dashed var(--soil);
+}
+.select-open-panel .opt:last-child { border-bottom: none; }
+.select-open-panel .opt.sel { background: var(--paper); color: var(--moss-deep); font-weight: 500; }
+.select-open-panel .opt:hover { background: var(--paper); }
+
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip {
+  font-family: var(--font-sans); font-size: 13px; color: var(--ink);
+  background: var(--cream); border: 1px solid var(--soil);
+  padding: 6px 12px; border-radius: 999px; cursor: pointer;
+  transition: background var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease);
+  display: inline-flex; align-items: center; gap: 6px;
+}
+.chip .x { color: var(--soil); font-family: var(--font-mono); font-size: 12px; }
+.chip.on { background: var(--moss); color: var(--cream); border-color: var(--moss); }
+.chip.on .x { color: var(--cream); }
+.chip:hover { border-color: var(--moss); color: var(--moss-deep); }
+.chip.on:hover { background: var(--moss-deep); border-color: var(--moss-deep); color: var(--cream); }
+
+.radio-group { display: flex; flex-direction: column; gap: 10px; }
+.radio-row { display: flex; align-items: center; gap: 10px; cursor: pointer; font-size: 14px; }
+.radio-dot {
+  width: 16px; height: 16px; border-radius: 50%; border: 1.5px solid var(--soil);
+  display: inline-flex; align-items: center; justify-content: center;
+  transition: border-color var(--dur-fast) var(--ease);
+}
+.radio-row.sel .radio-dot { border-color: var(--moss); }
+.radio-row.sel .radio-dot::after {
+  content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--moss);
+}
+
+.slider-track {
+  position: relative; height: 4px; background: var(--paper);
+  border: 1px solid var(--soil); border-radius: 999px;
+}
+.slider-fill {
+  position: absolute; inset: -1px auto -1px -1px; background: var(--moss);
+  border-radius: 999px; border: 1px solid var(--moss);
+}
+.slider-thumb {
+  position: absolute; top: 50%; transform: translate(-50%,-50%);
+  width: 18px; height: 18px; border-radius: 50%; background: var(--cream);
+  border: 2px solid var(--moss);
+}
+.slider-scale {
+  display: flex; justify-content: space-between;
+  margin-top: 10px; font-family: var(--font-mono); font-size: 11px; color: var(--soil);
+}
+
+/* 06 · Cards ---------------------------------------------- */
+.ds-cards-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+.ds-cards-col > .group { display: flex; flex-direction: column; gap: 12px; }
+.ds-cards-col .state-label {
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--soil);
+}
+
+.card-base {
+  background: var(--cream);
+  border: 1px solid var(--soil);
+  border-radius: var(--r-lg);
+  padding: 22px 24px;
+  transition: border-color var(--dur-fast) var(--ease),
+              transform var(--dur-fast) var(--ease),
+              background var(--dur-fast) var(--ease);
+}
+
+.tool-card { display: grid; grid-template-columns: 52px 1fr; gap: 18px; align-items: start; }
+.tool-card .icon-slot {
+  width: 52px; height: 52px; border: 1px solid var(--soil); border-radius: var(--r-md);
+  display: flex; align-items: center; justify-content: center; background: var(--paper);
+  color: var(--moss-deep);
+}
+.tool-card .t-h3 { margin: 0 0 4px; font-size: 20px; }
+.tool-card .desc { font-size: 14px; color: var(--ink); margin: 0 0 10px; }
+.tool-card .meta { font-family: var(--font-mono); font-size: 11px; color: var(--soil); letter-spacing: 0.08em; text-transform: uppercase; }
+.tool-card.is-hover { border-color: var(--moss); transform: translateY(-1px); background: #fff; }
+
+.guide-card .tag { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--terracotta); margin-bottom: 10px; }
+.guide-card .t-h3 { margin: 0 0 8px; font-size: 22px; }
+.guide-card .excerpt { font-family: var(--font-serif); font-style: italic; font-size: 15px; color: var(--soil); margin: 0 0 14px; line-height: 1.5; }
+.guide-card .foot { display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 11px; color: var(--soil); letter-spacing: 0.08em; text-transform: uppercase; }
+.guide-card.is-hover { border-color: var(--moss-deep); background: #fff; }
+
+.callout-card {
+  background: var(--paper);
+  border: 1px solid var(--soil);
+  border-left: 4px solid var(--terracotta);
+  border-radius: var(--r-md);
+  padding: 18px 22px;
+}
+.callout-card .eyebrow { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--terracotta); margin-bottom: 6px; }
+.callout-card .headline { font-family: var(--font-serif); font-size: 18px; font-weight: 600; margin: 0 0 4px; color: var(--ink); }
+.callout-card .body { font-size: 14px; color: var(--ink); margin: 0; }
+.callout-card.is-hover { border-left-color: var(--moss); }
+
+/* 07 · Data blocks ---------------------------------------- */
+.ds-data-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px 40px;
+}
+.block-label {
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--soil);
+  margin-bottom: 10px;
+}
+
+.qa-table { width: 100%; border-collapse: collapse; border: 1px solid var(--soil); border-radius: var(--r-md); overflow: hidden; }
+.qa-table td { padding: 14px 18px; border-bottom: 1px dashed var(--soil); vertical-align: top; }
+.qa-table tr:last-child td { border-bottom: none; }
+.qa-table td:first-child { font-family: var(--font-serif); font-style: italic; color: var(--soil); background: var(--paper); width: 55%; }
+.qa-table td:last-child { font-family: var(--font-sans); font-weight: 500; color: var(--ink); font-variant-numeric: tabular-nums; }
+
+.faq-list { border: 1px solid var(--soil); border-radius: var(--r-md); overflow: hidden; background: var(--cream); }
+.faq-item { border-bottom: 1px dashed var(--soil); }
+.faq-item:last-child { border-bottom: none; }
+.faq-head {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 16px 20px; cursor: pointer; list-style: none;
+  font-family: var(--font-serif); font-weight: 600; font-size: 17px; color: var(--ink);
+  transition: background var(--dur-fast) var(--ease);
+}
+.faq-head:hover { background: var(--paper); }
+.faq-head::-webkit-details-marker { display: none; }
+.faq-toggle { font-family: var(--font-mono); font-size: 14px; color: var(--soil); transition: transform var(--dur-fast) var(--ease); }
+.faq-item[open] .faq-toggle { transform: rotate(45deg); color: var(--moss-deep); }
+.faq-body {
+  padding: 0 20px 18px; font-size: 14px; color: var(--ink); line-height: 1.65;
+  max-width: var(--w-prose);
+}
+.faq-body cite { display: block; margin-top: 10px; font-family: var(--font-mono); font-size: 11px; color: var(--soil); letter-spacing: 0.06em; font-style: normal; }
+
+.worked-quote {
+  border-left: 2px solid var(--soil);
+  padding: 6px 0 6px 24px;
+  margin: 0;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 16px;
+  color: var(--ink);
+  line-height: 1.6;
+}
+.worked-quote footer {
+  margin-top: 12px;
+  font-family: var(--font-mono); font-size: 11px; font-style: normal;
+  color: var(--soil); letter-spacing: 0.06em; text-transform: uppercase;
+}
+
+.formula {
+  background: var(--paper);
+  border: 1px solid var(--soil);
+  border-radius: var(--r-md);
+  padding: 16px 18px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--ink);
+  line-height: 1.6;
+  font-variant-numeric: tabular-nums;
+  overflow-x: auto;
+}
+.formula .op { color: var(--terracotta); }
+.formula .kw { color: var(--moss-deep); }
+
+/* 08 · Botanical ornaments ------------------------------- */
+.ds-ornament-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+.ornament-cell {
+  border: 1px solid var(--soil);
+  border-radius: var(--r-md);
+  padding: 20px;
+  background: var(--cream);
+  text-align: center;
+}
+.ornament-cell svg { display: block; margin: 0 auto 14px; }
+.ornament-cell .name { font-family: var(--font-serif); font-weight: 600; font-size: 15px; margin: 0 0 2px; }
+.ornament-cell .use { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--soil); }
+
+/* 09 · Iconography --------------------------------------- */
+.ds-icon-row {
+  display: grid; grid-template-columns: repeat(8, 1fr); gap: 12px;
+  border: 1px solid var(--soil); border-radius: var(--r-md); padding: 20px; background: var(--cream);
+}
+.icon-cell { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.icon-cell svg { color: var(--ink); }
+.icon-cell .label { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.08em; color: var(--soil); text-transform: uppercase; }
+.ds-icon-rules {
+  margin-top: 14px;
+  font-family: var(--font-serif); font-style: italic; color: var(--soil); font-size: 13px;
+}
+
+/* 10 · Spacing & grid ------------------------------------ */
+.ds-grid-demo { display: flex; flex-direction: column; gap: 28px; }
+.ruler-row { display: grid; grid-template-columns: 120px 1fr; align-items: center; gap: 18px; }
+.ruler-label { font-family: var(--font-mono); font-size: 12px; color: var(--soil); letter-spacing: 0.06em; text-transform: uppercase; }
+.ruler-bar {
+  height: 22px; background:
+    linear-gradient(90deg, transparent 0 calc(100% - 1px), var(--soil) calc(100% - 1px) 100%),
+    repeating-linear-gradient(90deg, transparent 0 79px, var(--paper) 79px 80px);
+  border: 1px solid var(--soil); border-radius: var(--r-sm);
+  position: relative;
+}
+.ruler-bar .tick {
+  position: absolute; top: 0; bottom: 0; width: 1px; background: var(--soil); opacity: 0.4;
+}
+.ruler-bar .marker {
+  position: absolute; top: -4px; bottom: -4px; border: 1px dashed var(--moss-deep); border-radius: 2px;
+}
+.ruler-bar .marker-label {
+  position: absolute; top: -22px; font-family: var(--font-mono); font-size: 10px; color: var(--moss-deep);
+  letter-spacing: 0.08em; white-space: nowrap;
+}
+
+.rhythm-demo { border: 1px solid var(--soil); border-radius: var(--r-md); padding: 24px; background: var(--cream); }
+.rhythm-block { background: var(--paper); border: 1px dashed var(--soil); padding: 10px 14px; font-family: var(--font-mono); font-size: 11px; color: var(--soil); letter-spacing: 0.08em; text-transform: uppercase; border-radius: var(--r-sm); }
+.rhythm-gap {
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-mono); font-size: 10px; color: var(--soil);
+  letter-spacing: 0.08em;
+}
+
+/* 11 · Token reference ----------------------------------- */
+.ds-token-ref {
+  border: 1px solid var(--soil);
+  border-radius: var(--r-md);
+  background: var(--paper);
+  padding: 28px 32px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px 48px;
+}
+.token-group h4 {
+  font-family: var(--font-serif); font-size: 16px; font-weight: 600;
+  margin: 0 0 12px; color: var(--moss-deep);
+  border-bottom: 1px dashed var(--soil); padding-bottom: 6px;
+}
+.token-group dl { margin: 0; font-family: var(--font-mono); font-size: 12px; }
+.token-group dl > div { display: grid; grid-template-columns: 120px 1fr; gap: 10px; padding: 4px 0; }
+.token-group dt { color: var(--ink); font-weight: 500; }
+.token-group dd { color: var(--soil); margin: 0; word-break: break-all; }
+.rule-note {
+  font-family: var(--font-serif); font-style: italic;
+  color: var(--terracotta); font-size: 13px; margin-top: 8px;
+}
+
+/* Tiny page footer --------------------------------------- */
+.ds-colophon {
+  text-align: center; margin-top: 80px; padding-top: 32px;
+  border-top: 1px dashed var(--soil);
+  color: var(--soil); font-family: var(--font-serif); font-style: italic; font-size: 13px;
+}
+
+@media print {
+  body { background: #fff; }
+  .ds-canvas { padding: 24px; }
+}
+</style>
+</head>
+<body>
+<!-- SVG symbol library -------------------------------------- -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <!-- Botanical ornaments (120 viewbox) -->
+    <symbol id="orn-leaf" viewBox="0 0 120 120">
+      <g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M60 18 C 30 38, 22 72, 42 102 C 70 96, 96 74, 100 40 C 90 26, 76 20, 60 18 Z" fill="oklch(0.72 0.16 145 / 0.28)" stroke="currentColor"/>
+        <path d="M60 18 C 58 42, 56 72, 42 102"/>
+        <path d="M54 40 C 64 42, 74 42, 84 36"/>
+        <path d="M50 58 C 62 60, 74 60, 90 54"/>
+        <path d="M48 78 C 60 80, 72 78, 88 70"/>
+      </g>
+    </symbol>
+    <symbol id="orn-seedling" viewBox="0 0 120 120">
+      <g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M60 96 L 60 58"/>
+        <path d="M60 64 C 42 60, 32 44, 30 30 C 48 30, 58 48, 60 60" fill="oklch(0.55 0.13 150 / 0.32)"/>
+        <path d="M60 64 C 78 60, 88 44, 90 30 C 72 30, 62 48, 60 60" fill="oklch(0.72 0.16 145 / 0.32)"/>
+        <path d="M28 96 L 92 96"/>
+        <path d="M30 100 L 36 100 M44 100 L 52 100 M60 100 L 68 100 M76 100 L 86 100"/>
+      </g>
+    </symbol>
+    <symbol id="orn-roots" viewBox="0 0 120 120">
+      <g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M20 22 L 100 22"/>
+        <path d="M60 22 L 60 106"/>
+        <path d="M60 40 C 52 46, 44 52, 38 66"/>
+        <path d="M60 40 C 68 46, 76 52, 82 66"/>
+        <path d="M60 62 C 48 72, 38 82, 32 96"/>
+        <path d="M60 62 C 72 72, 82 82, 88 96"/>
+        <path d="M60 82 C 54 92, 50 98, 46 104"/>
+        <path d="M60 82 C 66 92, 70 98, 74 104"/>
+        <path d="M38 66 L 36 74 M82 66 L 84 74 M32 96 L 30 102 M88 96 L 90 102"/>
+      </g>
+    </symbol>
+    <symbol id="orn-soil" viewBox="0 0 120 120">
+      <g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="18" y="20" width="84" height="82" rx="2" />
+        <line x1="18" y1="44" x2="102" y2="44"/>
+        <line x1="18" y1="70" x2="102" y2="70"/>
+        <!-- topsoil dots -->
+        <g fill="oklch(0.40 0.06 60 / 0.55)" stroke="none">
+          <circle cx="28" cy="30" r="1.4"/><circle cx="40" cy="36" r="1.4"/><circle cx="52" cy="28" r="1.4"/>
+          <circle cx="66" cy="34" r="1.4"/><circle cx="80" cy="30" r="1.4"/><circle cx="92" cy="36" r="1.4"/>
+          <circle cx="34" cy="38" r="1.4"/><circle cx="74" cy="38" r="1.4"/>
+        </g>
+        <!-- subsoil dashes -->
+        <g stroke="currentColor">
+          <line x1="24" y1="52" x2="32" y2="52"/><line x1="40" y1="58" x2="48" y2="58"/>
+          <line x1="56" y1="52" x2="64" y2="52"/><line x1="72" y1="58" x2="80" y2="58"/>
+          <line x1="88" y1="52" x2="96" y2="52"/>
+        </g>
+        <!-- bedrock hatch -->
+        <g stroke="currentColor" stroke-width="1">
+          <line x1="20" y1="82" x2="30" y2="92"/><line x1="36" y1="80" x2="46" y2="96"/>
+          <line x1="54" y1="78" x2="64" y2="98"/><line x1="72" y1="80" x2="82" y2="96"/>
+          <line x1="88" y1="78" x2="98" y2="96"/>
+        </g>
+      </g>
+    </symbol>
+
+    <!-- Divider glyph (smaller) -->
+    <symbol id="divider-glyph" viewBox="0 0 40 16">
+      <g fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round">
+        <path d="M4 8 L 14 8"/>
+        <path d="M20 8 C 17 4, 17 2, 20 2 C 23 2, 23 4, 20 8 Z" fill="oklch(0.55 0.13 150 / 0.4)"/>
+        <path d="M20 8 C 17 12, 17 14, 20 14 C 23 14, 23 12, 20 8 Z" fill="oklch(0.72 0.16 145 / 0.4)"/>
+        <path d="M26 8 L 36 8"/>
+      </g>
+    </symbol>
+
+    <!-- 32×32 icons ----------------------------------------- -->
+    <symbol id="ic-soil" viewBox="0 0 32 32">
+      <g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 20 Q 10 16 16 20 T 28 20"/>
+        <path d="M4 24 Q 10 20 16 24 T 28 24"/>
+        <circle cx="10" cy="14" r="1"/><circle cx="18" cy="11" r="1"/><circle cx="24" cy="14" r="1"/>
+      </g>
+    </symbol>
+    <symbol id="ic-water" viewBox="0 0 32 32">
+      <g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M16 4 C 10 14, 8 20, 10 24 C 12 28, 20 28, 22 24 C 24 20, 22 14, 16 4 Z" fill="oklch(0.72 0.16 145 / 0.2)"/>
+        <path d="M13 20 C 13 22, 14 23, 16 23"/>
+      </g>
+    </symbol>
+    <symbol id="ic-seed" viewBox="0 0 32 32">
+      <g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <ellipse cx="16" cy="16" rx="7" ry="10" fill="oklch(0.40 0.06 60 / 0.2)"/>
+        <path d="M16 6 L 16 26"/>
+      </g>
+    </symbol>
+    <symbol id="ic-leaf" viewBox="0 0 32 32">
+      <g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M7 25 C 7 12, 17 6, 26 6 C 26 17, 20 25, 7 25 Z" fill="oklch(0.72 0.16 145 / 0.25)"/>
+        <path d="M7 25 L 22 10"/>
+      </g>
+    </symbol>
+    <symbol id="ic-sun" viewBox="0 0 32 32">
+      <g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="16" cy="16" r="5" fill="oklch(0.68 0.14 45 / 0.25)"/>
+        <path d="M16 3 L 16 7 M16 25 L 16 29 M3 16 L 7 16 M25 16 L 29 16 M7 7 L 9.5 9.5 M22.5 22.5 L 25 25 M7 25 L 9.5 22.5 M22.5 9.5 L 25 7"/>
+      </g>
+    </symbol>
+    <symbol id="ic-frost" viewBox="0 0 32 32">
+      <g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M16 3 L 16 29 M3 16 L 29 16"/>
+        <path d="M7 7 L 25 25 M7 25 L 25 7"/>
+        <path d="M12 7 L 16 11 L 20 7 M12 25 L 16 21 L 20 25 M7 12 L 11 16 L 7 20 M25 12 L 21 16 L 25 20"/>
+      </g>
+    </symbol>
+    <symbol id="ic-scale" viewBox="0 0 32 32">
+      <g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M16 4 L 16 28"/>
+        <path d="M8 28 L 24 28"/>
+        <path d="M6 10 L 16 6 L 26 10"/>
+        <path d="M3 16 C 4 14, 8 14, 9 16 L 6 22 Z" fill="oklch(0.55 0.13 150 / 0.2)"/>
+        <path d="M23 16 C 24 14, 28 14, 29 16 L 26 22 Z" fill="oklch(0.55 0.13 150 / 0.2)"/>
+      </g>
+    </symbol>
+    <symbol id="ic-beaker" viewBox="0 0 32 32">
+      <g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M11 4 L 21 4"/>
+        <path d="M12 4 L 12 13 L 7 25 C 6 27, 7 28, 9 28 L 23 28 C 25 28, 26 27, 25 25 L 20 13 L 20 4"/>
+        <path d="M9 20 L 23 20" />
+        <path d="M9 20 Q 12 22 16 20 T 23 20" fill="oklch(0.55 0.13 150 / 0.25)"/>
+      </g>
+    </symbol>
+
+    <!-- Tool card icon (used for tool-card demo) -->
+    <symbol id="ic-tool-ph" viewBox="0 0 32 32">
+      <g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="16" cy="16" r="10" fill="oklch(0.94 0.025 95)"/>
+        <text x="16" y="20" text-anchor="middle" font-family="Source Serif 4, Georgia, serif" font-size="10" fill="currentColor" stroke="none">pH</text>
+      </g>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="ds-canvas">
+
+  <!-- COVER -->
+  <header>
+    <p class="ds-cover-eyebrow">No. 000 · Design System · Spring 2026</p>
+    <h1 class="ds-cover-title">Garden Tools Hub</h1>
+    <p class="ds-cover-sub">The visual almanac. Tokens, type, components, and botanical ornaments — the source of truth for every page on gardencalcs.com.</p>
+    <div class="ds-cover-meta">
+      <div><span>Status</span> · canonical</div>
+      <div><span>Use</span> · copy CSS vars to every page mock</div>
+      <div><span>Borders only</span> · no shadows, anywhere</div>
+      <div><span>Mood</span> · reference publication, not product</div>
+    </div>
+  </header>
+
+  <!-- 01 · MASTHEAD -->
+  <div class="ds-divider"><svg width="40" height="16"><use href="#divider-glyph"/></svg></div>
+  <section class="ds-section">
+    <header class="ds-section-header">
+      <p class="ds-section-eyebrow">01 · Masthead</p>
+      <h2 class="ds-section-title">Wordmark</h2>
+      <p class="ds-section-desc">The wordmark is always set in the serif display face with a tight tracking. The ampersand (rare) leans italic-terracotta.</p>
+    </header>
+    <div class="ds-masthead-rows">
+      <div class="ds-masthead-row">
+        <div class="ds-usage">Display · 64/60</div>
+        <div class="ds-wordmark ds-wordmark-display">Garden Tools Hub</div>
+        <div class="ds-specs">serif · 600 · tracking −0.01em</div>
+      </div>
+      <div class="ds-masthead-row">
+        <div class="ds-usage">Nav · 20/24</div>
+        <div class="ds-wordmark ds-wordmark-nav">Garden Tools Hub</div>
+        <div class="ds-specs">serif · 600 · 20px</div>
+      </div>
+      <div class="ds-masthead-row">
+        <div class="ds-usage">Footer · 14/18</div>
+        <div class="ds-wordmark ds-wordmark-footer">Garden Tools Hub</div>
+        <div class="ds-specs">serif · 600 · 14px</div>
+      </div>
+      <div class="ds-masthead-row">
+        <div class="ds-usage">Tagline</div>
+        <div class="ds-tagline-serif">“Garden math, answered.”</div>
+        <div class="ds-specs">serif italic · 20px · --moss-deep</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 · PALETTE -->
+  <div class="ds-divider"><svg width="40" height="16"><use href="#divider-glyph"/></svg></div>
+  <section class="ds-section">
+    <header class="ds-section-header">
+      <p class="ds-section-eyebrow">02 · Palette</p>
+      <h2 class="ds-section-title">Eight colors, no more</h2>
+      <p class="ds-section-desc">Every color is a CSS custom property. No off-token values permitted in downstream mocks.</p>
+    </header>
+    <div class="ds-swatch-grid">
+      <!-- order: ink, cream, paper, moss, moss-deep, leaf, soil, terracotta -->
+      <div class="ds-swatch">
+        <div class="ds-swatch-chip" style="background:var(--ink)"></div>
+        <div class="ds-swatch-info">
+          <div class="ds-swatch-var">--ink</div>
+          <div class="ds-swatch-val">oklch(0.22 0.03 150)</div>
+          <div class="ds-swatch-use">body text · headings on cream</div>
+        </div>
+      </div>
+      <div class="ds-swatch">
+        <div class="ds-swatch-chip" style="background:var(--cream); border-bottom:1px dashed var(--soil)"></div>
+        <div class="ds-swatch-info">
+          <div class="ds-swatch-var">--cream</div>
+          <div class="ds-swatch-val">oklch(0.97 0.02 95)</div>
+          <div class="ds-swatch-use">page background</div>
+        </div>
+      </div>
+      <div class="ds-swatch">
+        <div class="ds-swatch-chip" style="background:var(--paper)"></div>
+        <div class="ds-swatch-info">
+          <div class="ds-swatch-var">--paper</div>
+          <div class="ds-swatch-val">oklch(0.94 0.025 95)</div>
+          <div class="ds-swatch-use">cards · inset sections</div>
+        </div>
+      </div>
+      <div class="ds-swatch">
+        <div class="ds-swatch-chip" style="background:var(--moss)"></div>
+        <div class="ds-swatch-info">
+          <div class="ds-swatch-var">--moss</div>
+          <div class="ds-swatch-val">oklch(0.55 0.13 150)</div>
+          <div class="ds-swatch-use">primary interactive</div>
+        </div>
+      </div>
+      <div class="ds-swatch">
+        <div class="ds-swatch-chip" style="background:var(--moss-deep)"></div>
+        <div class="ds-swatch-info">
+          <div class="ds-swatch-var">--moss-deep</div>
+          <div class="ds-swatch-val">oklch(0.35 0.10 150)</div>
+          <div class="ds-swatch-use">hover · section headings</div>
+        </div>
+      </div>
+      <div class="ds-swatch">
+        <div class="ds-swatch-chip" style="background:var(--leaf)"></div>
+        <div class="ds-swatch-info">
+          <div class="ds-swatch-var">--leaf</div>
+          <div class="ds-swatch-val">oklch(0.72 0.16 145)</div>
+          <div class="ds-swatch-use">highlight · success</div>
+        </div>
+      </div>
+      <div class="ds-swatch">
+        <div class="ds-swatch-chip" style="background:var(--soil)"></div>
+        <div class="ds-swatch-info">
+          <div class="ds-swatch-var">--soil</div>
+          <div class="ds-swatch-val">oklch(0.40 0.06 60)</div>
+          <div class="ds-swatch-use">secondary text · rules</div>
+        </div>
+      </div>
+      <div class="ds-swatch">
+        <div class="ds-swatch-chip" style="background:var(--terracotta)"></div>
+        <div class="ds-swatch-info">
+          <div class="ds-swatch-var">--terracotta</div>
+          <div class="ds-swatch-val">oklch(0.68 0.14 45)</div>
+          <div class="ds-swatch-use">CTA accent · callout border</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 · TYPE SCALE -->
+  <div class="ds-divider"><svg width="40" height="16"><use href="#divider-glyph"/></svg></div>
+  <section class="ds-section">
+    <header class="ds-section-header">
+      <p class="ds-section-eyebrow">03 · Type scale</p>
+      <h2 class="ds-section-title">Serif for voice, Inter for numbers</h2>
+      <p class="ds-section-desc">All calculator output uses <code class="t-mono">font-variant-numeric: tabular-nums</code>.</p>
+    </header>
+    <div class="ds-type-table">
+      <div class="ds-type-row">
+        <div class="ds-type-label">H1</div>
+        <div class="ds-type-specimen"><span class="t-h1">How much compost does my garden need?</span></div>
+        <div class="ds-type-meta">serif · 48/53<br/>weight 600 · tracking −0.01em</div>
+      </div>
+      <div class="ds-type-row">
+        <div class="ds-type-label">H2</div>
+        <div class="ds-type-specimen"><span class="t-h2">Understanding the carbon-to-nitrogen ratio</span></div>
+        <div class="ds-type-meta">serif · 32/38<br/>weight 600 · tracking −0.005em</div>
+      </div>
+      <div class="ds-type-row">
+        <div class="ds-type-label">H3</div>
+        <div class="ds-type-specimen"><span class="t-h3">Browns, greens, and the ideal blend</span></div>
+        <div class="ds-type-meta">serif · 22/29<br/>weight 600 · tracking 0</div>
+      </div>
+      <div class="ds-type-row">
+        <div class="ds-type-label">Lede</div>
+        <div class="ds-type-specimen"><span class="t-lede">A 4×8 ft raised bed, filled six inches deep, needs roughly 0.6 cubic yards of compost-amended soil.</span></div>
+        <div class="ds-type-meta">serif italic · 20/30<br/>weight 400 · color --soil</div>
+      </div>
+      <div class="ds-type-row">
+        <div class="ds-type-label">Body</div>
+        <div class="ds-type-specimen"><span class="t-body">Most vegetable gardens perform best when soil pH sits between 6.0 and 6.8. Test annually, and amend in the fall so lime has months to react.</span></div>
+        <div class="ds-type-meta">Inter · 16/26<br/>weight 400</div>
+      </div>
+      <div class="ds-type-row">
+        <div class="ds-type-label">Caption</div>
+        <div class="ds-type-specimen"><span class="t-caption">Source: Cornell Cooperative Extension, “Home Composting Basics” (2022).</span></div>
+        <div class="ds-type-meta">Inter · 13/19<br/>weight 400 · color --soil</div>
+      </div>
+      <div class="ds-type-row">
+        <div class="ds-type-label">Micro</div>
+        <div class="ds-type-specimen"><span class="t-micro">Updated · March 2026</span></div>
+        <div class="ds-type-meta">Inter · 11 · tracking 0.12em<br/>uppercase · color --soil</div>
+      </div>
+      <div class="ds-type-row">
+        <div class="ds-type-label">Mono</div>
+        <div class="ds-type-specimen"><span class="t-mono">lime_lbs = (target_pH − current_pH) × area_sqft × 0.05</span></div>
+        <div class="ds-type-meta">JetBrains Mono · 13/20<br/>tabular numerals</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 · BUTTONS -->
+  <div class="ds-divider"><svg width="40" height="16"><use href="#divider-glyph"/></svg></div>
+  <section class="ds-section">
+    <header class="ds-section-header">
+      <p class="ds-section-eyebrow">04 · Buttons</p>
+      <h2 class="ds-section-title">Four types, four states</h2>
+      <p class="ds-section-desc">Hover states shown forced via <code class="t-mono">.is-hover</code>. Interactive buttons respond to your cursor too.</p>
+    </header>
+    <div class="ds-btn-matrix">
+      <div class="corner"></div>
+      <div class="col-head">Default</div>
+      <div class="col-head">Hover</div>
+      <div class="col-head">Active</div>
+      <div class="col-head">Disabled</div>
+
+      <div class="row-head">Primary</div>
+      <div><button class="btn btn-primary">Calculate</button></div>
+      <div><button class="btn btn-primary is-hover">Calculate</button></div>
+      <div><button class="btn btn-primary is-active">Calculate</button></div>
+      <div><button class="btn btn-primary is-disabled" disabled>Calculate</button></div>
+
+      <div class="row-head">Secondary</div>
+      <div><button class="btn btn-secondary">See formula</button></div>
+      <div><button class="btn btn-secondary is-hover">See formula</button></div>
+      <div><button class="btn btn-secondary is-active">See formula</button></div>
+      <div><button class="btn btn-secondary is-disabled" disabled>See formula</button></div>
+
+      <div class="row-head">Ghost</div>
+      <div><button class="btn btn-ghost">Reset</button></div>
+      <div><button class="btn btn-ghost is-hover">Reset</button></div>
+      <div><button class="btn btn-ghost is-active">Reset</button></div>
+      <div><button class="btn btn-ghost is-disabled" disabled>Reset</button></div>
+
+      <div class="row-head last-row">Destructive</div>
+      <div class="last-row"><button class="btn btn-destructive">Clear all</button></div>
+      <div class="last-row"><button class="btn btn-destructive is-hover">Clear all</button></div>
+      <div class="last-row"><button class="btn btn-destructive is-active">Clear all</button></div>
+      <div class="last-row"><button class="btn btn-destructive is-disabled" disabled>Clear all</button></div>
+    </div>
+  </section>
+
+  <!-- 05 · FORM ELEMENTS -->
+  <div class="ds-divider"><svg width="40" height="16"><use href="#divider-glyph"/></svg></div>
+  <section class="ds-section">
+    <header class="ds-section-header">
+      <p class="ds-section-eyebrow">05 · Form elements</p>
+      <h2 class="ds-section-title">Inputs, toggles, chips</h2>
+      <p class="ds-section-desc">Focus outlines replaced with moss borders — keep radii at 8px (--r-md).</p>
+    </header>
+    <div class="ds-form-grid">
+      <div>
+        <label class="ds-field-label">Plot name</label>
+        <input class="input" type="text" placeholder="West raised bed" />
+        <div class="ds-field-help">Used only for your notes — never stored.</div>
+      </div>
+
+      <div>
+        <label class="ds-field-label">Length</label>
+        <div class="number-with-toggle">
+          <input type="number" value="8" />
+          <div class="seg">
+            <button class="active">ft</button>
+            <button>m</button>
+          </div>
+        </div>
+        <div class="ds-field-help">Number input with ft ⇌ m segmented toggle.</div>
+      </div>
+
+      <div>
+        <label class="ds-field-label">Soil type (closed)</label>
+        <div class="select-wrap">
+          <div class="select-closed">
+            <span>Loamy</span><span class="caret">▾</span>
+          </div>
+        </div>
+        <div class="ds-field-help">Single-select dropdown, closed state.</div>
+      </div>
+
+      <div>
+        <label class="ds-field-label">Soil type (open)</label>
+        <div class="select-wrap">
+          <div class="select-closed">
+            <span>Loamy</span><span class="caret">▴</span>
+          </div>
+          <div class="select-open-panel">
+            <div class="opt">Sandy</div>
+            <div class="opt sel">Loamy</div>
+            <div class="opt">Clay</div>
+            <div class="opt">Silty</div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <label class="ds-field-label">Compost materials (multi-select chips)</label>
+        <div class="chips">
+          <span class="chip on">Grass clippings <span class="x">×</span></span>
+          <span class="chip on">Coffee grounds <span class="x">×</span></span>
+          <span class="chip">Dry leaves</span>
+          <span class="chip">Straw</span>
+          <span class="chip">Cardboard</span>
+          <span class="chip">Wood chips</span>
+          <span class="chip">Food scraps</span>
+        </div>
+      </div>
+
+      <div>
+        <label class="ds-field-label">Growing method (radio)</label>
+        <div class="radio-group">
+          <label class="radio-row sel"><span class="radio-dot"></span> Raised bed</label>
+          <label class="radio-row"><span class="radio-dot"></span> In-ground</label>
+          <label class="radio-row"><span class="radio-dot"></span> Container</label>
+        </div>
+      </div>
+
+      <div style="grid-column: 1 / -1">
+        <label class="ds-field-label">Target soil pH</label>
+        <div class="slider-track" style="margin-top:8px">
+          <div class="slider-fill" style="width:56%"></div>
+          <div class="slider-thumb" style="left:56%"></div>
+        </div>
+        <div class="slider-scale">
+          <span>4.0</span><span>5.0</span><span>6.0</span><span>6.5</span><span>7.0</span><span>8.0</span><span>9.0</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 06 · CARDS -->
+  <div class="ds-divider"><svg width="40" height="16"><use href="#divider-glyph"/></svg></div>
+  <section class="ds-section">
+    <header class="ds-section-header">
+      <p class="ds-section-eyebrow">06 · Cards</p>
+      <h2 class="ds-section-title">Three card types</h2>
+      <p class="ds-section-desc">Each shown default (left) and hover (right). Hover lifts 1px and warms the border — never adds a shadow.</p>
+    </header>
+
+    <div class="ds-cards-col">
+      <div class="group">
+        <div class="state-label">Tool card · default</div>
+        <div class="card-base tool-card">
+          <div class="icon-slot"><svg width="28" height="28"><use href="#ic-tool-ph"/></svg></div>
+          <div>
+            <h3 class="t-h3">Soil pH Calculator</h3>
+            <p class="desc">Find exact lime or sulfur amounts to reach your target pH.</p>
+            <div class="meta">12,400 used this month</div>
+          </div>
+        </div>
+      </div>
+      <div class="group">
+        <div class="state-label">Tool card · hover</div>
+        <div class="card-base tool-card is-hover">
+          <div class="icon-slot"><svg width="28" height="28"><use href="#ic-tool-ph"/></svg></div>
+          <div>
+            <h3 class="t-h3">Soil pH Calculator</h3>
+            <p class="desc">Find exact lime or sulfur amounts to reach your target pH.</p>
+            <div class="meta">12,400 used this month</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="group">
+        <div class="state-label">Guide card · default</div>
+        <div class="card-base guide-card">
+          <div class="tag">Almanac · Soil</div>
+          <h3 class="t-h3">Understanding soil pH for beginners</h3>
+          <p class="excerpt">A field guide to reading your soil — what pH actually means for root uptake, and how to correct it over a season.</p>
+          <div class="foot"><span>12 min read</span><span>No. 041</span></div>
+        </div>
+      </div>
+      <div class="group">
+        <div class="state-label">Guide card · hover</div>
+        <div class="card-base guide-card is-hover">
+          <div class="tag">Almanac · Soil</div>
+          <h3 class="t-h3">Understanding soil pH for beginners</h3>
+          <p class="excerpt">A field guide to reading your soil — what pH actually means for root uptake, and how to correct it over a season.</p>
+          <div class="foot"><span>12 min read</span><span>No. 041</span></div>
+        </div>
+      </div>
+
+      <div class="group">
+        <div class="state-label">Callout card · default</div>
+        <div class="callout-card">
+          <div class="eyebrow">Quick answer</div>
+          <div class="headline">4×8 bed, 6 in deep → 0.6 yd³</div>
+          <p class="body">For a 50/50 soil-compost blend, order 0.3 yd³ of compost and 0.3 yd³ of topsoil.</p>
+        </div>
+      </div>
+      <div class="group">
+        <div class="state-label">Callout card · hover</div>
+        <div class="callout-card is-hover">
+          <div class="eyebrow">Quick answer</div>
+          <div class="headline">4×8 bed, 6 in deep → 0.6 yd³</div>
+          <p class="body">For a 50/50 soil-compost blend, order 0.3 yd³ of compost and 0.3 yd³ of topsoil.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 07 · DATA BLOCKS -->
+  <div class="ds-divider"><svg width="40" height="16"><use href="#divider-glyph"/></svg></div>
+  <section class="ds-section">
+    <header class="ds-section-header">
+      <p class="ds-section-eyebrow">07 · Data blocks</p>
+      <h2 class="ds-section-title">Answers, questions, citations</h2>
+      <p class="ds-section-desc">Reference-book rhythm: tables, accordions, pull-quotes, and formulas each have a distinct voice.</p>
+    </header>
+
+    <div class="ds-data-grid">
+      <div>
+        <div class="block-label">Quick-answer table</div>
+        <table class="qa-table">
+          <tr><td>4×8 ft raised bed, 6 in deep</td><td>0.6 yd³ soil</td></tr>
+          <tr><td>100 sqft lawn, pH 5.5 → 6.5</td><td>4.7 lbs lime</td></tr>
+          <tr><td>80 m² plot, 15-15-15 fertilizer</td><td>2.4 kg</td></tr>
+        </table>
+      </div>
+
+      <div>
+        <div class="block-label">FAQ accordion</div>
+        <div class="faq-list">
+          <details class="faq-item" open>
+            <summary class="faq-head">How often should I test soil pH? <span class="faq-toggle">+</span></summary>
+            <div class="faq-body">
+              Test in-ground beds once per year, ideally in the fall after harvest so amendments have the winter to react. Raised beds with fresh compost should be tested every six months.
+              <cite>Cornell Cooperative Extension · “Soil pH Testing” · 2022</cite>
+            </div>
+          </details>
+          <details class="faq-item">
+            <summary class="faq-head">Can I use wood ash to raise pH? <span class="faq-toggle">+</span></summary>
+            <div class="faq-body">
+              Yes, but cautiously. Wood ash is roughly half as effective as agricultural lime and adds potassium — which can be undesirable at high rates. Apply no more than 20 lbs per 1,000 sqft per year.
+              <cite>Oregon State Extension · EC 1503 · 2018</cite>
+            </div>
+          </details>
+          <details class="faq-item">
+            <summary class="faq-head">Does tap water change soil pH over time? <span class="faq-toggle">+</span></summary>
+            <div class="faq-body">
+              Only if your municipal water is strongly alkaline (above pH 8.0). For most U.S. tap water, the effect is negligible over a single season.
+              <cite>UGA Extension · B 1579 · 2020</cite>
+            </div>
+          </details>
+        </div>
+      </div>
+
+      <div>
+        <div class="block-label">Worked-example blockquote</div>
+        <blockquote class="worked-quote">
+          A 100 sqft clay bed reading pH 5.5 needs approximately <strong>4.7 lbs of agricultural lime</strong> to reach pH 6.5 — applied in the fall and tilled in to 6 inches.
+          <footer>Worked example · Cornell Extension (2022)</footer>
+        </blockquote>
+      </div>
+
+      <div>
+        <div class="block-label">Formula display</div>
+        <div class="formula">
+<span class="kw">lime_lbs</span> <span class="op">=</span> (target_pH <span class="op">−</span> current_pH) <span class="op">×</span> area_sqft <span class="op">×</span> factor<br/>
+<span class="kw">factor</span> <span class="op">=</span> { sandy: 0.03, loamy: 0.05, clay: 0.08 }
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 08 · BOTANICAL ORNAMENTS -->
+  <div class="ds-divider"><svg width="40" height="16"><use href="#divider-glyph"/></svg></div>
+  <section class="ds-section">
+    <header class="ds-section-header">
+      <p class="ds-section-eyebrow">08 · Botanical ornaments</p>
+      <h2 class="ds-section-title">Four motifs, endless dividers</h2>
+      <p class="ds-section-desc">Single-weight ink line, occasional leaf-color fills at 30–50% opacity. Reuse as section dividers and page illustrations.</p>
+    </header>
+    <div class="ds-ornament-row">
+      <div class="ornament-cell">
+        <svg width="120" height="120" style="color:var(--ink)"><use href="#orn-leaf"/></svg>
+        <p class="name">Leaf</p>
+        <p class="use">Section divider · hero accent</p>
+      </div>
+      <div class="ornament-cell">
+        <svg width="120" height="120" style="color:var(--ink)"><use href="#orn-seedling"/></svg>
+        <p class="name">Seedling</p>
+        <p class="use">Guide lede · empty state</p>
+      </div>
+      <div class="ornament-cell">
+        <svg width="120" height="120" style="color:var(--ink)"><use href="#orn-roots"/></svg>
+        <p class="name">Root system</p>
+        <p class="use">Fertilizer hero · depth diagrams</p>
+      </div>
+      <div class="ornament-cell">
+        <svg width="120" height="120" style="color:var(--ink)"><use href="#orn-soil"/></svg>
+        <p class="name">Soil cross-section</p>
+        <p class="use">pH widget · watering depth callout</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 09 · ICONOGRAPHY -->
+  <div class="ds-divider"><svg width="40" height="16"><use href="#divider-glyph"/></svg></div>
+  <section class="ds-section">
+    <header class="ds-section-header">
+      <p class="ds-section-eyebrow">09 · Iconography</p>
+      <h2 class="ds-section-title">Sketched line-icons, not Lucide</h2>
+      <p class="ds-section-desc">Single-weight strokes, 32×32, rounded caps, one accent fill per icon at most.</p>
+    </header>
+    <div class="ds-icon-row">
+      <div class="icon-cell"><svg width="32" height="32"><use href="#ic-soil"/></svg><span class="label">Soil</span></div>
+      <div class="icon-cell"><svg width="32" height="32"><use href="#ic-water"/></svg><span class="label">Water</span></div>
+      <div class="icon-cell"><svg width="32" height="32"><use href="#ic-seed"/></svg><span class="label">Seed</span></div>
+      <div class="icon-cell"><svg width="32" height="32"><use href="#ic-leaf"/></svg><span class="label">Leaf</span></div>
+      <div class="icon-cell"><svg width="32" height="32"><use href="#ic-sun"/></svg><span class="label">Sun</span></div>
+      <div class="icon-cell"><svg width="32" height="32"><use href="#ic-frost"/></svg><span class="label">Frost</span></div>
+      <div class="icon-cell"><svg width="32" height="32"><use href="#ic-scale"/></svg><span class="label">Scale</span></div>
+      <div class="icon-cell"><svg width="32" height="32"><use href="#ic-beaker"/></svg><span class="label">Beaker</span></div>
+    </div>
+    <p class="ds-icon-rules">Rules: stroke 1.5px, rounded caps and joins, one token-color fill per icon at 20–30% opacity, no gradients, no shadows. If an icon doesn't exist, draw a placeholder — never fall back to Lucide.</p>
+  </section>
+
+  <!-- 10 · SPACING & GRID -->
+  <div class="ds-divider"><svg width="40" height="16"><use href="#divider-glyph"/></svg></div>
+  <section class="ds-section">
+    <header class="ds-section-header">
+      <p class="ds-section-eyebrow">10 · Spacing &amp; grid</p>
+      <h2 class="ds-section-title">8px base, three max-widths, measured rhythm</h2>
+      <p class="ds-section-desc">The 80px-gridded rulers below each mark a max-width. Dashed markers show the active constraint.</p>
+    </header>
+    <div class="ds-grid-demo">
+      <div class="ruler-row">
+        <div class="ruler-label">prose · 640</div>
+        <div class="ruler-bar">
+          <div class="marker" style="left:0; width:50%"><div class="marker-label">640 px</div></div>
+        </div>
+      </div>
+      <div class="ruler-row">
+        <div class="ruler-label">canvas · 1024</div>
+        <div class="ruler-bar">
+          <div class="marker" style="left:0; width:80%"><div class="marker-label">1024 px</div></div>
+        </div>
+      </div>
+      <div class="ruler-row">
+        <div class="ruler-label">wide · 1280</div>
+        <div class="ruler-bar">
+          <div class="marker" style="left:0; width:100%"><div class="marker-label">1280 px</div></div>
+        </div>
+      </div>
+
+      <div class="rhythm-demo">
+        <div class="rhythm-block">Section A · eyebrow + H2 + desc</div>
+        <div class="rhythm-gap" style="height: 48px">↕ 48 px · intra-section</div>
+        <div class="rhythm-block">Section A body · cards / widget</div>
+        <div class="rhythm-gap" style="height: 96px">↕ 96 px · between sections (with divider glyph)</div>
+        <div class="rhythm-block">Section B · next topic</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11 · TOKEN REFERENCE -->
+  <div class="ds-divider"><svg width="40" height="16"><use href="#divider-glyph"/></svg></div>
+  <section class="ds-section">
+    <header class="ds-section-header">
+      <p class="ds-section-eyebrow">11 · Token reference</p>
+      <h2 class="ds-section-title">Copy-paste cheat sheet</h2>
+      <p class="ds-section-desc">This is the block to copy into the top of every downstream mock's <code class="t-mono">&lt;style&gt;</code>.</p>
+    </header>
+
+    <div class="ds-token-ref">
+      <div class="token-group">
+        <h4>CSS custom properties</h4>
+        <dl>
+          <div><dt>--ink</dt><dd>oklch(0.22 0.03 150)</dd></div>
+          <div><dt>--cream</dt><dd>oklch(0.97 0.02 95)</dd></div>
+          <div><dt>--paper</dt><dd>oklch(0.94 0.025 95)</dd></div>
+          <div><dt>--moss</dt><dd>oklch(0.55 0.13 150)</dd></div>
+          <div><dt>--moss-deep</dt><dd>oklch(0.35 0.10 150)</dd></div>
+          <div><dt>--leaf</dt><dd>oklch(0.72 0.16 145)</dd></div>
+          <div><dt>--soil</dt><dd>oklch(0.40 0.06 60)</dd></div>
+          <div><dt>--terracotta</dt><dd>oklch(0.68 0.14 45)</dd></div>
+        </dl>
+      </div>
+
+      <div class="token-group">
+        <h4>Font stacks</h4>
+        <dl>
+          <div><dt>--font-serif</dt><dd>"Source Serif 4", "Iowan Old Style", Georgia, serif</dd></div>
+          <div><dt>--font-sans</dt><dd>"Inter", -apple-system, system-ui, sans-serif</dd></div>
+          <div><dt>--font-mono</dt><dd>"JetBrains Mono", "SF Mono", Menlo, monospace</dd></div>
+        </dl>
+      </div>
+
+      <div class="token-group">
+        <h4>Radii</h4>
+        <dl>
+          <div><dt>--r-sm</dt><dd>4 px · slider caps, small chips</dd></div>
+          <div><dt>--r-md</dt><dd>8 px · buttons, inputs, most cards</dd></div>
+          <div><dt>--r-lg</dt><dd>12 px · hero cards, callouts</dd></div>
+          <div><dt>--r-xl</dt><dd>16 px · featured hero containers</dd></div>
+        </dl>
+      </div>
+
+      <div class="token-group">
+        <h4>Motion</h4>
+        <dl>
+          <div><dt>--dur-fast</dt><dd>150 ms · hover, accordion, toggle</dd></div>
+          <div><dt>--dur-medium</dt><dd>300 ms · gauge, chart, number tween</dd></div>
+          <div><dt>--ease</dt><dd>cubic-bezier(0.2, 0.6, 0.2, 1)</dd></div>
+        </dl>
+      </div>
+
+      <div class="token-group" style="grid-column: 1 / -1">
+        <h4>Max-widths &amp; rules</h4>
+        <dl>
+          <div><dt>--w-prose</dt><dd>640 px · article body, FAQ answer</dd></div>
+          <div><dt>--w-canvas</dt><dd>1024 px · section content, widget shell</dd></div>
+          <div><dt>--w-wide</dt><dd>1280 px · page outer container, nav, footer</dd></div>
+          <div><dt>grid base</dt><dd>8 px · every dimension is a multiple</dd></div>
+          <div><dt>shadows</dt><dd>none — borders only. No elevation via drop-shadow, ever.</dd></div>
+        </dl>
+        <p class="rule-note">If a downstream mock needs “more presence,” use a border weight or color, not a shadow.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="ds-colophon">
+    Garden Tools Hub · P00 Design System · Spring 2026 · source of truth
+  </div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,366 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>P09 — Guides Index · Garden Tools Hub</title>
+<style>
+:root{
+  --ink:oklch(0.22 0.03 150);--cream:oklch(0.97 0.02 95);
+  --paper:oklch(0.94 0.025 95);--moss:oklch(0.55 0.13 150);
+  --moss-deep:oklch(0.35 0.10 150);--leaf:oklch(0.72 0.16 145);
+  --soil:oklch(0.40 0.06 60);--terracotta:oklch(0.68 0.14 45);
+  --font-serif:"Source Serif 4","Iowan Old Style",Georgia,serif;
+  --font-sans:"Inter",system-ui,sans-serif;
+  --font-mono:"JetBrains Mono",ui-monospace,monospace;
+  --r-sm:4px;--r-md:8px;--r-lg:12px;--r-xl:16px;
+  --dur:150ms;--ease:cubic-bezier(0.2,0.6,0.2,1);
+  --w-prose:640px;--w-canvas:1024px;--w-wide:1280px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:var(--cream);color:var(--ink);font:16px/1.65 var(--font-sans);-webkit-font-smoothing:antialiased}
+a{color:var(--moss-deep);text-decoration:none}
+a:hover{text-decoration:underline}
+
+/* Header (shared with P01/P02) */
+.site-header{border-bottom:1px solid color-mix(in oklch,var(--soil) 30%,transparent);background:var(--cream);position:sticky;top:0;z-index:10;backdrop-filter:saturate(120%)}
+.site-header .inner{max-width:var(--w-wide);margin:0 auto;padding:18px 28px;display:flex;align-items:center;justify-content:space-between;gap:24px}
+.wordmark{font:600 20px/1 var(--font-serif);color:var(--moss-deep);letter-spacing:-0.01em}
+.wordmark small{display:block;font:italic 11px var(--font-serif);color:var(--soil);letter-spacing:.02em;margin-top:2px}
+.nav{display:flex;gap:28px;align-items:center}
+.nav a{font:500 14px var(--font-sans);color:var(--ink);letter-spacing:.01em}
+.nav a.is-current{color:var(--moss-deep);border-bottom:1px solid var(--moss)}
+
+/* Masthead section for the guides index */
+.masthead{max-width:var(--w-canvas);margin:0 auto;padding:72px 28px 40px;text-align:center;position:relative}
+.masthead .kicker{font:italic 14px var(--font-serif);color:var(--soil);letter-spacing:.04em;margin-bottom:12px}
+.masthead h1{font:600 56px/1.05 var(--font-serif);color:var(--ink);margin:0 0 18px;letter-spacing:-0.015em}
+.masthead p{max-width:var(--w-prose);margin:0 auto;font-size:18px;line-height:1.6;color:var(--soil)}
+.masthead-rule{display:flex;align-items:center;gap:14px;max-width:420px;margin:28px auto 0}
+.masthead-rule::before,.masthead-rule::after{content:"";flex:1;border-top:1px dashed color-mix(in oklch,var(--soil) 45%,transparent)}
+.masthead-rule svg{width:22px;height:22px;color:var(--moss)}
+
+/* Featured guide */
+.featured{max-width:var(--w-canvas);margin:0 auto;padding:0 28px 56px}
+.featured-card{display:grid;grid-template-columns:280px 1fr;gap:36px;align-items:center;padding:28px 32px;background:var(--paper);border:1px solid color-mix(in oklch,var(--soil) 28%,transparent);border-radius:var(--r-lg);transition:border-color var(--dur) var(--ease)}
+.featured-card:hover{border-color:var(--moss)}
+.featured-illo{aspect-ratio:1;background:var(--cream);border-radius:var(--r-md);border:1px solid color-mix(in oklch,var(--soil) 20%,transparent);display:flex;align-items:center;justify-content:center}
+.featured-illo svg{width:80%;height:80%}
+.featured-meta{display:flex;gap:14px;font:500 11px var(--font-sans);letter-spacing:.1em;text-transform:uppercase;color:var(--soil);margin-bottom:10px}
+.featured-meta .tag{color:var(--terracotta)}
+.featured h2{font:600 32px/1.2 var(--font-serif);color:var(--moss-deep);margin:0 0 10px;letter-spacing:-0.01em}
+.featured-excerpt{font:17px/1.55 var(--font-serif);color:var(--ink);margin:0 0 16px}
+.featured-author{font-size:13px;color:var(--soil);font-style:italic}
+
+/* Category filter bar */
+.filter-bar{max-width:var(--w-canvas);margin:0 auto;padding:0 28px 24px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;justify-content:space-between;border-bottom:1px solid color-mix(in oklch,var(--soil) 22%,transparent)}
+.filter-chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{font:500 13px var(--font-sans);padding:7px 14px;border:1px solid color-mix(in oklch,var(--soil) 28%,transparent);border-radius:999px;background:var(--cream);color:var(--soil);cursor:pointer;transition:all var(--dur) var(--ease)}
+.chip:hover{border-color:var(--moss);color:var(--moss-deep)}
+.chip[aria-pressed=true]{background:var(--moss);color:var(--cream);border-color:var(--moss)}
+.sort{font:500 13px var(--font-sans);display:flex;align-items:center;gap:8px;color:var(--soil)}
+.sort select{font:500 13px var(--font-sans);background:var(--cream);border:1px solid color-mix(in oklch,var(--soil) 28%,transparent);border-radius:var(--r-sm);padding:5px 10px;color:var(--ink);cursor:pointer}
+
+/* Guides grid */
+.guides{max-width:var(--w-canvas);margin:0 auto;padding:36px 28px 80px}
+.guide-group{margin-bottom:56px}
+.group-head{display:flex;align-items:center;gap:14px;margin:0 0 22px;padding-bottom:14px;border-bottom:1px dashed color-mix(in oklch,var(--soil) 40%,transparent)}
+.group-head svg{width:28px;height:28px;color:var(--moss);flex:0 0 auto}
+.group-head h3{font:600 22px var(--font-serif);color:var(--moss-deep);margin:0;letter-spacing:-0.01em}
+.group-head .count{margin-left:auto;font:italic 13px var(--font-serif);color:var(--soil)}
+
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+@media (max-width:900px){.grid{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:600px){.grid{grid-template-columns:1fr}}
+
+.guide-card{background:var(--paper);border:1px solid color-mix(in oklch,var(--soil) 25%,transparent);border-radius:var(--r-md);padding:20px 22px;transition:border-color var(--dur) var(--ease);display:flex;flex-direction:column;gap:10px;min-height:210px;cursor:pointer}
+.guide-card:hover{border-color:var(--moss)}
+.guide-meta{display:flex;gap:10px;font:500 11px var(--font-sans);letter-spacing:.08em;text-transform:uppercase;color:var(--soil)}
+.guide-meta .tag{color:var(--moss-deep)}
+.guide-meta .dot{color:color-mix(in oklch,var(--soil) 50%,transparent)}
+.guide-title{font:600 18px/1.3 var(--font-serif);color:var(--ink);margin:0;letter-spacing:-0.005em}
+.guide-excerpt{font:14px/1.55 var(--font-sans);color:var(--soil);margin:0;flex:1;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.guide-foot{margin-top:auto;display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--soil);border-top:1px dashed color-mix(in oklch,var(--soil) 25%,transparent);padding-top:10px}
+.guide-foot .read{font-variant-numeric:tabular-nums}
+.guide-foot .cite{font-style:italic}
+
+/* Wide card variant */
+.guide-card--wide{grid-column:span 2}
+@media (max-width:900px){.guide-card--wide{grid-column:span 2}}
+
+/* Newsletter / sources block */
+.sources{max-width:var(--w-canvas);margin:0 auto;padding:32px;background:var(--paper);border:1px solid color-mix(in oklch,var(--soil) 28%,transparent);border-left:3px solid var(--terracotta);border-radius:var(--r-md);margin-bottom:80px;display:grid;grid-template-columns:1fr 2fr;gap:28px;align-items:start}
+.sources-head .kicker{font:italic 12px var(--font-serif);color:var(--terracotta);letter-spacing:.04em;text-transform:uppercase;margin-bottom:8px;display:block}
+.sources-head h3{font:600 22px var(--font-serif);color:var(--moss-deep);margin:0 0 6px}
+.sources-head p{font-size:14px;color:var(--soil);margin:0}
+.sources-list{display:grid;grid-template-columns:1fr 1fr;gap:10px 28px}
+.sources-list a{display:flex;justify-content:space-between;font-size:14px;padding:8px 0;border-bottom:1px dashed color-mix(in oklch,var(--soil) 20%,transparent);color:var(--ink)}
+.sources-list a:hover{color:var(--moss-deep)}
+.sources-list a .badge{font:500 10px var(--font-mono);letter-spacing:.06em;color:var(--soil);padding:2px 6px;border:1px solid color-mix(in oklch,var(--soil) 25%,transparent);border-radius:var(--r-sm)}
+
+/* Footer */
+.site-footer{max-width:var(--w-wide);margin:0 auto;padding:40px 28px 56px;border-top:1px solid color-mix(in oklch,var(--soil) 25%,transparent);display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;color:var(--soil);font-size:13px}
+.site-footer .wordmark-sm{font:600 14px var(--font-serif);color:var(--moss-deep)}
+.site-footer nav{display:flex;gap:20px}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="inner">
+    <a href="#" class="wordmark">Garden Tools Hub<small>Garden math, answered.</small></a>
+    <nav class="nav">
+      <a href="#">Tools</a>
+      <a href="#" class="is-current">Guides</a>
+      <a href="#">About</a>
+    </nav>
+  </div>
+</header>
+
+<section class="masthead">
+  <p class="kicker">The Guides Shelf · vol. I</p>
+  <h1>Read before you plant.</h1>
+  <p>Source-cited explainers written for the grower who wants the math behind the advice. No fluff, no affiliate bait — just answers from the University Extension canon, checked against our calculators.</p>
+  <div class="masthead-rule">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M12 3c0 4 3 5 3 9s-3 6-3 9c0-3-3-5-3-9s3-5 3-9z"/><path d="M12 12c2 0 5 1 7 3M12 12c-2 0-5 1-7 3"/></svg>
+  </div>
+</section>
+
+<section class="featured">
+  <article class="featured-card">
+    <div class="featured-illo">
+      <svg viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="1.2" style="color:var(--moss-deep)">
+        <circle cx="60" cy="60" r="46" stroke-dasharray="3 3" opacity=".35"/>
+        <path d="M60 30v24"/>
+        <path d="M60 54c-10 0-16 8-16 18s8 16 16 16"/>
+        <path d="M60 54c10 0 16 8 16 18s-8 16-16 16"/>
+        <path d="M60 30c-6-8-12-6-16-2 2 8 8 10 16 8z" fill="currentColor" fill-opacity=".4"/>
+        <path d="M60 30c6-8 12-6 16-2-2 8-8 10-16 8z" fill="currentColor" fill-opacity=".4"/>
+        <path d="M44 72c-6 2-10 6-10 10M76 72c6 2 10 6 10 10" opacity=".6"/>
+        <path d="M60 88v18" opacity=".6"/>
+      </svg>
+    </div>
+    <div>
+      <div class="featured-meta"><span class="tag">Featured · Soil</span><span>·</span><span>10 min read</span><span>·</span><span>Updated Apr 2026</span></div>
+      <h2>The complete guide to soil pH — what it means, how to measure, how to fix it.</h2>
+      <p class="featured-excerpt">pH isn't a number to fear — it's a dial your plants can tell you about. We walk through what the scale actually measures, why your blueberries are unhappy at 6.8, and the three-step path (test → amend → wait) that every Extension service teaches. Plus: when lime helps, when it won't, and why your Home Depot test strip may be lying to you.</p>
+      <div class="featured-author">By the Garden Tools Hub editors · Reviewed against Cornell CALS, NCSU, UMN Extension</div>
+    </div>
+  </article>
+</section>
+
+<div class="filter-bar">
+  <div class="filter-chips">
+    <button class="chip" aria-pressed="true">All guides</button>
+    <button class="chip" aria-pressed="false">Soil &amp; amendments</button>
+    <button class="chip" aria-pressed="false">Watering</button>
+    <button class="chip" aria-pressed="false">Seeds &amp; spacing</button>
+    <button class="chip" aria-pressed="false">Fertilizer &amp; nutrition</button>
+    <button class="chip" aria-pressed="false">Timing &amp; climate</button>
+  </div>
+  <div class="sort">Sort <select><option>Most useful</option><option>Newest</option><option>Alphabetical</option></select></div>
+</div>
+
+<main class="guides">
+
+  <section class="guide-group">
+    <div class="group-head">
+      <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M4 20h24M4 24h24M4 28h24" opacity=".5"/><path d="M8 20c0-6 3-10 8-10s8 4 8 10"/><path d="M16 10V4M13 6l3-2 3 2"/></svg>
+      <h3>Soil &amp; amendments</h3>
+      <span class="count">6 guides</span>
+    </div>
+    <div class="grid">
+      <article class="guide-card">
+        <div class="guide-meta"><span class="tag">Soil</span><span class="dot">·</span><span>Guide</span></div>
+        <h4 class="guide-title">How to read a soil test — a line-by-line walkthrough.</h4>
+        <p class="guide-excerpt">Your Extension soil report is a one-page document with eight numbers that matter. We annotate each row: CEC, OM%, base saturation, macro and micronutrient levels, and what the "adequate" band actually means for vegetables vs turf.</p>
+        <div class="guide-foot"><span class="read">7 min</span><span class="cite">cites Cornell · UMass</span></div>
+      </article>
+
+      <article class="guide-card">
+        <div class="guide-meta"><span class="tag">Soil</span><span class="dot">·</span><span>Guide</span></div>
+        <h4 class="guide-title">Lime vs sulfur — picking the right amendment.</h4>
+        <p class="guide-excerpt">Lime raises pH; sulfur lowers it. Calcitic vs dolomitic, pelletized vs ag-lime, elemental vs aluminum sulfate — which form to buy, how fast each works, and the dose tables Extension services actually publish.</p>
+        <div class="guide-foot"><span class="read">6 min</span><span class="cite">cites NCSU · Penn State</span></div>
+      </article>
+
+      <article class="guide-card">
+        <div class="guide-meta"><span class="tag">Soil</span><span class="dot">·</span><span>Deep dive</span></div>
+        <h4 class="guide-title">Why your raised bed soil needs topping up every spring.</h4>
+        <p class="guide-excerpt">Organic matter decomposes by 20–30 % a year. We show the math — a 4×8×12-in bed loses ~3 ft³ of volume annually, roughly one wheelbarrow — and what blend to replace it with.</p>
+        <div class="guide-foot"><span class="read">5 min</span><span class="cite">cites UMN Extension</span></div>
+      </article>
+
+      <article class="guide-card">
+        <div class="guide-meta"><span class="tag">Soil</span><span class="dot">·</span><span>Guide</span></div>
+        <h4 class="guide-title">Compost tea — hype, reality, and when it actually helps.</h4>
+        <p class="guide-excerpt">The research is thinner than the garden-YouTube narrative suggests. We summarize what peer-reviewed trials say, where tea does earn its keep, and a simple brewing protocol if you want to try it.</p>
+        <div class="guide-foot"><span class="read">8 min</span><span class="cite">cites OSU · UMass</span></div>
+      </article>
+
+      <article class="guide-card">
+        <div class="guide-meta"><span class="tag">Soil</span><span class="dot">·</span><span>Reference</span></div>
+        <h4 class="guide-title">Soil texture by feel — the ribbon test, with photos.</h4>
+        <p class="guide-excerpt">You don't need a lab to know sandy loam from silty clay. The USDA ribbon-and-ball test takes two minutes and a thimble of water. We walk through the decision tree with captioned examples for each soil class.</p>
+        <div class="guide-foot"><span class="read">4 min</span><span class="cite">cites USDA NRCS</span></div>
+      </article>
+
+      <article class="guide-card">
+        <div class="guide-meta"><span class="tag">Soil</span><span class="dot">·</span><span>Guide</span></div>
+        <h4 class="guide-title">When to skip the bagged topsoil and buy in bulk.</h4>
+        <p class="guide-excerpt">The crossover is ~1 cubic yard. We price out bagged 0.75-ft³ brand-store dirt against landscape-yard bulk, factor delivery, and show where each actually wins on cost per cubic foot.</p>
+        <div class="guide-foot"><span class="read">5 min</span><span class="cite">methodology note</span></div>
+      </article>
+    </div>
+  </section>
+
+  <section class="guide-group">
+    <div class="group-head">
+      <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M16 4C10 12 6 17 6 22a10 10 0 0 0 20 0c0-5-4-10-10-18z"/><path d="M16 22c-2 0-4-1-4-3" opacity=".5"/></svg>
+      <h3>Watering &amp; irrigation</h3>
+      <span class="count">4 guides</span>
+    </div>
+    <div class="grid">
+      <article class="guide-card guide-card--wide">
+        <div class="guide-meta"><span class="tag">Watering</span><span class="dot">·</span><span>Featured</span></div>
+        <h4 class="guide-title" style="font-size:22px">One inch per week — where that number actually comes from, and when to ignore it.</h4>
+        <p class="guide-excerpt">The "1 inch" rule is one of the most-quoted lines in gardening. It originates from a specific study on established turf in the Midwest. We trace it back, explain the evapotranspiration math, and show the four climates where it lies to you.</p>
+        <div class="guide-foot"><span class="read">9 min</span><span class="cite">cites UC ANR · Kansas State</span></div>
+      </article>
+
+      <article class="guide-card">
+        <div class="guide-meta"><span class="tag">Watering</span><span class="dot">·</span><span>How-to</span></div>
+        <h4 class="guide-title">Drip vs soaker vs overhead — cost and water-use compared.</h4>
+        <p class="guide-excerpt">Same 4×8 bed, same yield target, three delivery methods. We tally gallons per week, parts cost, and labor minutes — so you can pick with your eyes open.</p>
+        <div class="guide-foot"><span class="read">7 min</span><span class="cite">cites Rutgers NJAES</span></div>
+      </article>
+
+      <article class="guide-card">
+        <div class="guide-meta"><span class="tag">Watering</span><span class="dot">·</span><span>Guide</span></div>
+        <h4 class="guide-title">Finger-in-the-dirt vs moisture meter — which one to trust.</h4>
+        <p class="guide-excerpt">Cheap probes read electrical conductivity, not water. Here's when they're fine, when they mislead, and why the 2-inch finger test is still the Extension-service recommendation.</p>
+        <div class="guide-foot"><span class="read">4 min</span><span class="cite">cites Clemson HGIC</span></div>
+      </article>
+    </div>
+  </section>
+
+  <section class="guide-group">
+    <div class="group-head">
+      <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M16 6v12"/><ellipse cx="16" cy="20" rx="5" ry="8"/><path d="M12 28h8"/></svg>
+      <h3>Seeds &amp; spacing</h3>
+      <span class="count">5 guides</span>
+    </div>
+    <div class="grid">
+      <article class="guide-card">
+        <div class="guide-meta"><span class="tag">Seeds</span><span class="dot">·</span><span>Reference</span></div>
+        <h4 class="guide-title">Square-foot gardening spacing chart, fact-checked.</h4>
+        <p class="guide-excerpt">Mel Bartholomew's original grid is mostly right — but three crops (onions, bush beans, corn) get cramped. We cross-reference against Extension spacing tables and mark the exceptions.</p>
+        <div class="guide-foot"><span class="read">6 min</span><span class="cite">cites UMD · VCE</span></div>
+      </article>
+
+      <article class="guide-card">
+        <div class="guide-meta"><span class="tag">Seeds</span><span class="dot">·</span><span>Guide</span></div>
+        <h4 class="guide-title">When to direct-sow vs start indoors — a decision table.</h4>
+        <p class="guide-excerpt">For each of 24 common vegetables: days to germinate, frost sensitivity, transplant tolerance, and the weeks-before-last-frost to start. One printable page.</p>
+        <div class="guide-foot"><span class="read">5 min</span><span class="cite">cites Johnny's · UMN</span></div>
+      </article>
+
+      <article class="guide-card">
+        <div class="guide-meta"><span class="tag">Seeds</span><span class="dot">·</span><span>Guide</span></div>
+        <h4 class="guide-title">Succession planting — keeping the harvest coming.</h4>
+        <p class="guide-excerpt">A staggered-sowing schedule for lettuce, radish, and bush beans that fills a single 4×8 bed from April through October. Math included.</p>
+        <div class="guide-foot"><span class="read">6 min</span><span class="cite">cites Cornell CALS</span></div>
+      </article>
+
+      <article class="guide-card">
+        <div class="guide-meta"><span class="tag">Seeds</span><span class="dot">·</span><span>How-to</span></div>
+        <h4 class="guide-title">Saving seed — what works at home, what doesn't.</h4>
+        <p class="guide-excerpt">Tomato and bean seed keep well on a paper towel. Squash and corn won't come true unless you manage isolation distance. Here's the three-tier list of what to save, what to skip.</p>
+        <div class="guide-foot"><span class="read">7 min</span><span class="cite">cites Seed Savers Ex.</span></div>
+      </article>
+
+      <article class="guide-card">
+        <div class="guide-meta"><span class="tag">Seeds</span><span class="dot">·</span><span>Guide</span></div>
+        <h4 class="guide-title">Germination rates — what "85 %" on the packet really means.</h4>
+        <p class="guide-excerpt">The number on the packet is tested at ideal conditions. We show what it looks like at your kitchen-table 65 °F, and why over-sowing by 20 % is often the right call.</p>
+        <div class="guide-foot"><span class="read">4 min</span><span class="cite">cites AOSA standards</span></div>
+      </article>
+    </div>
+  </section>
+
+  <section class="guide-group">
+    <div class="group-head">
+      <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M16 4L8 14v14h16V14z"/><path d="M14 28v-8h4v8"/><path d="M8 14h16" opacity=".5"/></svg>
+      <h3>Fertilizer &amp; nutrition</h3>
+      <span class="count">3 guides</span>
+    </div>
+    <div class="grid">
+      <article class="guide-card">
+        <div class="guide-meta"><span class="tag">Fertilizer</span><span class="dot">·</span><span>Explainer</span></div>
+        <h4 class="guide-title">What N-P-K actually means — and why the numbers add up to less than 100.</h4>
+        <p class="guide-excerpt">10-10-10 is 30 % nutrients and 70 % filler. Here's why the third number isn't pure potassium, what "complete" actually covers, and how to read an organic vs synthetic label side by side.</p>
+        <div class="guide-foot"><span class="read">5 min</span><span class="cite">cites Penn State</span></div>
+      </article>
+
+      <article class="guide-card">
+        <div class="guide-meta"><span class="tag">Fertilizer</span><span class="dot">·</span><span>Guide</span></div>
+        <h4 class="guide-title">Organic vs synthetic — a nutrient-delivery comparison.</h4>
+        <p class="guide-excerpt">Same two pounds of nitrogen, delivered from blood meal vs urea. Release curve, microbial cost, runoff risk, and dollar per lb — compared in one table.</p>
+        <div class="guide-foot"><span class="read">8 min</span><span class="cite">cites Rodale · Clemson</span></div>
+      </article>
+
+      <article class="guide-card">
+        <div class="guide-meta"><span class="tag">Fertilizer</span><span class="dot">·</span><span>Reference</span></div>
+        <h4 class="guide-title">When to skip fertilizer entirely.</h4>
+        <p class="guide-excerpt">Healthy soil with 4 % OM and recent compost often doesn't need any synthetic feeding. Three diagnostic tests say when your bed is in that zone.</p>
+        <div class="guide-foot"><span class="read">4 min</span><span class="cite">cites UMass Ext.</span></div>
+      </article>
+    </div>
+  </section>
+
+</main>
+
+<section style="max-width:var(--w-canvas);margin:0 auto;padding:0 28px">
+  <div class="sources">
+    <div class="sources-head">
+      <span class="kicker">Our sources</span>
+      <h3>We cite the canon.</h3>
+      <p>Every guide is written against the University Extension and peer-reviewed literature. If an amendment or schedule doesn't have a cited source, it doesn't ship.</p>
+    </div>
+    <div class="sources-list">
+      <a href="#"><span>Cornell CALS Extension</span><span class="badge">.edu</span></a>
+      <a href="#"><span>NC State Extension</span><span class="badge">.edu</span></a>
+      <a href="#"><span>UMN Extension</span><span class="badge">.edu</span></a>
+      <a href="#"><span>Penn State Extension</span><span class="badge">.edu</span></a>
+      <a href="#"><span>UC ANR (California)</span><span class="badge">.edu</span></a>
+      <a href="#"><span>Clemson HGIC</span><span class="badge">.edu</span></a>
+      <a href="#"><span>USDA NRCS</span><span class="badge">.gov</span></a>
+      <a href="#"><span>Rutgers NJAES</span><span class="badge">.edu</span></a>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div>
+    <div class="wordmark-sm">Garden Tools Hub</div>
+    <div>© 2026 · Free, no sign-up, source-cited.</div>
+  </div>
+  <nav>
+    <a href="#">Tools</a><a href="#">Guides</a><a href="#">About</a><a href="#">Privacy</a><a href="#">Contact</a>
+  </nav>
+</footer>
+
+<script>
+// Filter chips — single-select demo
+document.querySelectorAll('.filter-chips').forEach(group=>{
+  group.addEventListener('click',e=>{
+    const chip = e.target.closest('.chip'); if(!chip) return;
+    group.querySelectorAll('.chip').forEach(c=>c.setAttribute('aria-pressed','false'));
+    chip.setAttribute('aria-pressed','true');
+  });
+});
+</script>
+
+</body>
+</html>

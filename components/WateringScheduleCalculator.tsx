@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 
-// Base weekly water need in inches
 const PLANT_BASE: Record<string, { name: string; baseInches: number }> = {
   tomato:     { name: "Tomato",      baseInches: 1.5 },
   pepper:     { name: "Pepper",      baseInches: 1.0 },
@@ -25,13 +24,13 @@ const METHOD_FACTOR: Record<string, number> = { "in-ground": 1.0, "raised-bed": 
 const SOIL_NOTE: Record<string, string> = {
   sandy: "Sandy soil drains quickly — check moisture daily and water before the soil dries out completely.",
   loamy: "Loamy soil retains moisture well. Check 2 inches deep before watering.",
-  clay: "Clay soil drains slowly. Avoid overwatering — let the top 2 inches dry out between sessions to prevent root rot.",
+  clay: "Clay soil drains slowly. Let the top 2 inches dry between sessions to prevent root rot.",
 };
 
 const METHOD_NOTE: Record<string, string> = {
   "in-ground": "In-ground beds benefit from deep, infrequent watering to encourage deep root growth.",
   "raised-bed": "Raised beds drain faster than in-ground. Mulching the surface helps retain moisture.",
-  container: "Containers dry out quickly, especially in summer heat. Check daily and water when the top inch feels dry.",
+  container: "Containers dry out quickly, especially in summer heat. Check daily; water when the top inch feels dry.",
 };
 
 interface Result {
@@ -45,6 +44,10 @@ interface Result {
   methodNote: string;
 }
 
+const fieldLabel = "block font-sans text-[11px] uppercase tracking-[0.08em] text-soil mb-1.5";
+const fieldSelect =
+  "w-full font-sans text-[15px] bg-cream border border-[color-mix(in_oklch,var(--soil)_35%,transparent)] rounded-md px-3 py-2.5 text-ink outline-none focus:border-moss transition-colors duration-fast";
+
 export default function WateringScheduleCalculator() {
   const [plant, setPlant] = useState("tomato");
   const [soilType, setSoilType] = useState("loamy");
@@ -55,11 +58,8 @@ export default function WateringScheduleCalculator() {
   function calculate() {
     const base = PLANT_BASE[plant].baseInches;
     const weekly = base * SOIL_FACTOR[soilType] * SEASON_FACTOR[season] * METHOD_FACTOR[method];
-
-    // Sessions per week: aim for ~1 inch per session, min 1, max 7
     const sessions = Math.min(7, Math.max(1, Math.round(weekly)));
     const perSession = weekly / sessions;
-
     const bestTime =
       season === "summer"
         ? "Early morning (6–9 AM) — avoids heat stress and leaf scorch"
@@ -77,31 +77,33 @@ export default function WateringScheduleCalculator() {
     });
   }
 
-  const selectClass = "w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-green-700 transition-colors";
-
   return (
-    <div className="max-w-lg mx-auto space-y-5">
-      {/* Inputs */}
-      <div className="grid grid-cols-2 gap-3">
+    <section className="bg-paper border border-[color-mix(in_oklch,var(--soil)_30%,transparent)] rounded-lg p-6 md:p-7 max-w-[720px] mx-auto">
+      <h2 className="font-serif font-semibold text-[22px] leading-[1.2] text-moss-deep mb-1">
+        How often should I water?
+      </h2>
+      <p className="font-serif italic text-[14px] text-soil mb-6">
+        Four variables — crop, soil, season, method — turn into a weekly depth and session rhythm.
+      </p>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-5">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Plant Type</label>
-          <select value={plant} onChange={(e) => { setPlant(e.target.value); setResult(null); }} className={selectClass}>
-            {Object.entries(PLANT_BASE).map(([k, v]) => (
-              <option key={k} value={k}>{v.name}</option>
-            ))}
+          <label className={fieldLabel}>Plant</label>
+          <select value={plant} onChange={(e) => { setPlant(e.target.value); setResult(null); }} className={fieldSelect}>
+            {Object.entries(PLANT_BASE).map(([k, v]) => <option key={k} value={k}>{v.name}</option>)}
           </select>
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Soil Type</label>
-          <select value={soilType} onChange={(e) => { setSoilType(e.target.value); setResult(null); }} className={selectClass}>
-            <option value="sandy">Sandy</option>
-            <option value="loamy">Loamy</option>
-            <option value="clay">Clay</option>
+          <label className={fieldLabel}>Soil</label>
+          <select value={soilType} onChange={(e) => { setSoilType(e.target.value); setResult(null); }} className={fieldSelect}>
+            <option value="sandy">Sandy (light)</option>
+            <option value="loamy">Loam (medium)</option>
+            <option value="clay">Clay (heavy)</option>
           </select>
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Season</label>
-          <select value={season} onChange={(e) => { setSeason(e.target.value); setResult(null); }} className={selectClass}>
+          <label className={fieldLabel}>Season</label>
+          <select value={season} onChange={(e) => { setSeason(e.target.value); setResult(null); }} className={fieldSelect}>
             <option value="spring">Spring</option>
             <option value="summer">Summer</option>
             <option value="fall">Fall</option>
@@ -109,10 +111,10 @@ export default function WateringScheduleCalculator() {
           </select>
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Growing Method</label>
-          <select value={method} onChange={(e) => { setMethod(e.target.value); setResult(null); }} className={selectClass}>
-            <option value="in-ground">In-Ground</option>
-            <option value="raised-bed">Raised Bed</option>
+          <label className={fieldLabel}>Growing method</label>
+          <select value={method} onChange={(e) => { setMethod(e.target.value); setResult(null); }} className={fieldSelect}>
+            <option value="in-ground">In-ground</option>
+            <option value="raised-bed">Raised bed</option>
             <option value="container">Container</option>
           </select>
         </div>
@@ -120,57 +122,38 @@ export default function WateringScheduleCalculator() {
 
       <button
         onClick={calculate}
-        className="w-full bg-green-800 hover:bg-green-900 text-white font-medium py-2.5 rounded-lg text-sm transition-colors"
+        className="w-full bg-moss-deep hover:bg-moss text-cream font-sans text-sm font-medium py-3 rounded-md transition-colors duration-fast"
       >
-        Calculate
+        Build the schedule
       </button>
 
-      {/* Results */}
       {result && (
-        <div className="bg-green-50 border border-green-200 rounded-xl p-5 space-y-4">
-          <h3 className="font-semibold text-green-900 text-sm uppercase tracking-wide">
-            Watering Schedule — {PLANT_BASE[plant].name}
-          </h3>
+        <div className="mt-6 bg-cream border border-[color-mix(in_oklch,var(--moss)_35%,transparent)] border-l-[4px] border-l-moss rounded-md px-6 py-5">
+          <p className="font-mono text-[11px] uppercase tracking-[0.08em] text-soil mb-1">
+            Weekly rhythm · {PLANT_BASE[plant].name}
+          </p>
+          <p className="font-serif font-semibold text-[34px] leading-[1] text-moss-deep tabular">
+            {result.timesPerWeek}×
+            <span className="font-sans font-medium text-[14px] text-soil ml-1.5">per week</span>
+          </p>
+          <p className="font-serif text-[14px] text-soil mt-1.5">
+            About {result.perSessionInches}&quot; per session ({result.weeklyInches}&quot; / {result.weeklyCm}&nbsp;cm total weekly).
+          </p>
 
-          {/* Key metrics */}
-          <div className="grid grid-cols-3 gap-3">
-            <div className="bg-white rounded-lg p-3 text-center shadow-sm">
-              <p className="text-2xl font-bold text-green-800">{result.timesPerWeek}×</p>
-              <p className="text-xs text-gray-500 mt-0.5">per week</p>
-            </div>
-            <div className="bg-white rounded-lg p-3 text-center shadow-sm">
-              <p className="text-2xl font-bold text-green-800">{result.perSessionInches}"</p>
-              <p className="text-xs text-gray-500 mt-0.5">per session</p>
-            </div>
-            <div className="bg-white rounded-lg p-3 text-center shadow-sm">
-              <p className="text-2xl font-bold text-green-800">{result.weeklyCm}</p>
-              <p className="text-xs text-gray-500 mt-0.5">cm / week</p>
-            </div>
-          </div>
+          <dl className="mt-4 pt-3 border-t border-dashed border-[color-mix(in_oklch,var(--soil)_30%,transparent)] grid grid-cols-[auto_1fr] gap-x-5 gap-y-2 font-sans text-[14px]">
+            <dt className="text-soil">Best time</dt>
+            <dd className="m-0 text-ink">{result.bestTime}</dd>
+            <dt className="text-soil">Soil note</dt>
+            <dd className="m-0 text-ink font-serif text-[14px]">{result.soilNote}</dd>
+            <dt className="text-soil">Method note</dt>
+            <dd className="m-0 text-ink font-serif text-[14px]">{result.methodNote}</dd>
+          </dl>
 
-          {/* Best time */}
-          <div className="bg-white rounded-lg p-3 shadow-sm">
-            <p className="text-xs font-semibold text-gray-500 uppercase mb-1">Best Time to Water</p>
-            <p className="text-sm text-gray-700">{result.bestTime}</p>
-          </div>
-
-          {/* Notes */}
-          <div className="space-y-2">
-            <div className="bg-white rounded-lg p-3 shadow-sm">
-              <p className="text-xs font-semibold text-gray-500 uppercase mb-1">Soil Note</p>
-              <p className="text-sm text-gray-600">{result.soilNote}</p>
-            </div>
-            <div className="bg-white rounded-lg p-3 shadow-sm">
-              <p className="text-xs font-semibold text-gray-500 uppercase mb-1">Growing Method Note</p>
-              <p className="text-sm text-gray-600">{result.methodNote}</p>
-            </div>
-          </div>
-
-          <p className="text-xs text-gray-400">
-            Estimates based on standard horticultural guidelines. Adjust based on local rainfall and actual soil moisture.
+          <p className="mt-4 font-mono text-[10px] uppercase tracking-[0.12em] text-soil">
+            Adjust for local rainfall · check soil moisture before every session.
           </p>
         </div>
       )}
-    </div>
+    </section>
   );
 }

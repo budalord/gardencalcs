@@ -1,0 +1,486 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>P10 — Guide Article · Soil pH, the complete guide</title>
+<style>
+:root{
+  --ink:oklch(0.22 0.03 150);--cream:oklch(0.97 0.02 95);
+  --paper:oklch(0.94 0.025 95);--moss:oklch(0.55 0.13 150);
+  --moss-deep:oklch(0.35 0.10 150);--leaf:oklch(0.72 0.16 145);
+  --soil:oklch(0.40 0.06 60);--terracotta:oklch(0.68 0.14 45);
+  --font-serif:"Source Serif 4","Iowan Old Style",Georgia,serif;
+  --font-sans:"Inter",system-ui,sans-serif;
+  --font-mono:"JetBrains Mono",ui-monospace,monospace;
+  --r-sm:4px;--r-md:8px;--r-lg:12px;--dur:150ms;--ease:cubic-bezier(0.2,0.6,0.2,1);
+  --w-prose:680px;--w-canvas:1024px;--w-wide:1280px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--cream);color:var(--ink);font:17px/1.7 var(--font-serif);-webkit-font-smoothing:antialiased}
+a{color:var(--moss-deep);text-decoration:none;border-bottom:1px solid color-mix(in oklch,var(--moss) 40%,transparent)}
+a:hover{border-bottom-color:var(--moss)}
+
+/* Header */
+.site-header{border-bottom:1px solid color-mix(in oklch,var(--soil) 30%,transparent);background:var(--cream);position:sticky;top:0;z-index:10}
+.site-header .inner{max-width:var(--w-wide);margin:0 auto;padding:16px 28px;display:flex;align-items:center;justify-content:space-between;gap:24px}
+.wordmark{font:600 20px/1 var(--font-serif);color:var(--moss-deep);border:0}
+.wordmark small{display:block;font:italic 11px var(--font-serif);color:var(--soil);margin-top:2px}
+.nav{display:flex;gap:28px;font-family:var(--font-sans);font-size:14px;font-weight:500}
+.nav a{color:var(--ink);border:0}
+.nav a.is-current{color:var(--moss-deep);border-bottom:1px solid var(--moss)}
+
+/* Progress bar */
+.progress{position:fixed;top:0;left:0;right:0;height:2px;background:transparent;z-index:20;pointer-events:none}
+.progress-fill{height:100%;width:0%;background:var(--moss);transition:width 50ms linear}
+
+/* Breadcrumb */
+.breadcrumb{max-width:var(--w-canvas);margin:0 auto;padding:22px 28px 0;font:500 13px var(--font-sans);color:var(--soil);display:flex;gap:8px;flex-wrap:wrap}
+.breadcrumb a{color:var(--soil);border:0}
+.breadcrumb a:hover{color:var(--moss-deep)}
+.breadcrumb span{color:color-mix(in oklch,var(--soil) 50%,transparent)}
+
+/* Article head */
+.article-head{max-width:var(--w-canvas);margin:0 auto;padding:32px 28px 40px;text-align:center;border-bottom:1px dashed color-mix(in oklch,var(--soil) 35%,transparent)}
+.kicker{font:italic 14px var(--font-serif);color:var(--terracotta);letter-spacing:.04em;text-transform:uppercase;margin-bottom:14px}
+.article-head h1{font:600 52px/1.1 var(--font-serif);letter-spacing:-0.02em;margin:0 auto 18px;max-width:820px;color:var(--ink)}
+.dek{font:italic 20px/1.5 var(--font-serif);color:var(--soil);max-width:620px;margin:0 auto 24px}
+.article-meta{font:500 12px var(--font-sans);letter-spacing:.08em;text-transform:uppercase;color:var(--soil);display:flex;justify-content:center;gap:18px;flex-wrap:wrap}
+.article-meta span + span::before{content:"·";margin-right:18px;color:color-mix(in oklch,var(--soil) 50%,transparent)}
+
+/* Body layout */
+.layout{max-width:var(--w-wide);margin:0 auto;padding:40px 28px 80px;display:grid;grid-template-columns:1fr var(--w-prose) 1fr;gap:32px}
+@media (max-width:1100px){.layout{grid-template-columns:1fr;max-width:var(--w-prose);gap:0}}
+.toc{position:sticky;top:90px;align-self:start;font-family:var(--font-sans);font-size:13px;padding-right:8px}
+@media (max-width:1100px){.toc{display:none}}
+.toc-label{font:500 11px var(--font-sans);letter-spacing:.1em;text-transform:uppercase;color:var(--soil);margin-bottom:12px}
+.toc ol{list-style:none;padding:0;margin:0;counter-reset:toc}
+.toc li{counter-increment:toc;margin-bottom:8px;padding-left:24px;position:relative;line-height:1.4}
+.toc li::before{content:counter(toc,decimal-leading-zero);position:absolute;left:0;top:1px;font:500 10px var(--font-mono);color:var(--soil)}
+.toc a{color:var(--soil);border:0;transition:color var(--dur) var(--ease)}
+.toc a.is-active,.toc a:hover{color:var(--moss-deep)}
+.toc a.is-active{font-weight:600}
+
+.sidebar-right{position:sticky;top:90px;align-self:start;font-family:var(--font-sans);font-size:13px;padding-left:8px}
+@media (max-width:1100px){.sidebar-right{display:none}}
+.sidebar-right .block{padding:16px 18px;border:1px solid color-mix(in oklch,var(--soil) 25%,transparent);border-radius:var(--r-md);margin-bottom:16px;background:var(--paper)}
+.sidebar-right h4{font:600 12px var(--font-sans);letter-spacing:.1em;text-transform:uppercase;color:var(--moss-deep);margin:0 0 10px}
+.sidebar-right ul{list-style:none;padding:0;margin:0}
+.sidebar-right li{padding:5px 0;border-bottom:1px dashed color-mix(in oklch,var(--soil) 20%,transparent)}
+.sidebar-right li:last-child{border-bottom:0}
+.sidebar-right a{color:var(--ink);border:0;font-size:13px;line-height:1.4;display:block}
+.sidebar-right a:hover{color:var(--moss-deep)}
+.sidebar-right .share{display:flex;flex-direction:column;gap:6px;font-size:12px}
+
+/* Article body */
+.prose{max-width:var(--w-prose);margin:0 auto}
+.prose > * + *{margin-top:1.2em}
+.prose h2{font:600 32px/1.25 var(--font-serif);color:var(--moss-deep);letter-spacing:-0.015em;margin-top:2.2em;scroll-margin-top:80px;position:relative}
+.prose h2::before{content:"";position:absolute;left:-20px;top:0.7em;width:10px;border-top:1px solid var(--moss)}
+.prose h3{font:600 22px/1.3 var(--font-serif);color:var(--ink);margin-top:1.8em;letter-spacing:-0.01em}
+.prose p{margin:0}
+.prose p.lede{font:500 20px/1.55 var(--font-serif);color:var(--ink)}
+.prose p.lede::first-letter{font:600 54px/0.9 var(--font-serif);float:left;margin:6px 10px -4px 0;color:var(--moss-deep)}
+.prose ul, .prose ol{padding-left:22px;margin:0}
+.prose ul li, .prose ol li{margin-bottom:6px}
+.prose strong{font-weight:600;color:var(--ink)}
+.prose em{font-style:italic}
+
+/* Pull quote */
+.pullquote{margin:40px -20px;padding:20px 28px;border-left:3px solid var(--terracotta);font:italic 22px/1.5 var(--font-serif);color:var(--ink)}
+.pullquote cite{display:block;margin-top:10px;font:500 12px var(--font-sans);font-style:normal;letter-spacing:.08em;text-transform:uppercase;color:var(--soil)}
+
+/* Callouts */
+.callout{margin:28px 0;padding:18px 22px;border:1px solid color-mix(in oklch,var(--moss) 35%,transparent);border-left:3px solid var(--moss);border-radius:var(--r-md);background:var(--paper);font:16px/1.6 var(--font-sans)}
+.callout .kick{font:600 11px var(--font-sans);letter-spacing:.1em;text-transform:uppercase;color:var(--moss-deep);margin-bottom:6px;display:block}
+.callout--warn{border-color:color-mix(in oklch,var(--terracotta) 40%,transparent);border-left-color:var(--terracotta)}
+.callout--warn .kick{color:var(--terracotta)}
+
+/* Figure */
+figure{margin:30px 0;text-align:center}
+figure .illustration{background:var(--paper);border:1px solid color-mix(in oklch,var(--soil) 22%,transparent);border-radius:var(--r-md);padding:28px;display:flex;align-items:center;justify-content:center}
+figure svg{max-width:100%;height:auto;color:var(--moss-deep)}
+figcaption{font:italic 13px/1.5 var(--font-serif);color:var(--soil);margin-top:10px;max-width:520px;margin-left:auto;margin-right:auto}
+figcaption strong{font-style:normal;font-weight:600;color:var(--ink);font-family:var(--font-sans);font-size:11px;letter-spacing:.08em;text-transform:uppercase;margin-right:6px}
+
+/* Inline tool embed */
+.tool-embed{margin:36px 0;padding:24px 28px;background:var(--paper);border:1px solid color-mix(in oklch,var(--soil) 28%,transparent);border-radius:var(--r-md);font-family:var(--font-sans)}
+.tool-embed .kick{font:500 11px var(--font-sans);letter-spacing:.1em;text-transform:uppercase;color:var(--moss-deep);margin-bottom:6px}
+.tool-embed h4{font:600 20px var(--font-serif);margin:0 0 6px;color:var(--ink)}
+.tool-embed p{font-size:14px;color:var(--soil);margin:0 0 14px}
+.tool-embed .cta{display:inline-flex;align-items:center;gap:8px;font:500 14px var(--font-sans);padding:8px 16px;background:var(--moss);color:var(--cream);border-radius:var(--r-md);border:0;border-bottom:0}
+.tool-embed .cta:hover{background:var(--moss-deep)}
+
+/* Formula block */
+.formula{margin:24px 0;padding:16px 20px;background:var(--paper);border:1px solid color-mix(in oklch,var(--soil) 25%,transparent);border-radius:var(--r-md);font:500 15px/1.6 var(--font-mono);font-variant-numeric:tabular-nums;color:var(--ink);overflow-x:auto}
+.formula .k{color:var(--moss-deep)}
+.formula .c{color:var(--soil);font-family:var(--font-sans);font-style:italic;font-size:12px;display:block;margin-top:4px}
+
+/* Table */
+.prose table{width:100%;border-collapse:collapse;font-family:var(--font-sans);font-size:14px;margin:18px 0}
+.prose thead th{text-align:left;padding:10px 12px;border-bottom:1px solid var(--soil);font:600 11px var(--font-sans);letter-spacing:.1em;text-transform:uppercase;color:var(--moss-deep)}
+.prose td{padding:10px 12px;border-bottom:1px dashed color-mix(in oklch,var(--soil) 25%,transparent);font-variant-numeric:tabular-nums}
+.prose tr:last-child td{border-bottom:0}
+
+/* Sources / footnotes */
+.sources-section{margin-top:60px;padding-top:28px;border-top:1px dashed color-mix(in oklch,var(--soil) 35%,transparent)}
+.sources-section h2{font:600 18px var(--font-serif);color:var(--moss-deep);margin:0 0 14px}
+.source-row{display:grid;grid-template-columns:auto 1fr auto;gap:14px;padding:10px 0;border-bottom:1px dashed color-mix(in oklch,var(--soil) 22%,transparent);align-items:baseline;font-family:var(--font-sans);font-size:14px;line-height:1.5}
+.source-row .num{font:500 11px var(--font-mono);color:var(--soil)}
+.source-row .title{color:var(--ink)}
+.source-row .title em{font-style:italic;color:var(--soil)}
+.source-row .url{font:500 12px var(--font-mono);color:var(--soil)}
+.source-row a{border:0;color:var(--moss-deep)}
+
+/* Author block */
+.author{margin-top:40px;padding:22px 26px;background:var(--paper);border:1px solid color-mix(in oklch,var(--soil) 25%,transparent);border-radius:var(--r-md);display:grid;grid-template-columns:60px 1fr;gap:18px;align-items:start;font-family:var(--font-sans)}
+.author .avatar{width:60px;height:60px;border-radius:50%;background:var(--cream);border:1px solid color-mix(in oklch,var(--soil) 25%,transparent);display:flex;align-items:center;justify-content:center;color:var(--moss-deep);font:600 22px var(--font-serif)}
+.author .meta{font-size:13px;color:var(--soil)}
+.author .meta strong{display:block;font-size:15px;color:var(--ink);font-weight:600;margin-bottom:2px}
+.author .reviewed{margin-top:8px;font:italic 12px var(--font-serif);color:var(--soil)}
+
+/* Related */
+.related{max-width:var(--w-canvas);margin:60px auto 0;padding:0 28px}
+.related h2{font:600 22px var(--font-serif);color:var(--moss-deep);margin:0 0 18px;padding-bottom:10px;border-bottom:1px dashed color-mix(in oklch,var(--soil) 35%,transparent)}
+.related-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;font-family:var(--font-sans)}
+@media (max-width:800px){.related-grid{grid-template-columns:1fr}}
+.related-card{padding:18px 20px;border:1px solid color-mix(in oklch,var(--soil) 25%,transparent);border-radius:var(--r-md);background:var(--paper);transition:border-color var(--dur) var(--ease);cursor:pointer}
+.related-card:hover{border-color:var(--moss)}
+.related-card .kick{font:500 11px var(--font-sans);letter-spacing:.08em;text-transform:uppercase;color:var(--soil);margin-bottom:6px}
+.related-card h4{font:600 16px/1.35 var(--font-serif);margin:0 0 6px;color:var(--ink)}
+.related-card p{font-size:13px;color:var(--soil);margin:0}
+
+/* Footer */
+.site-footer{max-width:var(--w-wide);margin:60px auto 0;padding:40px 28px 48px;border-top:1px solid color-mix(in oklch,var(--soil) 25%,transparent);display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;color:var(--soil);font-family:var(--font-sans);font-size:13px}
+.site-footer a{color:var(--soil);border:0}
+.site-footer a:hover{color:var(--moss-deep)}
+.site-footer .wordmark-sm{font:600 14px var(--font-serif);color:var(--moss-deep)}
+.site-footer nav{display:flex;gap:20px}
+
+@media print{
+  .site-header,.progress,.toc,.sidebar-right,.related,.site-footer,.tool-embed{display:none}
+  .layout{grid-template-columns:1fr;max-width:none}
+  body{background:white}
+}
+</style>
+</head>
+<body>
+
+<div class="progress"><div class="progress-fill" id="progressFill"></div></div>
+
+<header class="site-header">
+  <div class="inner">
+    <a href="#" class="wordmark">Garden Tools Hub<small>Garden math, answered.</small></a>
+    <nav class="nav">
+      <a href="#">Tools</a>
+      <a href="#" class="is-current">Guides</a>
+      <a href="#">About</a>
+    </nav>
+  </div>
+</header>
+
+<nav class="breadcrumb" aria-label="Breadcrumb">
+  <a href="#">Home</a><span>›</span><a href="#">Guides</a><span>›</span><a href="#">Soil &amp; amendments</a><span>›</span><span>Soil pH, the complete guide</span>
+</nav>
+
+<header class="article-head">
+  <p class="kicker">Soil &amp; amendments · Guide</p>
+  <h1>Soil pH, the complete guide — what it is, why it matters, and how to fix it.</h1>
+  <p class="dek">Your soil's pH decides which nutrients your plants can actually absorb. It's the dial everything else turns on — and it's easier to adjust than most gardeners think.</p>
+  <div class="article-meta">
+    <span>By the Garden Tools Hub editors</span>
+    <span>Updated April 21, 2026</span>
+    <span>10 min read</span>
+    <span>Reviewed against Cornell · NCSU · UMN</span>
+  </div>
+</header>
+
+<div class="layout">
+
+  <aside class="toc" aria-label="Table of contents">
+    <div class="toc-label">On this page</div>
+    <ol>
+      <li><a href="#what-is" data-toc="what-is" class="is-active">What soil pH actually measures</a></li>
+      <li><a href="#why-matters" data-toc="why-matters">Why it matters more than fertilizer</a></li>
+      <li><a href="#test" data-toc="test">How to test accurately</a></li>
+      <li><a href="#raise" data-toc="raise">How to raise pH</a></li>
+      <li><a href="#lower" data-toc="lower">How to lower pH</a></li>
+      <li><a href="#timing" data-toc="timing">When to apply — and how long to wait</a></li>
+      <li><a href="#crops" data-toc="crops">Target pH by crop</a></li>
+      <li><a href="#mistakes" data-toc="mistakes">Common mistakes</a></li>
+      <li><a href="#sources" data-toc="sources">Sources</a></li>
+    </ol>
+  </aside>
+
+  <article class="prose">
+    <p class="lede">Every gardening forum eventually ends up at the same complaint: <em>"I'm feeding it, I'm watering it, and it still looks sick."</em> Nine times out of ten, the problem isn't the fertilizer bag — it's the pH of the soil holding it. Nitrogen, phosphorus, iron, manganese: all of them lock away when the pH drifts. Fix that dial, and the rest of the garden often fixes itself.</p>
+
+    <h2 id="what-is">What soil pH actually measures</h2>
+
+    <p>pH is a measure of how acidic or alkaline your soil is — on a logarithmic scale from 0 (strong acid) to 14 (strong base), with 7.0 being neutral. Because it's logarithmic, each full point is a ten-fold change: a pH of 5.0 is <strong>ten times</strong> more acidic than 6.0, and a hundred times more acidic than 7.0.</p>
+
+    <p>Soil is typically in the 4.5–8.5 range. Forests and conifer-heavy areas drift acidic (4.5–6.0). Arid-region soils and those sitting on limestone run alkaline (7.5–8.5). Most established vegetable gardens land in the 6.0–6.8 sweet spot — which is, not coincidentally, where most crops want to live.</p>
+
+    <figure>
+      <div class="illustration">
+        <svg viewBox="0 0 640 160" width="560" fill="none" stroke="currentColor" stroke-width="1.2">
+          <defs>
+            <linearGradient id="phbar" x1="0" x2="1">
+              <stop offset="0" stop-color="oklch(0.65 0.18 25)"/>
+              <stop offset=".3" stop-color="oklch(0.78 0.14 95)"/>
+              <stop offset=".5" stop-color="oklch(0.55 0.13 150)"/>
+              <stop offset=".75" stop-color="oklch(0.6 0.13 210)"/>
+              <stop offset="1" stop-color="oklch(0.5 0.17 270)"/>
+            </linearGradient>
+          </defs>
+          <rect x="40" y="60" width="560" height="22" rx="11" fill="url(#phbar)" stroke="none"/>
+          <g font-family="JetBrains Mono" font-size="11" fill="oklch(0.40 0.06 60)" stroke="none">
+            <text x="40" y="102" text-anchor="middle">3</text>
+            <text x="120" y="102" text-anchor="middle">4</text>
+            <text x="200" y="102" text-anchor="middle">5</text>
+            <text x="280" y="102" text-anchor="middle">6</text>
+            <text x="360" y="102" text-anchor="middle">7</text>
+            <text x="440" y="102" text-anchor="middle">8</text>
+            <text x="520" y="102" text-anchor="middle">9</text>
+            <text x="600" y="102" text-anchor="middle">10</text>
+          </g>
+          <g font-family="Source Serif 4" font-style="italic" font-size="13" fill="oklch(0.40 0.06 60)" stroke="none">
+            <text x="120" y="40" text-anchor="middle">acidic · blueberries</text>
+            <text x="320" y="40" text-anchor="middle">sweet spot · most vegetables</text>
+            <text x="520" y="40" text-anchor="middle">alkaline · asparagus</text>
+          </g>
+          <line x1="280" y1="48" x2="360" y2="48" stroke-width=".6" opacity=".5"/>
+          <path d="M280 52 l-4 -4 M280 52 l4 -4 M360 52 l-4 -4 M360 52 l4 -4" stroke-width=".6"/>
+        </svg>
+      </div>
+      <figcaption><strong>Figure 1</strong>The pH scale is logarithmic, not linear. The narrow band between 6.0 and 7.0 contains most of what vegetable gardeners actually care about.</figcaption>
+    </figure>
+
+    <h2 id="why-matters">Why it matters more than fertilizer</h2>
+
+    <p>At the wrong pH, nutrients don't <em>move</em> the way the chemistry diagrams say they should. Below 6.0, phosphorus binds to iron and aluminum and becomes unavailable. Above 7.5, iron and manganese lock up, which is why alkaline-soil gardeners see yellowing leaves that more nitrogen never fixes.</p>
+
+    <div class="pullquote">
+      You can pour a 50-pound bag of 10-10-10 onto a pH 5.0 bed and most of the phosphorus will sit there, chemically locked, doing nothing.
+      <cite>— NCSU Extension, Soils &amp; Fertility Factsheet</cite>
+    </div>
+
+    <p>That's the unglamorous reason pH is worth testing before you spend money on amendments. The fertilizer aisle doesn't tell you that a $3 pH test can save you $40 in product you won't need.</p>
+
+    <h2 id="test">How to test accurately</h2>
+
+    <p>There are three tiers of pH testing. They are not equivalent, and the gap between them matters:</p>
+
+    <ol>
+      <li><strong>Hardware-store strip or probe meter</strong> — ballpark only. Good for catching "I'm way off" (pH 5 vs pH 8) but unreliable for the quarter-point distinctions that actually drive amendment decisions.</li>
+      <li><strong>Home test kit</strong> (LaMotte, Rapitest) — better. Titration-style kits read to the tenth, but only on a fresh soil slurry with distilled water. Tap water will throw the reading.</li>
+      <li><strong>University Extension soil test</strong> — authoritative. $15–25. Returns pH along with CEC, OM%, and macro/micronutrients, with amendment recommendations calibrated to your soil texture. This is the only tier you should base a liming plan on.</li>
+    </ol>
+
+    <div class="callout">
+      <span class="kick">Quick answer</span>
+      If you're buying a test for a one-time amendment decision, skip the meter aisle and send a sample to your state Extension service. The Cornell, UMN, and Penn State programs each cost under $25 and return results in 1–2 weeks.
+    </div>
+
+    <figure>
+      <div class="illustration">
+        <svg viewBox="0 0 400 200" fill="none" stroke="currentColor" stroke-width="1.3">
+          <rect x="40" y="60" width="60" height="120" rx="4"/>
+          <path d="M40 120h60" stroke-dasharray="3 3"/>
+          <circle cx="70" cy="140" r="3" fill="currentColor"/>
+          <circle cx="82" cy="155" r="3" fill="currentColor"/>
+          <circle cx="58" cy="160" r="3" fill="currentColor"/>
+          <text x="70" y="50" text-anchor="middle" font-family="Source Serif 4" font-style="italic" font-size="12" stroke="none" fill="oklch(0.40 0.06 60)">1. Collect</text>
+
+          <path d="M150 100l20 -20h60l20 20v60h-100z"/>
+          <path d="M170 100v-20h60v20"/>
+          <path d="M160 130h80" stroke-dasharray="2 2"/>
+          <text x="200" y="50" text-anchor="middle" font-family="Source Serif 4" font-style="italic" font-size="12" stroke="none" fill="oklch(0.40 0.06 60)">2. Mix with water</text>
+
+          <rect x="290" y="70" width="80" height="100" rx="4"/>
+          <path d="M290 110h80M290 140h80" stroke-dasharray="2 2" opacity=".5"/>
+          <circle cx="330" cy="125" r="8" fill="currentColor" fill-opacity=".3"/>
+          <text x="330" y="128" text-anchor="middle" font-family="JetBrains Mono" font-size="11" stroke="none" fill="oklch(0.22 0.03 150)">6.4</text>
+          <text x="330" y="50" text-anchor="middle" font-family="Source Serif 4" font-style="italic" font-size="12" stroke="none" fill="oklch(0.40 0.06 60)">3. Read</text>
+        </svg>
+      </div>
+      <figcaption><strong>Figure 2</strong>The three-step protocol: sample from 4–6 spots at 6-inch depth, mix with distilled water at a 1:1 ratio, read after settling.</figcaption>
+    </figure>
+
+    <h2 id="raise">How to raise pH — liming the soil</h2>
+
+    <p>To raise pH, you add a base — usually agricultural lime (calcium carbonate). The dose depends on three things: how far you're trying to move the pH, your soil's texture (clay resists change; sand moves fast), and the bed's area.</p>
+
+    <div class="formula">
+      <span class="k">lime_lbs</span> = (target_pH − current_pH) × area_ft² × <span class="k">factor</span>
+      <span class="c">factor: 1.0 sandy · 1.6 loam · 2.3 clay (per UMass Ext., lb per ft² per pH point)</span>
+    </div>
+
+    <p>A 100 ft² loam bed moving from 5.2 → 6.5 needs about <strong>21 pounds of calcitic lime</strong> — roughly half a 40-pound bag. The <a href="#">soil pH calculator</a> handles the math plus the sulfur equivalent for lowering pH.</p>
+
+    <div class="tool-embed">
+      <div class="kick">Try the math yourself</div>
+      <h4>Soil pH Calculator</h4>
+      <p>Plug in your current and target pH, area, and soil type — get pounds of lime or sulfur, with a citation to the Extension service the formula comes from.</p>
+      <a href="#" class="cta">Open calculator →</a>
+    </div>
+
+    <h2 id="lower">How to lower pH — acidifying the soil</h2>
+
+    <p>To lower pH, you add an acidifier — elemental sulfur is the standard. Sulfur works slower than lime (it needs soil bacteria to oxidize it to sulfuric acid), so plan for 3–9 months, and never apply more than 2 lb per 100 ft² in a single pass.</p>
+
+    <p>If you're trying to lower pH below 5.5 to grow blueberries, the honest answer from most Extension services is: consider raised beds filled with peat-based mix instead. Holding a native alkaline soil below pH 5.5 is a multi-year, multi-application commitment.</p>
+
+    <div class="callout callout--warn">
+      <span class="kick">Don't</span>
+      Don't use aluminum sulfate to acidify food-growing beds. It drops pH fast but leaves excess aluminum, which is toxic to many vegetable roots. Save aluminum sulfate for hydrangeas.
+    </div>
+
+    <h2 id="timing">When to apply — and how long to wait</h2>
+
+    <p>Fall is the right time for both amendments. Lime takes 3–6 months to fully react; sulfur needs 6–9 months in warm soil, longer in cool. If you apply in April, you won't see the finished pH until the crop is already planted.</p>
+
+    <table>
+      <thead><tr><th>Amendment</th><th>Apply by</th><th>Retest after</th><th>Max per app.</th></tr></thead>
+      <tbody>
+        <tr><td>Calcitic lime</td><td>Previous fall</td><td>3 months</td><td>5 lb / 100 ft²</td></tr>
+        <tr><td>Dolomitic lime</td><td>Previous fall</td><td>4 months</td><td>5 lb / 100 ft²</td></tr>
+        <tr><td>Elemental sulfur</td><td>Previous fall</td><td>6 months</td><td>2 lb / 100 ft²</td></tr>
+        <tr><td>Pelletized lime</td><td>Early spring</td><td>2 months</td><td>5 lb / 100 ft²</td></tr>
+      </tbody>
+    </table>
+
+    <h2 id="crops">Target pH by crop</h2>
+
+    <p>Most vegetables are happy at 6.0–6.8. The exceptions are worth knowing:</p>
+
+    <table>
+      <thead><tr><th>Crop</th><th>Target pH</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td>Blueberries</td><td>4.5–5.5</td><td>The big outlier — needs sustained acid</td></tr>
+        <tr><td>Potatoes</td><td>5.0–6.0</td><td>Lower pH suppresses scab</td></tr>
+        <tr><td>Tomato, pepper</td><td>6.0–6.8</td><td>Standard sweet spot</td></tr>
+        <tr><td>Leafy greens</td><td>6.0–7.0</td><td>Tolerant; lettuce handles up to 7.2</td></tr>
+        <tr><td>Asparagus</td><td>6.5–7.5</td><td>Prefers the alkaline side</td></tr>
+        <tr><td>Brassicas</td><td>6.5–7.2</td><td>Higher pH suppresses clubroot</td></tr>
+      </tbody>
+    </table>
+
+    <h2 id="mistakes">Common mistakes</h2>
+
+    <ul>
+      <li><strong>Applying lime in spring when the crop is already in.</strong> Lime takes months to react; by the time it's worked, the season is over.</li>
+      <li><strong>Using the same rate on sand and clay.</strong> Clay holds pH tenaciously. A rate that works on sand will barely move clay, and twice that rate on sand will over-correct.</li>
+      <li><strong>Trusting a single hardware-store probe reading.</strong> Probe meters drift, and a dry-soil reading lies. Always rewet the soil and wait 30 seconds.</li>
+      <li><strong>Liming every year out of habit.</strong> Once pH is in range, retest on a 2–3 year cycle. Lime doesn't wear off the way mulch does.</li>
+    </ul>
+
+    <div class="callout">
+      <span class="kick">The short version</span>
+      Test before you amend. Apply in fall. Use the formula. Retest before the next amendment. Most pH problems are solved in one cycle if you don't guess on the dose.
+    </div>
+
+    <section class="sources-section" id="sources">
+      <h2>Sources</h2>
+      <div class="source-row"><span class="num">01</span><span class="title"><em>Soil pH and Acidity Management.</em> Cornell Cooperative Extension, 2024.</span><span class="url"><a href="#">cornell.edu →</a></span></div>
+      <div class="source-row"><span class="num">02</span><span class="title"><em>Changing the pH of Your Soil.</em> NC State Extension, revised 2023.</span><span class="url"><a href="#">ncsu.edu →</a></span></div>
+      <div class="source-row"><span class="num">03</span><span class="title"><em>Lime Application Rates by Soil Texture.</em> UMass Extension Soils Lab.</span><span class="url"><a href="#">umass.edu →</a></span></div>
+      <div class="source-row"><span class="num">04</span><span class="title"><em>Soil Acidity and Liming for Agronomic Production.</em> Penn State Ext., fact sheet UC175.</span><span class="url"><a href="#">psu.edu →</a></span></div>
+      <div class="source-row"><span class="num">05</span><span class="title"><em>pH Preferences of Vegetable Crops.</em> UMN Extension Yard &amp; Garden.</span><span class="url"><a href="#">umn.edu →</a></span></div>
+    </section>
+
+    <div class="author">
+      <div class="avatar">GH</div>
+      <div>
+        <div class="meta">
+          <strong>Garden Tools Hub editors</strong>
+          A small editorial team writing source-cited garden guides. Each article is cross-checked against at least three University Extension publications before it ships.
+        </div>
+        <div class="reviewed">Last reviewed April 2026 against Cornell CALS, NCSU, UMN, and Penn State Extension publications.</div>
+      </div>
+    </div>
+  </article>
+
+  <aside class="sidebar-right">
+    <div class="block">
+      <h4>Related tools</h4>
+      <ul>
+        <li><a href="#">Soil pH Calculator</a></li>
+        <li><a href="#">Compost Calculator</a></li>
+        <li><a href="#">Fertilizer Calculator</a></li>
+      </ul>
+    </div>
+    <div class="block">
+      <h4>Share</h4>
+      <div class="share">
+        <a href="#">Copy link</a>
+        <a href="#">Email to a friend</a>
+        <a href="#">Print this page</a>
+      </div>
+    </div>
+    <div class="block">
+      <h4>Last reviewed</h4>
+      <p style="margin:0;font-size:13px;color:var(--soil);font-family:var(--font-serif);font-style:italic">April 21, 2026 — against Cornell, NCSU, UMN, Penn State.</p>
+    </div>
+  </aside>
+
+</div>
+
+<section class="related">
+  <h2>Keep reading</h2>
+  <div class="related-grid">
+    <article class="related-card">
+      <div class="kick">Soil · Guide</div>
+      <h4>Lime vs sulfur — picking the right amendment.</h4>
+      <p>Calcitic vs dolomitic, pelletized vs ag-lime, elemental vs aluminum sulfate — which form to buy and why.</p>
+    </article>
+    <article class="related-card">
+      <div class="kick">Soil · Guide</div>
+      <h4>How to read a soil test — a line-by-line walkthrough.</h4>
+      <p>CEC, OM%, base saturation — the eight numbers on your Extension report, annotated.</p>
+    </article>
+    <article class="related-card">
+      <div class="kick">Fertilizer · Explainer</div>
+      <h4>What N-P-K actually means — and why it adds up to less than 100.</h4>
+      <p>10-10-10 is 30 % nutrients and 70 % filler. Here's what the label really says.</p>
+    </article>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div>
+    <div class="wordmark-sm">Garden Tools Hub</div>
+    <div>© 2026 · Free, no sign-up, source-cited.</div>
+  </div>
+  <nav>
+    <a href="#">Tools</a><a href="#">Guides</a><a href="#">About</a><a href="#">Privacy</a><a href="#">Contact</a>
+  </nav>
+</footer>
+
+<script>
+// Progress bar
+const fill = document.getElementById('progressFill');
+function updateProgress(){
+  const h = document.documentElement;
+  const scrolled = h.scrollTop / (h.scrollHeight - h.clientHeight);
+  fill.style.width = Math.min(100, scrolled * 100) + '%';
+}
+document.addEventListener('scroll', updateProgress, {passive:true});
+updateProgress();
+
+// TOC scroll-spy
+const tocLinks = document.querySelectorAll('.toc a[data-toc]');
+const sections = Array.from(tocLinks).map(a=>document.getElementById(a.dataset.toc)).filter(Boolean);
+const observer = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      tocLinks.forEach(l=>l.classList.toggle('is-active', l.dataset.toc === e.target.id));
+    }
+  });
+}, {rootMargin: '-20% 0px -70% 0px'});
+sections.forEach(s=>observer.observe(s));
+</script>
+
+</body>
+</html>

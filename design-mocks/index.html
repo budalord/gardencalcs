@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Design Mocks · Garden Tools Hub</title>
+<style>
+:root{
+  --ink:oklch(0.22 0.03 150);--cream:oklch(0.97 0.02 95);
+  --paper:oklch(0.94 0.025 95);--moss:oklch(0.55 0.13 150);
+  --moss-deep:oklch(0.35 0.10 150);--soil:oklch(0.40 0.06 60);
+  --terracotta:oklch(0.68 0.14 45);
+  --font-serif:"Source Serif 4","Iowan Old Style",Georgia,serif;
+  --font-sans:"Inter",system-ui,sans-serif;
+  --font-mono:"JetBrains Mono",ui-monospace,monospace;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--cream);color:var(--ink);font:16px/1.6 var(--font-sans);padding:60px 28px}
+.wrap{max-width:880px;margin:0 auto}
+.kicker{font:italic 14px var(--font-serif);color:var(--terracotta);letter-spacing:.04em;text-transform:uppercase;margin-bottom:10px}
+h1{font:600 44px/1.1 var(--font-serif);margin:0 0 10px;letter-spacing:-0.015em;color:var(--ink)}
+.dek{font:italic 18px/1.55 var(--font-serif);color:var(--soil);max-width:600px;margin:0 0 36px}
+.section{margin-bottom:44px}
+.section h2{font:600 15px var(--font-sans);letter-spacing:.1em;text-transform:uppercase;color:var(--moss-deep);margin:0 0 14px;padding-bottom:10px;border-bottom:1px dashed color-mix(in oklch,var(--soil) 40%,transparent)}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+a.card{display:grid;grid-template-columns:52px 1fr auto;gap:16px;align-items:center;padding:14px 18px;background:var(--paper);border:1px solid color-mix(in oklch,var(--soil) 25%,transparent);border-radius:8px;color:var(--ink);text-decoration:none;transition:border-color 150ms}
+a.card:hover{border-color:var(--moss)}
+a.card .code{font:600 14px var(--font-mono);color:var(--moss-deep);font-variant-numeric:tabular-nums}
+a.card .title{font:600 15px var(--font-serif);color:var(--ink);letter-spacing:-0.005em}
+a.card .sub{font:13px var(--font-sans);color:var(--soil);display:block;margin-top:2px}
+a.card .arrow{font:400 18px var(--font-serif);color:var(--soil)}
+a.card:hover .arrow{color:var(--moss-deep)}
+footer{margin-top:40px;padding-top:20px;border-top:1px dashed color-mix(in oklch,var(--soil) 30%,transparent);font-size:13px;color:var(--soil);font-style:italic}
+code{font:500 12px var(--font-mono);color:var(--moss-deep);background:color-mix(in oklch,var(--moss) 10%,transparent);padding:1px 6px;border-radius:3px}
+@media (max-width:640px){.grid{grid-template-columns:1fr}h1{font-size:34px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="kicker">gardencalcs.com · Editorial Almanac redesign</p>
+  <h1>Design mocks, vol. I</h1>
+  <p class="dek">Fourteen HTML artifacts — one design system, three homepage variants, a tools index, a tool shell, five calculator widgets, a guides index, a guide article template, and three sets of guide-specific components.</p>
+
+  <section class="section">
+    <h2>Foundations</h2>
+    <div class="grid">
+      <a class="card" href="P00-Design-System.html"><span class="code">P00</span><span><span class="title">Design System</span><span class="sub">tokens · type · buttons · cards · botanical SVG set</span></span><span class="arrow">›</span></a>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Site-level pages</h2>
+    <div class="grid">
+      <a class="card" href="P01-Homepage.html"><span class="code">P01</span><span><span class="title">Homepage</span><span class="sub">three variants · V2 Almanac cover locked</span></span><span class="arrow">›</span></a>
+      <a class="card" href="P02-Tools-Index.html"><span class="code">P02</span><span><span class="title">Tools Index</span><span class="sub">/tools · 4 categories · sticky TOC</span></span><span class="arrow">›</span></a>
+      <a class="card" href="P03-Tool-Page-Shell.html"><span class="code">P03</span><span><span class="title">Tool Page Shell</span><span class="sub">/tools/[slug] · 10-section article layout</span></span><span class="arrow">›</span></a>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Calculator widgets</h2>
+    <div class="grid">
+      <a class="card" href="P04-Compost-Widget.html"><span class="code">P04</span><span><span class="title">Compost Calculator</span><span class="sub">cubic yards · bag count · unit toggle</span></span><span class="arrow">›</span></a>
+      <a class="card" href="P05-Watering-Widget.html"><span class="code">P05</span><span><span class="title">Watering Schedule</span><span class="sub">chip + radio + slider → 7-day grid</span></span><span class="arrow">›</span></a>
+      <a class="card" href="P06-SoilPH-Widget.html"><span class="code">P06</span><span><span class="title">Soil pH Calculator</span><span class="sub">top-priority widget · lime &amp; sulfur variants</span></span><span class="arrow">›</span></a>
+      <a class="card" href="P07-SeedSpacing-Widget.html"><span class="code">P07</span><span><span class="title">Seed Spacing</span><span class="sub">crop select → plant grid diagram</span></span><span class="arrow">›</span></a>
+      <a class="card" href="P08-Fertilizer-Widget.html"><span class="code">P08</span><span><span class="title">Fertilizer Calculator</span><span class="sub">N-P-K target · bag analysis · over-app warning</span></span><span class="arrow">›</span></a>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Guides</h2>
+    <div class="grid">
+      <a class="card" href="P09-Guides-Index.html"><span class="code">P09</span><span><span class="title">Guides Index</span><span class="sub">/guides · featured + 4 categories + sources block</span></span><span class="arrow">›</span></a>
+      <a class="card" href="P10-Guide-Article.html"><span class="code">P10</span><span><span class="title">Guide Article Template</span><span class="sub">/guides/[slug] · TOC · pull-quote · sources</span></span><span class="arrow">›</span></a>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Guide-specific components</h2>
+    <div class="grid">
+      <a class="card" href="P11-Composting-Components.html"><span class="code">P11</span><span><span class="title">Composting</span><span class="sub">C:N dial · pile layers · temperature curve</span></span><span class="arrow">›</span></a>
+      <a class="card" href="P12-SoilPH-Components.html"><span class="code">P12</span><span><span class="title">Soil pH</span><span class="sub">Truog chart · crop bands · decision tree · drift</span></span><span class="arrow">›</span></a>
+      <a class="card" href="P13-Fertilizer-Components.html"><span class="code">P13</span><span><span class="title">Fertilizer</span><span class="sub">bag anatomy · release curves · deficiency cards</span></span><span class="arrow">›</span></a>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Marketing &amp; utility pages</h2>
+    <div class="grid">
+      <a class="card" href="P14-About-Privacy-Contact.html"><span class="code">P14</span><span><span class="title">About · Privacy · Contact</span><span class="sub">3 screens in 1 HTML · mission / GDPR-lite / form</span></span><span class="arrow">›</span></a>
+      <a class="card" href="P15-404.html"><span class="code">P15</span><span><span class="title">404 · Not Found</span><span class="sub">tipped-pot illustration · search · did-you-mean · popular</span></span><span class="arrow">›</span></a>
+    </div>
+  </section>
+
+  <footer>
+    Served from <code>design-mocks/</code> · All files are self-contained HTML. Tokens are declared inline and match P00 for copy-paste to the Next.js port.
+  </footer>
+</div>
+</body>
+</html>

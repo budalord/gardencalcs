@@ -6,33 +6,54 @@ interface FAQSectionProps {
   faqs: ToolFAQ[];
 }
 
+/**
+ * Editorial Almanac FAQ accordion.
+ * Dashed-top-border rows, serif Q, serif-normal A with tabular/mono links.
+ */
 export default function FAQSection({ faqs }: FAQSectionProps) {
   const [open, setOpen] = useState<number | null>(null);
 
   return (
-    <section className="mb-8">
-      <h2 className="text-lg font-semibold text-gray-900 mb-4">Frequently Asked Questions</h2>
-      <div className="space-y-2">
-        {faqs.map((faq, i) => (
-          <div key={i} className="border border-gray-200 rounded-lg overflow-hidden">
-            <h3 className="text-base font-semibold text-gray-900">
-              <button
-                className="w-full text-left px-4 py-3 font-medium text-gray-800 flex justify-between items-center hover:bg-gray-50"
-                onClick={() => setOpen(open === i ? null : i)}
-                aria-expanded={open === i}
-              >
-                <span>{faq.q}</span>
-                <span className="text-gray-400 ml-2">{open === i ? "−" : "+"}</span>
-              </button>
-            </h3>
-            {open === i && (
-              <div
-                className="px-4 py-3 text-sm text-gray-600 bg-gray-50 border-t border-gray-200 leading-7 [&_a]:text-green-700 [&_a]:font-medium [&_a]:underline"
-                dangerouslySetInnerHTML={{ __html: faq.displayHtml ?? faq.a }}
-              />
-            )}
-          </div>
-        ))}
+    <section className="mb-12">
+      <div className="flex items-center gap-5 mb-6">
+        <span className="flex-1 border-t border-dashed border-[color-mix(in_oklch,var(--soil)_45%,transparent)] max-w-[80px]" />
+        <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-terracotta">
+          Frequently asked
+        </p>
+      </div>
+      <div className="divide-y divide-[color-mix(in_oklch,var(--soil)_25%,transparent)] border-t border-b border-[color-mix(in_oklch,var(--soil)_25%,transparent)]">
+        {faqs.map((faq, i) => {
+          const isOpen = open === i;
+          return (
+            <div key={i}>
+              <h3>
+                <button
+                  className="w-full text-left py-4 flex justify-between items-center gap-4 hover:text-moss-deep transition-colors duration-fast"
+                  onClick={() => setOpen(isOpen ? null : i)}
+                  aria-expanded={isOpen}
+                >
+                  <span className="font-serif font-semibold text-[17px] leading-[1.4] text-ink">
+                    {faq.q}
+                  </span>
+                  <span
+                    aria-hidden="true"
+                    className={`font-mono text-[20px] text-soil flex-shrink-0 transition-transform duration-fast ${
+                      isOpen ? "rotate-45" : ""
+                    }`}
+                  >
+                    +
+                  </span>
+                </button>
+              </h3>
+              {isOpen && (
+                <div
+                  className="pb-5 pr-10 font-serif text-[15px] leading-[1.7] text-ink [&_a]:text-moss-deep [&_a]:underline [&_a]:underline-offset-2"
+                  dangerouslySetInnerHTML={{ __html: faq.displayHtml ?? faq.a }}
+                />
+              )}
+            </div>
+          );
+        })}
       </div>
     </section>
   );

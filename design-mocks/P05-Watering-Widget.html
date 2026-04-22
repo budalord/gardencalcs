@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>P05 — Watering Schedule Widget</title>
+<style>
+:root{
+  --ink:oklch(0.22 0.03 150);--cream:oklch(0.97 0.02 95);
+  --paper:oklch(0.94 0.025 95);--moss:oklch(0.55 0.13 150);
+  --moss-deep:oklch(0.35 0.10 150);--leaf:oklch(0.72 0.16 145);
+  --soil:oklch(0.40 0.06 60);--terracotta:oklch(0.68 0.14 45);
+  --font-serif:"Source Serif 4","Iowan Old Style",Georgia,serif;
+  --font-sans:"Inter",system-ui,sans-serif;
+  --font-mono:"JetBrains Mono",ui-monospace,monospace;
+  --r-md:8px;--r-lg:12px;--dur:150ms;--ease:cubic-bezier(0.2,0.6,0.2,1);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--cream);color:var(--ink);font:16px/1.6 var(--font-sans);padding:48px 24px}
+.stage{max-width:840px;margin:0 auto}
+.stage-label{font:italic 13px var(--font-serif);color:var(--soil);margin:40px 0 12px;display:flex;align-items:center;gap:12px}
+.stage-label::before,.stage-label::after{content:"";flex:1;border-top:1px dashed color-mix(in oklch,var(--soil) 40%,transparent)}
+
+.widget{background:var(--paper);border:1px solid color-mix(in oklch,var(--soil) 30%,transparent);border-radius:var(--r-lg);padding:28px;max-width:720px;margin:0 auto}
+.widget h2{font:600 22px/1.2 var(--font-serif);margin:0 0 4px;color:var(--moss-deep)}
+.subhead{font-style:italic;color:var(--soil);font-size:14px;margin:0 0 24px}
+
+.field{margin-bottom:18px}
+.field > label{display:block;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--soil);margin-bottom:8px}
+
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font:500 14px var(--font-sans);padding:8px 14px;border:1px solid color-mix(in oklch,var(--soil) 35%,transparent);border-radius:999px;background:var(--cream);color:var(--ink);cursor:pointer;transition:all var(--dur) var(--ease)}
+.chip:hover{border-color:var(--moss)}
+.chip[aria-pressed=true]{background:var(--moss);color:var(--cream);border-color:var(--moss)}
+
+.radio-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.radio{border:1px solid color-mix(in oklch,var(--soil) 30%,transparent);border-radius:var(--r-md);padding:12px 14px;cursor:pointer;background:var(--cream);transition:all var(--dur) var(--ease)}
+.radio:hover{border-color:var(--moss)}
+.radio[aria-checked=true]{border-color:var(--moss);background:color-mix(in oklch,var(--moss) 8%,var(--cream))}
+.radio strong{display:block;font:600 15px var(--font-serif);color:var(--moss-deep);margin-bottom:2px}
+.radio span{font-size:12px;color:var(--soil)}
+
+.slider-row{display:grid;grid-template-columns:1fr 80px;gap:16px;align-items:center}
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:4px;background:color-mix(in oklch,var(--soil) 30%,transparent);border-radius:2px;outline:none}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--moss);cursor:pointer;border:2px solid var(--cream)}
+.slider-val{font:500 16px var(--font-mono);font-variant-numeric:tabular-nums;text-align:right;color:var(--moss-deep)}
+
+.result{margin-top:24px;padding:22px 24px;background:var(--cream);border:1px solid color-mix(in oklch,var(--moss) 35%,transparent);border-left:4px solid var(--moss);border-radius:var(--r-md)}
+.result-lede{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--soil);margin:0 0 4px}
+.result-value{font:600 30px/1 var(--font-serif);font-variant-numeric:tabular-nums;color:var(--moss-deep);margin-bottom:18px}
+.result-value small{font:500 14px var(--font-sans);color:var(--soil);margin-left:6px}
+
+.schedule{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-top:8px}
+.day{text-align:center;padding:10px 4px;border:1px solid color-mix(in oklch,var(--soil) 20%,transparent);border-radius:var(--r-md);background:var(--paper)}
+.day.active{background:color-mix(in oklch,var(--leaf) 20%,var(--cream));border-color:color-mix(in oklch,var(--leaf) 50%,transparent)}
+.day .dow{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--soil);margin-bottom:4px}
+.day .amt{font:500 13px var(--font-mono);font-variant-numeric:tabular-nums;color:var(--ink)}
+.day.active .amt{color:var(--moss-deep);font-weight:600}
+.day .none{color:color-mix(in oklch,var(--soil) 50%,transparent)}
+
+.hint{margin-top:14px;font-size:13px;color:var(--soil);font-style:italic}
+
+.actions{margin-top:18px;display:flex;gap:10px}
+.btn{font:500 14px var(--font-sans);padding:8px 14px;border-radius:var(--r-md);border:1px solid transparent;cursor:pointer;transition:all var(--dur) var(--ease)}
+.btn-primary{background:var(--moss);color:var(--cream);border-color:var(--moss)}
+.btn-primary:hover{background:var(--moss-deep);border-color:var(--moss-deep)}
+</style>
+</head>
+<body>
+<div class="stage">
+  <h1 style="font:600 26px/1.2 var(--font-serif);color:var(--moss-deep);margin:0 0 4px">P05 · Watering Schedule Widget</h1>
+  <p style="color:var(--soil);margin:0;font-style:italic">Slots into <code>/tools/watering-schedule</code>. Chip + radio + slider inputs → weekly breakdown.</p>
+
+  <div class="stage-label">Default — tomato / raised bed / temperate / peak summer</div>
+  <div class="widget">
+    <h2>Watering schedule</h2>
+    <p class="subhead">Tell us what, where, and when — we'll lay out the week in gallons.</p>
+
+    <div class="field">
+      <label>Plant type</label>
+      <div class="chips">
+        <button class="chip" aria-pressed="false">Leafy greens</button>
+        <button class="chip" aria-pressed="true">Tomato / pepper</button>
+        <button class="chip" aria-pressed="false">Root veg</button>
+        <button class="chip" aria-pressed="false">Herbs</button>
+        <button class="chip" aria-pressed="false">Lawn</button>
+        <button class="chip" aria-pressed="false">Tree / shrub</button>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Growing container</label>
+      <div class="radio-row">
+        <div class="radio" aria-checked="true" role="radio"><strong>Raised bed</strong><span>6–12 in deep</span></div>
+        <div class="radio" aria-checked="false" role="radio"><strong>In-ground</strong><span>native soil</span></div>
+        <div class="radio" aria-checked="false" role="radio"><strong>Container</strong><span>pot / grow bag</span></div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Climate zone</label>
+      <div class="chips">
+        <button class="chip" aria-pressed="false">Arid / desert</button>
+        <button class="chip" aria-pressed="true">Temperate</button>
+        <button class="chip" aria-pressed="false">Humid</button>
+        <button class="chip" aria-pressed="false">Coastal</button>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Bed size — 4 × 8 ft</label>
+      <div class="slider-row">
+        <input type="range" min="8" max="100" value="32">
+        <div class="slider-val">32 ft²</div>
+      </div>
+    </div>
+
+    <div class="result">
+      <p class="result-lede">Weekly water</p>
+      <div class="result-value">12.8<small>gallons total · split across 3 days</small></div>
+      <div class="schedule">
+        <div class="day"><div class="dow">Mon</div><div class="amt none">—</div></div>
+        <div class="day active"><div class="dow">Tue</div><div class="amt">4.3 gal</div></div>
+        <div class="day"><div class="dow">Wed</div><div class="amt none">—</div></div>
+        <div class="day active"><div class="dow">Thu</div><div class="amt">4.3 gal</div></div>
+        <div class="day"><div class="dow">Fri</div><div class="amt none">—</div></div>
+        <div class="day active"><div class="dow">Sat</div><div class="amt">4.2 gal</div></div>
+        <div class="day"><div class="dow">Sun</div><div class="amt none">—</div></div>
+      </div>
+      <p class="hint">Deep watering 3× weekly encourages root growth. Adjust −30% if it rained ≥ 0.5 in. Source: <a href="#" style="color:var(--moss-deep)">UC ANR</a>.</p>
+    </div>
+
+    <div class="actions"><button class="btn btn-primary">Recalculate</button></div>
+  </div>
+
+  <div class="stage-label">Alternate state — lawn / arid / large area</div>
+  <div class="widget">
+    <h2>Watering schedule</h2>
+    <p class="subhead">Tell us what, where, and when — we'll lay out the week in gallons.</p>
+    <div class="field"><label>Plant type</label><div class="chips"><button class="chip" aria-pressed="false">Tomato / pepper</button><button class="chip" aria-pressed="true">Lawn</button><button class="chip" aria-pressed="false">Tree / shrub</button></div></div>
+    <div class="field"><label>Climate zone</label><div class="chips"><button class="chip" aria-pressed="true">Arid / desert</button><button class="chip" aria-pressed="false">Temperate</button></div></div>
+    <div class="field"><label>Area — 500 ft²</label><div class="slider-row"><input type="range" min="100" max="2000" value="500"><div class="slider-val">500 ft²</div></div></div>
+
+    <div class="result">
+      <p class="result-lede">Weekly water</p>
+      <div class="result-value">310<small>gallons · 2 deep sessions</small></div>
+      <div class="schedule">
+        <div class="day"><div class="dow">Mon</div><div class="amt none">—</div></div>
+        <div class="day"><div class="dow">Tue</div><div class="amt none">—</div></div>
+        <div class="day active"><div class="dow">Wed</div><div class="amt">155 gal</div></div>
+        <div class="day"><div class="dow">Thu</div><div class="amt none">—</div></div>
+        <div class="day"><div class="dow">Fri</div><div class="amt none">—</div></div>
+        <div class="day"><div class="dow">Sat</div><div class="amt none">—</div></div>
+        <div class="day active"><div class="dow">Sun</div><div class="amt">155 gal</div></div>
+      </div>
+      <p class="hint">Water before 9 am to minimize evaporation. 1 in of water ≈ 0.62 gal/ft².</p>
+    </div>
+  </div>
+</div>
+
+<script>
+document.querySelectorAll('.chips').forEach(group=>{
+  group.addEventListener('click',e=>{
+    if(e.target.classList.contains('chip')){
+      group.querySelectorAll('.chip').forEach(c=>c.setAttribute('aria-pressed','false'));
+      e.target.setAttribute('aria-pressed','true');
+    }
+  });
+});
+document.querySelectorAll('.radio-row').forEach(group=>{
+  group.addEventListener('click',e=>{
+    const r = e.target.closest('.radio'); if(!r) return;
+    group.querySelectorAll('.radio').forEach(x=>x.setAttribute('aria-checked','false'));
+    r.setAttribute('aria-checked','true');
+  });
+});
+document.querySelectorAll('input[type=range]').forEach(s=>{
+  s.addEventListener('input',()=>{
+    const val = s.closest('.slider-row').querySelector('.slider-val');
+    val.textContent = s.value + ' ft²';
+  });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>P13 — Fertilizer Guide Components</title>
+<style>
+:root{
+  --ink:oklch(0.22 0.03 150);--cream:oklch(0.97 0.02 95);
+  --paper:oklch(0.94 0.025 95);--moss:oklch(0.55 0.13 150);
+  --moss-deep:oklch(0.35 0.10 150);--leaf:oklch(0.72 0.16 145);
+  --soil:oklch(0.40 0.06 60);--terracotta:oklch(0.68 0.14 45);
+  --font-serif:"Source Serif 4","Iowan Old Style",Georgia,serif;
+  --font-sans:"Inter",system-ui,sans-serif;
+  --font-mono:"JetBrains Mono",ui-monospace,monospace;
+  --r-md:8px;--r-lg:12px;--dur:150ms;--ease:cubic-bezier(0.2,0.6,0.2,1);
+  --w-prose:720px;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--cream);color:var(--ink);font:16px/1.65 var(--font-sans);padding:48px 24px}
+.stage{max-width:840px;margin:0 auto}
+.stage > h1{font:600 32px var(--font-serif);color:var(--moss-deep);margin:0 0 6px}
+.stage > .lede{color:var(--soil);font-style:italic;margin:0 0 40px;font-family:var(--font-serif);font-size:17px}
+.stage-label{font:italic 13px var(--font-serif);color:var(--soil);margin:44px 0 12px;display:flex;align-items:center;gap:12px}
+.stage-label::before,.stage-label::after{content:"";flex:1;border-top:1px dashed color-mix(in oklch,var(--soil) 40%,transparent)}
+.component{background:var(--paper);border:1px solid color-mix(in oklch,var(--soil) 25%,transparent);border-radius:var(--r-lg);padding:28px 32px;max-width:var(--w-prose);margin:0 auto}
+.component h3{font:600 20px var(--font-serif);color:var(--moss-deep);margin:0 0 4px}
+.component .sub{font:italic 14px var(--font-serif);color:var(--soil);margin:0 0 20px}
+
+/* Bag anatomy */
+.bag{display:grid;grid-template-columns:220px 1fr;gap:28px;align-items:start}
+.bag svg{width:100%;height:auto}
+.bag-notes{font-family:var(--font-sans);font-size:14px}
+.bag-notes dt{font:600 12px var(--font-sans);letter-spacing:.08em;text-transform:uppercase;color:var(--moss-deep);margin-top:12px}
+.bag-notes dt:first-child{margin-top:0}
+.bag-notes dd{margin:2px 0 0;color:var(--soil);font-size:13px;line-height:1.5}
+.bag-notes .num{font:600 11px var(--font-mono);color:var(--moss);border:1px solid var(--moss);width:20px;height:20px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;margin-right:6px;vertical-align:-4px}
+
+/* Release curve */
+.curve-chart{background:var(--cream);border:1px solid color-mix(in oklch,var(--soil) 20%,transparent);border-radius:var(--r-md);padding:20px}
+.curve-chart svg{width:100%;height:auto;display:block}
+.curve-legend{display:flex;gap:20px;margin-top:12px;font-size:13px;color:var(--soil);flex-wrap:wrap}
+.curve-legend .sw{display:inline-block;width:20px;height:3px;margin-right:6px;vertical-align:3px}
+
+/* Deficiency symptom chart */
+.sympt{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.sympt-card{background:var(--cream);border:1px solid color-mix(in oklch,var(--soil) 22%,transparent);border-radius:var(--r-md);padding:16px 18px}
+.sympt-card .letter{font:600 26px var(--font-serif);color:var(--moss-deep);line-height:1}
+.sympt-card .nutrient{font:500 11px var(--font-sans);letter-spacing:.1em;text-transform:uppercase;color:var(--soil);margin:4px 0 10px}
+.sympt-card svg{display:block;margin:0 auto 10px;width:68px;height:68px;color:var(--moss-deep)}
+.sympt-card .where{font:italic 12px var(--font-serif);color:var(--soil);margin:0 0 6px}
+.sympt-card ul{margin:0;padding-left:18px;font-size:13px;color:var(--ink)}
+.sympt-card ul li{margin-bottom:3px}
+
+/* Calendar */
+.calendar{font-family:var(--font-sans)}
+.cal-head{display:grid;grid-template-columns:140px repeat(12,1fr);gap:2px;font:500 10px var(--font-mono);letter-spacing:.06em;color:var(--soil);text-align:center;padding-bottom:8px;border-bottom:1px solid color-mix(in oklch,var(--soil) 25%,transparent);margin-bottom:6px}
+.cal-head span:first-child{text-align:left}
+.cal-row{display:grid;grid-template-columns:140px repeat(12,1fr);gap:2px;align-items:center;padding:6px 0;font-size:13px}
+.cal-row .crop{font-weight:600;color:var(--ink)}
+.cal-cell{height:22px;border-radius:3px;background:transparent;position:relative}
+.cal-cell.plant{background:color-mix(in oklch,var(--soil) 22%,var(--cream));border:1px solid color-mix(in oklch,var(--soil) 40%,transparent)}
+.cal-cell.feed-1{background:color-mix(in oklch,var(--moss) 45%,var(--cream));border:1px solid var(--moss)}
+.cal-cell.feed-2{background:color-mix(in oklch,var(--leaf) 45%,var(--cream));border:1px solid color-mix(in oklch,var(--leaf) 60%,transparent)}
+.cal-cell.feed-3{background:color-mix(in oklch,var(--terracotta) 30%,var(--cream));border:1px solid color-mix(in oklch,var(--terracotta) 50%,transparent)}
+.cal-legend{display:flex;gap:18px;margin-top:14px;font-size:12px;color:var(--soil);flex-wrap:wrap}
+.cal-legend .sw{display:inline-block;width:14px;height:14px;border-radius:3px;margin-right:6px;vertical-align:-3px;border:1px solid transparent}
+
+/* Compare organic vs synthetic */
+.cmp{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.cmp-col{padding:18px 20px;border-radius:var(--r-md);border:1px solid color-mix(in oklch,var(--soil) 22%,transparent);background:var(--cream)}
+.cmp-col.organic{border-left:3px solid var(--moss)}
+.cmp-col.synth{border-left:3px solid var(--terracotta)}
+.cmp-col h4{font:600 16px var(--font-serif);margin:0 0 10px}
+.cmp-col.organic h4{color:var(--moss-deep)}
+.cmp-col.synth h4{color:var(--terracotta)}
+.cmp-col dl{margin:0;font-size:13px}
+.cmp-col dt{font:600 10px var(--font-sans);letter-spacing:.1em;text-transform:uppercase;color:var(--soil);margin-top:10px}
+.cmp-col dt:first-child{margin-top:0}
+.cmp-col dd{margin:2px 0 0;color:var(--ink)}
+</style>
+</head>
+<body>
+<div class="stage">
+  <h1>P13 · Fertilizer Guide Components</h1>
+  <p class="lede">Five components specific to the /guides/fertilizer article. Slot into the P10 prose layout.</p>
+
+  <div class="stage-label">Annotated fertilizer bag · what the label actually says</div>
+  <div class="component">
+    <h3>Anatomy of a fertilizer label</h3>
+    <p class="sub">Five things on the bag that matter. Everything else is marketing.</p>
+    <div class="bag">
+      <svg viewBox="0 0 240 300" fill="none" stroke-width="1.2">
+        <!-- bag outline -->
+        <path d="M40 40 Q 40 20 60 20 H180 Q 200 20 200 40 V280 H40 Z" stroke="oklch(0.35 0.10 150)" fill="var(--paper)"/>
+        <path d="M40 50 H200" stroke="oklch(0.40 0.06 60)" stroke-opacity=".4" stroke-dasharray="2 2"/>
+        <!-- brand area -->
+        <text x="120" y="45" text-anchor="middle" font-family="Source Serif 4" font-weight="600" font-size="13" fill="oklch(0.35 0.10 150)" stroke="none">GARDENER'S CHOICE</text>
+        <!-- grade -->
+        <text x="120" y="105" text-anchor="middle" font-family="JetBrains Mono" font-weight="600" font-size="36" fill="oklch(0.22 0.03 150)" stroke="none">10-10-10</text>
+        <text x="120" y="124" text-anchor="middle" font-family="Inter" font-size="10" fill="oklch(0.40 0.06 60)" stroke="none" letter-spacing="1">N · P₂O₅ · K₂O</text>
+        <!-- derived info -->
+        <g font-family="Inter" font-size="9" fill="oklch(0.22 0.03 150)" stroke="none">
+          <text x="55" y="160">GUARANTEED ANALYSIS</text>
+          <text x="55" y="172">Total Nitrogen (N).........10%</text>
+          <text x="55" y="182">Available Phosphate.......10%</text>
+          <text x="55" y="192">Soluble Potash..............10%</text>
+          <text x="55" y="212">DERIVED FROM</text>
+          <text x="55" y="224">Ammonium sulfate, urea,</text>
+          <text x="55" y="234">mono ammonium phosphate</text>
+        </g>
+        <rect x="50" y="255" width="140" height="18" stroke="oklch(0.40 0.06 60)" stroke-opacity=".4"/>
+        <text x="120" y="268" text-anchor="middle" font-family="Inter" font-size="10" fill="oklch(0.40 0.06 60)" stroke="none">Net Wt · 40 lb (18.1 kg)</text>
+        <!-- callout circles -->
+        <g fill="oklch(0.55 0.13 150)" font-family="JetBrains Mono" font-weight="600" font-size="11">
+          <circle cx="216" cy="42" r="11" fill="none" stroke="oklch(0.55 0.13 150)"/><text x="216" y="46" text-anchor="middle" fill="oklch(0.35 0.10 150)" stroke="none">1</text>
+          <circle cx="216" cy="108" r="11" fill="none" stroke="oklch(0.55 0.13 150)"/><text x="216" y="112" text-anchor="middle" fill="oklch(0.35 0.10 150)" stroke="none">2</text>
+          <circle cx="216" cy="175" r="11" fill="none" stroke="oklch(0.55 0.13 150)"/><text x="216" y="179" text-anchor="middle" fill="oklch(0.35 0.10 150)" stroke="none">3</text>
+          <circle cx="216" cy="222" r="11" fill="none" stroke="oklch(0.55 0.13 150)"/><text x="216" y="226" text-anchor="middle" fill="oklch(0.35 0.10 150)" stroke="none">4</text>
+          <circle cx="216" cy="265" r="11" fill="none" stroke="oklch(0.55 0.13 150)"/><text x="216" y="269" text-anchor="middle" fill="oklch(0.35 0.10 150)" stroke="none">5</text>
+        </g>
+      </svg>
+      <dl class="bag-notes">
+        <dt><span class="num">1</span>Brand name</dt>
+        <dd>Marketing. Ignore. The brand doesn't change the chemistry.</dd>
+        <dt><span class="num">2</span>Grade — N-P-K by weight percent</dt>
+        <dd>10-10-10 means 10 % nitrogen, 10 % available phosphate (P₂O₅), 10 % soluble potash (K₂O). The third number isn't pure potassium, and the three don't add to 100 — the rest is filler and carrier.</dd>
+        <dt><span class="num">3</span>Guaranteed analysis</dt>
+        <dd>Legally required. This is the only claim you can hold the manufacturer to.</dd>
+        <dt><span class="num">4</span>Derived from</dt>
+        <dd>The actual ingredients. "Urea" vs "blood meal" tells you organic vs synthetic, release speed, and whether it burns plants on contact.</dd>
+        <dt><span class="num">5</span>Net weight</dt>
+        <dd>Use this, not "coverage," to compute dose. 40 lb of 10-10-10 contains 4 lb N total.</dd>
+      </dl>
+    </div>
+  </div>
+
+  <div class="stage-label">Release curve · how fast the nitrogen shows up</div>
+  <div class="component">
+    <h3>Release speed — organic vs synthetic</h3>
+    <p class="sub">Synthetic quick-release spikes within days. Organic slow-release feeds over weeks.</p>
+    <div class="curve-chart">
+      <svg viewBox="0 0 640 220" fill="none" stroke-width="1.2">
+        <g stroke="oklch(0.40 0.06 60)" stroke-opacity=".15">
+          <line x1="60" y1="30" x2="620" y2="30"/>
+          <line x1="60" y1="70" x2="620" y2="70"/>
+          <line x1="60" y1="110" x2="620" y2="110"/>
+          <line x1="60" y1="150" x2="620" y2="150"/>
+          <line x1="60" y1="190" x2="620" y2="190"/>
+        </g>
+        <g font-family="JetBrains Mono" font-size="10" fill="oklch(0.40 0.06 60)" stroke="none">
+          <text x="55" y="34" text-anchor="end">100%</text>
+          <text x="55" y="114" text-anchor="end">50%</text>
+          <text x="55" y="194" text-anchor="end">0%</text>
+          <text x="60" y="210">W0</text>
+          <text x="140" y="210">W2</text>
+          <text x="220" y="210">W4</text>
+          <text x="300" y="210">W6</text>
+          <text x="380" y="210">W8</text>
+          <text x="460" y="210">W10</text>
+          <text x="540" y="210">W12</text>
+          <text x="620" y="210" text-anchor="end">W14</text>
+        </g>
+        <!-- synthetic quick-release -->
+        <path d="M60 190 L 100 50 L 160 60 L 220 110 L 300 160 L 380 180 L 460 188 L 540 190 L 620 190"
+              stroke="oklch(0.68 0.14 45)" stroke-width="1.8" fill="none"/>
+        <!-- slow release synthetic (coated) -->
+        <path d="M60 190 Q 140 140, 240 90 T 400 70 T 540 110 Q 580 140, 620 170"
+              stroke="oklch(0.40 0.06 60)" stroke-width="1.8" stroke-dasharray="5 3" fill="none"/>
+        <!-- organic -->
+        <path d="M60 190 Q 160 180, 240 150 T 400 100 T 540 80 T 620 100"
+              stroke="oklch(0.55 0.13 150)" stroke-width="1.8" fill="none"/>
+      </svg>
+      <div class="curve-legend">
+        <span><span class="sw" style="background:oklch(0.68 0.14 45)"></span>Synthetic quick-release (urea)</span>
+        <span><span class="sw" style="background:oklch(0.40 0.06 60);background:repeating-linear-gradient(to right, oklch(0.40 0.06 60) 0 5px, transparent 5px 8px)"></span>Coated slow-release</span>
+        <span><span class="sw" style="background:oklch(0.55 0.13 150)"></span>Organic (blood meal, compost)</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="stage-label">Deficiency symptom cards · what yellow leaves are telling you</div>
+  <div class="component">
+    <h3>Reading the leaf</h3>
+    <p class="sub">Three common macronutrient deficiencies — where they show first and what they look like.</p>
+    <div class="sympt">
+      <div class="sympt-card">
+        <div class="letter">N</div>
+        <div class="nutrient">Nitrogen</div>
+        <svg viewBox="0 0 80 80" fill="none" stroke="currentColor" stroke-width="1.2">
+          <path d="M40 10 C 20 25, 15 55, 40 72 C 65 55, 60 25, 40 10 Z" fill="oklch(0.82 0.12 95)" fill-opacity=".4"/>
+          <path d="M40 10 L 40 72" stroke-opacity=".5"/>
+          <path d="M40 22 L 28 34 M40 34 L 26 44 M40 46 L 28 56" stroke-opacity=".4"/>
+          <path d="M40 22 L 52 34 M40 34 L 54 44 M40 46 L 52 56" stroke-opacity=".4"/>
+        </svg>
+        <p class="where">Shows on older, lower leaves first</p>
+        <ul>
+          <li>Uniform pale green → yellow</li>
+          <li>Stunted overall growth</li>
+          <li>Purple-tinged stems in brassicas</li>
+        </ul>
+      </div>
+      <div class="sympt-card">
+        <div class="letter">P</div>
+        <div class="nutrient">Phosphorus</div>
+        <svg viewBox="0 0 80 80" fill="none" stroke="currentColor" stroke-width="1.2">
+          <path d="M40 10 C 20 25, 15 55, 40 72 C 65 55, 60 25, 40 10 Z" fill="oklch(0.55 0.15 300)" fill-opacity=".25"/>
+          <path d="M40 10 L 40 72" stroke-opacity=".5"/>
+          <path d="M40 22 L 28 34 M40 34 L 26 44" stroke-opacity=".4"/>
+          <path d="M40 22 L 52 34 M40 34 L 54 44" stroke-opacity=".4"/>
+        </svg>
+        <p class="where">Shows on older leaves &amp; stems</p>
+        <ul>
+          <li>Dull, dark purple-green</li>
+          <li>Reddish undersides on tomato</li>
+          <li>Poor root &amp; flower development</li>
+        </ul>
+      </div>
+      <div class="sympt-card">
+        <div class="letter">K</div>
+        <div class="nutrient">Potassium</div>
+        <svg viewBox="0 0 80 80" fill="none" stroke="currentColor" stroke-width="1.2">
+          <path d="M40 10 C 20 25, 15 55, 40 72 C 65 55, 60 25, 40 10 Z" fill="oklch(0.72 0.16 145)" fill-opacity=".35"/>
+          <path d="M40 10 L 40 72" stroke-opacity=".5"/>
+          <!-- browned edges -->
+          <path d="M22 28 Q 14 42, 22 58 C 14 52, 12 42, 22 28 Z" fill="oklch(0.55 0.1 45)" fill-opacity=".5" stroke="oklch(0.55 0.1 45)"/>
+          <path d="M58 28 Q 66 42, 58 58 C 66 52, 68 42, 58 28 Z" fill="oklch(0.55 0.1 45)" fill-opacity=".5" stroke="oklch(0.55 0.1 45)"/>
+        </svg>
+        <p class="where">Shows on older leaf edges first</p>
+        <ul>
+          <li>Browned, scorched leaf margins</li>
+          <li>Yellowing between veins</li>
+          <li>Weak stems, blotchy fruit</li>
+        </ul>
+      </div>
+    </div>
+    <p style="font:italic 12px var(--font-serif);color:var(--soil);margin:16px 0 0">Confirm with a soil test before fertilizing — visual symptoms can overlap with pH lockout, root damage, or disease. Source: Clemson HGIC 1254, UMass Ext.</p>
+  </div>
+
+  <div class="stage-label">Feeding calendar · 6 crops × 12 months</div>
+  <div class="component">
+    <h3>When to feed what</h3>
+    <p class="sub">Side-dressing and foliar schedules for common vegetables in a temperate zone.</p>
+    <div class="calendar">
+      <div class="cal-head"><span>Crop</span><span>Jan</span><span>Feb</span><span>Mar</span><span>Apr</span><span>May</span><span>Jun</span><span>Jul</span><span>Aug</span><span>Sep</span><span>Oct</span><span>Nov</span><span>Dec</span></div>
+      <div class="cal-row"><span class="crop">Tomato</span>
+        <div class="cal-cell"></div><div class="cal-cell"></div><div class="cal-cell"></div>
+        <div class="cal-cell plant"></div><div class="cal-cell plant"></div>
+        <div class="cal-cell feed-1"></div><div class="cal-cell feed-2"></div><div class="cal-cell feed-2"></div>
+        <div class="cal-cell feed-3"></div><div class="cal-cell"></div><div class="cal-cell"></div><div class="cal-cell"></div>
+      </div>
+      <div class="cal-row"><span class="crop">Leafy greens</span>
+        <div class="cal-cell"></div><div class="cal-cell"></div>
+        <div class="cal-cell plant"></div><div class="cal-cell feed-1"></div><div class="cal-cell feed-1"></div>
+        <div class="cal-cell"></div><div class="cal-cell"></div>
+        <div class="cal-cell plant"></div><div class="cal-cell feed-1"></div><div class="cal-cell feed-1"></div>
+        <div class="cal-cell"></div><div class="cal-cell"></div>
+      </div>
+      <div class="cal-row"><span class="crop">Pepper</span>
+        <div class="cal-cell"></div><div class="cal-cell"></div><div class="cal-cell"></div>
+        <div class="cal-cell"></div><div class="cal-cell plant"></div>
+        <div class="cal-cell feed-1"></div><div class="cal-cell feed-2"></div><div class="cal-cell feed-3"></div>
+        <div class="cal-cell feed-3"></div><div class="cal-cell"></div><div class="cal-cell"></div><div class="cal-cell"></div>
+      </div>
+      <div class="cal-row"><span class="crop">Bean · bush</span>
+        <div class="cal-cell"></div><div class="cal-cell"></div><div class="cal-cell"></div>
+        <div class="cal-cell"></div><div class="cal-cell plant"></div>
+        <div class="cal-cell feed-1"></div><div class="cal-cell"></div><div class="cal-cell"></div>
+        <div class="cal-cell"></div><div class="cal-cell"></div><div class="cal-cell"></div><div class="cal-cell"></div>
+      </div>
+      <div class="cal-row"><span class="crop">Brassicas</span>
+        <div class="cal-cell"></div><div class="cal-cell"></div>
+        <div class="cal-cell plant"></div><div class="cal-cell feed-1"></div><div class="cal-cell feed-2"></div>
+        <div class="cal-cell feed-2"></div><div class="cal-cell"></div><div class="cal-cell"></div>
+        <div class="cal-cell plant"></div><div class="cal-cell feed-1"></div><div class="cal-cell feed-2"></div><div class="cal-cell"></div>
+      </div>
+      <div class="cal-row"><span class="crop">Strawberry</span>
+        <div class="cal-cell"></div><div class="cal-cell"></div>
+        <div class="cal-cell feed-1"></div><div class="cal-cell"></div><div class="cal-cell feed-2"></div>
+        <div class="cal-cell feed-2"></div><div class="cal-cell"></div><div class="cal-cell feed-1"></div>
+        <div class="cal-cell"></div><div class="cal-cell"></div><div class="cal-cell"></div><div class="cal-cell"></div>
+      </div>
+      <div class="cal-legend">
+        <span><span class="sw" style="background:color-mix(in oklch,var(--soil) 22%,var(--cream));border-color:color-mix(in oklch,var(--soil) 40%,transparent)"></span>Plant / transplant</span>
+        <span><span class="sw" style="background:color-mix(in oklch,var(--moss) 45%,var(--cream));border-color:var(--moss)"></span>Starter · balanced N-P-K</span>
+        <span><span class="sw" style="background:color-mix(in oklch,var(--leaf) 45%,var(--cream));border-color:color-mix(in oklch,var(--leaf) 60%,transparent)"></span>Grow · higher N</span>
+        <span><span class="sw" style="background:color-mix(in oklch,var(--terracotta) 30%,var(--cream));border-color:color-mix(in oklch,var(--terracotta) 50%,transparent)"></span>Bloom · higher K</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="stage-label">Organic vs synthetic — compared on one card</div>
+  <div class="component">
+    <h3>Which kind to buy</h3>
+    <p class="sub">Same two pounds of nitrogen, different delivery. Trade-offs laid out side by side.</p>
+    <div class="cmp">
+      <div class="cmp-col organic">
+        <h4>Organic · blood meal, compost, fish</h4>
+        <dl>
+          <dt>Release speed</dt><dd>Weeks to months — microbes must break it down</dd>
+          <dt>N per dollar</dt><dd>$3–6 per lb N (higher)</dd>
+          <dt>Soil health</dt><dd>Feeds microbes &amp; OM; builds long-term structure</dd>
+          <dt>Burn risk</dt><dd>Low · very hard to over-apply</dd>
+          <dt>Cold-weather use</dt><dd>Poor — microbes dormant under 50 °F</dd>
+          <dt>Runoff risk</dt><dd>Lower (bound to OM)</dd>
+        </dl>
+      </div>
+      <div class="cmp-col synth">
+        <h4>Synthetic · urea, ammonium, NPK blends</h4>
+        <dl>
+          <dt>Release speed</dt><dd>Days — immediately plant-available</dd>
+          <dt>N per dollar</dt><dd>$1–2 per lb N (lower)</dd>
+          <dt>Soil health</dt><dd>Neutral to slightly negative over decades</dd>
+          <dt>Burn risk</dt><dd>High · over-application damages roots</dd>
+          <dt>Cold-weather use</dt><dd>Good — doesn't need biological activity</dd>
+          <dt>Runoff risk</dt><dd>Higher (soluble, mobile)</dd>
+        </dl>
+      </div>
+    </div>
+    <p style="font:italic 12px var(--font-serif);color:var(--soil);margin:16px 0 0">Most Extension services recommend a hybrid: organic for soil building, synthetic spot-dressing during peak fruiting. Source: Penn State Ext. Agronomy Guide; Rodale Institute trials.</p>
+  </div>
+
+</div>
+</body>
+</html>

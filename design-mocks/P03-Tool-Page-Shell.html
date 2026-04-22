@@ -1,0 +1,628 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>P03 · Tool page shell — Soil pH Calculator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;0,8..60,700;1,8..60,400&display=swap" rel="stylesheet" />
+<style>
+/* Tokens (P00) ---------------------------------------------- */
+:root {
+  --ink:        oklch(0.22 0.03 150);
+  --cream:      oklch(0.97 0.02 95);
+  --paper:      oklch(0.94 0.025 95);
+  --moss:       oklch(0.55 0.13 150);
+  --moss-deep:  oklch(0.35 0.10 150);
+  --leaf:       oklch(0.72 0.16 145);
+  --soil:       oklch(0.40 0.06 60);
+  --terracotta: oklch(0.68 0.14 45);
+  --font-serif: "Source Serif 4", "Iowan Old Style", Georgia, serif;
+  --font-sans:  "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  --font-mono:  "JetBrains Mono", "SF Mono", Menlo, Consolas, monospace;
+  --r-sm: 4px; --r-md: 8px; --r-lg: 12px; --r-xl: 16px;
+  --dur-fast: 150ms; --dur-medium: 300ms;
+  --ease: cubic-bezier(0.2, 0.6, 0.2, 1);
+  --w-prose: 640px; --w-widget: 720px; --w-canvas: 1024px; --w-wide: 1280px;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body { background: var(--cream); color: var(--ink); font-family: var(--font-sans); font-size: 16px; line-height: 1.65; -webkit-font-smoothing: antialiased; }
+a { color: inherit; }
+
+/* Header ---------------------------------------------------- */
+.hdr { position: sticky; top: 0; z-index: 40; background: color-mix(in oklch, var(--cream) 92%, transparent); backdrop-filter: blur(6px); border-bottom: 1px solid var(--soil); }
+.hdr-inner { max-width: var(--w-wide); margin: 0 auto; padding: 16px 56px; display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 32px; }
+.hdr-mark { font-family: var(--font-serif); font-weight: 600; font-size: 20px; color: var(--ink); text-decoration: none; }
+.hdr-nav { display: flex; gap: 28px; justify-content: center; }
+.hdr-nav a { font-size: 14px; color: var(--ink); text-decoration: none; padding: 6px 2px; border-bottom: 1px solid transparent; transition: all var(--dur-fast) var(--ease); }
+.hdr-nav a[aria-current] { color: var(--moss-deep); border-bottom-color: var(--moss-deep); }
+.hdr-nav a:hover { color: var(--moss-deep); border-bottom-color: var(--moss-deep); }
+.hdr-cta { font-size: 13px; color: var(--terracotta); text-decoration: none; padding: 8px 14px; border: 1px solid var(--terracotta); border-radius: var(--r-md); transition: all var(--dur-fast) var(--ease); }
+.hdr-cta:hover { background: var(--terracotta); color: var(--cream); }
+
+/* Article -------------------------------------------------- */
+.article { max-width: var(--w-widget); margin: 0 auto; padding: 28px 32px 96px; }
+.article > * { margin-left: auto; margin-right: auto; }
+.article .prose { max-width: var(--w-prose); }
+
+.breadcrumb { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--soil); margin-bottom: 28px; }
+.breadcrumb a { color: var(--soil); text-decoration: none; }
+.breadcrumb a:hover { color: var(--moss-deep); }
+.breadcrumb .sep { margin: 0 10px; opacity: 0.5; }
+
+/* Page head */
+.page-head { text-align: left; padding-bottom: 28px; border-bottom: 1px dashed var(--soil); margin-bottom: 40px; }
+.page-head .eyebrow { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.2em; color: var(--terracotta); text-transform: uppercase; margin: 0 0 10px; }
+.page-head h1 { font-family: var(--font-serif); font-size: 46px; line-height: 1.08; letter-spacing: -0.01em; font-weight: 600; margin: 0 0 14px; color: var(--ink); }
+.page-head .tagline { font-family: var(--font-serif); font-style: italic; color: var(--soil); font-size: 19px; margin: 0 0 18px; max-width: var(--w-prose); line-height: 1.45; }
+.page-head .meta-row { display: flex; gap: 18px; flex-wrap: wrap; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--soil); }
+.page-head .meta-row span strong { color: var(--ink); font-weight: 500; }
+
+/* Section divider */
+.divider { display: flex; justify-content: center; align-items: center; gap: 20px; margin: 72px 0 40px; color: var(--soil); }
+.divider::before, .divider::after { content: ""; flex: 1; border-top: 1px dashed var(--soil); opacity: 0.5; max-width: 200px; }
+.divider svg { opacity: 0.7; }
+
+.section-head { margin-bottom: 24px; }
+.section-head .eyebrow { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.2em; color: var(--terracotta); text-transform: uppercase; margin: 0 0 8px; }
+.section-head h2 { font-family: var(--font-serif); font-size: 28px; line-height: 1.2; letter-spacing: -0.005em; font-weight: 600; margin: 0; color: var(--ink); }
+.section-head p.lede { font-family: var(--font-serif); font-style: italic; color: var(--soil); font-size: 16px; margin: 8px 0 0; max-width: var(--w-prose); }
+
+/* Quick Answer callout */
+.quick-answer {
+  background: var(--paper);
+  border: 1px solid var(--soil);
+  border-left: 4px solid var(--terracotta);
+  border-radius: var(--r-md);
+  padding: 22px 26px;
+  margin-bottom: 40px;
+}
+.quick-answer .kicker { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.22em; color: var(--terracotta); text-transform: uppercase; margin-bottom: 12px; }
+.quick-answer h2 { font-family: var(--font-serif); font-size: 22px; font-weight: 600; margin: 0 0 14px; color: var(--ink); }
+.quick-answer table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+.quick-answer td { padding: 10px 0; vertical-align: top; border-bottom: 1px dashed var(--soil); font-size: 15px; }
+.quick-answer tr:last-child td { border-bottom: none; }
+.quick-answer td:first-child { font-family: var(--font-serif); font-style: italic; color: var(--soil); width: 58%; padding-right: 20px; }
+.quick-answer td:last-child { font-family: var(--font-sans); font-weight: 500; color: var(--ink); text-align: right; }
+.quick-answer td:last-child strong { color: var(--moss-deep); font-family: var(--font-serif); font-weight: 600; font-size: 17px; }
+.quick-answer .source { font-family: var(--font-mono); font-size: 10px; color: var(--soil); letter-spacing: 0.12em; text-transform: uppercase; margin-top: 14px; padding-top: 12px; border-top: 1px dashed var(--soil); }
+
+/* Widget placeholder ------------------------------------- */
+.widget-slot {
+  max-width: var(--w-widget);
+  background: var(--paper);
+  border: 2px dashed var(--soil);
+  border-radius: var(--r-lg);
+  padding: 64px 32px;
+  text-align: center;
+  color: var(--soil);
+  margin-bottom: 24px;
+}
+.widget-slot .kicker { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.22em; color: var(--terracotta); text-transform: uppercase; margin-bottom: 10px; }
+.widget-slot h3 { font-family: var(--font-serif); font-size: 24px; font-weight: 600; color: var(--ink); margin: 0 0 8px; font-style: italic; }
+.widget-slot p { font-family: var(--font-serif); font-style: italic; font-size: 15px; margin: 0 auto; max-width: 420px; color: var(--soil); }
+.widget-slot code { display: inline-block; margin-top: 14px; font-family: var(--font-mono); font-size: 12px; color: var(--moss-deep); background: var(--cream); padding: 4px 10px; border: 1px dashed var(--soil); border-radius: var(--r-sm); letter-spacing: 0.06em; }
+
+/* How it works -------------------------------------------- */
+.how-steps { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px 32px; }
+.how-step {
+  display: grid; grid-template-columns: 56px 1fr; gap: 18px;
+  padding: 20px 22px;
+  border: 1px solid var(--soil); border-radius: var(--r-md); background: var(--cream);
+}
+.how-step .icon-slot {
+  width: 56px; height: 56px; border: 1px solid var(--soil); border-radius: var(--r-md);
+  display: flex; align-items: center; justify-content: center;
+  background: var(--paper); color: var(--moss-deep);
+  position: relative;
+}
+.how-step .icon-slot .n {
+  position: absolute; top: -8px; left: -8px; width: 24px; height: 24px; border-radius: 50%;
+  background: var(--cream); border: 1px solid var(--soil);
+  font-family: var(--font-serif); font-size: 12px; font-weight: 600;
+  display: flex; align-items: center; justify-content: center; color: var(--terracotta);
+}
+.how-step h3 { font-family: var(--font-serif); font-size: 17px; font-weight: 600; margin: 0 0 4px; color: var(--ink); }
+.how-step p { font-size: 14px; color: var(--soil); margin: 0; line-height: 1.55; }
+
+/* Worked examples ---------------------------------------- */
+.worked-list { border: 1px solid var(--soil); border-radius: var(--r-md); background: var(--cream); overflow: hidden; }
+.worked-item + .worked-item { border-top: 1px dashed var(--soil); }
+.worked-item summary {
+  list-style: none;
+  padding: 18px 22px;
+  cursor: pointer;
+  display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 16px;
+  transition: background var(--dur-fast) var(--ease);
+}
+.worked-item summary::-webkit-details-marker { display: none; }
+.worked-item summary:hover { background: var(--paper); }
+.worked-item summary .kicker { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.18em; color: var(--terracotta); text-transform: uppercase; margin-bottom: 4px; }
+.worked-item summary h3 { font-family: var(--font-serif); font-size: 18px; font-weight: 600; margin: 0; color: var(--ink); }
+.worked-item .toggle { font-family: var(--font-mono); font-size: 16px; color: var(--soil); transition: transform var(--dur-fast) var(--ease); }
+.worked-item[open] .toggle { transform: rotate(45deg); color: var(--moss-deep); }
+.worked-body { padding: 4px 22px 22px; border-top: 1px dashed var(--soil); background: var(--paper); }
+.worked-body .steps { list-style: none; padding: 0; margin: 16px 0; font-family: var(--font-sans); font-size: 14px; color: var(--ink); }
+.worked-body .steps li {
+  display: grid; grid-template-columns: auto 1fr auto; gap: 14px; align-items: baseline;
+  padding: 8px 0; border-bottom: 1px dashed var(--soil);
+  font-variant-numeric: tabular-nums;
+}
+.worked-body .steps li:last-child { border-bottom: none; }
+.worked-body .steps .label { font-family: var(--font-serif); font-style: italic; color: var(--soil); }
+.worked-body .steps .val { text-align: right; font-weight: 500; color: var(--ink); }
+.worked-body .steps .kw { font-family: var(--font-mono); font-size: 11px; color: var(--terracotta); letter-spacing: 0.1em; text-transform: uppercase; padding: 2px 8px; border: 1px dashed var(--soil); border-radius: var(--r-sm); }
+.worked-body .answer {
+  background: var(--cream); border: 1px solid var(--soil); border-left: 4px solid var(--moss); border-radius: var(--r-sm);
+  padding: 14px 18px; margin: 14px 0 10px;
+  font-family: var(--font-serif); font-size: 18px; color: var(--ink); font-weight: 500;
+}
+.worked-body .answer strong { color: var(--moss-deep); font-size: 20px; }
+.worked-body .cite { font-family: var(--font-mono); font-size: 10px; color: var(--soil); letter-spacing: 0.12em; text-transform: uppercase; }
+
+/* FAQ ----------------------------------------------------- */
+.faq-list { border: 1px solid var(--soil); border-radius: var(--r-md); background: var(--cream); overflow: hidden; }
+.faq-item { border-bottom: 1px dashed var(--soil); }
+.faq-item:last-child { border-bottom: none; }
+.faq-head { list-style: none; padding: 18px 22px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-family: var(--font-serif); font-weight: 600; font-size: 17px; color: var(--ink); transition: background var(--dur-fast) var(--ease); }
+.faq-head::-webkit-details-marker { display: none; }
+.faq-head:hover { background: var(--paper); }
+.faq-toggle { font-family: var(--font-mono); font-size: 16px; color: var(--soil); transition: transform var(--dur-fast) var(--ease); }
+.faq-item[open] .faq-toggle { transform: rotate(45deg); color: var(--moss-deep); }
+.faq-body { padding: 0 22px 20px; font-size: 15px; color: var(--ink); line-height: 1.7; max-width: var(--w-prose); }
+.faq-body cite { display: block; margin-top: 12px; font-family: var(--font-mono); font-size: 10px; color: var(--soil); letter-spacing: 0.1em; font-style: normal; text-transform: uppercase; }
+
+/* Methodology -------------------------------------------- */
+.methodology { background: var(--paper); border: 1px solid var(--soil); border-radius: var(--r-md); padding: 26px 28px; }
+.methodology h3 { font-family: var(--font-serif); font-size: 20px; font-weight: 600; margin: 0 0 10px; color: var(--ink); }
+.methodology p { font-family: var(--font-sans); font-size: 15px; color: var(--ink); margin: 0 0 18px; line-height: 1.65; max-width: var(--w-prose); }
+.methodology .formula {
+  font-family: var(--font-mono); font-size: 13px; color: var(--ink);
+  background: var(--cream); border: 1px solid var(--soil); border-radius: var(--r-sm);
+  padding: 14px 16px; margin: 4px 0 18px;
+  font-variant-numeric: tabular-nums; overflow-x: auto;
+}
+.methodology .formula .op { color: var(--terracotta); }
+.methodology .formula .kw { color: var(--moss-deep); }
+.methodology h4 { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.16em; color: var(--soil); text-transform: uppercase; margin: 0 0 10px; }
+.methodology ul.sources { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; }
+.methodology ul.sources li { display: grid; grid-template-columns: 90px 1fr auto; gap: 16px; align-items: baseline; padding: 10px 0; border-bottom: 1px dashed var(--soil); }
+.methodology ul.sources li:last-child { border-bottom: none; }
+.methodology ul.sources .badge {
+  font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--moss-deep); border: 1px solid var(--moss-deep); border-radius: var(--r-sm);
+  padding: 3px 8px; text-align: center;
+}
+.methodology ul.sources .title { font-family: var(--font-serif); font-size: 15px; color: var(--ink); }
+.methodology ul.sources .title em { color: var(--soil); font-style: italic; font-family: var(--font-serif); font-size: 13px; display: block; margin-top: 2px; }
+.methodology ul.sources .url { font-family: var(--font-mono); font-size: 11px; color: var(--soil); text-decoration: none; border-bottom: 1px dashed var(--soil); }
+.methodology ul.sources .url:hover { color: var(--moss-deep); border-bottom-color: var(--moss-deep); }
+
+/* Related calculators ------------------------------------ */
+.related-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.related-card {
+  background: var(--cream); border: 1px solid var(--soil); border-radius: var(--r-lg);
+  padding: 18px 20px;
+  display: grid; grid-template-columns: 44px 1fr; gap: 14px;
+  text-decoration: none; color: var(--ink);
+  transition: border-color var(--dur-fast) var(--ease), transform var(--dur-fast) var(--ease);
+}
+.related-card .icon-slot { width: 44px; height: 44px; border: 1px solid var(--soil); border-radius: var(--r-md); background: var(--paper); display: flex; align-items: center; justify-content: center; color: var(--moss-deep); }
+.related-card h3 { font-family: var(--font-serif); font-size: 16px; font-weight: 600; margin: 0 0 2px; }
+.related-card p  { font-family: var(--font-serif); font-style: italic; font-size: 13px; color: var(--soil); margin: 0; line-height: 1.45; }
+.related-card:hover { border-color: var(--moss); transform: translateY(-1px); }
+
+/* Embed --------------------------------------------------- */
+.embed { background: var(--paper); border: 1px solid var(--soil); border-radius: var(--r-md); padding: 22px 26px; }
+.embed h3 { font-family: var(--font-serif); font-size: 20px; font-weight: 600; margin: 0 0 6px; }
+.embed p { font-family: var(--font-sans); font-size: 14px; color: var(--soil); margin: 0 0 16px; max-width: var(--w-prose); }
+.embed-code-wrap {
+  display: grid; grid-template-columns: 1fr auto; gap: 0;
+  background: var(--cream); border: 1px solid var(--soil); border-radius: var(--r-md); overflow: hidden;
+}
+.embed-code-wrap pre {
+  margin: 0; padding: 16px 18px; overflow-x: auto;
+  font-family: var(--font-mono); font-size: 12.5px; color: var(--ink); line-height: 1.6;
+}
+.embed-code-wrap pre .tag { color: var(--moss-deep); }
+.embed-code-wrap pre .attr { color: var(--terracotta); }
+.embed-code-wrap .copy-btn {
+  border: none; border-left: 1px dashed var(--soil); background: var(--paper);
+  font-family: var(--font-sans); font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 0 18px; color: var(--ink); cursor: pointer;
+  transition: background var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease);
+  min-width: 110px;
+}
+.embed-code-wrap .copy-btn:hover { background: var(--ink); color: var(--cream); }
+.embed-code-wrap .copy-btn.copied { background: var(--moss); color: var(--cream); }
+.embed-foot { margin-top: 12px; font-family: var(--font-mono); font-size: 10px; color: var(--soil); letter-spacing: 0.12em; text-transform: uppercase; }
+
+/* Copy toast */
+.toast {
+  position: fixed; left: 50%; bottom: 36px; transform: translate(-50%, 20px);
+  background: var(--ink); color: var(--cream); padding: 10px 18px; border-radius: var(--r-md);
+  font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase;
+  opacity: 0; pointer-events: none;
+  transition: opacity var(--dur-fast) var(--ease), transform var(--dur-fast) var(--ease);
+  z-index: 60;
+}
+.toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+/* Footer -------------------------------------------------- */
+.ftr {
+  max-width: var(--w-wide); margin: 64px auto 0; padding: 48px 56px 28px;
+  border-top: 1px solid var(--soil);
+  display: grid; grid-template-columns: 1.4fr 1fr 1fr 1.3fr; gap: 32px;
+}
+.ftr h5 { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.16em; color: var(--soil); text-transform: uppercase; margin: 0 0 14px; }
+.ftr .mark { font-family: var(--font-serif); font-weight: 600; font-size: 20px; margin: 0 0 6px; }
+.ftr .tag { font-family: var(--font-serif); font-style: italic; color: var(--soil); font-size: 14px; margin: 0 0 14px; }
+.ftr ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.ftr ul a { font-size: 14px; color: var(--ink); text-decoration: none; }
+.ftr ul a:hover { color: var(--moss-deep); }
+.ftr-bottom { max-width: var(--w-wide); margin: 0 auto; padding: 16px 56px 32px; display: flex; justify-content: space-between; border-top: 1px dashed var(--soil); font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.08em; color: var(--soil); }
+
+@media print {
+  .hdr, .ftr, .ftr-bottom, .embed .copy-btn, .toast { display: none; }
+  body { background: #fff; }
+  .article { max-width: 100%; padding: 0; }
+}
+
+@media (max-width: 760px) {
+  .hdr-inner, .ftr, .ftr-bottom { padding-left: 24px; padding-right: 24px; }
+  .article { padding: 24px 20px 72px; }
+  .page-head h1 { font-size: 34px; }
+  .how-steps, .related-row { grid-template-columns: 1fr; }
+  .ftr { grid-template-columns: 1fr 1fr; }
+  .quick-answer td:last-child { text-align: left; }
+  .methodology ul.sources li { grid-template-columns: 1fr; gap: 6px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Icons -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="ic-beaker" viewBox="0 0 32 32"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4 L 21 4"/><path d="M12 4 L 12 13 L 7 25 C 6 27, 7 28, 9 28 L 23 28 C 25 28, 26 27, 25 25 L 20 13 L 20 4"/><path d="M9 20 L 23 20"/><path d="M9 20 Q 12 22 16 20 T 23 20" fill="oklch(0.55 0.13 150 / 0.25)"/></g></symbol>
+    <symbol id="ic-compost" viewBox="0 0 32 32"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12 L 27 12 L 25 27 L 7 27 Z"/><path d="M9 12 L 9 9 M16 12 L 16 7 M23 12 L 23 9"/><path d="M9 18 Q 13 16 16 18 T 23 18" fill="oklch(0.40 0.06 60 / 0.25)"/><path d="M12 22 Q 15 20 18 22 T 22 22"/></g></symbol>
+    <symbol id="ic-fertilizer" viewBox="0 0 32 32"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="5" fill="oklch(0.72 0.16 145 / 0.25)"/><circle cx="22" cy="10" r="5" fill="oklch(0.68 0.14 45 / 0.2)"/><circle cx="16" cy="22" r="5" fill="oklch(0.55 0.13 150 / 0.2)"/><text x="10" y="13" text-anchor="middle" font-family="Inter" font-size="7" fill="currentColor" stroke="none">N</text><text x="22" y="13" text-anchor="middle" font-family="Inter" font-size="7" fill="currentColor" stroke="none">P</text><text x="16" y="25" text-anchor="middle" font-family="Inter" font-size="7" fill="currentColor" stroke="none">K</text></g></symbol>
+    <symbol id="ic-soil" viewBox="0 0 32 32"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20 Q 10 16 16 20 T 28 20"/><path d="M4 24 Q 10 20 16 24 T 28 24"/><circle cx="10" cy="14" r="1"/><circle cx="18" cy="11" r="1"/><circle cx="24" cy="14" r="1"/></g></symbol>
+    <symbol id="ic-scale" viewBox="0 0 32 32"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4 L 16 28"/><path d="M8 28 L 24 28"/><path d="M6 10 L 16 6 L 26 10"/><path d="M3 16 C 4 14, 8 14, 9 16 L 6 22 Z" fill="oklch(0.55 0.13 150 / 0.2)"/><path d="M23 16 C 24 14, 28 14, 29 16 L 26 22 Z" fill="oklch(0.55 0.13 150 / 0.2)"/></g></symbol>
+    <symbol id="ic-ruler" viewBox="0 0 32 32"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="22" height="10" rx="1"/><path d="M8 11 L 8 15 M12 11 L 12 17 M16 11 L 16 15 M20 11 L 20 17 M24 11 L 24 15"/></g></symbol>
+    <symbol id="ic-check" viewBox="0 0 32 32"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="16" cy="16" r="11" fill="oklch(0.55 0.13 150 / 0.18)"/><path d="M10 16 L 14 20 L 22 12"/></g></symbol>
+    <symbol id="ic-input" viewBox="0 0 32 32"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="10" width="22" height="12" rx="2"/><path d="M9 16 L 13 16"/><path d="M16 13 L 16 19"/></g></symbol>
+    <symbol id="ic-formula" viewBox="0 0 32 32"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 8 L 24 8"/><path d="M8 16 L 20 16"/><path d="M8 24 L 24 24"/><circle cx="26" cy="16" r="1.5" fill="oklch(0.68 0.14 45 / 0.7)"/></g></symbol>
+    <!-- Divider glyph -->
+    <symbol id="divider-glyph" viewBox="0 0 40 16">
+      <g fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round">
+        <path d="M4 8 L 14 8"/>
+        <path d="M20 8 C 17 4, 17 2, 20 2 C 23 2, 23 4, 20 8 Z" fill="oklch(0.55 0.13 150 / 0.35)"/>
+        <path d="M20 8 C 17 12, 17 14, 20 14 C 23 14, 23 12, 20 8 Z" fill="oklch(0.72 0.16 145 / 0.35)"/>
+        <path d="M26 8 L 36 8"/>
+      </g>
+    </symbol>
+  </defs>
+</svg>
+
+<!-- Header -->
+<header class="hdr">
+  <div class="hdr-inner">
+    <a class="hdr-mark" href="#">Garden Tools Hub</a>
+    <nav class="hdr-nav">
+      <a href="#" aria-current="page">Tools</a>
+      <a href="#">Guides</a>
+      <a href="#">About</a>
+    </nav>
+    <a class="hdr-cta" href="#">Open latest calculator →</a>
+  </div>
+</header>
+
+<main class="article">
+
+  <nav class="breadcrumb">
+    <a href="#">Home</a><span class="sep">›</span><a href="#">Tools</a><span class="sep">›</span><span>Soil pH Calculator</span>
+  </nav>
+
+  <!-- PAGE HEAD ------------------------------------------- -->
+  <header class="page-head">
+    <p class="eyebrow">The Garden Tools Almanac · Soil</p>
+    <h1>Soil pH Calculator</h1>
+    <p class="tagline">Find the exact amount of lime or sulfur to shift your soil from its current pH to your target — adjusted for soil type and plot size.</p>
+    <div class="meta-row">
+      <span><strong>Last updated</strong> March 2026</span>
+      <span><strong>Sources</strong> 4 university extension refs</span>
+      <span><strong>Time to answer</strong> ~30 seconds</span>
+    </div>
+  </header>
+
+  <!-- QUICK ANSWER ---------------------------------------- -->
+  <section class="quick-answer" aria-label="Quick answer">
+    <div class="kicker">Quick answer</div>
+    <h2>Common cases, instant answers</h2>
+    <table>
+      <tr>
+        <td>100 sqft clay bed, pH 5.5 → 6.5</td>
+        <td>Add <strong>4.7 lbs</strong> agricultural lime</td>
+      </tr>
+      <tr>
+        <td>4×8 ft raised bed, pH 7.5 → 6.5 (blueberries)</td>
+        <td>Add <strong>0.9 lbs</strong> elemental sulfur</td>
+      </tr>
+      <tr>
+        <td>1,000 sqft lawn, pH 6.0 → 6.8 (loamy)</td>
+        <td>Add <strong>40 lbs</strong> pelletized lime</td>
+      </tr>
+    </table>
+    <div class="source">Source · Cornell Extension · Home Lawn Lime &amp; pH · 2022</div>
+  </section>
+
+  <!-- WIDGET SLOT ----------------------------------------- -->
+  <section aria-label="Calculator widget">
+    <div class="widget-slot" role="img" aria-label="Calculator widget placeholder">
+      <div class="kicker">Calculator widget</div>
+      <h3>&lt;Calculator Widget&gt;</h3>
+      <p>The interactive pH scale + inputs + result card render here. Defined in P06.</p>
+      <code>max-width: 720 px · paper bg · dashed soil border</code>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS ---------------------------------------- -->
+  <div class="divider"><svg width="40" height="16"><use href="#divider-glyph"/></svg></div>
+  <section aria-labelledby="how-heading">
+    <div class="section-head">
+      <p class="eyebrow">How it works</p>
+      <h2 id="how-heading">From soil sample to amendment amount in four steps</h2>
+      <p class="lede">The same rhythm every calculator on this site follows — inputs, formula, citation, answer.</p>
+    </div>
+    <div class="how-steps">
+      <div class="how-step">
+        <div class="icon-slot"><span class="n">1</span><svg width="26" height="26"><use href="#ic-beaker"/></svg></div>
+        <div>
+          <h3>Measure your current pH</h3>
+          <p>Use a soil test kit or send a sample to your state Extension office. Sample in 3–5 spots, mix, and read.</p>
+        </div>
+      </div>
+      <div class="how-step">
+        <div class="icon-slot"><span class="n">2</span><svg width="26" height="26"><use href="#ic-input"/></svg></div>
+        <div>
+          <h3>Enter the numbers</h3>
+          <p>Current pH, target pH, soil type, and the area you plan to amend. All four are required for an accurate rate.</p>
+        </div>
+      </div>
+      <div class="how-step">
+        <div class="icon-slot"><span class="n">3</span><svg width="26" height="26"><use href="#ic-formula"/></svg></div>
+        <div>
+          <h3>Read the amendment rate</h3>
+          <p>The calculator picks lime or sulfur automatically and shows lbs and kg. Safe-range warnings surface when needed.</p>
+        </div>
+      </div>
+      <div class="how-step">
+        <div class="icon-slot"><span class="n">4</span><svg width="26" height="26"><use href="#ic-check"/></svg></div>
+        <div>
+          <h3>Apply and retest</h3>
+          <p>Incorporate to 6-inch depth, water in, and retest in 6–8 weeks. Lime is slow — don't re-dose before then.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WORKED EXAMPLES ------------------------------------- -->
+  <div class="divider"><svg width="40" height="16"><use href="#divider-glyph"/></svg></div>
+  <section aria-labelledby="worked-heading">
+    <div class="section-head">
+      <p class="eyebrow">Worked examples</p>
+      <h2 id="worked-heading">Two real plots, fully solved</h2>
+      <p class="lede">Showing the calculation so you can reproduce it by hand — or verify the tool against a textbook.</p>
+    </div>
+
+    <div class="worked-list">
+
+      <details class="worked-item" open>
+        <summary>
+          <div>
+            <div class="kicker">Example 1 · Vegetable garden</div>
+            <h3>Amending a 100 sqft clay bed from pH 5.5 to 6.5</h3>
+          </div>
+          <span class="toggle">+</span>
+        </summary>
+        <div class="worked-body">
+          <ul class="steps">
+            <li><span class="label">Current pH (tested 3 spots, averaged)</span><span></span><span class="val">5.5</span></li>
+            <li><span class="label">Target pH (tomato &amp; pepper range)</span><span></span><span class="val">6.5</span></li>
+            <li><span class="label">Soil type → factor</span><span class="kw">clay = 0.08</span><span class="val"></span></li>
+            <li><span class="label">Area</span><span></span><span class="val">100 sqft</span></li>
+            <li><span class="label">Formula</span><span></span><span class="val" style="font-family: var(--font-mono); font-size: 12px;">(6.5 − 5.5) × 100 × 0.08 × 0.59</span></li>
+          </ul>
+          <div class="answer">Apply <strong>4.7 lbs</strong> of agricultural lime, tilled to 6-inch depth. Retest in 6–8 weeks.</div>
+          <div class="cite">Cite · Cornell Cooperative Extension · Liming the Home Garden · 2022</div>
+        </div>
+      </details>
+
+      <details class="worked-item">
+        <summary>
+          <div>
+            <div class="kicker">Example 2 · Blueberry bed</div>
+            <h3>Lowering a 32 sqft raised bed from pH 7.5 to 6.5</h3>
+          </div>
+          <span class="toggle">+</span>
+        </summary>
+        <div class="worked-body">
+          <ul class="steps">
+            <li><span class="label">Current pH</span><span></span><span class="val">7.5</span></li>
+            <li><span class="label">Target pH (acidic crops)</span><span></span><span class="val">6.5</span></li>
+            <li><span class="label">Soil type → factor</span><span class="kw">loamy = 0.05</span><span class="val"></span></li>
+            <li><span class="label">Area</span><span></span><span class="val">32 sqft</span></li>
+            <li><span class="label">Amendment (target &lt; current → sulfur)</span><span></span><span class="val" style="font-family: var(--font-mono); font-size: 12px;">(7.5 − 6.5) × 32 × 0.05 × 0.56</span></li>
+          </ul>
+          <div class="answer">Apply <strong>0.9 lbs</strong> of elemental sulfur, incorporated. Retest in 2–3 months (sulfur is slower than lime).</div>
+          <div class="cite">Cite · Oregon State Extension · EC 1560 · Acidifying Soil in Landscapes and Gardens · 2021</div>
+        </div>
+      </details>
+
+    </div>
+  </section>
+
+  <!-- FAQ ------------------------------------------------- -->
+  <div class="divider"><svg width="40" height="16"><use href="#divider-glyph"/></svg></div>
+  <section aria-labelledby="faq-heading">
+    <div class="section-head">
+      <p class="eyebrow">Frequently asked</p>
+      <h2 id="faq-heading">Questions we get after the calculation</h2>
+    </div>
+
+    <div class="faq-list">
+      <details class="faq-item" open>
+        <summary class="faq-head">How often should I test my soil pH? <span class="faq-toggle">+</span></summary>
+        <div class="faq-body">
+          Test in-ground beds once per year, ideally in the fall after harvest so amendments have the winter to react. Raised beds with fresh compost inputs benefit from a re-test every six months — they drift faster.
+          <cite>Cornell Cooperative Extension · Soil pH Testing · 2022</cite>
+        </div>
+      </details>
+      <details class="faq-item">
+        <summary class="faq-head">Can I use wood ash to raise pH instead of lime? <span class="faq-toggle">+</span></summary>
+        <div class="faq-body">
+          Yes, cautiously. Wood ash is roughly half as effective as agricultural lime and adds significant potassium — which can be undesirable at high rates. Limit applications to 20 lbs per 1,000 sqft per year.
+          <cite>Oregon State Extension · EC 1503 · 2018</cite>
+        </div>
+      </details>
+      <details class="faq-item">
+        <summary class="faq-head">Does tap water drift my soil pH over time? <span class="faq-toggle">+</span></summary>
+        <div class="faq-body">
+          Only if your municipal water is strongly alkaline (above pH 8.0). For most U.S. tap water, the effect is negligible over a single season. Container plantings are more sensitive than in-ground beds.
+          <cite>UGA Extension · Bulletin 1579 · 2020</cite>
+        </div>
+      </details>
+      <details class="faq-item">
+        <summary class="faq-head">What's the difference between pelletized and powdered lime? <span class="faq-toggle">+</span></summary>
+        <div class="faq-body">
+          Both are calcium carbonate. Pelletized is dust-free and spreader-friendly; powdered reacts faster. For equivalent amounts, powdered shifts pH 1–2 months sooner. The calculator uses a neutral factor that's accurate for either.
+          <cite>Penn State Extension · Soil Management · 2021</cite>
+        </div>
+      </details>
+      <details class="faq-item">
+        <summary class="faq-head">Why does my container soil read so different from my in-ground soil? <span class="faq-toggle">+</span></summary>
+        <div class="faq-body">
+          Container mixes are typically peat- or coir-based and often start at pH 5.5–6.0 from the bag — well below most in-ground soils. Re-amend containers at repotting rather than every season.
+          <cite>UMass Extension · Container &amp; Raised-Bed Soil Management · 2019</cite>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <!-- METHODOLOGY ----------------------------------------- -->
+  <div class="divider"><svg width="40" height="16"><use href="#divider-glyph"/></svg></div>
+  <section class="methodology" aria-labelledby="meth-heading">
+    <h3 id="meth-heading">Methodology &amp; sources</h3>
+    <p>The rate factor by soil type (sandy 0.03, loamy 0.05, clay 0.08) comes from Cornell Cooperative Extension. The base conversion is calibrated against University of Massachusetts soil test reports. All formulas are visible below; the calculator is client-side and stores no input.</p>
+    <div class="formula">
+<span class="kw">amount</span> <span class="op">=</span> |target_pH <span class="op">−</span> current_pH| <span class="op">×</span> area_sqft <span class="op">×</span> factor[soil] <span class="op">×</span> k[amendment]
+    </div>
+    <h4>University Extension references</h4>
+    <ul class="sources">
+      <li>
+        <span class="badge">Cornell</span>
+        <span class="title">Liming the Home Garden <em>Department of Horticulture · 2022</em></span>
+        <a class="url" href="#">cals.cornell.edu/liming</a>
+      </li>
+      <li>
+        <span class="badge">Oregon St.</span>
+        <span class="title">EC 1560 · Acidifying Soil in Landscapes and Gardens <em>Extension Service · 2021</em></span>
+        <a class="url" href="#">extension.oregonstate.edu</a>
+      </li>
+      <li>
+        <span class="badge">Penn St.</span>
+        <span class="title">Soil Management for the Home Gardener <em>Extension · 2021</em></span>
+        <a class="url" href="#">extension.psu.edu/soil-ph</a>
+      </li>
+      <li>
+        <span class="badge">UGA</span>
+        <span class="title">Bulletin 1579 · Home-Garden Soil Testing <em>Cooperative Extension · 2020</em></span>
+        <a class="url" href="#">extension.uga.edu/b1579</a>
+      </li>
+    </ul>
+  </section>
+
+  <!-- RELATED --------------------------------------------- -->
+  <div class="divider"><svg width="40" height="16"><use href="#divider-glyph"/></svg></div>
+  <section aria-labelledby="related-heading">
+    <div class="section-head">
+      <p class="eyebrow">Related calculators</p>
+      <h2 id="related-heading">Pair with these</h2>
+    </div>
+    <div class="related-row">
+      <a class="related-card" href="#">
+        <div class="icon-slot"><svg width="24" height="24"><use href="#ic-fertilizer"/></svg></div>
+        <div><h3>Fertilizer Calculator</h3><p>NPK rates once your pH is on target.</p></div>
+      </a>
+      <a class="related-card" href="#">
+        <div class="icon-slot"><svg width="24" height="24"><use href="#ic-compost"/></svg></div>
+        <div><h3>Compost Calculator</h3><p>Build organic matter after liming.</p></div>
+      </a>
+      <a class="related-card" href="#">
+        <div class="icon-slot"><svg width="24" height="24"><use href="#ic-ruler"/></svg></div>
+        <div><h3>Seed Spacing</h3><p>Plan the plot you just amended.</p></div>
+      </a>
+    </div>
+  </section>
+
+  <!-- EMBED ----------------------------------------------- -->
+  <div class="divider"><svg width="40" height="16"><use href="#divider-glyph"/></svg></div>
+  <section class="embed" aria-labelledby="embed-heading">
+    <h3 id="embed-heading">Embed this widget</h3>
+    <p>Free to embed on any site — personal, commercial, or .edu. Updates automatically when we revise the formula.</p>
+    <div class="embed-code-wrap">
+      <pre id="embed-code"><span class="tag">&lt;iframe</span>
+  <span class="attr">src</span>=<span>"https://gardencalcs.com/embed/soil-ph"</span>
+  <span class="attr">width</span>=<span>"100%"</span> <span class="attr">height</span>=<span>"640"</span>
+  <span class="attr">frameborder</span>=<span>"0"</span> <span class="attr">loading</span>=<span>"lazy"</span>
+<span class="tag">&gt;&lt;/iframe&gt;</span></pre>
+      <button class="copy-btn" id="copy-btn" type="button">Copy</button>
+    </div>
+    <div class="embed-foot">No tracking · no analytics call-home · MIT-style embed license</div>
+  </section>
+
+</main>
+
+<!-- Footer -->
+<footer class="ftr">
+  <div>
+    <div class="mark">Garden Tools Hub</div>
+    <div class="tag">Garden math, answered.</div>
+    <p style="font-size:13px; color:var(--soil); margin:0;">An editorial almanac of free calculators for the small-scale grower.</p>
+  </div>
+  <div><h5>Tools</h5><ul><li><a href="#">Soil pH</a></li><li><a href="#">Compost</a></li><li><a href="#">Watering</a></li><li><a href="#">Seed spacing</a></li><li><a href="#">Fertilizer</a></li></ul></div>
+  <div><h5>Guides</h5><ul><li><a href="#">Soil pH basics</a></li><li><a href="#">Home composting</a></li><li><a href="#">Fertilize a veg garden</a></li></ul></div>
+  <div><h5>About &amp; embed</h5><ul><li><a href="#">About</a></li><li><a href="#">Privacy</a></li><li><a href="#">Contact</a></li></ul></div>
+</footer>
+<div class="ftr-bottom">
+  <span>© 2026 Garden Tools Hub</span>
+  <span>No. 042 · Spring 2026</span>
+</div>
+
+<div class="toast" id="toast">Copied to clipboard</div>
+
+<script>
+  const btn = document.getElementById('copy-btn');
+  const toast = document.getElementById('toast');
+  const codeEl = document.getElementById('embed-code');
+
+  btn.addEventListener('click', async () => {
+    const text = codeEl.textContent.replace(/\s+/g, ' ').trim();
+    try {
+      await navigator.clipboard.writeText(text);
+    } catch (e) {
+      const ta = document.createElement('textarea');
+      ta.value = text; document.body.appendChild(ta); ta.select();
+      document.execCommand('copy'); document.body.removeChild(ta);
+    }
+    btn.textContent = 'Copied';
+    btn.classList.add('copied');
+    toast.classList.add('show');
+    setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); toast.classList.remove('show'); }, 1500);
+  });
+</script>
+</body>
+</html>

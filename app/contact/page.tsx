@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { siteConfig } from "@/config/site";
 
 export const metadata: Metadata = {
@@ -9,39 +10,69 @@ export const metadata: Metadata = {
 
 export default function ContactPage() {
   return (
-    <div className="max-w-2xl mx-auto px-4 py-12">
-      <h1 className="text-3xl font-bold text-gray-900 mb-4">Contact Us</h1>
-      <p className="text-gray-600 mb-8">
-        Have a question, spotted an error in our data, or interested in a partnership? We&apos;d love
-        to hear from you.
-      </p>
+    <article className="max-w-[720px] mx-auto px-6 md:px-8 pt-7 pb-24">
+      <nav
+        aria-label="Breadcrumb"
+        className="font-mono text-[11px] uppercase tracking-[0.14em] text-soil mb-7"
+      >
+        <Link href="/" className="hover:text-moss-deep transition-colors duration-fast">Home</Link>
+        <span className="mx-2 opacity-50">/</span>
+        <span className="text-ink">Contact</span>
+      </nav>
 
-      <div className="space-y-5">
-        <div className="flex items-start gap-4 p-5 bg-white border border-gray-200 rounded-xl">
-          <span className="text-2xl">✉️</span>
-          <div>
-            <p className="font-semibold text-gray-900 mb-1">Email</p>
-            <a href="mailto:contact@gardencalcs.com"
-              className="text-green-700 hover:underline text-sm">
+      <header className="pb-8 border-b border-dashed border-[color-mix(in_oklch,var(--soil)_45%,transparent)] mb-10">
+        <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-terracotta mb-3">
+          Letters to the editor
+        </p>
+        <h1 className="font-serif font-semibold text-[38px] md:text-[46px] leading-[1.08] tracking-[-0.01em] text-ink mb-3">
+          Get in touch
+        </h1>
+        <p className="font-serif italic text-[18px] md:text-[19px] leading-[1.45] text-soil">
+          Spotted an error, got a question, or have a tool you&apos;d like us to build? We&apos;d love to hear from you.
+        </p>
+      </header>
+
+      <dl className="grid grid-cols-1 gap-5">
+        <div className="bg-paper border border-[color-mix(in_oklch,var(--soil)_25%,transparent)] border-l-[4px] border-l-moss rounded-md px-6 py-5">
+          <dt className="font-mono text-[11px] uppercase tracking-[0.12em] text-moss-deep mb-2">
+            Email
+          </dt>
+          <dd className="m-0">
+            <a
+              href="mailto:contact@gardencalcs.com"
+              className="font-serif font-semibold text-[20px] text-ink hover:text-moss-deep transition-colors duration-fast"
+            >
               contact@gardencalcs.com
             </a>
-            <p className="text-xs text-gray-400 mt-1">We typically respond within 2–3 business days.</p>
-          </div>
+            <p className="font-serif italic text-[14px] text-soil mt-2">
+              We typically respond within 2–3 business days.
+            </p>
+          </dd>
         </div>
 
-        <div className="flex items-start gap-4 p-5 bg-white border border-gray-200 rounded-xl">
-          <span className="text-2xl">💻</span>
-          <div>
-            <p className="font-semibold text-gray-900 mb-1">GitHub</p>
-            <a href="https://github.com/budalord/gardencalcs"
-              target="_blank" rel="noopener noreferrer"
-              className="text-green-700 hover:underline text-sm">
+        <div className="bg-paper border border-[color-mix(in_oklch,var(--soil)_25%,transparent)] border-l-[4px] border-l-terracotta rounded-md px-6 py-5">
+          <dt className="font-mono text-[11px] uppercase tracking-[0.12em] text-terracotta mb-2">
+            Source code · GitHub
+          </dt>
+          <dd className="m-0">
+            <a
+              href="https://github.com/budalord/gardencalcs"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-mono text-[15px] tabular text-ink hover:text-moss-deep transition-colors duration-fast border-b border-[color-mix(in_oklch,var(--moss)_40%,transparent)] hover:border-moss"
+            >
               github.com/budalord/gardencalcs
             </a>
-            <p className="text-xs text-gray-400 mt-1">Found a bug? Open an issue or submit a pull request.</p>
-          </div>
+            <p className="font-serif italic text-[14px] text-soil mt-2">
+              Found a bug? Open an issue or submit a pull request.
+            </p>
+          </dd>
         </div>
-      </div>
-    </div>
+      </dl>
+
+      <p className="mt-10 pt-6 border-t border-dashed border-[color-mix(in_oklch,var(--soil)_35%,transparent)] font-mono text-[11px] uppercase tracking-[0.12em] text-soil">
+        Editorial office · {siteConfig.name}
+      </p>
+    </article>
   );
 }

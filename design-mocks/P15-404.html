@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>404 · Page not found — Garden Tools Hub</title>
+<meta name="robots" content="noindex">
+<style>
+:root{
+  --ink:oklch(0.22 0.03 150);--cream:oklch(0.97 0.02 95);
+  --paper:oklch(0.94 0.025 95);--moss:oklch(0.55 0.13 150);
+  --moss-deep:oklch(0.35 0.10 150);--leaf:oklch(0.72 0.16 145);
+  --soil:oklch(0.40 0.06 60);--terracotta:oklch(0.68 0.14 45);
+  --font-serif:"Source Serif 4","Iowan Old Style",Georgia,serif;
+  --font-sans:"Inter",system-ui,sans-serif;
+  --font-mono:"JetBrains Mono",ui-monospace,monospace;
+  --r-sm:4px;--r-md:8px;--r-lg:12px;--dur:150ms;--ease:cubic-bezier(0.2,0.6,0.2,1);
+  --w-prose:640px;--w-wide:1280px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;height:100%}
+body{background:var(--cream);color:var(--ink);font:16px/1.65 var(--font-sans);-webkit-font-smoothing:antialiased;display:flex;flex-direction:column;min-height:100vh}
+a{color:var(--moss-deep);text-decoration:none}
+a:hover{text-decoration:underline}
+
+/* Header */
+.site-header{border-bottom:1px solid color-mix(in oklch,var(--soil) 30%,transparent);background:var(--cream)}
+.site-header .inner{max-width:var(--w-wide);margin:0 auto;padding:16px 28px;display:flex;align-items:center;justify-content:space-between;gap:24px}
+.wordmark{font:600 20px/1 var(--font-serif);color:var(--moss-deep)}
+.wordmark small{display:block;font:italic 11px var(--font-serif);color:var(--soil);margin-top:2px}
+.nav{display:flex;gap:28px;font:500 14px var(--font-sans)}
+.nav a{color:var(--ink)}
+
+/* Main */
+main{flex:1;max-width:900px;margin:0 auto;padding:48px 28px 72px;width:100%}
+
+/* Top banner — the big 404 */
+.hero{display:grid;grid-template-columns:1fr 280px;gap:48px;align-items:center;padding:32px 0 40px;border-bottom:1px dashed color-mix(in oklch,var(--soil) 40%,transparent)}
+@media (max-width:720px){.hero{grid-template-columns:1fr;gap:24px;text-align:center}.hero svg{margin:0 auto}}
+
+.hero .kicker{font:italic 14px var(--font-serif);color:var(--terracotta);letter-spacing:.04em;text-transform:uppercase;margin:0 0 10px}
+.hero h1{font:600 64px/1 var(--font-serif);letter-spacing:-0.02em;margin:0 0 14px;color:var(--ink)}
+.hero h1 em{font:italic 600 64px/1 var(--font-serif);color:var(--moss-deep)}
+.hero .dek{font:italic 19px/1.55 var(--font-serif);color:var(--soil);max-width:440px;margin:0 0 20px}
+.hero .actions{display:flex;gap:10px;flex-wrap:wrap;font-family:var(--font-sans)}
+@media (max-width:720px){.hero .actions{justify-content:center}}
+.btn{font:500 14px var(--font-sans);padding:10px 18px;border-radius:var(--r-md);border:1px solid transparent;cursor:pointer;transition:all var(--dur) var(--ease);display:inline-flex;align-items:center;gap:8px;text-decoration:none}
+.btn-primary{background:var(--moss);color:var(--cream);border-color:var(--moss)}
+.btn-primary:hover{background:var(--moss-deep);border-color:var(--moss-deep);text-decoration:none}
+.btn-ghost{background:transparent;color:var(--moss-deep);border-color:color-mix(in oklch,var(--soil) 30%,transparent)}
+.btn-ghost:hover{border-color:var(--moss);text-decoration:none}
+
+/* Illustration — a potted-plant that lost its pot */
+.hero svg{width:100%;max-width:260px;height:auto;color:var(--moss-deep)}
+
+/* Search */
+.search{margin:40px 0 32px;max-width:var(--w-prose)}
+.search-label{font:500 12px var(--font-sans);letter-spacing:.1em;text-transform:uppercase;color:var(--moss-deep);margin-bottom:10px}
+.search-box{display:flex;align-items:center;gap:12px;padding:12px 16px;background:var(--paper);border:1px solid color-mix(in oklch,var(--soil) 30%,transparent);border-radius:var(--r-md);transition:border-color var(--dur) var(--ease)}
+.search-box:focus-within{border-color:var(--moss)}
+.search-box svg{width:18px;height:18px;color:var(--soil);flex:0 0 auto}
+.search-box input{flex:1;font:400 16px var(--font-sans);border:0;background:transparent;outline:none;color:var(--ink)}
+.search-box input::placeholder{color:color-mix(in oklch,var(--soil) 70%,transparent);font-style:italic;font-family:var(--font-serif)}
+.search-box kbd{font:500 11px var(--font-mono);padding:3px 7px;border:1px solid color-mix(in oklch,var(--soil) 30%,transparent);border-radius:var(--r-sm);color:var(--soil);background:var(--cream)}
+.search-results{margin-top:8px;padding:8px 0;display:none;font-family:var(--font-sans);font-size:14px}
+.search-results.open{display:block}
+.search-results a{display:flex;justify-content:space-between;align-items:center;padding:8px 16px;color:var(--ink);border-radius:var(--r-sm)}
+.search-results a:hover{background:color-mix(in oklch,var(--moss) 8%,transparent);text-decoration:none}
+.search-results .path{font:500 12px var(--font-mono);color:var(--soil)}
+.search-results .empty{padding:12px 16px;font-style:italic;color:var(--soil);font-family:var(--font-serif)}
+
+/* Did you mean */
+.suggest{margin:24px 0 48px;padding:20px 24px;background:var(--paper);border:1px solid color-mix(in oklch,var(--moss) 35%,transparent);border-left:3px solid var(--moss);border-radius:var(--r-md);font-family:var(--font-sans)}
+.suggest .kick{font:600 11px var(--font-sans);letter-spacing:.1em;text-transform:uppercase;color:var(--moss-deep);margin-bottom:8px;display:block}
+.suggest p{margin:0;font-size:15px;color:var(--ink)}
+.suggest p code{font:500 13px var(--font-mono);color:var(--terracotta);background:color-mix(in oklch,var(--terracotta) 10%,transparent);padding:2px 6px;border-radius:var(--r-sm)}
+.suggest .links{margin-top:12px;display:flex;gap:14px;flex-wrap:wrap;font-size:14px}
+
+/* Popular section */
+.popular{margin-top:48px}
+.popular h2{font:600 22px var(--font-serif);color:var(--moss-deep);margin:0 0 18px;padding-bottom:10px;border-bottom:1px dashed color-mix(in oklch,var(--soil) 35%,transparent);display:flex;align-items:center;gap:12px}
+.popular h2 svg{width:20px;height:20px;color:var(--moss)}
+.popular-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;font-family:var(--font-sans)}
+@media (max-width:720px){.popular-grid{grid-template-columns:1fr}}
+.pop-card{padding:16px 18px;background:var(--paper);border:1px solid color-mix(in oklch,var(--soil) 25%,transparent);border-radius:var(--r-md);transition:border-color var(--dur) var(--ease);display:flex;flex-direction:column;gap:4px}
+.pop-card:hover{border-color:var(--moss);text-decoration:none}
+.pop-card .meta{font:500 11px var(--font-sans);letter-spacing:.08em;text-transform:uppercase;color:var(--soil);margin-bottom:4px}
+.pop-card .title{font:600 15px var(--font-serif);color:var(--ink);letter-spacing:-0.005em}
+.pop-card .count{font:500 12px var(--font-mono);color:var(--soil);margin-top:4px;font-variant-numeric:tabular-nums}
+
+/* Report */
+.report{margin-top:56px;padding:22px 26px;background:var(--paper);border:1px solid color-mix(in oklch,var(--soil) 28%,transparent);border-left:3px solid var(--terracotta);border-radius:var(--r-md);font-family:var(--font-sans);display:grid;grid-template-columns:1fr auto;gap:20px;align-items:center}
+@media (max-width:640px){.report{grid-template-columns:1fr}}
+.report h3{font:600 17px var(--font-serif);color:var(--ink);margin:0 0 4px}
+.report p{margin:0;font-size:14px;color:var(--soil)}
+.report code{font:500 13px var(--font-mono);color:var(--terracotta);background:color-mix(in oklch,var(--terracotta) 10%,transparent);padding:2px 6px;border-radius:var(--r-sm)}
+
+/* Footer */
+.site-footer{max-width:var(--w-wide);margin:0 auto;padding:32px 28px 40px;border-top:1px solid color-mix(in oklch,var(--soil) 25%,transparent);display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;color:var(--soil);font:13px var(--font-sans)}
+.site-footer a{color:var(--soil)}
+.site-footer a:hover{color:var(--moss-deep)}
+.site-footer .wordmark-sm{font:600 14px var(--font-serif);color:var(--moss-deep)}
+.site-footer nav{display:flex;gap:20px}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="inner">
+    <a href="/" class="wordmark">Garden Tools Hub<small>Garden math, answered.</small></a>
+    <nav class="nav">
+      <a href="/tools">Tools</a><a href="/guides">Guides</a><a href="/about">About</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <section class="hero">
+    <div>
+      <p class="kicker">Error 404 · Page not found</p>
+      <h1>This page <em>never took root.</em></h1>
+      <p class="dek">Could be a typo in the URL, a bookmark from an older version of the site, or a page we renamed. Nothing grew here.</p>
+      <div class="actions">
+        <a class="btn btn-primary" href="/">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2 8l6-6 6 6M4 7v6h8V7"/></svg>
+          Back to the homepage
+        </a>
+        <a class="btn btn-ghost" href="/tools">Browse all tools</a>
+        <a class="btn btn-ghost" href="/guides">Read the guides</a>
+      </div>
+    </div>
+
+    <!-- Illustration: a terracotta pot tipped over, one seedling, roots exposed. Single-weight ink, leaf-color fill at ~50% opacity. -->
+    <svg viewBox="0 0 260 240" fill="none" stroke="currentColor" stroke-width="1.3">
+      <!-- horizon line -->
+      <path d="M10 190 H250" stroke-dasharray="3 4" opacity=".4"/>
+      <!-- tipped pot -->
+      <g transform="translate(130,140) rotate(-18)">
+        <path d="M-60 0 L-48 60 L48 60 L60 0 Z" fill="oklch(0.68 0.14 45)" fill-opacity=".45"/>
+        <path d="M-66 -4 L66 -4 L60 8 L-60 8 Z" fill="oklch(0.68 0.14 45)" fill-opacity=".55"/>
+        <path d="M-50 20 L50 20" stroke-opacity=".4"/>
+        <path d="M-44 40 L44 40" stroke-opacity=".3"/>
+      </g>
+      <!-- spilled soil -->
+      <path d="M90 178 Q 120 168, 160 176 T 210 190" fill="oklch(0.40 0.06 60)" fill-opacity=".35" stroke-opacity=".6"/>
+      <circle cx="100" cy="184" r="2" fill="currentColor" stroke="none" opacity=".6"/>
+      <circle cx="140" cy="178" r="2" fill="currentColor" stroke="none" opacity=".6"/>
+      <circle cx="180" cy="186" r="2" fill="currentColor" stroke="none" opacity=".6"/>
+      <circle cx="200" cy="192" r="2" fill="currentColor" stroke="none" opacity=".6"/>
+
+      <!-- seedling: stem + two cotyledons, roots exposed -->
+      <g transform="translate(155,140)">
+        <!-- stem -->
+        <path d="M0 40 Q -2 20, 0 0 Q 2 -20, 0 -40"/>
+        <!-- cotyledons -->
+        <path d="M0 -28 C -20 -36, -24 -22, -4 -18 Z" fill="oklch(0.72 0.16 145)" fill-opacity=".5"/>
+        <path d="M0 -28 C 20 -36, 24 -22, 4 -18 Z" fill="oklch(0.72 0.16 145)" fill-opacity=".5"/>
+        <path d="M0 -40 L-2 -48 M0 -40 L2 -48" stroke-opacity=".6"/>
+        <!-- exposed roots -->
+        <path d="M0 40 L-8 52 L-6 64 M0 40 L-14 56 M0 40 L14 56 L10 70 M0 40 L20 58 L22 48 M0 40 L8 52" stroke-opacity=".7"/>
+      </g>
+
+      <!-- wandering text marker -->
+      <g font-family="Source Serif 4" font-style="italic" font-size="11" fill="oklch(0.40 0.06 60)" stroke="none">
+        <text x="55" y="65" opacity=".7">the URL you were</text>
+        <text x="55" y="80" opacity=".7">looking for —</text>
+        <path d="M95 90 Q 120 100, 145 110" stroke="oklch(0.40 0.06 60)" stroke-opacity=".4" fill="none" stroke-dasharray="2 3"/>
+        <path d="M145 110 l-4 -3 M145 110 l-4 3" stroke="oklch(0.40 0.06 60)" stroke-opacity=".4"/>
+      </g>
+    </svg>
+  </section>
+
+  <div class="suggest" id="suggest" style="display:none">
+    <span class="kick">Did you mean</span>
+    <p>You asked for <code id="askedPath">/tools/soil-calc</code> — that's close to a page we do have.</p>
+    <div class="links">
+      <a href="/tools/soil-ph-calculator">→ Soil pH Calculator</a>
+      <a href="/tools/compost-calculator">→ Compost Calculator</a>
+    </div>
+  </div>
+
+  <section class="search">
+    <div class="search-label">Or search what we've got</div>
+    <div class="search-box">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>
+      <input id="q" type="search" placeholder="Try 'soil ph', 'compost', 'lime rate'…" autocomplete="off">
+      <kbd>/</kbd>
+    </div>
+    <div class="search-results" id="results"></div>
+  </section>
+
+  <section class="popular">
+    <h2>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M12 3c0 4 3 5 3 9s-3 6-3 9c0-3-3-5-3-9s3-5 3-9z"/></svg>
+      Most-visited tools
+    </h2>
+    <div class="popular-grid">
+      <a class="pop-card" href="/tools/soil-ph-calculator"><span class="meta">Soil · Calculator</span><span class="title">Soil pH Calculator</span><span class="count">18,420 runs this month</span></a>
+      <a class="pop-card" href="/tools/compost-calculator"><span class="meta">Soil · Calculator</span><span class="title">Compost Calculator</span><span class="count">9,140 runs this month</span></a>
+      <a class="pop-card" href="/tools/fertilizer-calculator"><span class="meta">Nutrition · Calculator</span><span class="title">Fertilizer Calculator</span><span class="count">6,720 runs this month</span></a>
+      <a class="pop-card" href="/tools/watering-schedule"><span class="meta">Water · Calculator</span><span class="title">Watering Schedule</span><span class="count">5,380 runs this month</span></a>
+      <a class="pop-card" href="/tools/seed-spacing"><span class="meta">Planting · Calculator</span><span class="title">Seed Spacing</span><span class="count">4,210 runs this month</span></a>
+      <a class="pop-card" href="/guides/soil-ph"><span class="meta">Soil · Guide</span><span class="title">Soil pH, the complete guide</span><span class="count">11,050 reads this month</span></a>
+    </div>
+  </section>
+
+  <section class="report">
+    <div>
+      <h3>Was this link on another site?</h3>
+      <p>If you followed a link from somewhere else and it lands on 404, we'd like to know. Email <a href="mailto:editors@gardencalcs.com">editors@gardencalcs.com</a> with the referring URL or send us the broken path: <code id="brokenPath">/tools/soil-calc</code>.</p>
+    </div>
+    <a class="btn btn-ghost" href="/contact">Report this link</a>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div>
+    <div class="wordmark-sm">Garden Tools Hub</div>
+    <div>© 2026 · Free, no sign-up, source-cited.</div>
+  </div>
+  <nav>
+    <a href="/tools">Tools</a><a href="/guides">Guides</a><a href="/about">About</a><a href="/privacy">Privacy</a><a href="/contact">Contact</a>
+  </nav>
+</footer>
+
+<script>
+// Mock content index for search
+const INDEX = [
+  {title:'Soil pH Calculator', path:'/tools/soil-ph-calculator', type:'Calculator'},
+  {title:'Compost Calculator', path:'/tools/compost-calculator', type:'Calculator'},
+  {title:'Fertilizer Calculator', path:'/tools/fertilizer-calculator', type:'Calculator'},
+  {title:'Watering Schedule', path:'/tools/watering-schedule', type:'Calculator'},
+  {title:'Seed Spacing', path:'/tools/seed-spacing', type:'Calculator'},
+  {title:'Raised Bed Soil', path:'/tools/raised-bed-soil', type:'Calculator'},
+  {title:'Mulch Calculator', path:'/tools/mulch-calculator', type:'Calculator'},
+  {title:'Frost Date Lookup', path:'/tools/frost-date', type:'Calculator'},
+  {title:'Soil pH, the complete guide', path:'/guides/soil-ph', type:'Guide'},
+  {title:'Lime vs sulfur — picking the right amendment', path:'/guides/lime-vs-sulfur', type:'Guide'},
+  {title:'One inch per week — where that number comes from', path:'/guides/one-inch-per-week', type:'Guide'},
+  {title:'What N-P-K actually means', path:'/guides/npk-explained', type:'Guide'},
+  {title:'Square-foot gardening spacing chart', path:'/guides/square-foot-spacing', type:'Guide'},
+];
+
+const q = document.getElementById('q');
+const results = document.getElementById('results');
+const suggest = document.getElementById('suggest');
+const askedPath = document.getElementById('askedPath');
+const brokenPath = document.getElementById('brokenPath');
+
+// Use location to show what was asked
+const realPath = location.pathname !== '/' ? location.pathname : '/tools/soil-calc';
+askedPath.textContent = realPath;
+brokenPath.textContent = realPath;
+
+// Heuristic: show "did you mean" if URL contains keywords we know
+function showSuggestion(){
+  const p = realPath.toLowerCase();
+  const hints = ['soil','ph','compost','fertiliz','lime','water','seed','spacing','frost','mulch','raised'];
+  if(hints.some(h => p.includes(h))) suggest.style.display = 'block';
+}
+showSuggestion();
+
+// Live search
+function search(term){
+  term = term.trim().toLowerCase();
+  if(!term){ results.classList.remove('open'); results.innerHTML = ''; return; }
+  const matches = INDEX.filter(i => i.title.toLowerCase().includes(term) || i.path.toLowerCase().includes(term)).slice(0, 6);
+  results.classList.add('open');
+  if(!matches.length){
+    results.innerHTML = `<div class="empty">No matches for "${term.replace(/</g,'&lt;')}". Try a broader term, or <a href="/tools">browse all tools</a>.</div>`;
+    return;
+  }
+  results.innerHTML = matches.map(m => `<a href="${m.path}"><span><strong style="font-weight:500">${m.title}</strong> · <span style="color:var(--soil);font-size:13px">${m.type}</span></span><span class="path">${m.path}</span></a>`).join('');
+}
+q.addEventListener('input', e => search(e.target.value));
+
+// Slash shortcut to focus search
+document.addEventListener('keydown', e => {
+  if(e.key === '/' && document.activeElement !== q){
+    e.preventDefault(); q.focus();
+  }
+});
+</script>
+
+</body>
+</html>

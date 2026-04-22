@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>P11 — Composting Guide Components</title>
+<style>
+:root{
+  --ink:oklch(0.22 0.03 150);--cream:oklch(0.97 0.02 95);
+  --paper:oklch(0.94 0.025 95);--moss:oklch(0.55 0.13 150);
+  --moss-deep:oklch(0.35 0.10 150);--leaf:oklch(0.72 0.16 145);
+  --soil:oklch(0.40 0.06 60);--terracotta:oklch(0.68 0.14 45);
+  --brown:oklch(0.45 0.08 60);--green:oklch(0.55 0.13 145);
+  --font-serif:"Source Serif 4","Iowan Old Style",Georgia,serif;
+  --font-sans:"Inter",system-ui,sans-serif;
+  --font-mono:"JetBrains Mono",ui-monospace,monospace;
+  --r-md:8px;--r-lg:12px;--dur:150ms;--ease:cubic-bezier(0.2,0.6,0.2,1);
+  --w-prose:720px;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--cream);color:var(--ink);font:16px/1.65 var(--font-sans);padding:48px 24px}
+.stage{max-width:840px;margin:0 auto}
+.stage > h1{font:600 32px var(--font-serif);color:var(--moss-deep);margin:0 0 6px}
+.stage > .lede{color:var(--soil);font-style:italic;margin:0 0 40px;font-family:var(--font-serif);font-size:17px}
+.stage-label{font:italic 13px var(--font-serif);color:var(--soil);margin:44px 0 12px;display:flex;align-items:center;gap:12px}
+.stage-label::before,.stage-label::after{content:"";flex:1;border-top:1px dashed color-mix(in oklch,var(--soil) 40%,transparent)}
+.component{background:var(--paper);border:1px solid color-mix(in oklch,var(--soil) 25%,transparent);border-radius:var(--r-lg);padding:28px 32px;max-width:var(--w-prose);margin:0 auto}
+.component h3{font:600 20px var(--font-serif);color:var(--moss-deep);margin:0 0 4px}
+.component .sub{font:italic 14px var(--font-serif);color:var(--soil);margin:0 0 20px}
+
+/* C:N ratio dial */
+.cn-dial{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:18px;align-items:center}
+.cn-ratio{text-align:center;padding:24px;background:var(--cream);border-radius:var(--r-md);border:1px solid color-mix(in oklch,var(--soil) 20%,transparent)}
+.cn-big{font:600 54px/1 var(--font-serif);font-variant-numeric:tabular-nums;color:var(--moss-deep)}
+.cn-big small{font:500 20px var(--font-sans);color:var(--soil);margin:0 6px}
+.cn-caption{font:italic 13px var(--font-serif);color:var(--soil);margin-top:6px}
+.cn-bar{height:28px;border-radius:6px;overflow:hidden;display:flex;margin-top:14px;border:1px solid color-mix(in oklch,var(--soil) 25%,transparent)}
+.cn-bar .browns{background:color-mix(in oklch,var(--brown) 50%,var(--cream));flex:30;display:flex;align-items:center;justify-content:center;font:600 11px var(--font-sans);color:var(--brown);letter-spacing:.08em}
+.cn-bar .greens{background:color-mix(in oklch,var(--green) 40%,var(--cream));flex:1;display:flex;align-items:center;justify-content:center;font:600 11px var(--font-sans);color:var(--moss-deep);letter-spacing:.08em}
+
+.ingredients{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:18px;font-size:14px}
+.ing-col h4{font:600 12px var(--font-sans);letter-spacing:.1em;text-transform:uppercase;margin:0 0 10px;padding-bottom:6px;border-bottom:1px dashed color-mix(in oklch,var(--soil) 30%,transparent)}
+.ing-col.browns h4{color:var(--brown)}
+.ing-col.greens h4{color:var(--moss-deep)}
+.ing-row{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dashed color-mix(in oklch,var(--soil) 15%,transparent)}
+.ing-row .val{font:500 13px var(--font-mono);font-variant-numeric:tabular-nums;color:var(--soil)}
+
+/* Layer diagram */
+.pile{display:grid;grid-template-columns:220px 1fr;gap:24px;align-items:start}
+.pile svg{width:100%;height:auto}
+.pile-steps{font-size:14px}
+.pile-steps ol{margin:0;padding-left:22px;counter-reset:step}
+.pile-steps li{list-style:none;counter-increment:step;padding:10px 0;border-bottom:1px dashed color-mix(in oklch,var(--soil) 25%,transparent);position:relative;padding-left:32px}
+.pile-steps li::before{content:counter(step);position:absolute;left:0;top:10px;width:22px;height:22px;border:1px solid var(--moss);border-radius:50%;display:flex;align-items:center;justify-content:center;font:600 12px var(--font-mono);color:var(--moss-deep)}
+.pile-steps li:last-child{border-bottom:0}
+.pile-steps strong{display:block;margin-bottom:2px;font-weight:600;color:var(--ink)}
+
+/* Temperature curve */
+.temp-chart{background:var(--cream);border:1px solid color-mix(in oklch,var(--soil) 20%,transparent);border-radius:var(--r-md);padding:20px}
+.temp-chart svg{width:100%;height:auto;display:block}
+.temp-legend{display:flex;gap:18px;margin-top:10px;font-size:12px;color:var(--soil);flex-wrap:wrap}
+.temp-legend .sw{display:inline-block;width:12px;height:12px;border-radius:2px;margin-right:6px;vertical-align:-2px}
+
+/* Checklist */
+.checklist{list-style:none;padding:0;margin:0;font-family:var(--font-sans)}
+.checklist li{display:grid;grid-template-columns:22px 1fr auto;gap:12px;padding:12px 0;border-bottom:1px dashed color-mix(in oklch,var(--soil) 20%,transparent);align-items:baseline;font-size:14px}
+.checklist .box{width:18px;height:18px;border:1.5px solid var(--moss);border-radius:4px;display:inline-block}
+.checklist li.done .box{background:var(--moss);position:relative}
+.checklist li.done .box::after{content:"";position:absolute;left:4px;top:1px;width:6px;height:10px;border:solid var(--cream);border-width:0 2px 2px 0;transform:rotate(45deg)}
+.checklist li.done .label{text-decoration:line-through;color:var(--soil)}
+.checklist .week{font:500 11px var(--font-mono);color:var(--soil);letter-spacing:.06em}
+
+/* Troubleshoot table */
+.trouble{width:100%;border-collapse:collapse;font-size:14px}
+.trouble th{text-align:left;padding:10px 12px;font:600 11px var(--font-sans);letter-spacing:.1em;text-transform:uppercase;color:var(--moss-deep);border-bottom:1px solid var(--soil)}
+.trouble td{padding:12px;border-bottom:1px dashed color-mix(in oklch,var(--soil) 22%,transparent);vertical-align:top}
+.trouble td:first-child{font-weight:600;color:var(--terracotta);font-family:var(--font-serif);font-size:15px}
+</style>
+</head>
+<body>
+<div class="stage">
+  <h1>P11 · Composting Guide Components</h1>
+  <p class="lede">Five components that ship inside the /guides/composting article. Each slots into the P10 prose layout.</p>
+
+  <div class="stage-label">C:N ratio dial · shown at a healthy 30:1</div>
+  <div class="component">
+    <h3>Browns-to-greens calculator</h3>
+    <p class="sub">Composting microbes want roughly 30 parts carbon to 1 part nitrogen by weight.</p>
+    <div class="cn-dial">
+      <div class="cn-ratio">
+        <div class="cn-big">30<small>:</small>1</div>
+        <div class="cn-caption">Ideal for hot, fast-finishing compost</div>
+      </div>
+      <div>
+        <div style="font-size:14px;color:var(--soil);margin-bottom:8px">Your pile composition · by volume</div>
+        <div class="cn-bar"><div class="browns">BROWNS · 75%</div><div class="greens">GREENS · 25%</div></div>
+        <p style="font:italic 13px var(--font-serif);color:var(--soil);margin:10px 0 0">Three parts browns to one part greens by volume lands near the 30:1 target once you account for the nitrogen density of greens.</p>
+      </div>
+    </div>
+    <div class="ingredients">
+      <div class="ing-col browns">
+        <h4>Browns · high carbon</h4>
+        <div class="ing-row"><span>Dry leaves</span><span class="val">60:1</span></div>
+        <div class="ing-row"><span>Straw</span><span class="val">80:1</span></div>
+        <div class="ing-row"><span>Sawdust (untreated)</span><span class="val">325:1</span></div>
+        <div class="ing-row"><span>Cardboard (shredded)</span><span class="val">350:1</span></div>
+        <div class="ing-row"><span>Newspaper</span><span class="val">175:1</span></div>
+      </div>
+      <div class="ing-col greens">
+        <h4>Greens · high nitrogen</h4>
+        <div class="ing-row"><span>Grass clippings (fresh)</span><span class="val">17:1</span></div>
+        <div class="ing-row"><span>Vegetable scraps</span><span class="val">15:1</span></div>
+        <div class="ing-row"><span>Coffee grounds</span><span class="val">20:1</span></div>
+        <div class="ing-row"><span>Chicken manure</span><span class="val">7:1</span></div>
+        <div class="ing-row"><span>Fresh weeds</span><span class="val">25:1</span></div>
+      </div>
+    </div>
+    <p style="font:italic 12px var(--font-serif);color:var(--soil);margin:14px 0 0">C:N values from Cornell Waste Management Institute. Ratios vary with moisture and maturity.</p>
+  </div>
+
+  <div class="stage-label">Pile layering diagram</div>
+  <div class="component">
+    <h3>How to build the pile</h3>
+    <p class="sub">Alternate layers roughly 4 inches thick. A 3 × 3 × 3 ft pile is the minimum for it to heat up on its own.</p>
+    <div class="pile">
+      <svg viewBox="0 0 220 240" fill="none" stroke="currentColor" stroke-width="1.2" style="color:var(--moss-deep)">
+        <!-- pile outline -->
+        <path d="M20 220 L30 80 L110 40 L190 80 L200 220 Z" fill="var(--cream)"/>
+        <!-- layers from bottom to top -->
+        <path d="M20 220 H200" />
+        <path d="M22 200 C 60 195 160 195 198 200" />
+        <path d="M25 178 C 65 173 155 173 195 178" />
+        <path d="M28 156 C 70 151 150 151 192 156" />
+        <path d="M32 134 C 75 129 145 129 188 134" />
+        <path d="M36 112 C 80 107 140 107 184 112" />
+        <path d="M40 90 C 85 85 135 85 180 90" />
+        <!-- green layer fills -->
+        <path d="M22 200 C 60 195 160 195 198 200 L195 178 C 155 173 65 173 25 178 Z" fill="var(--green)" fill-opacity=".35" stroke="none"/>
+        <path d="M32 134 C 75 129 145 129 188 134 L184 112 C 140 107 80 107 36 112 Z" fill="var(--green)" fill-opacity=".35" stroke="none"/>
+        <!-- brown layer fills (implicit) -->
+        <path d="M25 178 C 65 173 155 173 195 178 L192 156 C 150 151 70 151 28 156 Z" fill="var(--brown)" fill-opacity=".25" stroke="none"/>
+        <path d="M36 112 C 80 107 140 107 184 112 L180 90 C 135 85 85 85 40 90 Z" fill="var(--brown)" fill-opacity=".25" stroke="none"/>
+        <!-- labels -->
+        <text x="210" y="210" font-family="JetBrains Mono" font-size="10" fill="oklch(0.40 0.06 60)" stroke="none">coarse</text>
+        <text x="210" y="189" font-family="JetBrains Mono" font-size="10" fill="oklch(0.55 0.13 145)" stroke="none">green</text>
+        <text x="210" y="167" font-family="JetBrains Mono" font-size="10" fill="oklch(0.45 0.08 60)" stroke="none">brown</text>
+        <text x="210" y="145" font-family="JetBrains Mono" font-size="10" fill="oklch(0.55 0.13 145)" stroke="none">green</text>
+        <text x="210" y="123" font-family="JetBrains Mono" font-size="10" fill="oklch(0.45 0.08 60)" stroke="none">brown</text>
+        <text x="210" y="101" font-family="JetBrains Mono" font-size="10" fill="oklch(0.55 0.13 145)" stroke="none">green</text>
+      </svg>
+      <div class="pile-steps">
+        <ol>
+          <li><strong>Base layer · coarse browns</strong>Twigs or straw, 4 in thick, for airflow.</li>
+          <li><strong>First greens</strong>Kitchen scraps, grass — 4 in.</li>
+          <li><strong>Cover with browns</strong>Leaves or shredded paper — 4 in.</li>
+          <li><strong>Moisten</strong>Wring-out-a-sponge damp, never soggy.</li>
+          <li><strong>Repeat</strong>Alternate to 3 ft tall; cap with browns.</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <div class="stage-label">Temperature curve · 8-week hot compost cycle</div>
+  <div class="component">
+    <h3>What the pile should be doing</h3>
+    <p class="sub">A healthy hot pile rises above 130 °F within a week, holds for 2–3 weeks, then falls as it cures.</p>
+    <div class="temp-chart">
+      <svg viewBox="0 0 640 220" fill="none" stroke-width="1.2">
+        <!-- grid -->
+        <g stroke="oklch(0.40 0.06 60)" stroke-opacity=".15">
+          <line x1="50" y1="30" x2="620" y2="30"/>
+          <line x1="50" y1="70" x2="620" y2="70"/>
+          <line x1="50" y1="110" x2="620" y2="110"/>
+          <line x1="50" y1="150" x2="620" y2="150"/>
+          <line x1="50" y1="190" x2="620" y2="190"/>
+        </g>
+        <!-- ideal band -->
+        <rect x="50" y="50" width="570" height="40" fill="var(--leaf)" fill-opacity=".15" stroke="none"/>
+        <text x="615" y="58" font-family="Source Serif 4" font-style="italic" font-size="11" fill="oklch(0.35 0.10 150)" stroke="none" text-anchor="end">thermophilic · 130–160 °F</text>
+        <!-- axis labels -->
+        <g font-family="JetBrains Mono" font-size="10" fill="oklch(0.40 0.06 60)" stroke="none">
+          <text x="45" y="34" text-anchor="end">160</text>
+          <text x="45" y="74" text-anchor="end">130</text>
+          <text x="45" y="114" text-anchor="end">100</text>
+          <text x="45" y="154" text-anchor="end">70</text>
+          <text x="45" y="194" text-anchor="end">40 °F</text>
+          <text x="50" y="210">W1</text>
+          <text x="131" y="210">W2</text>
+          <text x="212" y="210">W3</text>
+          <text x="293" y="210">W4</text>
+          <text x="374" y="210">W5</text>
+          <text x="455" y="210">W6</text>
+          <text x="536" y="210">W7</text>
+          <text x="617" y="210" text-anchor="end">W8</text>
+        </g>
+        <!-- temp curve -->
+        <path d="M50 180 C 90 180, 110 90, 150 60 S 230 45, 290 55 S 380 85, 440 130 S 540 170, 620 175"
+              stroke="oklch(0.55 0.13 150)" stroke-width="1.8" fill="none"/>
+        <!-- turn markers -->
+        <g stroke="oklch(0.68 0.14 45)" stroke-width="1.2">
+          <line x1="155" y1="30" x2="155" y2="190" stroke-dasharray="2 3"/>
+          <line x1="290" y1="30" x2="290" y2="190" stroke-dasharray="2 3"/>
+          <line x1="425" y1="30" x2="425" y2="190" stroke-dasharray="2 3"/>
+        </g>
+        <g font-family="Source Serif 4" font-style="italic" font-size="10" fill="oklch(0.68 0.14 45)" stroke="none">
+          <text x="158" y="26">turn</text>
+          <text x="293" y="26">turn</text>
+          <text x="428" y="26">turn</text>
+        </g>
+      </svg>
+      <div class="temp-legend">
+        <span><span class="sw" style="background:oklch(0.55 0.13 150)"></span>Pile temperature</span>
+        <span><span class="sw" style="background:oklch(0.72 0.16 145);opacity:.4"></span>Thermophilic band · kills weed seeds &amp; pathogens</span>
+        <span><span class="sw" style="background:oklch(0.68 0.14 45)"></span>Turn the pile</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="stage-label">Weekly checklist · 3 of 8 weeks done</div>
+  <div class="component">
+    <h3>8-week composting checklist</h3>
+    <p class="sub">Print or check off as you go. State is local to this page for the demo.</p>
+    <ul class="checklist">
+      <li class="done"><span class="box"></span><span class="label"><strong>Build the pile</strong> — alternate browns and greens to 3 ft tall.</span><span class="week">Week 1</span></li>
+      <li class="done"><span class="box"></span><span class="label"><strong>First temperature check</strong> — target ≥ 130 °F.</span><span class="week">Week 2</span></li>
+      <li class="done"><span class="box"></span><span class="label"><strong>First turn</strong> — outside material to the center.</span><span class="week">Week 3</span></li>
+      <li><span class="box"></span><span class="label"><strong>Second turn</strong> — moisten if dry; cover with browns.</span><span class="week">Week 4</span></li>
+      <li><span class="box"></span><span class="label"><strong>Temperature drop expected</strong> — 100–120 °F is normal.</span><span class="week">Week 5</span></li>
+      <li><span class="box"></span><span class="label"><strong>Third turn</strong> — pile volume should be half original.</span><span class="week">Week 6</span></li>
+      <li><span class="box"></span><span class="label"><strong>Curing phase</strong> — stop turning, let mature.</span><span class="week">Week 7</span></li>
+      <li><span class="box"></span><span class="label"><strong>Finished</strong> — crumbly, earthy smell, no recognizable scraps.</span><span class="week">Week 8</span></li>
+    </ul>
+  </div>
+
+  <div class="stage-label">Troubleshooting table</div>
+  <div class="component">
+    <h3>When the pile misbehaves</h3>
+    <p class="sub">Six common symptoms, what they mean, what to do.</p>
+    <table class="trouble">
+      <thead><tr><th>Symptom</th><th>Cause</th><th>Fix</th></tr></thead>
+      <tbody>
+        <tr><td>Smells like ammonia</td><td>Too much nitrogen (greens)</td><td>Add browns, turn to aerate</td></tr>
+        <tr><td>Smells rotten, sour</td><td>Anaerobic — too wet, compacted</td><td>Turn, add coarse browns for airflow</td></tr>
+        <tr><td>Pile won't heat up</td><td>Too small, too dry, or too much carbon</td><td>Reach 3 × 3 × 3 ft, water, add greens</td></tr>
+        <tr><td>Attracts flies &amp; rodents</td><td>Meat, dairy, or exposed scraps</td><td>Remove animal products, bury kitchen scraps under 6 in of browns</td></tr>
+        <tr><td>Takes too long (&gt; 4 months)</td><td>Cold temps or low nitrogen</td><td>Insulate with straw; add coffee grounds or grass</td></tr>
+        <tr><td>White fungal strands</td><td>Actinomycetes — normal</td><td>No action needed; this is late-stage decomposition</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+</body>
+</html>

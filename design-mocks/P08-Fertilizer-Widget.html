@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>P08 — Fertilizer Calculator Widget</title>
+<style>
+:root{
+  --ink:oklch(0.22 0.03 150);--cream:oklch(0.97 0.02 95);
+  --paper:oklch(0.94 0.025 95);--moss:oklch(0.55 0.13 150);
+  --moss-deep:oklch(0.35 0.10 150);--leaf:oklch(0.72 0.16 145);
+  --soil:oklch(0.40 0.06 60);--terracotta:oklch(0.68 0.14 45);
+  --font-serif:"Source Serif 4","Iowan Old Style",Georgia,serif;
+  --font-sans:"Inter",system-ui,sans-serif;
+  --font-mono:"JetBrains Mono",ui-monospace,monospace;
+  --r-md:8px;--r-lg:12px;--dur:150ms;--ease:cubic-bezier(0.2,0.6,0.2,1);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--cream);color:var(--ink);font:16px/1.6 var(--font-sans);padding:48px 24px}
+.stage{max-width:860px;margin:0 auto}
+.stage-label{font:italic 13px var(--font-serif);color:var(--soil);margin:40px 0 12px;display:flex;align-items:center;gap:12px}
+.stage-label::before,.stage-label::after{content:"";flex:1;border-top:1px dashed color-mix(in oklch,var(--soil) 40%,transparent)}
+
+.widget{background:var(--paper);border:1px solid color-mix(in oklch,var(--soil) 30%,transparent);border-radius:var(--r-lg);padding:28px;max-width:720px;margin:0 auto}
+.widget h2{font:600 22px/1.2 var(--font-serif);margin:0 0 4px;color:var(--moss-deep)}
+.subhead{font-style:italic;color:var(--soil);font-size:14px;margin:0 0 24px}
+
+.section-label{font:600 12px var(--font-sans);letter-spacing:.1em;text-transform:uppercase;color:var(--moss-deep);margin:18px 0 10px;padding-bottom:6px;border-bottom:1px dashed color-mix(in oklch,var(--soil) 35%,transparent)}
+
+.npk-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:12px}
+.npk-field{position:relative}
+.npk-field label{position:absolute;top:8px;left:12px;font:600 11px var(--font-mono);letter-spacing:.08em;color:var(--soil)}
+.npk-field input{width:100%;font:500 22px var(--font-mono);font-variant-numeric:tabular-nums;background:var(--cream);border:1px solid color-mix(in oklch,var(--soil) 35%,transparent);border-radius:var(--r-md);padding:26px 12px 10px;color:var(--ink);outline:none;transition:border-color var(--dur) var(--ease);text-align:center}
+.npk-field input:focus{border-color:var(--moss)}
+.npk-sep{font:500 12px var(--font-sans);text-align:center;color:var(--soil);margin:6px 0 12px;letter-spacing:.04em}
+
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+.field label{display:block;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--soil);margin-bottom:6px}
+.field input, .field select{width:100%;font:500 16px var(--font-sans);background:var(--cream);border:1px solid color-mix(in oklch,var(--soil) 35%,transparent);border-radius:var(--r-md);padding:10px 12px;color:var(--ink);outline:none;transition:border-color var(--dur) var(--ease)}
+.field input{font-family:var(--font-mono);font-variant-numeric:tabular-nums}
+.field input:focus,.field select:focus{border-color:var(--moss)}
+
+.presets{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.preset{font:500 12px var(--font-sans);padding:5px 10px;border-radius:999px;border:1px solid color-mix(in oklch,var(--soil) 30%,transparent);background:var(--cream);color:var(--soil);cursor:pointer}
+.preset:hover{border-color:var(--moss);color:var(--moss-deep)}
+
+.result{margin-top:22px;padding:20px 24px;background:var(--cream);border:1px solid color-mix(in oklch,var(--moss) 35%,transparent);border-left:4px solid var(--moss);border-radius:var(--r-md)}
+.result-lede{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--soil);margin:0 0 4px}
+.result-value{font:600 34px/1 var(--font-serif);font-variant-numeric:tabular-nums;color:var(--moss-deep)}
+.result-value small{font:500 14px var(--font-sans);color:var(--soil);margin-left:6px}
+
+.nutrients{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px}
+.nutrient{padding:12px 14px;border:1px solid color-mix(in oklch,var(--soil) 25%,transparent);border-radius:var(--r-md);background:var(--paper);text-align:center}
+.nutrient .letter{font:600 20px var(--font-serif);color:var(--moss-deep);line-height:1}
+.nutrient .name{font-size:11px;letter-spacing:.08em;color:var(--soil);margin:3px 0 8px;text-transform:uppercase}
+.nutrient .amt{font:500 15px var(--font-mono);font-variant-numeric:tabular-nums;color:var(--ink)}
+
+.warn{margin-top:16px;padding:12px 14px;border:1px solid color-mix(in oklch,var(--terracotta) 40%,transparent);border-left:3px solid var(--terracotta);border-radius:var(--r-md);background:color-mix(in oklch,var(--terracotta) 6%,var(--cream));font-size:13px;color:var(--ink)}
+.warn strong{color:var(--terracotta);font-weight:600}
+
+.hint{margin-top:14px;font-size:13px;color:var(--soil);font-style:italic}
+.hint a{color:var(--moss-deep)}
+
+.actions{margin-top:18px;display:flex;gap:10px}
+.btn{font:500 14px var(--font-sans);padding:8px 14px;border-radius:var(--r-md);border:1px solid transparent;cursor:pointer;transition:all var(--dur) var(--ease)}
+.btn-primary{background:var(--moss);color:var(--cream);border-color:var(--moss)}
+.btn-primary:hover{background:var(--moss-deep);border-color:var(--moss-deep)}
+</style>
+</head>
+<body>
+<div class="stage">
+  <h1 style="font:600 26px/1.2 var(--font-serif);color:var(--moss-deep);margin:0 0 4px">P08 · Fertilizer Calculator Widget</h1>
+  <p style="color:var(--soil);margin:0;font-style:italic">Slots into <code>/tools/fertilizer-calculator</code>. N-P-K target + bag analysis → pounds of product.</p>
+
+  <div class="stage-label">Default — lawn feeding (1 lb N / 1,000 ft²) with 10-10-10</div>
+  <div class="widget" id="w1">
+    <h2>How much fertilizer do I apply?</h2>
+    <p class="subhead">Tell us your target rate and your bag's analysis. We'll give pounds of product and each nutrient delivered.</p>
+
+    <div class="section-label">Target rate · lb per 1,000 ft²</div>
+    <div class="npk-row">
+      <div class="npk-field"><label>N</label><input type="number" id="tN" value="1.0" step="0.1" min="0"></div>
+      <div class="npk-field"><label>P₂O₅</label><input type="number" id="tP" value="0" step="0.1" min="0"></div>
+      <div class="npk-field"><label>K₂O</label><input type="number" id="tK" value="0" step="0.1" min="0"></div>
+    </div>
+    <div class="npk-sep">Sizing based on the limiting nutrient (typically N)</div>
+    <div class="presets">
+      <button class="preset" data-n="1.0" data-p="0" data-k="0">Standard lawn · 1-0-0</button>
+      <button class="preset" data-n="0.5" data-p="0.25" data-k="0.5">Veg starter · 0.5-0.25-0.5</button>
+      <button class="preset" data-n="0.25" data-p="0" data-k="0.5">Tomato bloom · 0.25-0-0.5</button>
+    </div>
+
+    <div class="section-label">Bag analysis</div>
+    <div class="grid-2">
+      <div class="field"><label>Bag N-P-K</label><select id="bag">
+        <option value="10-10-10" selected>10-10-10 (balanced)</option>
+        <option value="21-0-0">21-0-0 (ammonium sulfate)</option>
+        <option value="46-0-0">46-0-0 (urea)</option>
+        <option value="5-10-10">5-10-10 (veg starter)</option>
+        <option value="0-0-60">0-0-60 (muriate of potash)</option>
+      </select></div>
+      <div class="field"><label>Area to cover (ft²)</label><input type="number" id="area" value="1000" step="10"></div>
+    </div>
+
+    <div class="result">
+      <p class="result-lede">Apply</p>
+      <div class="result-value" id="amount">10.0<small>lb of 10-10-10 across 1,000 ft²</small></div>
+
+      <div class="nutrients">
+        <div class="nutrient"><div class="letter">N</div><div class="name">Nitrogen</div><div class="amt" id="nN">1.00 lb</div></div>
+        <div class="nutrient"><div class="letter">P</div><div class="name">Phosphate</div><div class="amt" id="nP">1.00 lb</div></div>
+        <div class="nutrient"><div class="letter">K</div><div class="name">Potash</div><div class="amt" id="nK">1.00 lb</div></div>
+      </div>
+
+      <div class="warn" id="warn" style="display:none"><strong>Caution:</strong> <span id="warnMsg"></span></div>
+
+      <p class="hint">Formula: <code style="font-family:var(--font-mono)">lb product = (target N ÷ bag N%) × (area ÷ 1,000)</code>. Source: <a href="#">Penn State Ext.</a>, <a href="#">Clemson HGIC</a>.</p>
+    </div>
+
+    <div class="actions"><button class="btn btn-primary" id="recalc">Recalculate</button></div>
+  </div>
+
+  <div class="stage-label">Alternate — veg garden with 5-10-10, over-application warning</div>
+  <div class="widget">
+    <h2>How much fertilizer do I apply?</h2>
+    <p class="subhead">Tell us your target rate and your bag's analysis. We'll give pounds of product and each nutrient delivered.</p>
+    <div class="section-label">Target rate · lb per 1,000 ft²</div>
+    <div class="npk-row">
+      <div class="npk-field"><label>N</label><input type="number" value="2.0"></div>
+      <div class="npk-field"><label>P₂O₅</label><input type="number" value="0"></div>
+      <div class="npk-field"><label>K₂O</label><input type="number" value="0"></div>
+    </div>
+    <div class="section-label">Bag analysis</div>
+    <div class="grid-2">
+      <div class="field"><label>Bag N-P-K</label><select><option>5-10-10 (veg starter)</option></select></div>
+      <div class="field"><label>Area to cover (ft²)</label><input type="number" value="200"></div>
+    </div>
+    <div class="result">
+      <p class="result-lede">Apply</p>
+      <div class="result-value">8.0<small>lb of 5-10-10 across 200 ft²</small></div>
+      <div class="nutrients">
+        <div class="nutrient"><div class="letter">N</div><div class="name">Nitrogen</div><div class="amt">0.40 lb</div></div>
+        <div class="nutrient"><div class="letter">P</div><div class="name">Phosphate</div><div class="amt">0.80 lb</div></div>
+        <div class="nutrient"><div class="letter">K</div><div class="name">Potash</div><div class="amt">0.80 lb</div></div>
+      </div>
+      <div class="warn"><strong>Caution:</strong> Target of 2.0 lb N / 1,000 ft² exceeds the typical 1.0–1.5 lb limit per application. Split into two feedings 4–6 weeks apart.</div>
+      <p class="hint">Formula: <code style="font-family:var(--font-mono)">lb product = (target N ÷ bag N%) × (area ÷ 1,000)</code>.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  const w = document.getElementById('w1');
+  const tN=w.querySelector('#tN'),tP=w.querySelector('#tP'),tK=w.querySelector('#tK');
+  const bag=w.querySelector('#bag'),area=w.querySelector('#area');
+  const amount=w.querySelector('#amount'),nN=w.querySelector('#nN'),nP=w.querySelector('#nP'),nK=w.querySelector('#nK');
+  const warn=w.querySelector('#warn'),warnMsg=w.querySelector('#warnMsg');
+
+  function compute(){
+    const [bN,bP,bK] = bag.value.split('-').map(Number);
+    const target = {N:+tN.value||0, P:+tP.value||0, K:+tK.value||0};
+    const bagPct = {N:bN/100, P:bP/100, K:bK/100};
+    const a = +area.value||0;
+    // pounds of product needed to hit each target (skip nutrients not in bag)
+    const needs = [];
+    if(target.N>0 && bagPct.N>0) needs.push(target.N / bagPct.N);
+    if(target.P>0 && bagPct.P>0) needs.push(target.P / bagPct.P);
+    if(target.K>0 && bagPct.K>0) needs.push(target.K / bagPct.K);
+    const per1000 = needs.length ? Math.max(...needs) : 0;
+    const total = per1000 * (a/1000);
+    amount.innerHTML = `${total.toFixed(1)}<small>lb of ${bag.value} across ${a.toLocaleString()} ft²</small>`;
+    nN.textContent = `${(total*bagPct.N).toFixed(2)} lb`;
+    nP.textContent = `${(total*bagPct.P).toFixed(2)} lb`;
+    nK.textContent = `${(total*bagPct.K).toFixed(2)} lb`;
+
+    if(target.N > 1.5){
+      warnMsg.textContent = `Target of ${target.N.toFixed(1)} lb N / 1,000 ft² exceeds the typical 1.0–1.5 lb limit per application. Split into two feedings 4–6 weeks apart.`;
+      warn.style.display = 'block';
+    } else warn.style.display = 'none';
+  }
+  [tN,tP,tK,bag,area].forEach(el=>el.addEventListener('input',compute));
+  w.querySelector('#recalc').addEventListener('click',compute);
+  w.querySelectorAll('.preset').forEach(p=>p.addEventListener('click',()=>{
+    tN.value=p.dataset.n; tP.value=p.dataset.p; tK.value=p.dataset.k; compute();
+  }));
+})();
+</script>
+</body>
+</html>

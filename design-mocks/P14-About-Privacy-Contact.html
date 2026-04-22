@@ -1,0 +1,447 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>P14 — About · Privacy · Contact</title>
+<style>
+:root{
+  --ink:oklch(0.22 0.03 150);--cream:oklch(0.97 0.02 95);
+  --paper:oklch(0.94 0.025 95);--moss:oklch(0.55 0.13 150);
+  --moss-deep:oklch(0.35 0.10 150);--leaf:oklch(0.72 0.16 145);
+  --soil:oklch(0.40 0.06 60);--terracotta:oklch(0.68 0.14 45);
+  --font-serif:"Source Serif 4","Iowan Old Style",Georgia,serif;
+  --font-sans:"Inter",system-ui,sans-serif;
+  --font-mono:"JetBrains Mono",ui-monospace,monospace;
+  --r-sm:4px;--r-md:8px;--r-lg:12px;--dur:150ms;--ease:cubic-bezier(0.2,0.6,0.2,1);
+  --w-prose:680px;--w-canvas:1024px;--w-wide:1280px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:var(--cream);color:var(--ink);font:17px/1.7 var(--font-serif);-webkit-font-smoothing:antialiased}
+a{color:var(--moss-deep);text-decoration:none;border-bottom:1px solid color-mix(in oklch,var(--moss) 40%,transparent)}
+a:hover{border-bottom-color:var(--moss)}
+
+/* Screen banner (for this mock doc only) */
+.screen-banner{max-width:var(--w-wide);margin:0 auto;padding:28px 28px 0}
+.screen-banner-inner{display:flex;align-items:center;gap:14px;padding:14px 18px;background:var(--paper);border:1px dashed color-mix(in oklch,var(--soil) 40%,transparent);border-radius:var(--r-md);font-family:var(--font-sans);font-size:13px;color:var(--soil)}
+.screen-banner .num{font:600 12px var(--font-mono);letter-spacing:.08em;color:var(--terracotta);padding:3px 8px;border:1px solid var(--terracotta);border-radius:var(--r-sm)}
+.screen-banner strong{color:var(--ink);font-weight:600;font-family:var(--font-serif);font-size:15px;margin-right:8px}
+
+/* Shared site header */
+.site-header{border-bottom:1px solid color-mix(in oklch,var(--soil) 30%,transparent);background:var(--cream)}
+.site-header .inner{max-width:var(--w-wide);margin:0 auto;padding:16px 28px;display:flex;align-items:center;justify-content:space-between;gap:24px}
+.wordmark{font:600 20px/1 var(--font-serif);color:var(--moss-deep);border:0}
+.wordmark small{display:block;font:italic 11px var(--font-serif);color:var(--soil);margin-top:2px}
+.nav{display:flex;gap:28px;font-family:var(--font-sans);font-size:14px;font-weight:500}
+.nav a{color:var(--ink);border:0}
+.nav a.is-current{color:var(--moss-deep);border-bottom:1px solid var(--moss)}
+
+/* Page head */
+.page-head{max-width:var(--w-canvas);margin:0 auto;padding:56px 28px 32px;text-align:center;border-bottom:1px dashed color-mix(in oklch,var(--soil) 35%,transparent)}
+.page-head .kicker{font:italic 14px var(--font-serif);color:var(--terracotta);letter-spacing:.04em;text-transform:uppercase;margin-bottom:14px}
+.page-head h1{font:600 52px/1.1 var(--font-serif);letter-spacing:-0.02em;margin:0 auto 16px;max-width:780px;color:var(--ink)}
+.page-head .dek{font:italic 20px/1.5 var(--font-serif);color:var(--soil);max-width:600px;margin:0 auto}
+.page-head-rule{display:flex;align-items:center;justify-content:center;gap:14px;margin-top:28px}
+.page-head-rule .bar{width:60px;border-top:1px dashed color-mix(in oklch,var(--soil) 45%,transparent)}
+.page-head-rule svg{width:20px;height:20px;color:var(--moss)}
+
+.prose{max-width:var(--w-prose);margin:0 auto;padding:40px 28px 60px}
+.prose > * + *{margin-top:1.2em}
+.prose h2{font:600 28px/1.3 var(--font-serif);color:var(--moss-deep);margin-top:2.2em;letter-spacing:-0.01em}
+.prose h3{font:600 18px var(--font-serif);color:var(--ink);margin-top:1.5em}
+.prose p{margin:0}
+.prose p.lede{font:500 20px/1.55 var(--font-serif);color:var(--ink)}
+.prose ul{padding-left:22px;margin:0}
+.prose ul li{margin-bottom:6px}
+.prose strong{font-weight:600;color:var(--ink)}
+.prose em{font-style:italic}
+
+/* About: principles card */
+.principles{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:28px 0;font-family:var(--font-sans)}
+.principle{padding:18px 20px;background:var(--paper);border:1px solid color-mix(in oklch,var(--soil) 25%,transparent);border-radius:var(--r-md)}
+.principle .num{font:600 11px var(--font-mono);letter-spacing:.08em;color:var(--moss);margin-bottom:6px;display:block}
+.principle h4{font:600 16px var(--font-serif);color:var(--ink);margin:0 0 6px;letter-spacing:-0.005em}
+.principle p{font-size:13px;color:var(--soil);margin:0;line-height:1.55}
+@media (max-width:640px){.principles{grid-template-columns:1fr}}
+
+/* Methodology callout */
+.callout{margin:32px 0;padding:20px 24px;border:1px solid color-mix(in oklch,var(--moss) 35%,transparent);border-left:3px solid var(--moss);border-radius:var(--r-md);background:var(--paper);font-family:var(--font-sans);font-size:15px}
+.callout .kick{font:600 11px var(--font-sans);letter-spacing:.1em;text-transform:uppercase;color:var(--moss-deep);margin-bottom:6px;display:block}
+
+/* Editors roster */
+.editors{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:24px 0;font-family:var(--font-sans)}
+.editor{padding:16px 18px;background:var(--paper);border:1px solid color-mix(in oklch,var(--soil) 25%,transparent);border-radius:var(--r-md);text-align:center}
+.editor .avatar{width:52px;height:52px;border-radius:50%;background:var(--cream);border:1px solid color-mix(in oklch,var(--soil) 28%,transparent);display:flex;align-items:center;justify-content:center;color:var(--moss-deep);font:600 18px var(--font-serif);margin:0 auto 10px}
+.editor h4{font:600 14px var(--font-serif);margin:0 0 2px;color:var(--ink)}
+.editor .role{font:500 11px var(--font-sans);letter-spacing:.06em;text-transform:uppercase;color:var(--soil)}
+.editor .bio{font-size:12px;color:var(--soil);margin:6px 0 0;line-height:1.5;font-style:italic;font-family:var(--font-serif)}
+@media (max-width:640px){.editors{grid-template-columns:1fr}}
+
+/* Privacy: summary table */
+.privacy-summary{margin:24px 0;border:1px solid color-mix(in oklch,var(--soil) 28%,transparent);border-radius:var(--r-md);overflow:hidden;background:var(--paper);font-family:var(--font-sans)}
+.ps-row{display:grid;grid-template-columns:200px 1fr auto;gap:16px;align-items:baseline;padding:14px 20px;border-bottom:1px dashed color-mix(in oklch,var(--soil) 22%,transparent);font-size:14px}
+.ps-row:last-child{border-bottom:0}
+.ps-row .q{font-weight:600;color:var(--ink);font-family:var(--font-serif);font-size:15px}
+.ps-row .a{color:var(--soil)}
+.ps-row .badge{font:600 10px var(--font-mono);letter-spacing:.08em;padding:3px 8px;border-radius:var(--r-sm);white-space:nowrap}
+.ps-row .badge.yes{background:color-mix(in oklch,var(--terracotta) 15%,var(--cream));color:var(--terracotta);border:1px solid color-mix(in oklch,var(--terracotta) 40%,transparent)}
+.ps-row .badge.no{background:color-mix(in oklch,var(--leaf) 18%,var(--cream));color:var(--moss-deep);border:1px solid color-mix(in oklch,var(--leaf) 50%,transparent)}
+.ps-row .badge.na{background:var(--cream);color:var(--soil);border:1px solid color-mix(in oklch,var(--soil) 25%,transparent)}
+@media (max-width:640px){.ps-row{grid-template-columns:1fr;gap:4px}}
+
+/* Privacy TOC / section labels */
+.privacy-sec{margin-top:2.5em}
+.privacy-sec h2{margin-top:0}
+.privacy-updated{font:italic 13px var(--font-serif);color:var(--soil);text-align:center;margin-bottom:-20px}
+
+/* Contact: form */
+.contact-grid{display:grid;grid-template-columns:1.3fr 1fr;gap:36px;margin-top:40px;max-width:920px;margin-left:auto;margin-right:auto;padding:0 28px}
+@media (max-width:780px){.contact-grid{grid-template-columns:1fr;padding:0 28px}}
+.form{background:var(--paper);border:1px solid color-mix(in oklch,var(--soil) 25%,transparent);border-radius:var(--r-lg);padding:28px 32px;font-family:var(--font-sans)}
+.form h3{font:600 20px var(--font-serif);color:var(--moss-deep);margin:0 0 4px}
+.form .sub{font:italic 13px var(--font-serif);color:var(--soil);margin:0 0 22px}
+.field{margin-bottom:16px}
+.field label{display:block;font:500 12px var(--font-sans);letter-spacing:.08em;text-transform:uppercase;color:var(--soil);margin-bottom:6px}
+.field input, .field select, .field textarea{width:100%;font:400 15px var(--font-sans);background:var(--cream);border:1px solid color-mix(in oklch,var(--soil) 35%,transparent);border-radius:var(--r-md);padding:10px 12px;color:var(--ink);outline:none;transition:border-color var(--dur) var(--ease);font-family:inherit}
+.field textarea{min-height:120px;resize:vertical;line-height:1.55}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--moss)}
+.field .hint{margin-top:4px;font-size:12px;color:var(--soil);font-style:italic;font-family:var(--font-serif)}
+.btn{font:500 14px var(--font-sans);padding:10px 18px;border-radius:var(--r-md);border:1px solid var(--moss);background:var(--moss);color:var(--cream);cursor:pointer;transition:all var(--dur) var(--ease)}
+.btn:hover{background:var(--moss-deep);border-color:var(--moss-deep)}
+
+/* Contact: side info blocks */
+.side-info{font-family:var(--font-sans)}
+.side-info .block{padding:20px 22px;background:var(--paper);border:1px solid color-mix(in oklch,var(--soil) 25%,transparent);border-radius:var(--r-md);margin-bottom:14px}
+.side-info .block.accent{border-left:3px solid var(--terracotta)}
+.side-info h4{font:600 12px var(--font-sans);letter-spacing:.1em;text-transform:uppercase;color:var(--moss-deep);margin:0 0 8px}
+.side-info p{margin:0 0 8px;font-size:14px;color:var(--soil);line-height:1.55}
+.side-info a{font-size:14px;color:var(--moss-deep);font-weight:500}
+.side-info ul{padding-left:18px;margin:0;font-size:13px;color:var(--ink)}
+.side-info li{margin-bottom:5px}
+
+/* FAQ for contact */
+.contact-faq{max-width:var(--w-prose);margin:50px auto 0;padding:0 28px 60px}
+.contact-faq h2{font:600 22px var(--font-serif);color:var(--moss-deep);margin:0 0 18px;padding-bottom:10px;border-bottom:1px dashed color-mix(in oklch,var(--soil) 35%,transparent)}
+details{border-bottom:1px dashed color-mix(in oklch,var(--soil) 22%,transparent);padding:14px 0}
+summary{font:600 16px var(--font-serif);color:var(--ink);cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font:400 22px var(--font-serif);color:var(--moss);transition:transform var(--dur) var(--ease)}
+details[open] summary::after{content:"−"}
+details p{margin:10px 0 0;font-size:15px;color:var(--soil);line-height:1.65}
+
+/* Footer */
+.site-footer{max-width:var(--w-wide);margin:0 auto;padding:32px 28px 40px;border-top:1px solid color-mix(in oklch,var(--soil) 25%,transparent);display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;color:var(--soil);font-family:var(--font-sans);font-size:13px}
+.site-footer a{color:var(--soil);border:0}
+.site-footer a:hover{color:var(--moss-deep)}
+.site-footer .wordmark-sm{font:600 14px var(--font-serif);color:var(--moss-deep)}
+.site-footer nav{display:flex;gap:20px}
+
+.screen{padding-bottom:60px;border-bottom:4px dashed color-mix(in oklch,var(--soil) 30%,transparent);margin-bottom:40px}
+.screen:last-child{border-bottom:0;margin-bottom:0}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════ SCREEN 1 · ABOUT ═══════════════════════════ -->
+<section class="screen">
+  <div class="screen-banner"><div class="screen-banner-inner"><span class="num">01 / 03</span><strong>About</strong>/about · the mission page, used as trust-signal for SEO and AI-engine citations</div></div>
+
+  <header class="site-header">
+    <div class="inner">
+      <a href="#" class="wordmark">Garden Tools Hub<small>Garden math, answered.</small></a>
+      <nav class="nav">
+        <a href="#">Tools</a><a href="#">Guides</a><a href="#" class="is-current">About</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="page-head">
+    <p class="kicker">About</p>
+    <h1>A reference shelf for gardeners, not a storefront.</h1>
+    <p class="dek">We write free, source-cited garden calculators because every other place on the internet either asks you to log in, shows you ten ads before an answer, or makes the number up.</p>
+    <div class="page-head-rule"><span class="bar"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M12 3c0 4 3 5 3 9s-3 6-3 9c0-3-3-5-3-9s3-5 3-9z"/><path d="M12 12c2 0 5 1 7 3M12 12c-2 0-5 1-7 3"/></svg><span class="bar"></span></div>
+  </section>
+
+  <article class="prose">
+    <p class="lede">Every gardening question eventually comes down to a number — pounds of lime, cubic yards of compost, gallons per week, plants per row. The answer is out there, usually buried on a state University Extension PDF from 2004. We read those PDFs, we double-check them against two more, and we surface the math in a calculator that takes ten seconds.</p>
+
+    <h2>What we actually are</h2>
+    <p>A small editorial team. We make our living from the site's ad placements (non-intrusive; no pop-ups, no interstitials, no affiliate links baked into recommendations). We don't sell data. We don't have a newsletter that you'll regret signing up for — we don't have a newsletter at all.</p>
+
+    <h2>Our principles</h2>
+
+    <div class="principles">
+      <div class="principle"><span class="num">01</span><h4>Cite or it didn't ship.</h4><p>Every calculator links to the Extension publication it's derived from. If we can't source it, we don't publish it.</p></div>
+      <div class="principle"><span class="num">02</span><h4>Free, no sign-up, no dark patterns.</h4><p>No account required. No "unlock premium" modal. No newsletter pop-up 30 seconds after arrival. Ever.</p></div>
+      <div class="principle"><span class="num">03</span><h4>Answer first, explain second.</h4><p>The Quick Answer sits above the fold. The methodology, the formula, the sources — those are below, for the readers who want them.</p></div>
+      <div class="principle"><span class="num">04</span><h4>Calibrated confidence.</h4><p>When the Extension literature disagrees, we say so. When we're giving a rough estimate, we label it as one.</p></div>
+    </div>
+
+    <h2>How we make a guide</h2>
+    <p>Each calculator or guide follows the same pipeline:</p>
+    <ul>
+      <li><strong>Draft from primary sources.</strong> We start with at least three University Extension publications. Cornell CALS, NCSU Extension, UMN, Penn State, UC ANR, Clemson HGIC — these are the canon.</li>
+      <li><strong>Cross-check numbers.</strong> Lime rates, spacing intervals, watering gallons — we verify each value appears consistently across sources before using it.</li>
+      <li><strong>Worked example.</strong> Every calculator ships with at least one fully worked example, so you can verify the arithmetic by hand.</li>
+      <li><strong>Citation footer.</strong> Every number in the result is traceable to a named publication in the sources list.</li>
+      <li><strong>Review cycle.</strong> Every article carries a "last reviewed" date. We reread the canon on a 12-month cycle and update stale references.</li>
+    </ul>
+
+    <div class="callout">
+      <span class="kick">Methodology note</span>
+      When a Cornell publication says "5 lb lime per 100 ft²" and a Penn State publication says "4 lb," we publish the range and explain the why (usually soil-texture assumptions). We don't pick one and pretend the other doesn't exist.
+    </div>
+
+    <h2>Who writes this</h2>
+    <p>Three editors, no ghostwriters, no generative copy filler. Each article is assigned a primary author and a reviewer who wasn't in the draft — the reviewer's only job is to challenge the numbers.</p>
+
+    <div class="editors">
+      <div class="editor"><div class="avatar">AM</div><h4>A. Mori</h4><div class="role">Editor · soil</div><p class="bio">Three seasons volunteering at a county Master Gardener soil-test clinic. Writes our amendment content.</p></div>
+      <div class="editor"><div class="avatar">JR</div><h4>J. Renaud</h4><div class="role">Editor · nutrition</div><p class="bio">Agronomy background. Handles fertilizer &amp; nutrient-availability content and the Extension cross-checks.</p></div>
+      <div class="editor"><div class="avatar">KS</div><h4>K. Stone</h4><div class="role">Editor · growing</div><p class="bio">Market-garden operator. Writes spacing, scheduling, and watering content; works the numbers against a real bed.</p></div>
+    </div>
+
+    <h2>What we're not</h2>
+    <ul>
+      <li><strong>Not a replacement for your local Extension service.</strong> Soil pH varies at the county level. If you need an actual soil test, send a sample to your state's Extension lab — they're underpriced and accurate.</li>
+      <li><strong>Not a plant-diagnosis tool.</strong> If something is dying, call your county Master Gardener helpline. They're free.</li>
+      <li><strong>Not an aggregator.</strong> Every piece of content is written here, against the primary sources, by an editor whose name is attached.</li>
+    </ul>
+
+    <h2>How we're funded</h2>
+    <p>Unobtrusive display advertising — text-only or single-image sponsor blocks in the right rail on long pages. No affiliate links inside calculator results. No brand mentions in recommendations. If a calculator ever says "use Brand X," you have permission to email us about it — we haven't shipped one yet and don't plan to.</p>
+
+    <h2>Contact</h2>
+    <p>If you spot a math error, a wrong citation, or a stale fact — <a href="#contact">let us know</a>. We fix errors within 48 hours and credit the reader in the page's revision footer.</p>
+
+    <p style="margin-top:48px;padding-top:20px;border-top:1px dashed color-mix(in oklch,var(--soil) 30%,transparent);font:italic 14px var(--font-serif);color:var(--soil);text-align:center">Garden Tools Hub · editorially independent · est. 2025</p>
+  </article>
+
+  <footer class="site-footer">
+    <div><div class="wordmark-sm">Garden Tools Hub</div><div>© 2026 · Free, no sign-up, source-cited.</div></div>
+    <nav><a href="#">Tools</a><a href="#">Guides</a><a href="#">About</a><a href="#">Privacy</a><a href="#">Contact</a></nav>
+  </footer>
+</section>
+
+
+<!-- ═══════════════════════════ SCREEN 2 · PRIVACY ═══════════════════════════ -->
+<section class="screen">
+  <div class="screen-banner"><div class="screen-banner-inner"><span class="num">02 / 03</span><strong>Privacy</strong>/privacy · short, human-readable policy; GDPR-lite; no dark patterns</div></div>
+
+  <header class="site-header">
+    <div class="inner">
+      <a href="#" class="wordmark">Garden Tools Hub<small>Garden math, answered.</small></a>
+      <nav class="nav"><a href="#">Tools</a><a href="#">Guides</a><a href="#">About</a></nav>
+    </div>
+  </header>
+
+  <section class="page-head">
+    <p class="kicker">Privacy Policy</p>
+    <h1>The short version: we're not tracking you.</h1>
+    <p class="dek">No account, no cookies you didn't opt into, no data sold, no "legitimate interest" loopholes. This page is the long version.</p>
+    <div class="page-head-rule"><span class="bar"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><circle cx="12" cy="12" r="8"/><path d="M12 8v5l3 2"/></svg><span class="bar"></span></div>
+  </section>
+
+  <article class="prose">
+    <p class="privacy-updated">Effective April 21, 2026 · Supersedes all previous versions</p>
+
+    <h2>At a glance</h2>
+    <div class="privacy-summary">
+      <div class="ps-row"><span class="q">Do you require an account?</span><span class="a">No. The site is fully usable without one.</span><span class="badge no">NO</span></div>
+      <div class="ps-row"><span class="q">Do you set tracking cookies?</span><span class="a">First-party cookies only for accessibility preferences (unit toggle, theme). No third-party trackers.</span><span class="badge no">NO</span></div>
+      <div class="ps-row"><span class="q">Do you run analytics?</span><span class="a">Privacy-friendly, cookie-less page-view counts (Plausible). No fingerprinting, no session replay.</span><span class="badge na">LIMITED</span></div>
+      <div class="ps-row"><span class="q">Do you sell, rent, or share data?</span><span class="a">Never. Not with advertisers, brokers, partners, or affiliates.</span><span class="badge no">NO</span></div>
+      <div class="ps-row"><span class="q">Do you log calculator inputs?</span><span class="a">Calculations run entirely in your browser. Inputs never leave your device.</span><span class="badge no">NO</span></div>
+      <div class="ps-row"><span class="q">Do you show ads?</span><span class="a">Yes — unobtrusive display ads. We do not pass personal data to ad networks.</span><span class="badge yes">YES</span></div>
+      <div class="ps-row"><span class="q">Can I request deletion of my data?</span><span class="a">We don't hold any to delete. If you've emailed us, we'll purge the thread on request.</span><span class="badge na">N/A</span></div>
+    </div>
+
+    <section class="privacy-sec">
+      <h2>1. What we collect</h2>
+      <p>We collect as little as possible. Broken into three buckets:</p>
+      <h3>Things that never leave your browser</h3>
+      <p>Every calculator on the site runs entirely client-side. Your inputs — bed dimensions, pH readings, fertilizer analysis — are processed in your browser and are never transmitted to us. We have no way to see them, and neither does any third party.</p>
+      <h3>Aggregate page-view counts</h3>
+      <p>We use <a href="https://plausible.io">Plausible Analytics</a>, a privacy-focused, cookie-less alternative to Google Analytics. It records aggregate page views, country (IP-derived, not stored), and referrer. It does not set cookies, does not fingerprint your browser, and does not follow you across sites. The data is anonymized at the point of collection.</p>
+      <h3>Email, when you write to us</h3>
+      <p>If you send us an email about a math error, a typo, or general feedback, we keep the thread until the issue is resolved. We delete it on request, and we purge inactive threads after 12 months.</p>
+    </section>
+
+    <section class="privacy-sec">
+      <h2>2. Cookies</h2>
+      <p>We set at most two first-party cookies, and only if you interact with a preference control:</p>
+      <ul>
+        <li><code style="font-family:var(--font-mono);font-size:13px;background:color-mix(in oklch,var(--moss) 10%,transparent);padding:1px 6px;border-radius:3px">gch_units</code> — stores your preferred measurement system (ft/in vs m/cm). Lifetime 12 months.</li>
+        <li><code style="font-family:var(--font-mono);font-size:13px;background:color-mix(in oklch,var(--moss) 10%,transparent);padding:1px 6px;border-radius:3px">gch_theme</code> — stores your color-scheme preference, if you override the system default. Lifetime 12 months.</li>
+      </ul>
+      <p>We do not set advertising, analytics, or tracking cookies. We do not use <em>any</em> third-party cookies.</p>
+    </section>
+
+    <section class="privacy-sec">
+      <h2>3. Advertising</h2>
+      <p>The site is funded by display advertising. We serve <strong>static</strong> sponsor slots — text-only or single-image placements — that are rendered server-side. We do not use personalized ad networks. We do not pass your IP, user agent, or page content to advertisers beyond what the ad network receives as part of a standard HTTP request.</p>
+      <p>If we ever add a programmatic ad network, we will update this policy before switching the code, and we will not use any network that requires passing personal identifiers.</p>
+    </section>
+
+    <section class="privacy-sec">
+      <h2>4. Third parties</h2>
+      <p>We rely on the following third-party services to run the site:</p>
+      <ul>
+        <li><strong>Cloudflare</strong> — CDN and DDoS protection. Sees your IP during the request, does not persistently log it to us.</li>
+        <li><strong>Plausible Analytics</strong> — aggregate page counts, as described above.</li>
+        <li><strong>Font hosting</strong> — we self-host all web fonts. No Google Fonts calls.</li>
+      </ul>
+      <p>We do not embed third-party video, social widgets, or chat scripts.</p>
+    </section>
+
+    <section class="privacy-sec">
+      <h2>5. Your rights</h2>
+      <p>Because we collect almost nothing, most data-rights frameworks don't materially apply to us. For completeness: you can <a href="#contact">email us</a> to request access, correction, or deletion of any data we hold about you, including the content of your past correspondence. We'll respond within 30 days.</p>
+    </section>
+
+    <section class="privacy-sec">
+      <h2>6. Changes</h2>
+      <p>If we change this policy, we'll bump the "Effective" date at the top of the page and keep a changelog. We don't do silent updates.</p>
+    </section>
+
+    <section class="privacy-sec">
+      <h2>7. Contact</h2>
+      <p>Privacy questions: <a href="mailto:privacy@gardencalcs.com">privacy@gardencalcs.com</a>. General inquiries: the <a href="#contact">contact form</a>.</p>
+    </section>
+
+    <p style="margin-top:48px;padding-top:20px;border-top:1px dashed color-mix(in oklch,var(--soil) 30%,transparent);font:italic 14px var(--font-serif);color:var(--soil);text-align:center">
+      Version 2.0 · effective April 21, 2026 · <a href="#" style="border:0;color:var(--moss-deep)">revision history</a>
+    </p>
+  </article>
+
+  <footer class="site-footer">
+    <div><div class="wordmark-sm">Garden Tools Hub</div><div>© 2026 · Free, no sign-up, source-cited.</div></div>
+    <nav><a href="#">Tools</a><a href="#">Guides</a><a href="#">About</a><a href="#">Privacy</a><a href="#">Contact</a></nav>
+  </footer>
+</section>
+
+
+<!-- ═══════════════════════════ SCREEN 3 · CONTACT ═══════════════════════════ -->
+<section class="screen">
+  <div class="screen-banner"><div class="screen-banner-inner"><span class="num">03 / 03</span><strong>Contact</strong>/contact · form + side info · no chat widget, no CAPTCHA wall</div></div>
+
+  <header class="site-header">
+    <div class="inner">
+      <a href="#" class="wordmark">Garden Tools Hub<small>Garden math, answered.</small></a>
+      <nav class="nav"><a href="#">Tools</a><a href="#">Guides</a><a href="#">About</a></nav>
+    </div>
+  </header>
+
+  <section class="page-head">
+    <p class="kicker">Contact</p>
+    <h1>Found a math error? We want to hear about it.</h1>
+    <p class="dek">We read every message. Corrections get priority and ship within 48 hours with reader credit.</p>
+    <div class="page-head-rule"><span class="bar"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M4 7l8 6 8-6"/><rect x="4" y="5" width="16" height="14" rx="2"/></svg><span class="bar"></span></div>
+  </section>
+
+  <div class="contact-grid" id="contact">
+    <form class="form" onsubmit="event.preventDefault();alert('Form is a mock — wired up at port time.')">
+      <h3>Send us a note</h3>
+      <p class="sub">We typically reply within 1–2 business days.</p>
+
+      <div class="field">
+        <label>What's this about</label>
+        <select>
+          <option>Math error / wrong citation</option>
+          <option>Typo / broken link</option>
+          <option>Missing calculator idea</option>
+          <option>Press &amp; media</option>
+          <option>Something else</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>Your name</label>
+        <input type="text" placeholder="Optional">
+        <p class="hint">Only needed if you'd like a reply or credit.</p>
+      </div>
+
+      <div class="field">
+        <label>Email</label>
+        <input type="email" placeholder="you@example.com">
+      </div>
+
+      <div class="field">
+        <label>Which page</label>
+        <input type="text" placeholder="e.g. /tools/soil-ph-calculator">
+        <p class="hint">Helps us find the exact formula or citation you're flagging.</p>
+      </div>
+
+      <div class="field">
+        <label>Message</label>
+        <textarea placeholder="What did you find? Include the value you saw, the value you expected, and a source if you have one."></textarea>
+      </div>
+
+      <button type="submit" class="btn">Send note</button>
+    </form>
+
+    <aside class="side-info">
+      <div class="block accent">
+        <h4>Corrections · 48-hour SLA</h4>
+        <p>Spotted a wrong lime rate, a stale URL, or a calculation that doesn't match the cited source? Flag it and we'll fix it within two business days.</p>
+        <p>Corrections that change a result get noted in the page's revision footer with your name (or initials, your choice).</p>
+      </div>
+
+      <div class="block">
+        <h4>Direct email</h4>
+        <ul>
+          <li>Editorial &amp; corrections · <a href="mailto:editors@gardencalcs.com">editors@gardencalcs.com</a></li>
+          <li>Privacy questions · <a href="mailto:privacy@gardencalcs.com">privacy@gardencalcs.com</a></li>
+          <li>Press &amp; media · <a href="mailto:press@gardencalcs.com">press@gardencalcs.com</a></li>
+        </ul>
+      </div>
+
+      <div class="block">
+        <h4>What we can't help with</h4>
+        <ul>
+          <li>Diagnosing a sick plant — contact your <a href="https://npic.orst.edu/pest/countyext.htm">county Extension service</a>.</li>
+          <li>Soil testing — your state Extension lab costs $15–25 and is more accurate than any home kit.</li>
+          <li>Product recommendations we'd have to be paid for.</li>
+        </ul>
+      </div>
+
+      <div class="block">
+        <h4>No tracking, no CAPTCHA</h4>
+        <p>Form submissions go through a simple Cloudflare Worker. No reCAPTCHA, no hCAPTCHA, no third-party spam filter. If spam becomes a problem we'll publish what we switch to, here, before we switch.</p>
+      </div>
+    </aside>
+  </div>
+
+  <section class="contact-faq">
+    <h2>Before you write</h2>
+    <details>
+      <summary>I think a calculator is giving the wrong answer.</summary>
+      <p>Send us: the page URL, the inputs you used, the value the calculator returned, and the value you expected with a source. We'll reproduce the bug and either fix the math or publish a note explaining the discrepancy.</p>
+    </details>
+    <details>
+      <summary>Can I suggest a new calculator?</summary>
+      <p>Yes — we keep a public wishlist. Calculators that already have strong primary-source literature (USDA, University Extension) move faster because the citations already exist. Tell us the query you'd type into Google, and we'll take it from there.</p>
+    </details>
+    <details>
+      <summary>Can I reprint or syndicate your content?</summary>
+      <p>Single-page reprint with credit and a canonical link back: yes, just email press@ for a nod. Full-site scraping or training-data use: no, please don't.</p>
+    </details>
+    <details>
+      <summary>Do you take sponsorships?</summary>
+      <p>We accept display advertising but not sponsored content. If a brand wants editorial mention, we decline — it's the one line we don't cross and a big part of why readers trust the calculators.</p>
+    </details>
+    <details>
+      <summary>Are you hiring?</summary>
+      <p>Occasionally — we look for editors with either an agronomy or Extension-volunteer background. If that's you, send a note to editors@ with a writing sample and a soil-pH opinion.</p>
+    </details>
+  </section>
+
+  <footer class="site-footer">
+    <div><div class="wordmark-sm">Garden Tools Hub</div><div>© 2026 · Free, no sign-up, source-cited.</div></div>
+    <nav><a href="#">Tools</a><a href="#">Guides</a><a href="#">About</a><a href="#">Privacy</a><a href="#">Contact</a></nav>
+  </footer>
+</section>
+
+</body>
+</html>

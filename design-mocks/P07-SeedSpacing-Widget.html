@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>P07 — Seed Spacing Widget</title>
+<style>
+:root{
+  --ink:oklch(0.22 0.03 150);--cream:oklch(0.97 0.02 95);
+  --paper:oklch(0.94 0.025 95);--moss:oklch(0.55 0.13 150);
+  --moss-deep:oklch(0.35 0.10 150);--leaf:oklch(0.72 0.16 145);
+  --soil:oklch(0.40 0.06 60);--terracotta:oklch(0.68 0.14 45);
+  --font-serif:"Source Serif 4","Iowan Old Style",Georgia,serif;
+  --font-sans:"Inter",system-ui,sans-serif;
+  --font-mono:"JetBrains Mono",ui-monospace,monospace;
+  --r-md:8px;--r-lg:12px;--dur:150ms;--ease:cubic-bezier(0.2,0.6,0.2,1);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--cream);color:var(--ink);font:16px/1.6 var(--font-sans);padding:48px 24px}
+.stage{max-width:860px;margin:0 auto}
+.stage-label{font:italic 13px var(--font-serif);color:var(--soil);margin:40px 0 12px;display:flex;align-items:center;gap:12px}
+.stage-label::before,.stage-label::after{content:"";flex:1;border-top:1px dashed color-mix(in oklch,var(--soil) 40%,transparent)}
+
+.widget{background:var(--paper);border:1px solid color-mix(in oklch,var(--soil) 30%,transparent);border-radius:var(--r-lg);padding:28px;max-width:720px;margin:0 auto}
+.widget h2{font:600 22px/1.2 var(--font-serif);margin:0 0 4px;color:var(--moss-deep)}
+.subhead{font-style:italic;color:var(--soil);font-size:14px;margin:0 0 24px}
+
+.field{margin-bottom:16px}
+.field > label{display:block;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--soil);margin-bottom:6px}
+select, input[type=number]{width:100%;font:500 17px var(--font-sans);background:var(--cream);border:1px solid color-mix(in oklch,var(--soil) 35%,transparent);border-radius:var(--r-md);padding:10px 12px;color:var(--ink);outline:none;transition:border-color var(--dur) var(--ease)}
+input[type=number]{font-family:var(--font-mono);font-variant-numeric:tabular-nums}
+select:focus,input[type=number]:focus{border-color:var(--moss)}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+
+.crop-meta{margin-top:-6px;margin-bottom:18px;font-size:13px;color:var(--soil);display:flex;gap:18px;flex-wrap:wrap;padding:10px 14px;background:var(--cream);border-radius:var(--r-md);border:1px solid color-mix(in oklch,var(--soil) 20%,transparent)}
+.crop-meta strong{color:var(--ink);font-weight:600;font-variant-numeric:tabular-nums}
+
+.result{margin-top:22px;padding:20px 24px;background:var(--cream);border:1px solid color-mix(in oklch,var(--moss) 35%,transparent);border-left:4px solid var(--moss);border-radius:var(--r-md)}
+.result-lede{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--soil);margin:0 0 4px}
+.result-value{font:600 34px/1 var(--font-serif);font-variant-numeric:tabular-nums;color:var(--moss-deep)}
+.result-value small{font:500 14px var(--font-sans);color:var(--soil);margin-left:6px}
+
+.viz{margin-top:18px;background:var(--paper);border:1px solid color-mix(in oklch,var(--soil) 25%,transparent);border-radius:var(--r-md);padding:16px;overflow-x:auto}
+.viz-caption{font:italic 12px var(--font-serif);color:var(--soil);margin-bottom:8px;text-align:center}
+.bed{display:grid;gap:4px;margin:0 auto;max-width:100%}
+.plant{aspect-ratio:1;border-radius:50%;background:color-mix(in oklch,var(--leaf) 30%,var(--cream));border:1px solid color-mix(in oklch,var(--moss) 40%,transparent);display:flex;align-items:center;justify-content:center}
+.plant svg{width:60%;height:60%;opacity:.8}
+.bed-axis{font:500 11px var(--font-mono);color:var(--soil);text-align:center;margin-top:6px}
+
+.result-breakdown{margin-top:14px;display:grid;grid-template-columns:1fr 1fr;gap:8px 20px;font-size:14px;border-top:1px dashed color-mix(in oklch,var(--soil) 30%,transparent);padding-top:12px}
+.result-breakdown dt{color:var(--soil)}
+.result-breakdown dd{margin:0;font-variant-numeric:tabular-nums}
+
+.hint{margin-top:14px;font-size:13px;color:var(--soil);font-style:italic}
+.hint a{color:var(--moss-deep)}
+</style>
+</head>
+<body>
+<div class="stage">
+  <h1 style="font:600 26px/1.2 var(--font-serif);color:var(--moss-deep);margin:0 0 4px">P07 · Seed Spacing Widget</h1>
+  <p style="color:var(--soil);margin:0;font-style:italic">Slots into <code>/tools/seed-spacing</code>. Crop select → plant count + bed diagram.</p>
+
+  <div class="stage-label">Default — carrots in a 4 × 8 ft bed</div>
+  <div class="widget" id="w1">
+    <h2>How many plants fit in my bed?</h2>
+    <p class="subhead">Pick a crop and bed size — we'll draw the grid and count the plants.</p>
+
+    <div class="field">
+      <label>Crop</label>
+      <select id="crop">
+        <option value="carrot" data-in="3" data-row="12" selected>Carrot</option>
+        <option value="lettuce" data-in="8" data-row="12">Lettuce (head)</option>
+        <option value="tomato" data-in="24" data-row="36">Tomato (indeterminate)</option>
+        <option value="bean" data-in="4" data-row="18">Bush bean</option>
+        <option value="onion" data-in="4" data-row="12">Onion</option>
+        <option value="pepper" data-in="18" data-row="24">Pepper</option>
+      </select>
+    </div>
+
+    <div class="crop-meta" id="cropMeta">
+      <span>In-row · <strong>3 in</strong></span>
+      <span>Between rows · <strong>12 in</strong></span>
+      <span>Days to harvest · <strong>70</strong></span>
+      <span>Yield · <strong>~1 lb / ft²</strong></span>
+    </div>
+
+    <div class="grid-2">
+      <div class="field"><label>Bed length (ft)</label><input type="number" id="L" value="8" step="0.5"></div>
+      <div class="field"><label>Bed width (ft)</label><input type="number" id="W" value="4" step="0.5"></div>
+    </div>
+
+    <div class="result">
+      <p class="result-lede">You can plant</p>
+      <div class="result-value" id="count">128<small>carrots across 4 rows</small></div>
+
+      <div class="viz">
+        <p class="viz-caption">Bed diagram · 4 ft × 8 ft · rows run the long direction</p>
+        <div class="bed" id="bed"></div>
+        <div class="bed-axis" id="axis">8 ft →</div>
+      </div>
+
+      <dl class="result-breakdown">
+        <dt>Rows</dt><dd id="rows">4</dd>
+        <dt>Plants per row</dt><dd id="perRow">32</dd>
+        <dt>Row spacing</dt><dd>12 in</dd>
+        <dt>In-row spacing</dt><dd>3 in</dd>
+      </dl>
+      <p class="hint">Thin to final spacing at 2 true leaves. Source: <a href="#">UMN Extension — Carrots</a>.</p>
+    </div>
+  </div>
+
+  <div class="stage-label">Alternate crop — tomatoes in a 4 × 8 ft bed</div>
+  <div class="widget">
+    <h2>How many plants fit in my bed?</h2>
+    <p class="subhead">Pick a crop and bed size — we'll draw the grid and count the plants.</p>
+    <div class="field"><label>Crop</label><select><option>Tomato (indeterminate)</option></select></div>
+    <div class="crop-meta"><span>In-row · <strong>24 in</strong></span><span>Between rows · <strong>36 in</strong></span><span>Days to harvest · <strong>75</strong></span><span>Yield · <strong>8–15 lb / plant</strong></span></div>
+    <div class="grid-2">
+      <div class="field"><label>Bed length (ft)</label><input type="number" value="8"></div>
+      <div class="field"><label>Bed width (ft)</label><input type="number" value="4"></div>
+    </div>
+    <div class="result">
+      <p class="result-lede">You can plant</p>
+      <div class="result-value">4<small>tomatoes across 1 row</small></div>
+      <div class="viz">
+        <p class="viz-caption">Bed diagram · 4 ft × 8 ft · one row down the center</p>
+        <div class="bed" style="grid-template-columns:repeat(4,1fr);max-width:520px">
+          <div class="plant"></div><div class="plant"></div><div class="plant"></div><div class="plant"></div>
+        </div>
+        <div class="bed-axis">8 ft →</div>
+      </div>
+      <p class="hint">Indeterminate tomatoes need 24 in between plants; a 4-ft-wide bed fits only one row with 18 in to each edge.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  const w = document.getElementById('w1');
+  const crop = w.querySelector('#crop'), L = w.querySelector('#L'), W = w.querySelector('#W');
+  const count = w.querySelector('#count'), rowsEl = w.querySelector('#rows'), perRowEl = w.querySelector('#perRow');
+  const meta = w.querySelector('#cropMeta'), bed = w.querySelector('#bed'), axis = w.querySelector('#axis');
+
+  const cropData = {
+    carrot:{in:3,row:12,days:70,yield:'~1 lb / ft²'},
+    lettuce:{in:8,row:12,days:55,yield:'1 head / plant'},
+    tomato:{in:24,row:36,days:75,yield:'8–15 lb / plant'},
+    bean:{in:4,row:18,days:55,yield:'0.5 lb / plant'},
+    onion:{in:4,row:12,days:100,yield:'1 bulb / plant'},
+    pepper:{in:18,row:24,days:70,yield:'6–10 fruits / plant'}
+  };
+
+  function compute(){
+    const c = cropData[crop.value];
+    const l = parseFloat(L.value), ww = parseFloat(W.value);
+    if(!c||!l||!ww) return;
+    const lenIn = l*12, widIn = ww*12;
+    const rows = Math.max(1, Math.floor(widIn / c.row));
+    const perRow = Math.max(1, Math.floor(lenIn / c.in));
+    const total = rows * perRow;
+    count.innerHTML = `${total}<small>${crop.options[crop.selectedIndex].text.toLowerCase()} across ${rows} row${rows>1?'s':''}</small>`;
+    rowsEl.textContent = rows;
+    perRowEl.textContent = perRow;
+    meta.innerHTML = `<span>In-row · <strong>${c.in} in</strong></span><span>Between rows · <strong>${c.row} in</strong></span><span>Days to harvest · <strong>${c.days}</strong></span><span>Yield · <strong>${c.yield}</strong></span>`;
+    // Viz: cap drawing density at 16 cols x 8 rows for readability
+    const drawCols = Math.min(perRow, 16);
+    const drawRows = Math.min(rows, 8);
+    bed.style.gridTemplateColumns = `repeat(${drawCols},1fr)`;
+    bed.style.maxWidth = `${drawCols*28}px`;
+    bed.innerHTML = '';
+    for(let i=0;i<drawCols*drawRows;i++){
+      const p = document.createElement('div');
+      p.className='plant';
+      bed.appendChild(p);
+    }
+    axis.textContent = `${l} ft →${perRow>drawCols?' · diagram condensed':''}`;
+  }
+  [crop,L,W].forEach(el=>el.addEventListener('input',compute));
+  compute();
+})();
+</script>
+</body>
+</html>

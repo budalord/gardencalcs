@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>P04 — Compost Calculator Widget</title>
+<style>
+:root{
+  --ink:oklch(0.22 0.03 150);--cream:oklch(0.97 0.02 95);
+  --paper:oklch(0.94 0.025 95);--moss:oklch(0.55 0.13 150);
+  --moss-deep:oklch(0.35 0.10 150);--leaf:oklch(0.72 0.16 145);
+  --soil:oklch(0.40 0.06 60);--terracotta:oklch(0.68 0.14 45);
+  --font-serif:"Source Serif 4","Iowan Old Style",Georgia,serif;
+  --font-sans:"Inter",system-ui,sans-serif;
+  --font-mono:"JetBrains Mono",ui-monospace,monospace;
+  --r-sm:4px;--r-md:8px;--r-lg:12px;--r-xl:16px;
+  --dur-fast:150ms;--ease:cubic-bezier(0.2,0.6,0.2,1);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--cream);color:var(--ink);font:16px/1.6 var(--font-sans);padding:48px 24px}
+.stage{max-width:840px;margin:0 auto}
+.stage-label{font:italic 13px/1.4 var(--font-serif);color:var(--soil);letter-spacing:.02em;margin:40px 0 12px;display:flex;align-items:center;gap:12px}
+.stage-label::before,.stage-label::after{content:"";flex:1;border-top:1px dashed color-mix(in oklch,var(--soil) 40%,transparent)}
+
+.widget{background:var(--paper);border:1px solid color-mix(in oklch,var(--soil) 30%,transparent);border-radius:var(--r-lg);padding:28px;max-width:720px;margin:0 auto}
+.widget h2{font:600 22px/1.2 var(--font-serif);margin:0 0 4px;color:var(--moss-deep)}
+.widget .subhead{font-style:italic;color:var(--soil);font-size:14px;margin:0 0 24px}
+
+.row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:16px}
+.row--pair{grid-template-columns:1fr 1fr}
+.field label{display:block;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--soil);margin-bottom:6px}
+.field input[type=number]{width:100%;font:500 18px/1.3 var(--font-mono);font-variant-numeric:tabular-nums;background:var(--cream);border:1px solid color-mix(in oklch,var(--soil) 35%,transparent);border-radius:var(--r-md);padding:10px 12px;color:var(--ink);outline:none;transition:border-color var(--dur-fast) var(--ease)}
+.field input[type=number]:focus{border-color:var(--moss)}
+
+.unit-toggle{display:inline-flex;border:1px solid color-mix(in oklch,var(--soil) 35%,transparent);border-radius:var(--r-md);overflow:hidden;margin-left:8px}
+.unit-toggle button{font:500 12px var(--font-sans);padding:8px 14px;background:var(--cream);border:0;color:var(--soil);cursor:pointer;letter-spacing:.06em}
+.unit-toggle button[aria-pressed=true]{background:var(--moss);color:var(--cream)}
+
+.depth-row{display:grid;grid-template-columns:1fr auto;gap:16px;align-items:end;margin-bottom:20px}
+.depth-row .field{margin:0}
+
+.result{margin-top:20px;padding:20px 24px;background:var(--cream);border:1px solid color-mix(in oklch,var(--moss) 35%,transparent);border-left:4px solid var(--moss);border-radius:var(--r-md)}
+.result-lede{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--soil);margin:0 0 6px}
+.result-value{font:600 34px/1 var(--font-serif);font-variant-numeric:tabular-nums;color:var(--moss-deep)}
+.result-value small{font:500 14px/1 var(--font-sans);color:var(--soil);margin-left:6px;letter-spacing:.04em}
+.result-breakdown{margin-top:14px;display:grid;grid-template-columns:1fr 1fr;gap:8px 20px;font-size:14px;border-top:1px dashed color-mix(in oklch,var(--soil) 30%,transparent);padding-top:12px}
+.result-breakdown dt{color:var(--soil)}
+.result-breakdown dd{margin:0;font-variant-numeric:tabular-nums;color:var(--ink)}
+
+.actions{margin-top:18px;display:flex;gap:10px;flex-wrap:wrap}
+.btn{font:500 14px var(--font-sans);padding:8px 14px;border-radius:var(--r-md);border:1px solid transparent;cursor:pointer;transition:all var(--dur-fast) var(--ease)}
+.btn-primary{background:var(--moss);color:var(--cream);border-color:var(--moss)}
+.btn-primary:hover{background:var(--moss-deep);border-color:var(--moss-deep)}
+.btn-ghost{background:transparent;color:var(--moss-deep);border-color:color-mix(in oklch,var(--soil) 30%,transparent)}
+.btn-ghost:hover{border-color:var(--moss)}
+
+.hint{margin-top:14px;font-size:13px;color:var(--soil);font-style:italic}
+.hint a{color:var(--moss-deep)}
+
+.error{color:var(--terracotta);font-size:12px;margin-top:6px;display:none}
+.field--error input{border-color:var(--terracotta)}
+.field--error .error{display:block}
+</style>
+</head>
+<body>
+<div class="stage">
+  <h1 style="font:600 26px/1.2 var(--font-serif);color:var(--moss-deep);margin:0 0 4px">P04 · Compost Calculator Widget</h1>
+  <p style="color:var(--soil);margin:0;font-style:italic">Slots into the widget placeholder on <code>/tools/compost-calculator</code>. 720px max-width, paper bg.</p>
+
+  <div class="stage-label">Default state — empty inputs, no result</div>
+  <div class="widget" id="w1">
+    <h2>Compost needed</h2>
+    <p class="subhead">Measure your bed — we'll convert to cubic yards and bag count.</p>
+    <div class="depth-row">
+      <div></div>
+      <div class="unit-toggle" role="group" aria-label="Units">
+        <button type="button" aria-pressed="true" data-unit="ft">ft / in</button>
+        <button type="button" aria-pressed="false" data-unit="m">m / cm</button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="field"><label>Length <span class="unit-label">(ft)</span></label><input type="number" min="0" step="0.5" placeholder="8"></div>
+      <div class="field"><label>Width <span class="unit-label">(ft)</span></label><input type="number" min="0" step="0.5" placeholder="4"></div>
+      <div class="field"><label>Depth <span class="unit-label">(in)</span></label><input type="number" min="0" step="0.5" placeholder="6"></div>
+    </div>
+    <div class="actions"><button class="btn btn-primary">Calculate</button><button class="btn btn-ghost">Reset</button></div>
+    <p class="hint">Tip: 6 inches is standard for a new raised bed; 2–3 inches for a top-dress.</p>
+  </div>
+
+  <div class="stage-label">Filled + result state — 8 × 4 × 6 in</div>
+  <div class="widget" id="w2">
+    <h2>Compost needed</h2>
+    <p class="subhead">Measure your bed — we'll convert to cubic yards and bag count.</p>
+    <div class="depth-row">
+      <div></div>
+      <div class="unit-toggle" role="group"><button type="button" aria-pressed="true">ft / in</button><button type="button" aria-pressed="false">m / cm</button></div>
+    </div>
+    <div class="row">
+      <div class="field"><label>Length (ft)</label><input type="number" value="8"></div>
+      <div class="field"><label>Width (ft)</label><input type="number" value="4"></div>
+      <div class="field"><label>Depth (in)</label><input type="number" value="6"></div>
+    </div>
+    <div class="result">
+      <p class="result-lede">You need</p>
+      <div class="result-value">0.59<small>cubic yards</small></div>
+      <dl class="result-breakdown">
+        <dt>Cubic feet</dt><dd>16.0 ft³</dd>
+        <dt>Cubic meters</dt><dd>0.45 m³</dd>
+        <dt>1.5 ft³ bags</dt><dd>11 bags</dd>
+        <dt>40 lb bags (approx)</dt><dd>13 bags</dd>
+      </dl>
+    </div>
+    <div class="actions"><button class="btn btn-primary">Recalculate</button><button class="btn btn-ghost">Copy result</button></div>
+    <p class="hint">Formula: <code style="font-family:var(--font-mono)">(L × W × D) ÷ 27</code> → cubic yards. Source: <a href="#">UMN Extension</a>.</p>
+  </div>
+
+  <div class="stage-label">Error state — missing input</div>
+  <div class="widget" id="w3">
+    <h2>Compost needed</h2>
+    <p class="subhead">Measure your bed — we'll convert to cubic yards and bag count.</p>
+    <div class="row">
+      <div class="field field--error"><label>Length (ft)</label><input type="number" value=""><span class="error">Please enter a length greater than 0.</span></div>
+      <div class="field"><label>Width (ft)</label><input type="number" value="4"></div>
+      <div class="field"><label>Depth (in)</label><input type="number" value="6"></div>
+    </div>
+    <div class="actions"><button class="btn btn-primary">Calculate</button></div>
+  </div>
+</div>
+
+<script>
+// Interactive demo on first widget
+(function(){
+  const w = document.getElementById('w1');
+  const inputs = w.querySelectorAll('input[type=number]');
+  const calcBtn = w.querySelector('.btn-primary');
+  const resetBtn = w.querySelector('.btn-ghost');
+  const toggle = w.querySelectorAll('.unit-toggle button');
+  let unit = 'ft';
+  toggle.forEach(b=>b.addEventListener('click',()=>{
+    toggle.forEach(x=>x.setAttribute('aria-pressed','false'));
+    b.setAttribute('aria-pressed','true');
+    unit = b.dataset.unit;
+    const [l,ww,d] = w.querySelectorAll('.unit-label');
+    if(unit==='m'){l.textContent='(m)';ww.textContent='(m)';d.textContent='(cm)';}
+    else {l.textContent='(ft)';ww.textContent='(ft)';d.textContent='(in)';}
+  }));
+  function compute(){
+    const [L,W,D] = Array.from(inputs).map(i=>parseFloat(i.value)||0);
+    if(!L||!W||!D){alert('Enter all three dimensions');return;}
+    let cuFt;
+    if(unit==='ft') cuFt = L*W*(D/12);
+    else { const cuM = L*W*(D/100); cuFt = cuM*35.3147; }
+    const cuYd = cuFt/27;
+    const existing = w.querySelector('.result'); if(existing) existing.remove();
+    const html = `<div class="result"><p class="result-lede">You need</p><div class="result-value">${cuYd.toFixed(2)}<small>cubic yards</small></div><dl class="result-breakdown"><dt>Cubic feet</dt><dd>${cuFt.toFixed(1)} ft³</dd><dt>1.5 ft³ bags</dt><dd>${Math.ceil(cuFt/1.5)} bags</dd></dl></div>`;
+    w.querySelector('.actions').insertAdjacentHTML('beforebegin',html);
+  }
+  calcBtn.addEventListener('click',compute);
+  resetBtn.addEventListener('click',()=>{inputs.forEach(i=>i.value='');const r=w.querySelector('.result');if(r)r.remove();});
+})();
+</script>
+</body>
+</html>
