@@ -342,6 +342,23 @@ export const tools: Tool[] = [
         summary: "If a raised bed is 12 square meters and you want to raise pH by 0.8 in loamy soil, the tool first converts 12 m² to about 129 sq ft. It then applies the same extension-style rate to estimate the total lime required, giving you a result in both pounds and kilograms.",
       },
     ],
+    internalLinks: [
+      {
+        href: "/tools/compost-calculator",
+        anchor: "Compost calculator",
+        description: "Once pH is on target, estimate how much finished compost your bed, lawn, or topdress layer needs.",
+      },
+      {
+        href: "/tools/fertilizer-calculator",
+        anchor: "NPK fertilizer calculator",
+        description: "Convert an NPK label (10-10-10, 5-10-15, urea 46-0-0) to pounds or grams of actual product for the same bed.",
+      },
+      {
+        href: "/tools/seed-spacing-calculator",
+        anchor: "Seed spacing calculator",
+        description: "Plan row spacing, plant spacing, and total seed count for the bed you just amended.",
+      },
+    ],
   },
   {
     slug: "seed-spacing-calculator",
@@ -445,6 +462,23 @@ export const tools: Tool[] = [
       {
         title: "Example: raised-bed lettuce planning",
         summary: "If a raised bed has 32 sq ft of growing space and lettuce needs 12 inches between rows with 8 inches between plants, the tool helps you see that you can grow multiple short rows without crowding. That lets you stagger sowings and still maintain airflow for cleaner heads.",
+      },
+    ],
+    internalLinks: [
+      {
+        href: "/tools/compost-calculator",
+        anchor: "Compost calculator",
+        description: "Estimate how much finished compost the bed needs before you sow — in cubic yards or bags.",
+      },
+      {
+        href: "/tools/fertilizer-calculator",
+        anchor: "NPK fertilizer calculator",
+        description: "Turn a fertilizer label into pounds or grams of actual product for the seedlings you just planned.",
+      },
+      {
+        href: "/tools/soil-ph-calculator",
+        anchor: "Soil pH calculator",
+        description: "Check lime or sulfur rate for the target crop before you commit to a layout.",
       },
     ],
   },

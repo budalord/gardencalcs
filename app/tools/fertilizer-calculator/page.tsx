@@ -13,9 +13,9 @@ const FertilizerCalculator = dynamic(() => import("@/components/FertilizerCalcul
   ),
 });
 
-const pageTitle = "Fertilizer Calculator | Crop Guide & Rate Chart";
+const pageTitle = "NPK Fertilizer Calculator — Rate, Bag & Crop Chart";
 const pageDescription =
-  "Fertilizer calculator with rate conversions, crop feeding chart, side-dress timing, and extension-based FAQ answers for home gardens";
+  "NPK fertilizer calculator: convert label grade to pounds per 100 sq ft, g/m², or lb/acre. Crop-by-crop rates, side-dress timing, and extension-cited FAQ for home gardens.";
 const toolUrl = `${siteConfig.domain}/tools/fertilizer-calculator`;
 
 export const metadata: Metadata = {
@@ -220,7 +220,7 @@ export default function FertilizerCalculatorPage() {
             Fertilizer Calculator
           </h1>
           <p className="font-serif italic text-[18px] md:text-[19px] leading-[1.45] text-soil max-w-[640px]">
-            One page to estimate fertilizer product weight, compare crop feeding profiles, and convert the same recommendation across home-garden units before you spread anything.
+            Turn an NPK label (5-10-15, 10-10-10, urea 46-0-0…) into pounds, grams, or kilograms of actual product for a real bed — with crop feeding profiles and rate conversions in one place.
           </p>
         </header>
 

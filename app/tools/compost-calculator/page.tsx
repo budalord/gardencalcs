@@ -13,9 +13,9 @@ const CompostCalculator = dynamic(() => import("@/components/CompostCalculator")
   ),
 });
 
-const pageTitle = "Compost Calculator | Bag, Volume & Area Guide";
+const pageTitle = "Compost Calculator — How Much Compost Do I Need?";
 const pageDescription =
-  "Compost calculator with cubic-yard formulas, raised-bed and lawn examples, Cornell C:N ratio table, and extension-based compost FAQ answers.";
+  "How much compost do you need? Calculate cubic yards, bag count, and application depth for beds, lawns, and gardens. Plus Cornell C:N ratio table and extension-cited FAQ.";
 const toolUrl = `${siteConfig.domain}/tools/compost-calculator`;
 
 const materialRows = [
@@ -150,7 +150,7 @@ export default function CompostCalculatorPage() {
             Compost Calculator
           </h1>
           <p className="font-serif italic text-[18px] md:text-[19px] leading-[1.45] text-soil max-w-[640px]">
-            One page to estimate finished compost volume, translate depth into bag or cubic-yard needs, and check whether your browns and greens are close to a workable starting mix.
+            How much compost do you need? Estimate finished compost volume in cubic yards or bags for raised beds, lawns, and gardens — and check whether your browns and greens are close to a workable starting mix.
           </p>
         </header>
 
