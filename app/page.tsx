@@ -6,6 +6,7 @@ import { siteConfig } from "@/config/site";
 export const metadata: Metadata = {
   title: siteConfig.title,
   description: siteConfig.description,
+  alternates: { canonical: siteConfig.domain },
 };
 
 /**

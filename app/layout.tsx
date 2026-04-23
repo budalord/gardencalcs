@@ -43,7 +43,12 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     ...(siteConfig.twitterHandle && { creator: siteConfig.twitterHandle }),
   },
-  alternates: { canonical: siteConfig.domain },
+  // NOTE: intentionally NOT setting alternates.canonical here.
+  // Next.js App Router merges metadata from parent layouts into children,
+  // so a root-level canonical silently overrides any page that forgets to
+  // declare its own — causing every page's canonical to point at the
+  // homepage. Each page (including app/page.tsx) must declare its own
+  // alternates.canonical explicitly.
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
