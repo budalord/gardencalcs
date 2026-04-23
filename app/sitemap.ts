@@ -25,6 +25,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "composting-guide",
   ];
 
+  const dataRoutes: MetadataRoute.Sitemap = [
+    { url: `${base}/data/npk-rates-by-crop`, lastModified: now, changeFrequency: "monthly", priority: 0.75 },
+  ];
+
   const staticPages = ["/about", "/privacy", "/contact"].map((p) => ({
     url: `${siteConfig.domain}${p}`,
     lastModified: new Date(),
@@ -46,5 +50,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.7,
   }));
 
-  return [...staticRoutes, ...toolRoutes, ...seedSpacingCropRoutes, ...guideRoutes, ...staticPages];
+  return [...staticRoutes, ...toolRoutes, ...seedSpacingCropRoutes, ...guideRoutes, ...dataRoutes, ...staticPages];
 }
