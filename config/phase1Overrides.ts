@@ -6,8 +6,8 @@ type ToolOverride = Partial<Tool>;
 export const phase1Overrides: Record<string, ToolOverride> = {
   "soil-ph-calculator": {
     tagline: "Check target garden pH, compare crop ranges, and estimate lime or sulfur with a quick chart.",
-    metaTitle: "Soil pH Calculator Free | Lime, Sulfur & pH Chart",
-    metaDescription: "Soil pH calculator with vegetable pH chart, lime and sulfur estimates, plus FAQ answers that help you adjust beds with fewer mistakes",
+    metaTitle: "Soil pH Calculator — Lime & Sulfur Rate for Your Bed",
+    metaDescription: "Free soil pH calculator. Enter current pH, target, bed size, and soil texture — get exact lime or sulfur pounds. 40+ crops, extension-cited. No signup.",
     quickAnswer: {
       definition: "Use your soil test, crop target, and soil type to estimate lime or sulfur before planting.",
       recommendation: "Most vegetables grow best near pH 6.0–7.0; make moderate changes, spread amendments evenly, and retest after a few months.",
@@ -94,8 +94,8 @@ export const phase1Overrides: Record<string, ToolOverride> = {
   },
   "seed-spacing-calculator": {
     tagline: "Use crop spacing benchmarks, row-and-plant charts, and examples before you lay out beds.",
-    metaTitle: "Seed Spacing Calculator | By Crop, Chart & Examples",
-    metaDescription: "Seed spacing calculator with row spacing, plant spacing, raised-bed examples, and FAQ answers so you can plan vegetable beds with less crowding",
+    metaTitle: "Seed Spacing Calculator — 15 Crops, Raised Bed Ready",
+    metaDescription: "How far apart for carrots, tomatoes, lettuce? Free spacing calculator — row × plant distance, seed depth, and days to maturity for 15 crops. No signup.",
     quickAnswer: {
       definition: "Use both row spacing and plant spacing so each crop gets enough light, airflow, and root room.",
       recommendation: "Start with extension spacing, then tighten only where the crop tolerates intensive beds; overpacking usually cuts airflow before it raises yield.",
@@ -158,8 +158,8 @@ export const phase1Overrides: Record<string, ToolOverride> = {
   },
   "watering-schedule-calculator": {
     tagline: "Estimate weekly garden watering by crop, soil, season, and growing method with a quick chart first.",
-    metaTitle: "Watering Schedule Calculator | Weekly Chart & FAQ",
-    metaDescription: "Watering schedule calculator with weekly vegetable watering chart, frequency examples, and FAQ answers so you can water beds more consistently",
+    metaTitle: "Watering Schedule Calculator — Weekly Gallons by Crop",
+    metaDescription: "How often to water tomatoes, peppers, lettuce? Weekly schedule by crop, soil, and season. Free calculator with extension-cited FAQ. No signup required.",
     quickAnswer: {
       definition: "Most vegetables need steady deep watering, not daily light sprinkling, and soil type changes how often you repeat it.",
       recommendation: "Aim for the weekly target, water early, and adjust with your finger test or local rainfall before adding another session.",

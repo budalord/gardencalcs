@@ -13,9 +13,9 @@ const FertilizerCalculator = dynamic(() => import("@/components/FertilizerCalcul
   ),
 });
 
-const pageTitle = "NPK Fertilizer Calculator — Rate, Bag & Crop Chart";
+const pageTitle = "Fertilizer NPK Calculator — 20 Crops, Any Bag Grade";
 const pageDescription =
-  "NPK fertilizer calculator: convert label grade to pounds per 100 sq ft, g/m², or lb/acre. Crop-by-crop rates, side-dress timing, and extension-cited FAQ for home gardens.";
+  "Free NPK fertilizer calculator. Convert any bag (10-10-10, 46-0-0, 5-10-15) to pounds or grams for your bed. 20 crops, side-dress timing, extension-cited. No signup.";
 const toolUrl = `${siteConfig.domain}/tools/fertilizer-calculator`;
 
 export const metadata: Metadata = {

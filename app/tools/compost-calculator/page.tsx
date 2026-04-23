@@ -13,9 +13,9 @@ const CompostCalculator = dynamic(() => import("@/components/CompostCalculator")
   ),
 });
 
-const pageTitle = "Compost Calculator — How Much Compost Do I Need?";
+const pageTitle = "Compost Calculator — How Much Do I Need? (yd³ / bags)";
 const pageDescription =
-  "How much compost do you need? Calculate cubic yards, bag count, and application depth for beds, lawns, and gardens. Plus Cornell C:N ratio table and extension-cited FAQ.";
+  "How much compost for a 4×8 bed? Free calculator — cubic yards, bag count, and depth for beds, lawns, and topdress. C:N ratios for 20 materials. No signup required.";
 const toolUrl = `${siteConfig.domain}/tools/compost-calculator`;
 
 const materialRows = [

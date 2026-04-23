@@ -3,8 +3,8 @@ import Link from "next/link";
 import { siteConfig } from "@/config/site";
 
 export const metadata: Metadata = {
-  title: "Garden Guides",
-  description: "Free gardening guides — fertilizing, soil pH, composting, and more for home gardeners.",
+  title: "Garden Guides — Composting, Soil pH & Fertilizing",
+  description: "Plain-English gardening guides from extension sources — how to compost at home, read a soil pH test, and fertilize a vegetable garden without guessing.",
   alternates: { canonical: `${siteConfig.domain}/guides` },
 };
 

@@ -4,8 +4,8 @@ import { tools, getToolsByCategory } from "@/config/tools";
 import { siteConfig } from "@/config/site";
 
 export const metadata: Metadata = {
-  title: "All Tools",
-  description: `Browse all free online tools on ${siteConfig.name}.`,
+  title: "All Garden Calculators — Free, No Signup",
+  description: `Every free garden calculator on ${siteConfig.name} — fertilizer NPK, compost volume, soil pH, seed spacing, and watering. Extension-cited, no signup.`,
   alternates: { canonical: `${siteConfig.domain}/tools` },
 };
 
