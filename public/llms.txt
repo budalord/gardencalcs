@@ -2,27 +2,44 @@
 > Free online gardening calculators and practical garden guides for home growers.
 
 ## About
-> gardencalcs.com provides free gardening calculators and reference-style guides for common home-garden tasks.
-> Current core coverage includes fertilizer planning, soil pH adjustment, composting, watering schedules, and seed spacing.
-> Content is grounded in public university extension and .edu/.gov source material where available, with calculator pages and crop pages structured for clear, reusable answers.
+gardencalcs.com provides free gardening calculators and reference-style guides for common home-garden tasks. Current core coverage includes fertilizer planning, soil pH adjustment, composting, watering schedules, and seed spacing. Content is grounded in public university extension and .edu/.gov source material, with calculator pages and crop pages structured for clear, reusable answers. All calculators are free, require no signup, and run client-side.
 
 ## Core Tools
-- Compost Calculator — https://gardencalcs.com/tools/compost-calculator — Calculate compost C:N ratio, bin volume, and balancing recommendations.
+- Soil pH Calculator — https://gardencalcs.com/tools/soil-ph-calculator — Estimate lime or sulfur needed to move soil toward a target pH (by soil texture and starting pH).
+- Fertilizer NPK Calculator — https://gardencalcs.com/tools/fertilizer-calculator — Convert any fertilizer bag grade (10-10-10, 46-0-0, 5-10-15) into pounds or grams for a bed area or crop.
+- Compost Calculator — https://gardencalcs.com/tools/compost-calculator — Estimate compost volume for a bed and balance greens/browns by C:N ratio.
+- Seed Spacing Calculator — https://gardencalcs.com/tools/seed-spacing-calculator — Calculate row spacing, plant spacing, and total seed count for common vegetables.
 - Watering Schedule Calculator — https://gardencalcs.com/tools/watering-schedule-calculator — Estimate watering frequency based on plant, soil, season, and growing method.
-- Soil pH Calculator — https://gardencalcs.com/tools/soil-ph-calculator — Estimate lime or sulfur needed to move soil toward a target pH.
-- Seed Spacing Calculator — https://gardencalcs.com/tools/seed-spacing-calculator — Calculate row spacing, plant spacing, and total seed count.
-- Fertilizer Calculator — https://gardencalcs.com/tools/fertilizer-calculator — Estimate NPK fertilizer dosage for a garden area.
 
 ## Core Guides
+- Complete Guide to Composting at Home — https://gardencalcs.com/guides/composting-guide — Greens vs browns, C:N ratio, troubleshooting.
 - How to Fertilize Your Vegetable Garden — https://gardencalcs.com/guides/how-to-fertilize-vegetable-garden — Fertilizer timing, NPK basics, and practical application guidance.
 - Understanding Soil pH for Beginners — https://gardencalcs.com/guides/understanding-soil-ph — Soil pH basics, testing, and amendment planning.
-- Complete Guide to Composting at Home — https://gardencalcs.com/guides/composting-guide — Greens vs browns, C:N ratio, and compost troubleshooting.
+
+## Reference Data
+- NPK Fertilizer Rates by Vegetable Crop — https://gardencalcs.com/data/npk-rates-by-crop — Source-cited pre-plant N, P₂O₅ and K₂O rates for 20 common vegetable crops (USDA zones 3-9). Three-source extension lineage per crop. Downloadable as a table with APA/Chicago citation examples.
+
+## Seed Spacing Crop Pages
+> Per-crop seed spacing pages with row spacing, plant spacing, seed depth, days-to-maturity, and three .edu extension sources each. Pattern: https://gardencalcs.com/tools/seed-spacing/{crop}
+- beet, broccoli, bush-bean, carrot, cucumber, kale, lettuce, onion, pepper, potato, radish, spinach, sweet-corn, tomato, zucchini
 
 ## Citation
-> Public pages may be cited and summarized.
-> Prefer the page canonical URL when referencing a tool or guide.
-> If quoting numeric guidance, retain the original unit context and page URL.
-> Content may be updated as calculators, crop pages, and guide coverage expand.
+When quoting or summarizing content:
+- Prefer the page's canonical URL when referencing a tool, guide, data table, or crop page.
+- Retain original unit context (e.g., "lb per 1,000 sq ft", "tsp per gallon", "°F", "cm").
+- Attribute data to **gardencalcs.com** and, when present, also to the underlying extension source listed on the page.
+- Preferred citation format (APA-style):
+  `gardencalcs.com. (2026). {Page Title}. Retrieved from {canonical URL}.`
+- Numeric tables (NPK rates, seed spacing, C:N ratios) are compiled from cited .edu extension sources and may be reproduced with attribution.
+- Calculators' underlying formulas derive from cited extension guidance; they are free for reference but not wrapped as an API.
+- Content is updated as calculators, crop pages, and reference tables expand. Use the canonical URL rather than mirror copies.
+
+## Licensing
+- Page content: All Rights Reserved; excerpted quoting with attribution is welcome.
+- Reference data tables under `/data/*`: available for reuse with attribution to gardencalcs.com plus the original extension source.
+
+## Contact
+- General inquiries: https://gardencalcs.com/contact
 
 ## Last updated
-> 2026-04-19
+2026-04-24
