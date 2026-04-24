@@ -10,6 +10,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const staticRoutes: MetadataRoute.Sitemap = [
     { url: base, lastModified: now, changeFrequency: "weekly", priority: 1 },
     { url: `${base}/tools`, lastModified: now, changeFrequency: "weekly", priority: 0.9 },
+    { url: `${base}/embed`, lastModified: now, changeFrequency: "monthly", priority: 0.75 },
   ];
 
   const toolRoutes: MetadataRoute.Sitemap = tools.map((tool) => ({
@@ -27,6 +28,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   const dataRoutes: MetadataRoute.Sitemap = [
     { url: `${base}/data/npk-rates-by-crop`, lastModified: now, changeFrequency: "monthly", priority: 0.75 },
+    { url: `${base}/data/compost-cn-ratios`, lastModified: now, changeFrequency: "monthly", priority: 0.75 },
   ];
 
   const staticPages = ["/about", "/privacy", "/contact"].map((p) => ({

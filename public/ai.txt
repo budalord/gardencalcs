@@ -13,6 +13,7 @@ Publisher: gardencalcs.com
 # - All public pages (tools, guides, data, crop pages, support pages) may be crawled.
 # - Prefer fetching canonical URLs over mirrors or archived snapshots.
 # - Numeric tables under /data/* are source-cited and intended for reference use.
+# - The /embed page lists iframe snippets for third-party sites that want to embed calculators with attribution.
 
 # Citation guidance (when summarizing or quoting in AI answers)
 # - Attribute to gardencalcs.com with the canonical URL of the specific page.
@@ -27,5 +28,8 @@ Publisher: gardencalcs.com
 # Content sitemap for AI navigation
 Sitemap: https://gardencalcs.com/sitemap.xml
 Llms-File: https://gardencalcs.com/llms.txt
+Embed-Page: https://gardencalcs.com/embed
+Data-Page: https://gardencalcs.com/data/npk-rates-by-crop
+Data-Page: https://gardencalcs.com/data/compost-cn-ratios
 
 # Last updated: 2026-04-24

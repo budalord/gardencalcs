@@ -1,30 +1,19 @@
-"use client";
-import { useState } from "react";
-import { siteConfig } from "@/config/site";
+import { tools } from "@/config/tools";
+import EmbedCodeOptions from "./EmbedCodeOptions";
 
 export default function EmbedWidget({ slug }: { slug: string }) {
-  const [copied, setCopied] = useState(false);
-  const embedUrl = `${siteConfig.domain}/tools/${slug}`;
-  const code = `<iframe src="${embedUrl}" width="100%" height="500" frameborder="0" title="${slug}"></iframe>`;
-
-  const copy = () => {
-    navigator.clipboard.writeText(code);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
+  const tool = tools.find((item) => item.slug === slug);
+  const label = tool?.name ?? slug;
 
   return (
-    <section className="mt-8 p-4 bg-gray-50 border border-gray-200 rounded-lg">
-      <p className="text-sm font-medium text-gray-700 mb-2">Embed this tool on your site</p>
-      <div className="flex gap-2">
-        <code className="flex-1 text-xs bg-white border border-gray-200 rounded px-3 py-2 text-gray-600 overflow-x-auto whitespace-nowrap">
-          {code}
-        </code>
-        <button onClick={copy}
-          className="px-3 py-2 text-xs bg-blue-600 text-white rounded hover:bg-blue-700 whitespace-nowrap">
-          {copied ? "Copied!" : "Copy"}
-        </button>
-      </div>
+    <section className="mt-10 p-5 bg-cream border border-[color-mix(in_oklch,var(--soil)_25%,transparent)] rounded-md">
+      <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-terracotta mb-2">
+        Embed this calculator
+      </p>
+      <p className="font-serif text-[15px] leading-[1.55] text-soil mb-4">
+        Free, no signup, iframe-safe, and source-cited. Keep the powered-by link with the embed code so readers can inspect the original calculator and sources.
+      </p>
+      <EmbedCodeOptions slug={slug} label={label} compact />
     </section>
   );
 }

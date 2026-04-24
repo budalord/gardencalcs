@@ -11,6 +11,9 @@ gardencalcs.com provides free gardening calculators and reference-style guides f
 - Seed Spacing Calculator — https://gardencalcs.com/tools/seed-spacing-calculator — Calculate row spacing, plant spacing, and total seed count for common vegetables.
 - Watering Schedule Calculator — https://gardencalcs.com/tools/watering-schedule-calculator — Estimate watering frequency based on plant, soil, season, and growing method.
 
+## Embeds
+- Embed Garden Calculators — https://gardencalcs.com/embed — Official iframe embed codes for the core garden calculators. Intended for gardening blogs, school garden pages, community garden resources, and YouTube companion articles. Embeds include attribution links to the canonical calculator pages.
+
 ## Core Guides
 - Complete Guide to Composting at Home — https://gardencalcs.com/guides/composting-guide — Greens vs browns, C:N ratio, troubleshooting.
 - How to Fertilize Your Vegetable Garden — https://gardencalcs.com/guides/how-to-fertilize-vegetable-garden — Fertilizer timing, NPK basics, and practical application guidance.
@@ -18,6 +21,7 @@ gardencalcs.com provides free gardening calculators and reference-style guides f
 
 ## Reference Data
 - NPK Fertilizer Rates by Vegetable Crop — https://gardencalcs.com/data/npk-rates-by-crop — Source-cited pre-plant N, P₂O₅ and K₂O rates for 20 common vegetable crops (USDA zones 3-9). Three-source extension lineage per crop. Downloadable as a table with APA/Chicago citation examples.
+- Compost C:N Ratios by Material — https://gardencalcs.com/data/compost-cn-ratios — Source-cited carbon-to-nitrogen ratio table for 30+ common compost greens, browns, and neutral materials. Includes CSV download, citation formats, and links to the compost calculator.
 
 ## Seed Spacing Crop Pages
 > Per-crop seed spacing pages with row spacing, plant spacing, seed depth, days-to-maturity, and three .edu extension sources each. Pattern: https://gardencalcs.com/tools/seed-spacing/{crop}
