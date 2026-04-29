@@ -154,12 +154,20 @@ export default function FertilizeGuide() {
           <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-terracotta !mt-0 mb-4">Related tools</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 not-prose">
             <Link href="/tools/fertilizer-calculator" className="block bg-paper border border-[color-mix(in_oklch,var(--soil)_25%,transparent)] hover:border-moss-deep rounded-md p-4 transition-colors duration-fast !border-b">
-              <p className="font-serif font-semibold text-[16px] text-ink">Fertilizer Calculator</p>
-              <p className="font-serif text-[14px] leading-[1.5] text-soil mt-1">Calculate exact fertilizer amounts by area.</p>
+              <p className="font-serif font-semibold text-[16px] text-ink">NPK fertilizer calculator for vegetable beds</p>
+              <p className="font-serif text-[14px] leading-[1.5] text-soil mt-1">Turn an NPK label into pounds or grams of product for the garden area you actually have.</p>
             </Link>
             <Link href="/tools/soil-ph-calculator" className="block bg-paper border border-[color-mix(in_oklch,var(--soil)_25%,transparent)] hover:border-moss-deep rounded-md p-4 transition-colors duration-fast !border-b">
-              <p className="font-serif font-semibold text-[16px] text-ink">Soil pH Calculator</p>
-              <p className="font-serif text-[14px] leading-[1.5] text-soil mt-1">Find lime or sulfur needed to adjust pH.</p>
+              <p className="font-serif font-semibold text-[16px] text-ink">Soil pH calculator — lime &amp; sulfur rate</p>
+              <p className="font-serif text-[14px] leading-[1.5] text-soil mt-1">Confirm pH is in range before fertilizing; nutrients lock up at the wrong pH no matter the rate.</p>
+            </Link>
+            <Link href="/tools/seed-spacing-calculator" className="block bg-paper border border-[color-mix(in_oklch,var(--soil)_25%,transparent)] hover:border-moss-deep rounded-md p-4 transition-colors duration-fast !border-b">
+              <p className="font-serif font-semibold text-[16px] text-ink">Vegetable seed spacing calculator</p>
+              <p className="font-serif text-[14px] leading-[1.5] text-soil mt-1">Decide bed layout and plant count first, since fertilizer rate scales with the planting area.</p>
+            </Link>
+            <Link href="/tools/compost-calculator" className="block bg-paper border border-[color-mix(in_oklch,var(--soil)_25%,transparent)] hover:border-moss-deep rounded-md p-4 transition-colors duration-fast !border-b">
+              <p className="font-serif font-semibold text-[16px] text-ink">How much compost do I need? Compost calculator</p>
+              <p className="font-serif text-[14px] leading-[1.5] text-soil mt-1">Plan compost as a fertility input alongside synthetic NPK; cubic yards, bag count, and C:N ratios.</p>
             </Link>
           </div>
         </section>

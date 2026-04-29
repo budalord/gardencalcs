@@ -18,15 +18,30 @@ const pageDescription =
   "How much compost for a 4×8 bed? Free calculator — cubic yards, bag count, and depth for beds, lawns, and topdress. C:N ratios for 20 materials. No signup required.";
 const toolUrl = `${siteConfig.domain}/tools/compost-calculator`;
 
+const CORNELL_A1 = "https://cwmi.css.cornell.edu/AppendixATable1OFCH.pdf";
 const materialRows = [
-  { material: "Dry leaves",           ratio: "40-80:1",   type: "Brown", sourceUrl: "https://cwmi.css.cornell.edu/AppendixATable1OFCH.pdf" },
-  { material: "Grass clippings",      ratio: "9-25:1",    type: "Green", sourceUrl: "https://cwmi.css.cornell.edu/AppendixATable1OFCH.pdf" },
-  { material: "Coffee grounds",       ratio: "20:1",      type: "Green", sourceUrl: "https://cwmi.css.cornell.edu/AppendixATable1OFCH.pdf" },
-  { material: "Food scraps",          ratio: "14-16:1",   type: "Green", sourceUrl: "https://cwmi.css.cornell.edu/AppendixATable1OFCH.pdf" },
-  { material: "Sawdust",              ratio: "200-750:1", type: "Brown", sourceUrl: "https://cwmi.css.cornell.edu/AppendixATable1OFCH.pdf" },
-  { material: "Straw",                ratio: "48-150:1",  type: "Brown", sourceUrl: "https://cwmi.css.cornell.edu/AppendixATable1OFCH.pdf" },
-  { material: "Horse manure",         ratio: "22-50:1",   type: "Green", sourceUrl: "https://cwmi.css.cornell.edu/AppendixATable1OFCH.pdf" },
-  { material: "Corrugated cardboard", ratio: "563:1",     type: "Brown", sourceUrl: "https://cwmi.css.cornell.edu/AppendixATable1OFCH.pdf" },
+  // Greens (nitrogen-rich)
+  { material: "Poultry manure",       ratio: "3-10:1",    type: "Green", sourceUrl: CORNELL_A1 },
+  { material: "Vegetable wastes",     ratio: "12-20:1",   type: "Green", sourceUrl: CORNELL_A1 },
+  { material: "Alfalfa hay",          ratio: "12-15:1",   type: "Green", sourceUrl: CORNELL_A1 },
+  { material: "Food scraps",          ratio: "14-16:1",   type: "Green", sourceUrl: CORNELL_A1 },
+  { material: "Hay, general",         ratio: "15-32:1",   type: "Green", sourceUrl: CORNELL_A1 },
+  { material: "Seaweed",              ratio: "19:1",      type: "Green", sourceUrl: CORNELL_A1 },
+  { material: "Coffee grounds",       ratio: "20:1",      type: "Green", sourceUrl: CORNELL_A1 },
+  { material: "Fruit wastes",         ratio: "20-49:1",   type: "Green", sourceUrl: CORNELL_A1 },
+  { material: "Cow manure",           ratio: "11-30:1",   type: "Green", sourceUrl: CORNELL_A1 },
+  { material: "Horse manure",         ratio: "22-50:1",   type: "Green", sourceUrl: CORNELL_A1 },
+  { material: "Grass clippings",      ratio: "9-25:1",    type: "Green", sourceUrl: CORNELL_A1 },
+  // Browns (carbon-rich)
+  { material: "Dry leaves",           ratio: "40-80:1",   type: "Brown", sourceUrl: CORNELL_A1 },
+  { material: "Straw",                ratio: "48-150:1",  type: "Brown", sourceUrl: CORNELL_A1 },
+  { material: "Pine needles",         ratio: "60-110:1",  type: "Brown", sourceUrl: CORNELL_A1 },
+  { material: "Wood chips",           ratio: "100-500:1", type: "Brown", sourceUrl: CORNELL_A1 },
+  { material: "Bark, hardwoods",      ratio: "116-436:1", type: "Brown", sourceUrl: CORNELL_A1 },
+  { material: "Paper, mixed",         ratio: "170:1",     type: "Brown", sourceUrl: CORNELL_A1 },
+  { material: "Newspaper",            ratio: "175:1",     type: "Brown", sourceUrl: CORNELL_A1 },
+  { material: "Sawdust",              ratio: "200-750:1", type: "Brown", sourceUrl: CORNELL_A1 },
+  { material: "Corrugated cardboard", ratio: "563:1",     type: "Brown", sourceUrl: CORNELL_A1 },
 ] as const;
 
 const faqs: ToolFAQ[] = [

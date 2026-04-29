@@ -198,12 +198,16 @@ export default function CompostingGuide() {
           <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-terracotta !mt-0 mb-4">Related tools</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 not-prose">
             <Link href="/tools/compost-calculator" className="block bg-paper border border-[color-mix(in_oklch,var(--soil)_25%,transparent)] hover:border-moss-deep rounded-md p-4 transition-colors duration-fast !border-b">
-              <p className="font-serif font-semibold text-[16px] text-ink">Compost Calculator</p>
-              <p className="font-serif text-[14px] leading-[1.5] text-soil mt-1">Calculate C:N ratio and get balancing tips.</p>
+              <p className="font-serif font-semibold text-[16px] text-ink">How much compost do I need? Compost calculator</p>
+              <p className="font-serif text-[14px] leading-[1.5] text-soil mt-1">Cubic yards, bag count, and depth for raised beds and lawns; plus C:N ratios for 20 materials.</p>
+            </Link>
+            <Link href="/tools/seed-spacing-calculator" className="block bg-paper border border-[color-mix(in_oklch,var(--soil)_25%,transparent)] hover:border-moss-deep rounded-md p-4 transition-colors duration-fast !border-b">
+              <p className="font-serif font-semibold text-[16px] text-ink">Vegetable seed spacing calculator</p>
+              <p className="font-serif text-[14px] leading-[1.5] text-soil mt-1">Estimate bed area and plant count before deciding how much finished compost to spread.</p>
             </Link>
             <Link href="/tools/soil-ph-calculator" className="block bg-paper border border-[color-mix(in_oklch,var(--soil)_25%,transparent)] hover:border-moss-deep rounded-md p-4 transition-colors duration-fast !border-b">
-              <p className="font-serif font-semibold text-[16px] text-ink">Soil pH Calculator</p>
-              <p className="font-serif text-[14px] leading-[1.5] text-soil mt-1">Test compost pH before applying.</p>
+              <p className="font-serif font-semibold text-[16px] text-ink">Soil pH calculator for vegetable beds</p>
+              <p className="font-serif text-[14px] leading-[1.5] text-soil mt-1">Check whether compost-amended beds still need lime or sulfur for the crop you want to grow.</p>
             </Link>
           </div>
         </section>
