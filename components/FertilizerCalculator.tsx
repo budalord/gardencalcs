@@ -17,6 +17,12 @@ interface Result {
   nKg: number;
   pKg: number;
   kKg: number;
+  driver: "N" | "P" | "K";
+  excessP: number;  // kg P₂O₅ supplied beyond target
+  excessK: number;  // kg K₂O supplied beyond target
+  targetN: number;
+  targetP: number;
+  targetK: number;
 }
 
 const PRESETS: Preset[] = [
@@ -32,18 +38,44 @@ const NUTRIENT_RATE = { n: 0.3, p: 0.15, k: 0.2 };
 function compute(n: number, p: number, k: number, areaSqm: number): Result | null {
   if (areaSqm <= 0) return null;
   const factor = areaSqm / 100;
-  const candidates: number[] = [];
-  if (n > 0) candidates.push((NUTRIENT_RATE.n * factor) / (n / 100));
-  if (p > 0) candidates.push((NUTRIENT_RATE.p * factor) / (p / 100));
-  if (k > 0) candidates.push((NUTRIENT_RATE.k * factor) / (k / 100));
-  if (candidates.length === 0) return null;
+  const targetN = NUTRIENT_RATE.n * factor;
+  const targetP = NUTRIENT_RATE.p * factor;
+  const targetK = NUTRIENT_RATE.k * factor;
 
-  const fertilizerKg = Math.max(...candidates);
+  // Drive by nitrogen when present (most common use case for vegetable beds);
+  // fall back to P then K for P-only or K-only blends. Picking the limiting
+  // nutrient (max of all three) over-applies the others, so we report excess
+  // to make the trade-off visible.
+  let fertilizerKg = 0;
+  let driver: Result["driver"] = "N";
+  if (n > 0) {
+    fertilizerKg = targetN / (n / 100);
+    driver = "N";
+  } else if (p > 0) {
+    fertilizerKg = targetP / (p / 100);
+    driver = "P";
+  } else if (k > 0) {
+    fertilizerKg = targetK / (k / 100);
+    driver = "K";
+  } else {
+    return null;
+  }
+
+  const nKg = fertilizerKg * n / 100;
+  const pKg = fertilizerKg * p / 100;
+  const kKg = fertilizerKg * k / 100;
+
   return {
     fertilizerKg: +fertilizerKg.toFixed(2),
-    nKg: +(fertilizerKg * n / 100).toFixed(2),
-    pKg: +(fertilizerKg * p / 100).toFixed(2),
-    kKg: +(fertilizerKg * k / 100).toFixed(2),
+    nKg: +nKg.toFixed(2),
+    pKg: +pKg.toFixed(2),
+    kKg: +kKg.toFixed(2),
+    driver,
+    excessP: Math.max(0, +(pKg - targetP).toFixed(2)),
+    excessK: Math.max(0, +(kKg - targetK).toFixed(2)),
+    targetN: +targetN.toFixed(2),
+    targetP: +targetP.toFixed(2),
+    targetK: +targetK.toFixed(2),
   };
 }
 
@@ -158,30 +190,65 @@ export default function FertilizerCalculator() {
         Work out the dose
       </button>
 
-      {result && (
-        <div className="mt-6 bg-cream border border-[color-mix(in_oklch,var(--moss)_35%,transparent)] border-l-[4px] border-l-moss rounded-md px-6 py-5">
+      {result && (() => {
+        const overP = result.excessP > 0.05;
+        const overK = result.excessK > 0.05;
+        const hasExcess = overP || overK;
+        return (
+        <div className={`mt-6 bg-cream border border-l-[4px] rounded-md px-6 py-5 ${
+          hasExcess
+            ? "border-[color-mix(in_oklch,var(--terracotta)_35%,transparent)] border-l-terracotta"
+            : "border-[color-mix(in_oklch,var(--moss)_35%,transparent)] border-l-moss"
+        }`}>
           <p className="font-mono text-[11px] uppercase tracking-[0.08em] text-soil mb-1">
-            Recommended application · {isCustom ? "Custom blend" : PRESETS[presetIdx].name}
+            Recommended application · {isCustom ? "Custom blend" : PRESETS[presetIdx].name} · driven by {result.driver}
           </p>
-          <p className="font-serif font-semibold text-[34px] leading-[1] text-moss-deep tabular">
+          <p className={`font-serif font-semibold text-[34px] leading-[1] tabular ${
+            hasExcess ? "text-terracotta" : "text-moss-deep"
+          }`}>
             {result.fertilizerKg}
             <span className="font-sans font-medium text-[14px] text-soil ml-1.5">kg fertilizer</span>
           </p>
 
-          <dl className="mt-4 pt-3 border-t border-dashed border-[color-mix(in_oklch,var(--soil)_30%,transparent)] grid grid-cols-2 gap-x-5 gap-y-2 font-sans text-[14px]">
-            <dt className="text-soil">N supplied</dt>
-            <dd className="m-0 tabular text-ink">{result.nKg} kg</dd>
-            <dt className="text-soil">P₂O₅ supplied</dt>
-            <dd className="m-0 tabular text-ink">{result.pKg} kg</dd>
-            <dt className="text-soil">K₂O supplied</dt>
-            <dd className="m-0 tabular text-ink">{result.kKg} kg</dd>
+          <dl className="mt-4 pt-3 border-t border-dashed border-[color-mix(in_oklch,var(--soil)_30%,transparent)] grid grid-cols-[auto_1fr] gap-x-5 gap-y-2 font-sans text-[14px]">
+            <dt className="text-soil">N supplied / target</dt>
+            <dd className="m-0 tabular text-ink">{result.nKg} / {result.targetN} kg</dd>
+            <dt className="text-soil">P₂O₅ supplied / target</dt>
+            <dd className={`m-0 tabular ${overP ? "text-terracotta font-medium" : "text-ink"}`}>
+              {result.pKg} / {result.targetP} kg
+              {overP && <span className="ml-2 font-sans text-[12px] not-italic">+{result.excessP} excess</span>}
+            </dd>
+            <dt className="text-soil">K₂O supplied / target</dt>
+            <dd className={`m-0 tabular ${overK ? "text-terracotta font-medium" : "text-ink"}`}>
+              {result.kKg} / {result.targetK} kg
+              {overK && <span className="ml-2 font-sans text-[12px] not-italic">+{result.excessK} excess</span>}
+            </dd>
           </dl>
 
+          {hasExcess && (
+            <div className="mt-5 pt-4 border-t border-dashed border-[color-mix(in_oklch,var(--terracotta)_45%,transparent)]">
+              <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-terracotta mb-2">
+                Nutrient over-application warning
+              </p>
+              <p className="font-serif text-[14px] leading-[1.6] text-ink">
+                This blend supplies more {overP && overK ? "P₂O₅ and K₂O" : overP ? "P₂O₅" : "K₂O"} than
+                the typical home-garden target. Excess phosphorus is a major source of waterway
+                pollution; several states (FL, MN, NY) restrict P-containing lawn fertilizer without a
+                soil test. If your soil test shows adequate P or K, choose a low-P blend such as urea
+                (46-0-0) or ammonium sulfate, or apply less product and split applications.
+              </p>
+              <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.12em] text-soil">
+                Source · USEPA nutrient pollution · UMN Extension &quot;Fertilizing Lawns and Gardens&quot;
+              </p>
+            </div>
+          )}
+
           <p className="mt-4 font-mono text-[10px] uppercase tracking-[0.12em] text-soil">
-            P values expressed as P₂O₅ · multiply by 0.436 for elemental P
+            P values expressed as P₂O₅ · multiply by 0.436 for elemental P · always confirm with a soil test
           </p>
         </div>
-      )}
+        );
+      })()}
     </section>
   );
 }

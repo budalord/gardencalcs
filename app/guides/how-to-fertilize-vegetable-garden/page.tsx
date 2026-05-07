@@ -30,15 +30,18 @@ const jsonLd = {
   publisher: { "@type": "Organization", name: siteConfig.name },
 };
 
+// Whole-season pre-plant N rates, expressed as lb N per 1,000 ft² to match
+// /data/npk-rates-by-crop. Values aggregated from UMass NEVMG, Rutgers FS129,
+// UGA C1027, UMaine 2276, Cornell home-veg, and UMN nutrient management.
 const rateRows: [string, string, string, string][] = [
-  ["Tomato",            "0.2–0.3",  "Moderate",        "Side-dress when flowering begins"],
-  ["Corn",              "0.3–0.4",  "Heavy",           "Side-dress at knee height"],
-  ["Lettuce",           "0.2–0.3",  "Moderate",        "High N for leafy growth"],
-  ["Pepper",            "0.15–0.25","Light-Moderate",  "Avoid excess N before fruiting"],
-  ["Squash / Zucchini", "0.2–0.3",  "Moderate",        "Side-dress at first flower"],
-  ["Carrot",            "0.1–0.15", "Light",           "Excess N causes forked roots"],
-  ["Bean",              "0.05–0.1", "Light",           "Fixes own N; minimal fertilizer needed"],
-  ["Cucumber",          "0.2–0.3",  "Moderate",        "Side-dress when vines run"],
+  ["Tomato",            "3–4",     "Heavy",          "½ pre-plant, ½ side-dress at fruit set"],
+  ["Sweet Corn",        "3–4",     "Heavy",          "Side-dress at knee high (V6–V8)"],
+  ["Lettuce",           "1–2",     "Light",          "All pre-plant; one top-dress if leaves pale"],
+  ["Pepper",            "2–3",     "Moderate",       "⅔ pre-plant, ⅓ at first bloom; avoid excess N"],
+  ["Squash / Zucchini", "2–3",     "Moderate",       "Side-dress at first flower"],
+  ["Carrot",            "1–2",     "Light",          "All pre-plant; excess N causes forked roots"],
+  ["Bean (bush/pole)",  "0.5–1",   "Light",          "Fixes own N; minimal fertilizer needed"],
+  ["Cucumber",          "2–3",     "Moderate",       "⅔ pre-plant, ⅓ at vining"],
 ];
 
 export default function FertilizeGuide() {
@@ -89,9 +92,9 @@ export default function FertilizeGuide() {
             <thead>
               <tr>
                 <th>Vegetable</th>
-                <th>N (lb/100 ft²)</th>
-                <th>Feeding</th>
-                <th>Notes</th>
+                <th>N (lb / 1,000 ft²)</th>
+                <th>Feeder class</th>
+                <th>Timing notes</th>
               </tr>
             </thead>
             <tbody>

@@ -36,6 +36,7 @@ interface Result {
   phDiff: number;
   areaSqFt: number;
   soilLabel: string;
+  splitRecommended: boolean;  // true when single-application rate is too aggressive
 }
 
 const scalePct = (ph: number) => `${Math.max(0, Math.min(100, ((ph - 3) / 7) * 100))}%`;
@@ -92,6 +93,7 @@ export default function SoilPHCalculator() {
           phDiff: 0,
           areaSqFt,
           soilLabel: factors.label,
+          splitRecommended: false,
         },
       };
     }
@@ -103,6 +105,11 @@ export default function SoilPHCalculator() {
     const per1000SqFt = ratePerUnit * phDiff * 10;
     const perSqM_grams = (amountLbs * 453.592) / (areaSqFt * 0.092903);
     const bags40 = Math.max(1, Math.ceil(amountLbs / 40));
+    // Per-100-ft² safety thresholds. Lime: >10 lb/100 ft² in one pass risks
+    // pH overshoot and Ca-induced micronutrient lockout. Sulfur: >2 lb/100 ft²
+    // is the standard Penn State / Clemson cap.
+    const ratePer100SqFt = ratePerUnit * phDiff;
+    const splitRecommended = raising ? ratePer100SqFt > 10 : ratePer100SqFt > 2;
 
     return {
       liveErrors: errs,
@@ -117,6 +124,7 @@ export default function SoilPHCalculator() {
         phDiff,
         areaSqFt,
         soilLabel: factors.label,
+        splitRecommended,
       },
     };
   }, [currentPH, targetPH, soilType, area, areaUnit]);
@@ -329,10 +337,33 @@ export default function SoilPHCalculator() {
 
           <p className="mt-4 font-serif italic text-[13px] text-soil leading-[1.6]">
             {isRaise
-              ? "Apply in fall; work into the top 6 in. of soil and water in. Retest after 3 months before re-applying."
-              : "Sulfur works slowly — allow 6–9 months in cool soil. Don't exceed 2 lb per 100 ft² per application; split larger doses 60 days apart."}
+              ? "Apply in fall; work into the top 6 in. of soil and water in. Lime reacts slowly — wait at least 6 months before retesting and re-applying."
+              : "Sulfur works slowly — allow 6–9 months in cool soil before retesting. Don't exceed 2 lb per 100 ft² per application; split larger doses 60 days apart."}
           </p>
-          <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.12em] text-soil">
+
+          {result.splitRecommended && (
+            <div className="mt-4 pt-3 border-t border-dashed border-[color-mix(in_oklch,var(--terracotta)_45%,transparent)]">
+              <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-terracotta mb-2">
+                Split-application warning
+              </p>
+              <p className="font-serif text-[13px] leading-[1.6] text-ink">
+                {isRaise ? (
+                  <>This rate ({(result.amountLbs / (result.areaSqFt / 100)).toFixed(1)} lb / 100&nbsp;ft²)
+                  is high enough to overshoot the target pH and lock out iron and manganese as
+                  calcium accumulates. <strong>Apply half now, retest in 6 months, then apply the
+                  rest only if needed.</strong> Aggressive single-pass liming is one of the most
+                  common ways gardeners create new nutrient problems.</>
+                ) : (
+                  <>This rate ({(result.amountLbs / (result.areaSqFt / 100)).toFixed(1)} lb / 100&nbsp;ft²)
+                  exceeds the 2&nbsp;lb / 100&nbsp;ft² cap that Penn State and Clemson Extensions
+                  recommend per application. <strong>Split into two doses 60 days apart</strong> and
+                  retest before the second pass.</>
+                )}
+              </p>
+            </div>
+          )}
+
+          <p className="mt-4 font-mono text-[10px] uppercase tracking-[0.12em] text-soil">
             Rates · Penn State Extension · Clemson Cooperative Extension · Cornell Cooperative Extension
           </p>
         </div>

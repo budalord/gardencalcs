@@ -30,33 +30,74 @@ interface Result {
   plantsPerRow: number;
   totalPlants: number;
   recommendedSeeds: number;
+  bedLengthFt: number;
+  bedWidthFt: number;
+  isRectangular: boolean; // false when only area given (square fallback)
 }
 
 const fieldLabel = "block font-sans text-[11px] uppercase tracking-[0.08em] text-soil mb-1.5";
 const fieldBase =
   "w-full bg-cream border border-[color-mix(in_oklch,var(--soil)_35%,transparent)] rounded-md px-3 py-2.5 text-ink outline-none focus:border-moss transition-colors duration-fast";
 
+type Mode = "rect" | "area";
+
 export default function SeedSpacingCalculator() {
   const [plant, setPlant] = useState("tomato");
+  const [mode, setMode] = useState<Mode>("rect");
+  const [length, setLength] = useState("8");
+  const [width, setWidth] = useState("4");
   const [area, setArea] = useState("");
   const [result, setResult] = useState<Result | null>(null);
   const [error, setError] = useState("");
 
   function calculate() {
-    const areaNum = parseFloat(area);
-    if (!area || isNaN(areaNum) || areaNum <= 0) {
-      setError("Enter a garden area greater than 0.");
-      setResult(null);
-      return;
-    }
-    setError("");
-
     const data = PLANT_DATA[plant];
     const rowSpacingFt = data.rowSpacing / 12;
     const plantSpacingFt = data.plantSpacing / 12;
-    const side = Math.sqrt(areaNum);
-    const rows = Math.max(1, Math.floor(side / rowSpacingFt));
-    const plantsPerRow = Math.max(1, Math.floor(side / plantSpacingFt));
+
+    let bedLengthFt = 0;
+    let bedWidthFt = 0;
+    let isRectangular = false;
+
+    if (mode === "rect") {
+      const l = parseFloat(length);
+      const w = parseFloat(width);
+      if (!length || isNaN(l) || l <= 0) {
+        setError("Enter a bed length greater than 0.");
+        setResult(null);
+        return;
+      }
+      if (!width || isNaN(w) || w <= 0) {
+        setError("Enter a bed width greater than 0.");
+        setResult(null);
+        return;
+      }
+      bedLengthFt = l;
+      bedWidthFt = w;
+      isRectangular = true;
+    } else {
+      const areaNum = parseFloat(area);
+      if (!area || isNaN(areaNum) || areaNum <= 0) {
+        setError("Enter a garden area greater than 0.");
+        setResult(null);
+        return;
+      }
+      // Square fallback only when bed dimensions are unknown.
+      const side = Math.sqrt(areaNum);
+      bedLengthFt = side;
+      bedWidthFt = side;
+      isRectangular = false;
+    }
+    setError("");
+
+    // Lay rows along the long side; place plants along that direction so
+    // the longer dimension hosts more plants than rows. Use floor without
+    // a "+1" since real layouts leave half-spacing edge buffers, which keeps
+    // the mature canopy from spilling into walkways or neighboring beds.
+    const longSide = Math.max(bedLengthFt, bedWidthFt);
+    const shortSide = Math.min(bedLengthFt, bedWidthFt);
+    const rows = Math.max(1, Math.floor(shortSide / rowSpacingFt));
+    const plantsPerRow = Math.max(1, Math.floor(longSide / plantSpacingFt));
     const totalPlants = rows * plantsPerRow;
     const recommendedSeeds = Math.ceil(totalPlants * 1.15);
 
@@ -67,6 +108,9 @@ export default function SeedSpacingCalculator() {
       plantsPerRow,
       totalPlants,
       recommendedSeeds,
+      bedLengthFt,
+      bedWidthFt,
+      isRectangular,
     });
   }
 
@@ -79,21 +123,68 @@ export default function SeedSpacingCalculator() {
         Pick a crop, give us your bed area, and we&apos;ll return a row-and-plant layout with a 15% germination buffer.
       </p>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-5">
-        <div>
-          <label className={fieldLabel}>Crop</label>
-          <select
-            value={plant}
-            onChange={(e) => { setPlant(e.target.value); setResult(null); }}
-            className={`${fieldBase} font-sans text-[15px]`}
-          >
-            {Object.entries(PLANT_DATA).map(([key, val]) => (
-              <option key={key} value={key}>{val.name}</option>
+      <div className="mb-5">
+        <label className={fieldLabel}>Crop</label>
+        <select
+          value={plant}
+          onChange={(e) => { setPlant(e.target.value); setResult(null); }}
+          className={`${fieldBase} font-sans text-[15px]`}
+        >
+          {Object.entries(PLANT_DATA).map(([key, val]) => (
+            <option key={key} value={key}>{val.name}</option>
+          ))}
+        </select>
+      </div>
+
+      {/* Mode toggle: rectangular bed (preferred) vs total area fallback */}
+      <div className="mb-3">
+        <div className="flex items-end justify-between">
+          <span className={fieldLabel.replace(" mb-1.5", "")}>Bed shape</span>
+          <div className="inline-flex border border-[color-mix(in_oklch,var(--soil)_35%,transparent)] rounded-md overflow-hidden text-[12px] font-mono">
+            {(["rect", "area"] as const).map(m => (
+              <button
+                key={m}
+                type="button"
+                onClick={() => { setMode(m); setResult(null); }}
+                className={`px-3 py-1 transition-colors duration-fast ${
+                  mode === m ? "bg-moss-deep text-cream" : "bg-cream text-soil hover:text-ink"
+                }`}
+              >
+                {m === "rect" ? "Length × Width" : "Total area"}
+              </button>
             ))}
-          </select>
+          </div>
         </div>
-        <div>
-          <label className={fieldLabel}>Garden area (sq ft)</label>
+      </div>
+
+      {mode === "rect" ? (
+        <div className="grid grid-cols-2 gap-4 mb-5">
+          <div>
+            <label className={fieldLabel}>Length (ft)</label>
+            <input
+              type="number" inputMode="decimal" min="0.5" step="0.5"
+              value={length}
+              onChange={(e) => { setLength(e.target.value); setResult(null); }}
+              placeholder="e.g. 8"
+              className={`${fieldBase} font-mono tabular text-[17px] font-medium`}
+              aria-invalid={!!error}
+            />
+          </div>
+          <div>
+            <label className={fieldLabel}>Width (ft)</label>
+            <input
+              type="number" inputMode="decimal" min="0.5" step="0.5"
+              value={width}
+              onChange={(e) => { setWidth(e.target.value); setResult(null); }}
+              placeholder="e.g. 4"
+              className={`${fieldBase} font-mono tabular text-[17px] font-medium`}
+              aria-invalid={!!error}
+            />
+          </div>
+        </div>
+      ) : (
+        <div className="mb-5">
+          <label className={fieldLabel}>Garden area (sq ft) — assumes square bed</label>
           <input
             type="number" inputMode="decimal" min="1"
             value={area}
@@ -102,9 +193,9 @@ export default function SeedSpacingCalculator() {
             className={`${fieldBase} font-mono tabular text-[17px] font-medium`}
             aria-invalid={!!error}
           />
-          {error && <p className="mt-1 font-mono text-[11px] text-terracotta">{error}</p>}
         </div>
-      </div>
+      )}
+      {error && <p className="-mt-3 mb-3 font-mono text-[11px] text-terracotta">{error}</p>}
 
       <button
         onClick={calculate}
@@ -123,7 +214,10 @@ export default function SeedSpacingCalculator() {
             <span className="font-sans font-medium text-[14px] text-soil ml-1.5">plants fit</span>
           </p>
           <p className="font-serif text-[14px] text-soil mt-1.5">
-            {result.rows} rows × {result.plantsPerRow} plants per row, spaced {result.rowSpacing}″ between rows and {result.plantSpacing}″ in-row.
+            {result.rows} row{result.rows === 1 ? "" : "s"} × {result.plantsPerRow} plants per row, spaced {result.rowSpacing}″ between rows and {result.plantSpacing}″ in-row.
+            {result.isRectangular
+              ? ` Layout fits a ${result.bedLengthFt} ft × ${result.bedWidthFt} ft bed.`
+              : ` (Square layout assumed; for a true rectangular bed, switch to Length × Width.)`}
           </p>
 
           <dl className="mt-4 pt-3 border-t border-dashed border-[color-mix(in_oklch,var(--soil)_30%,transparent)] grid grid-cols-2 gap-x-5 gap-y-2 font-sans text-[14px]">

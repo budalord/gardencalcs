@@ -31,25 +31,27 @@ const jsonLd = {
   publisher: { "@type": "Organization", name: siteConfig.name },
 };
 
+// C:N values updated to mid-range Cornell CWMI Appendix A.1 figures.
+// Manure entry split off the table — see /tools/compost-calculator for the
+// raw-manure food-safety advisory and per-source C:N values.
 const materials = [
-  { name: "Grass Clippings", type: "green", cn: "20:1", notes: "Add in thin layers to prevent matting" },
-  { name: "Food Scraps (veg/fruit)", type: "green", cn: "15:1", notes: "Bury in centre to deter pests" },
-  { name: "Coffee Grounds", type: "green", cn: "20:1", notes: "Excellent activator; use freely" },
-  { name: "Fresh Manure", type: "green", cn: "15:1", notes: "Chicken, cow, horse — not pet waste" },
+  { name: "Grass Clippings", type: "green", cn: "17:1", notes: "Add in thin layers to prevent matting" },
+  { name: "Food Scraps (veg/fruit)", type: "green", cn: "16:1", notes: "Bury in centre to deter pests" },
+  { name: "Coffee Grounds", type: "green", cn: "20:1", notes: "Cap at 20–30% of greens by volume; concentrated coffee can suppress some seedlings (allelopathy)" },
   { name: "Green Leaves", type: "green", cn: "25:1", notes: "Great balance of N and C" },
   { name: "Dry Leaves", type: "brown", cn: "60:1", notes: "Shred for faster breakdown" },
-  { name: "Straw", type: "brown", cn: "80:1", notes: "Good bulking agent; improves aeration" },
-  { name: "Cardboard", type: "brown", cn: "350:1", notes: "Remove tape; tear into pieces" },
-  { name: "Wood Chips", type: "brown", cn: "400:1", notes: "Best for slow cold composting" },
-  { name: "Sawdust", type: "brown", cn: "325:1", notes: "Use untreated wood only" },
+  { name: "Straw", type: "brown", cn: "100:1", notes: "Good bulking agent; improves aeration" },
+  { name: "Corn Stalks", type: "brown", cn: "67:1", notes: "Chop into 2–3 inch pieces" },
   { name: "Newspaper", type: "brown", cn: "175:1", notes: "Shred; avoid glossy paper" },
-  { name: "Corn Stalks", type: "brown", cn: "75:1", notes: "Chop into 2–3 inch pieces" },
+  { name: "Wood Chips", type: "brown", cn: "300:1", notes: "Best for slow cold composting" },
+  { name: "Sawdust", type: "brown", cn: "475:1", notes: "Use untreated wood only" },
+  { name: "Cardboard", type: "brown", cn: "450:1", notes: "Remove tape; tear into pieces" },
 ];
 
 const troubleshooting = [
   { problem: "Pile smells like rotten eggs",   cause: "Too wet and anaerobic (no oxygen).",                           fix: "Turn the pile to add air. Add dry browns (straw, dry leaves) to absorb excess moisture. Ensure the bin has drainage." },
   { problem: "Pile smells like ammonia",        cause: "Too much nitrogen (greens).",                                   fix: "Add carbon-rich browns — dry leaves, cardboard, or straw. Turn the pile to release the ammonia gas." },
-  { problem: "Pile is not heating up",          cause: "Too much carbon, too dry, or pile is too small.",                fix: "Add fresh greens (grass clippings, food scraps). Water until the pile feels like a wrung-out sponge. Ensure the pile is at least 3×3×3 ft — smaller piles cannot retain heat." },
+  { problem: "Pile is not heating up",          cause: "Too much carbon, too dry, or pile is too small for thermal mass.", fix: "Add fresh greens (grass clippings, food scraps). Water until the pile feels like a wrung-out sponge. Hot composting wants roughly 1 yd³ (≈ 3×3×3 ft) of mass; smaller piles still compost as cold piles, just slower (6–12 months versus 4–8 weeks)." },
   { problem: "Pile is attracting pests",        cause: "Meat, dairy, or oily food scraps; food scraps on the surface.", fix: "Never add meat, dairy, or cooked food. Bury food scraps in the centre of the pile. Use a bin with a lid or hardware cloth base." },
   { problem: "Compost is taking too long",      cause: "Wrong C:N ratio, too dry, not turned, or materials too large.",  fix: "Chop or shred materials into 2–3 inch pieces. Turn every 1–2 weeks. Check moisture. Adjust C:N ratio using the Compost Calculator." },
 ];

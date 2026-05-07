@@ -89,8 +89,8 @@ export default function SoilPhGuide() {
           <p>Soil pH controls nutrient availability. Even if your soil is rich in nutrients, plants cannot absorb them if the pH is wrong. Here is why:</p>
           <ul>
             <li><strong>Nitrogen, phosphorus, and potassium</strong> are most available between pH 6.0 and 7.0. Outside this range, they become chemically bound to soil particles and unavailable to roots.</li>
-            <li><strong>Iron and manganese</strong> become more soluble in acidic soils (below 5.5), sometimes reaching toxic levels.</li>
-            <li><strong>Phosphorus</strong> is particularly sensitive — it locks up in both very acidic and very alkaline soils, causing deficiency even when plenty is present.</li>
+            <li><strong>Iron and manganese</strong> become more soluble as soil acidifies. Manganese toxicity can show up below about pH 5.0–5.5 in sensitive crops, while iron toxicity is rare unless pH drops below 4.5.</li>
+            <li><strong>Phosphorus</strong> is particularly sensitive: in acidic soils (below ~5.5) it binds with iron and aluminum oxides; in alkaline soils (above ~7.5) it precipitates with calcium. Either extreme can cause deficiency even when plenty of phosphorus is present.</li>
             <li><strong>Soil microbes</strong> that break down organic matter and fix nitrogen thrive in the 6.0–7.0 range. Extreme pH suppresses microbial activity.</li>
           </ul>
           <p>The practical result: a plant growing in soil with the wrong pH will show nutrient deficiency symptoms (yellowing, stunted growth, poor fruiting) even if you fertilize heavily. Fixing the pH is often more effective than adding more fertilizer.</p>

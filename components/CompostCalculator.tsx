@@ -7,21 +7,33 @@ interface Material {
   name: string;
   type: "green" | "brown";
   cnRatio: number;
+  rawManure?: boolean; // flag: triggers food-safety advisory
 }
 
+// C:N ratios use mid-range values from Cornell Waste Management Institute
+// Appendix A.1, with single-source kitchen items kept at their cited point value.
+// Manure types are split because mid-range C:N differs widely; raw manure also
+// carries a food-safety advisory (USDA Produce Safety Rule 90/120-day intervals).
 const MATERIALS: Material[] = [
-  { id: "grass",    name: "Grass Clippings", type: "green", cnRatio: 20  },
-  { id: "food",     name: "Food Scraps",     type: "green", cnRatio: 15  },
+  // Greens (N-rich)
+  { id: "grass",    name: "Grass Clippings", type: "green", cnRatio: 17  },
+  { id: "food",     name: "Food Scraps",     type: "green", cnRatio: 16  },
   { id: "coffee",   name: "Coffee Grounds",  type: "green", cnRatio: 20  },
-  { id: "manure",   name: "Fresh Manure",    type: "green", cnRatio: 15  },
   { id: "gleaves",  name: "Green Leaves",    type: "green", cnRatio: 25  },
+  { id: "veg",      name: "Vegetable Scraps",type: "green", cnRatio: 16  },
+  // Manure (split by source — C:N differs significantly)
+  { id: "poultry",  name: "Poultry Manure (raw)", type: "green", cnRatio: 10, rawManure: true },
+  { id: "cow",      name: "Cow Manure (raw)",     type: "green", cnRatio: 22, rawManure: true },
+  { id: "horse",    name: "Horse Manure (raw)",   type: "green", cnRatio: 30, rawManure: true },
+  { id: "sheep",    name: "Sheep Manure (raw)",   type: "green", cnRatio: 16, rawManure: true },
+  // Browns (C-rich)
   { id: "dleaves",  name: "Dry Leaves",      type: "brown", cnRatio: 60  },
-  { id: "straw",    name: "Straw",           type: "brown", cnRatio: 80  },
-  { id: "cardboard",name: "Cardboard",       type: "brown", cnRatio: 350 },
-  { id: "woodchips",name: "Wood Chips",      type: "brown", cnRatio: 400 },
-  { id: "sawdust",  name: "Sawdust",         type: "brown", cnRatio: 325 },
+  { id: "corn",     name: "Corn Stalks",     type: "brown", cnRatio: 67  },
+  { id: "straw",    name: "Straw",           type: "brown", cnRatio: 100 },
   { id: "newspaper",name: "Newspaper",       type: "brown", cnRatio: 175 },
-  { id: "corn",     name: "Corn Stalks",     type: "brown", cnRatio: 75  },
+  { id: "woodchips",name: "Wood Chips",      type: "brown", cnRatio: 300 },
+  { id: "sawdust",  name: "Sawdust",         type: "brown", cnRatio: 475 },
+  { id: "cardboard",name: "Cardboard",       type: "brown", cnRatio: 450 },
 ];
 
 interface Entry { materialId: string; lbs: string }
@@ -34,6 +46,7 @@ interface Result {
   suggestion: string;
   hotWeeks: string;
   coldMonths: string;
+  hasRawManure: boolean;
 }
 
 const IDEAL_LOW = 25;
@@ -86,11 +99,13 @@ export default function CompostCalculator() {
     if (dimUnit === "m") volCuFt = volCuFt * 35.3147;
 
     let totalWeight = 0, weightedCN = 0;
+    let hasRawManure = false;
     for (const e of validEntries) {
       const mat = MATERIALS.find(m => m.id === e.materialId)!;
       const lbs = parseFloat(e.lbs);
       totalWeight += lbs;
       weightedCN += lbs * mat.cnRatio;
+      if (mat.rawManure) hasRawManure = true;
     }
     const cn = weightedCN / totalWeight;
 
@@ -119,6 +134,7 @@ export default function CompostCalculator() {
       suggestion,
       hotWeeks: "4–8 weeks",
       coldMonths: "3–6 months",
+      hasRawManure,
     });
   }
 
@@ -246,6 +262,26 @@ export default function CompostCalculator() {
           <p className="mt-4 font-mono text-[10px] uppercase tracking-[0.12em] text-soil">
             Rates · Cornell Composting Science &amp; Engineering guidelines
           </p>
+
+          {result.hasRawManure && (
+            <div className="mt-5 pt-4 border-t border-dashed border-[color-mix(in_oklch,var(--terracotta)_45%,transparent)]">
+              <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-terracotta mb-2">
+                Food-safety advisory · raw manure
+              </p>
+              <p className="font-serif text-[14px] leading-[1.6] text-ink">
+                Raw animal manure can carry <em>E.&nbsp;coli</em>, <em>Salmonella</em>, and parasitic eggs.
+                Hot-compost the pile to at least <strong>131&nbsp;°F (55&nbsp;°C) for 3 days</strong> and turn it
+                at least 5 times before use on edible crops. If applying uncomposted manure directly,
+                the USDA Produce Safety Rule and most extension guides recommend waiting{" "}
+                <strong>120&nbsp;days</strong> before harvesting crops that touch the soil
+                (lettuce, carrots, radishes) and <strong>90&nbsp;days</strong> for crops that don&apos;t
+                (sweet corn, staked tomatoes).
+              </p>
+              <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.12em] text-soil">
+                Source · USDA FSMA Produce Safety Rule (21 CFR 112) · UMN Extension manure-in-garden guidance
+              </p>
+            </div>
+          )}
         </div>
       )}
     </section>

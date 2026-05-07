@@ -2,6 +2,10 @@
 
 import { useState } from "react";
 
+// Base weekly water depth for established plants in loamy in-ground soil during
+// spring/fall, in inches. Drought-tolerant Mediterranean species (lavender,
+// rosemary) use much less than fruiting vegetables — the previous 0.5"/wk for
+// lavender was high enough to encourage root rot once mature.
 const PLANT_BASE: Record<string, { name: string; baseInches: number }> = {
   tomato:     { name: "Tomato",      baseInches: 1.5 },
   pepper:     { name: "Pepper",      baseInches: 1.0 },
@@ -11,15 +15,23 @@ const PLANT_BASE: Record<string, { name: string; baseInches: number }> = {
   zucchini:   { name: "Zucchini",    baseInches: 1.5 },
   basil:      { name: "Basil",       baseInches: 1.0 },
   rose:       { name: "Rose",        baseInches: 1.5 },
-  lavender:   { name: "Lavender",    baseInches: 0.5 },
+  lavender:   { name: "Lavender (established)", baseInches: 0.25 },
   sunflower:  { name: "Sunflower",   baseInches: 1.0 },
   strawberry: { name: "Strawberry",  baseInches: 1.5 },
   blueberry:  { name: "Blueberry",   baseInches: 1.5 },
 };
 
-const SOIL_FACTOR: Record<string, number> = { sandy: 1.3, loamy: 1.0, clay: 0.7 };
+// Sandy soil drains roughly 1.5–2× faster than loam; clay holds 1.3× more
+// water but releases it slowly. Bumped sandy 1.3 → 1.5 to better match
+// USU/UMass irrigation guidance.
+const SOIL_FACTOR: Record<string, number> = { sandy: 1.5, loamy: 1.0, clay: 0.7 };
 const SEASON_FACTOR: Record<string, number> = { spring: 1.0, summer: 1.5, fall: 0.8, winter: 0.4 };
-const METHOD_FACTOR: Record<string, number> = { "in-ground": 1.0, "raised-bed": 1.2, container: 1.4 };
+
+// Container multiplier 1.4 was a major underestimate. A 6" container in
+// summer heat can dry out in a single day, equivalent to 3–5× in-ground
+// demand. Factor of 3.0 for containers is a conservative midpoint; users
+// still need to check soil moisture daily in heat.
+const METHOD_FACTOR: Record<string, number> = { "in-ground": 1.0, "raised-bed": 1.2, container: 3.0 };
 
 const SOIL_NOTE: Record<string, string> = {
   sandy: "Sandy soil drains quickly — check moisture daily and water before the soil dries out completely.",
@@ -30,7 +42,7 @@ const SOIL_NOTE: Record<string, string> = {
 const METHOD_NOTE: Record<string, string> = {
   "in-ground": "In-ground beds benefit from deep, infrequent watering to encourage deep root growth.",
   "raised-bed": "Raised beds drain faster than in-ground. Mulching the surface helps retain moisture.",
-  container: "Containers dry out quickly, especially in summer heat. Check daily; water when the top inch feels dry.",
+  container: "Small containers (≤6 in) in summer heat may need water once or twice daily — check the top inch every morning. Larger pots (≥12 in) hold longer but still dry out faster than beds.",
 };
 
 interface Result {
@@ -149,8 +161,14 @@ export default function WateringScheduleCalculator() {
             <dd className="m-0 text-ink font-serif text-[14px]">{result.methodNote}</dd>
           </dl>
 
-          <p className="mt-4 font-mono text-[10px] uppercase tracking-[0.12em] text-soil">
-            Adjust for local rainfall · check soil moisture before every session.
+          <p className="mt-4 font-serif italic text-[13px] text-soil leading-[1.6]">
+            This is a starting baseline, not a precision irrigation schedule. Real water demand
+            varies with local evapotranspiration (ETo), wind, humidity, plant stage, mulch, and
+            recent rainfall. Subtract any rain over 0.25 in. that week and always check soil
+            moisture 2–3 in. deep before adding another session.
+          </p>
+          <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.12em] text-soil">
+            Baseline · UMN Extension watering vegetable garden · USU Extension water recommendations · Texas A&amp;M Easy Gardening
           </p>
         </div>
       )}
