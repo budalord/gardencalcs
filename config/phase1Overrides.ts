@@ -1,4 +1,5 @@
 import { seedSpacingCropLinks } from "@/config/seedSpacingCrops";
+import { soilPHCropLinks } from "@/config/soilPHCrops";
 import type { Tool } from "@/config/tools";
 
 type ToolOverride = Partial<Tool>;
@@ -6,8 +7,8 @@ type ToolOverride = Partial<Tool>;
 export const phase1Overrides: Record<string, ToolOverride> = {
   "soil-ph-calculator": {
     tagline: "Check target garden pH, compare crop ranges, and estimate lime or sulfur with a quick chart.",
-    metaTitle: "Soil pH Calculator — Lime & Sulfur Rate for Your Bed",
-    metaDescription: "Free soil pH calculator. Enter current pH, target, bed size, and soil texture — get exact lime or sulfur pounds. 40+ crops, extension-cited. No signup.",
+    metaTitle: "Soil pH Calculator — Lime & Sulfur Lb per 100 Sq Ft",
+    metaDescription: "Enter current pH, target pH, and bed size — get exact pounds of lime or sulfur per 100 sq ft. 12 crop pH targets, split-application warning, extension-cited. No signup.",
     quickAnswer: {
       definition: "Use your soil test, crop target, and soil type to estimate lime or sulfur before planting.",
       recommendation: "Most vegetables grow best near pH 6.0–7.0; make moderate changes, spread amendments evenly, and retest after a few months.",
@@ -65,6 +66,7 @@ export const phase1Overrides: Record<string, ToolOverride> = {
       },
     ],
     internalLinks: [
+      ...soilPHCropLinks,
       {
         href: "/guides/understanding-soil-ph",
         anchor: "See the beginner soil pH chart",
@@ -94,8 +96,8 @@ export const phase1Overrides: Record<string, ToolOverride> = {
   },
   "seed-spacing-calculator": {
     tagline: "Plan vegetable rows, raised beds, and square-foot layouts with extension-cited row, plant, and seed-depth numbers for 15 home-garden crops.",
-    metaTitle: "Vegetable Seed Spacing Calculator — Raised Bed Chart (15 Crops)",
-    metaDescription: "Free vegetable seed spacing calculator for home gardens. Row spacing, plant spacing, and seed depth for 15 crops, raised beds, and square-foot layouts. No signup.",
+    metaTitle: "Seed Spacing Calculator — Row × Plant + Depth (15 Crops)",
+    metaDescription: "Free seed spacing calculator: row spacing, plant spacing, and seed depth for 15 vegetables. Home gardens, raised beds, square-foot layouts. Extension-cited. No signup.",
     quickAnswer: {
       definition: "Use row spacing, plant spacing, and seed depth together so each crop gets enough light, airflow, and root room as it matures.",
       recommendation: "Start with extension spacing, then tighten only where the crop tolerates intensive beds; overpacking usually cuts airflow before it raises yield.",

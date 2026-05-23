@@ -1,5 +1,6 @@
 import { siteConfig } from "@/config/site";
 import { seedSpacingCrops } from "@/config/seedSpacingCrops";
+import { soilPHCrops } from "@/config/soilPHCrops";
 import { tools } from "@/config/tools";
 import type { MetadataRoute } from "next";
 
@@ -52,5 +53,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.7,
   }));
 
-  return [...staticRoutes, ...toolRoutes, ...seedSpacingCropRoutes, ...guideRoutes, ...dataRoutes, ...staticPages];
+  const soilPHCropRoutes: MetadataRoute.Sitemap = soilPHCrops.map((crop) => ({
+    url: `${base}/tools/soil-ph/${crop.slug}`,
+    lastModified: now,
+    changeFrequency: "monthly",
+    priority: 0.7,
+  }));
+
+  return [...staticRoutes, ...toolRoutes, ...seedSpacingCropRoutes, ...soilPHCropRoutes, ...guideRoutes, ...dataRoutes, ...staticPages];
 }
