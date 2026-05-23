@@ -60,5 +60,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.7,
   }));
 
-  return [...staticRoutes, ...toolRoutes, ...seedSpacingCropRoutes, ...soilPHCropRoutes, ...guideRoutes, ...dataRoutes, ...staticPages];
+  const growRoutes: MetadataRoute.Sitemap = [
+    { url: `${base}/grow/tomato`, lastModified: now, changeFrequency: "monthly", priority: 0.85 },
+  ];
+
+  return [...staticRoutes, ...toolRoutes, ...seedSpacingCropRoutes, ...soilPHCropRoutes, ...growRoutes, ...guideRoutes, ...dataRoutes, ...staticPages];
 }
