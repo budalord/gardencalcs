@@ -3,9 +3,9 @@ import Link from "next/link";
 import { siteConfig } from "@/config/site";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy | Garden Tools Hub",
+  title: "Privacy Policy",
   description:
-    "Garden Tools Hub privacy policy — we do not collect personal information, use tracking cookies, or send your data to any server.",
+    "GardenCalcs privacy policy — we do not collect personal information, use tracking cookies, or send your data to any server.",
   alternates: { canonical: `${siteConfig.domain}/privacy` },
 };
 
@@ -37,7 +37,7 @@ export default function PrivacyPage() {
         <section>
           <h2>No personal data collected</h2>
           <p>
-            Garden Tools Hub does not require an account or login. We do not collect, store, or process any personally identifiable information (PII) such as your name, email address, or location.
+            GardenCalcs does not require an account or login. We do not collect, store, or process any personally identifiable information (PII) such as your name, email address, or location.
           </p>
         </section>
 
@@ -51,21 +51,21 @@ export default function PrivacyPage() {
         <section>
           <h2>Client-side calculations</h2>
           <p>
-            All calculator inputs and results are processed entirely within your browser. No form data, calculation inputs, or results are transmitted to Garden Tools Hub servers or any third party.
+            All calculator inputs and results are processed entirely within your browser. No form data, calculation inputs, or results are transmitted to GardenCalcs servers or any third party.
           </p>
         </section>
 
         <section>
           <h2>Embedded tools</h2>
           <p>
-            Garden Tools Hub tools may be embedded on third-party websites via an iframe widget. When a tool is embedded, Garden Tools Hub does not track the embedding site, the referring URL, or the end user&apos;s identity.
+            GardenCalcs tools may be embedded on third-party websites via an iframe widget. When a tool is embedded, GardenCalcs does not track the embedding site, the referring URL, or the end user&apos;s identity.
           </p>
         </section>
 
         <section>
           <h2>External links</h2>
           <p>
-            This site may contain links to external websites (e.g., university extension resources). Garden Tools Hub is not responsible for the privacy practices of those sites.
+            This site may contain links to external websites (e.g., university extension resources). GardenCalcs is not responsible for the privacy practices of those sites.
           </p>
         </section>
 

@@ -24,12 +24,23 @@ export default function Header() {
   return (
     <header className="sticky top-0 z-50 bg-cream border-b border-[color-mix(in_oklch,var(--soil)_30%,transparent)]">
       <div className="max-w-wide mx-auto px-7 py-4 flex items-center justify-between gap-6">
-        <Link href="/" className="group leading-none">
-          <span className="block font-serif font-semibold text-[20px] text-moss-deep tracking-tight">
-            {siteConfig.name}
-          </span>
-          <span className="block font-serif italic text-[11px] text-soil mt-0.5 tracking-wide">
-            Garden math, answered.
+        <Link href="/" className="group flex items-center gap-2.5 leading-none">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/logo.svg"
+            alt=""
+            aria-hidden="true"
+            width={28}
+            height={34}
+            className="block shrink-0"
+          />
+          <span className="block">
+            <span className="block font-serif font-semibold text-[20px] text-moss-deep tracking-tight">
+              {siteConfig.name}
+            </span>
+            <span className="block font-serif italic text-[11px] text-soil mt-0.5 tracking-wide">
+              Garden math, answered.
+            </span>
           </span>
         </Link>
 

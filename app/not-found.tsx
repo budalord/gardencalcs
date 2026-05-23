@@ -2,7 +2,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Page not found · Garden Tools Hub",
+  title: "Page not found",
   description: "The page you were looking for wasn't in this issue of the almanac.",
   robots: { index: false, follow: false },
 };

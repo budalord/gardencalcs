@@ -3,9 +3,9 @@ import Link from "next/link";
 import { siteConfig } from "@/config/site";
 
 export const metadata: Metadata = {
-  title: "About Garden Tools Hub – Free Gardening Calculators",
+  title: "About",
   description:
-    "Learn about Garden Tools Hub — a free collection of online gardening calculators built to help home gardeners make data-driven planting decisions.",
+    "Learn about GardenCalcs — a free collection of online gardening calculators built to help home gardeners make data-driven planting decisions.",
   alternates: { canonical: `${siteConfig.domain}/about` },
 };
 
@@ -26,7 +26,7 @@ export default function AboutPage() {
           Colophon · About the Almanac
         </p>
         <h1 className="font-serif font-semibold text-[38px] md:text-[46px] leading-[1.08] tracking-[-0.01em] text-ink mb-4">
-          About Garden Tools Hub
+          About GardenCalcs
         </h1>
         <p className="font-serif italic text-[18px] md:text-[19px] leading-[1.45] text-soil">
           A reference publication of extension-cited garden calculators — free, no sign-up, and quietly rigorous.
@@ -35,16 +35,16 @@ export default function AboutPage() {
 
       <div className="almanac-prose font-serif text-[17px] leading-[1.75] text-ink">
         <p>
-          Garden Tools Hub is a free collection of online calculators designed to help home gardeners make better, data-driven decisions — from calculating fertilizer dosage to finding the right soil pH for their crops.
+          GardenCalcs is a free collection of online calculators designed to help home gardeners make better, data-driven decisions — from calculating fertilizer dosage to finding the right soil pH for their crops.
         </p>
         <p>
-          The goal is simple: take the guesswork out of gardening. Whether you are a first-time grower or a seasoned backyard farmer, Garden Tools Hub provides the numbers you need without requiring an account, a subscription, or sitting through ads.
+          The goal is simple: take the guesswork out of gardening. Whether you are a first-time grower or a seasoned backyard farmer, GardenCalcs provides the numbers you need without requiring an account, a subscription, or sitting through ads.
         </p>
 
         <section>
           <h2>Our data sources</h2>
           <p>
-            All calculation formulas and reference data are based on publicly available agricultural extension resources from leading university programs, including Penn State Extension, Clemson Cooperative Extension, Oregon State University Extension, and Cornell Cooperative Extension. Where multiple sources differ, Garden Tools Hub uses the most widely cited recommendation.
+            All calculation formulas and reference data are based on publicly available agricultural extension resources from leading university programs, including Penn State Extension, Clemson Cooperative Extension, Oregon State University Extension, and Cornell Cooperative Extension. Where multiple sources differ, GardenCalcs uses the most widely cited recommendation.
           </p>
           <p>
             We review and update our data periodically. If you spot an error or have a suggestion for improvement, please reach out via the <Link href="/contact">contact page</Link>.
@@ -54,7 +54,7 @@ export default function AboutPage() {
         <section>
           <h2>Free, forever</h2>
           <p>
-            Garden Tools Hub is and will remain free to use. All calculations run entirely in your browser — no data is sent to any server. There are no accounts, no tracking, and no paywalls.
+            GardenCalcs is and will remain free to use. All calculations run entirely in your browser — no data is sent to any server. There are no accounts, no tracking, and no paywalls.
           </p>
           <p>
             Developers and bloggers are welcome to embed any tool on their own sites using the embed widget available on each tool page.

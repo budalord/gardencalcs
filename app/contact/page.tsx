@@ -3,8 +3,8 @@ import Link from "next/link";
 import { siteConfig } from "@/config/site";
 
 export const metadata: Metadata = {
-  title: "Contact Us | Garden Tools Hub",
-  description: "Get in touch with Garden Tools Hub — questions, suggestions, or partnership inquiries welcome.",
+  title: "Contact Us",
+  description: "Get in touch with GardenCalcs — questions, suggestions, or partnership inquiries welcome.",
   alternates: { canonical: `${siteConfig.domain}/contact` },
 };
 
