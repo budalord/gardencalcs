@@ -12,8 +12,8 @@ export function generateMetadata({ params }: { params: { crop: string } }): Meta
   const crop = seedSpacingCropMap[params.crop]
   if (!crop) return {}
 
-  const title = `${crop.titleName} Seed Spacing Guide | Row, Plant & Depth Chart`
-  const description = `${crop.titleName} seed spacing guide with row spacing, plant spacing, seed depth, maturity notes, and extension-based FAQ answers for home gardens.`
+  const title = `${crop.titleName} Seed Spacing: ${crop.rowSpacingInches} in Rows, ${crop.plantSpacingInches} in Apart`
+  const description = `How far apart to plant ${crop.name.toLowerCase()}? ${crop.rowSpacingInches} in rows, ${crop.plantSpacingInches} in between plants, ${crop.seedDepthInches} deep. Extension-cited spacing chart with raised-bed and thinning tips.`
   const url = `${siteConfig.domain}/tools/seed-spacing/${crop.slug}`
 
   return {
