@@ -64,6 +64,13 @@ export const phase1Overrides: Record<string, ToolOverride> = {
         sourceQuery: "how to raise soil ph",
         sourceUrl: "https://kellogggarden.com/blog/soil/how-to-organically-raise-ph-in-soil/",
       },
+      {
+        q: "How much lime do I need per square foot?",
+        a: "Lime is normally rated per 100 square feet, not per single square foot. As a home-garden guide, loam soil needs roughly 5 pounds of lime per 100 square feet to raise pH by one full point — about 0.05 pound per square foot. Sandy soil needs less (around 3 pounds per 100 square feet) and clay needs more (around 8 pounds). For a lawn, the same rates apply per 100 square feet, so a 1,000 square foot lawn needs roughly ten times those amounts. Enter your bed or lawn size above and the calculator converts the rate to a total for your exact area.",
+        displayHtml: "Lime is normally rated per 100 square feet, not per single square foot. As a home-garden guide, loam soil needs roughly 5 pounds of lime per 100 square feet to raise pH by one full point — about 0.05 pound per square foot. Sandy soil needs less (around 3 pounds per 100 square feet) and clay needs more (around 8 pounds). For a lawn, the same rates apply per 100 square feet, so a 1,000 square foot lawn needs roughly ten times those amounts. Enter your bed or lawn size above and the calculator converts the rate to a total for your exact area.",
+        sourceQuery: "how much lime per square foot",
+        sourceUrl: "https://extension.psu.edu/understanding-soil-ph/",
+      },
     ],
     internalLinks: [
       ...soilPHCropLinks,
@@ -159,6 +166,13 @@ export const phase1Overrides: Record<string, ToolOverride> = {
         a: "That depends on the crop, bed dimensions, and whether the spacing is traditional or intensive. Count how many rows fit first, then how many plants fit inside each row using the in-row spacing. Beds almost always hold fewer large fruiting crops than gardeners expect, which is why a spacing chart saves so much rework.",
         sourceQuery: "how many plants fit in a raised bed",
         sourceUrl: "https://yardandgarden.extension.iastate.edu/how-to/how-determine-plant-quantity-planting-beds",
+      },
+      {
+        q: "How far apart should I plant tomatoes in a raised bed?",
+        a: "In a raised bed, space tomato plants about 24 inches apart within the row and keep rows about 36 inches apart — the same spacing used for in-ground beds. Crowding tomatoes is one of the most common raised-bed mistakes because it cuts airflow and raises disease pressure. In a 4 ft by 8 ft bed that usually means a single staggered row of roughly four plants rather than a dense grid. Staked or determinate types can sometimes go a little tighter, but airflow should still be the deciding factor.",
+        displayHtml: "In a raised bed, space tomato plants about 24 inches apart within the row and keep rows about 36 inches apart — the same spacing used for in-ground beds. Crowding tomatoes is one of the most common raised-bed mistakes because it cuts airflow and raises disease pressure. In a 4 ft by 8 ft bed that usually means a single staggered row of roughly four plants rather than a dense grid. Staked or determinate types can sometimes go a little tighter, but airflow should still be the deciding factor. Pair this with our <a href=\"/tools/soil-ph-calculator\">soil pH calculator</a> to get the bed chemistry right before transplanting.",
+        sourceQuery: "tomato spacing raised bed",
+        sourceUrl: "https://extension.umn.edu/vegetables/growing-tomatoes",
       },
     ],
     internalLinks: seedSpacingCropLinks,

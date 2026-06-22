@@ -36,8 +36,11 @@ const variants: EmbedVariant[] = [
 ];
 
 function buildEmbedCode(slug: string, label: string, variant: EmbedVariant): string {
+  // iframe points at the chromeless /embed/ surface (widget only); the visible
+  // attribution link points at the full /tools/ page for the backlink + readers.
+  const embedUrl = `${siteConfig.domain}/embed/${slug}`;
   const toolUrl = `${siteConfig.domain}/tools/${slug}`;
-  return `<iframe src="${toolUrl}" width="${variant.width}" height="${variant.height}" frameborder="0" title="${label}" loading="lazy"></iframe>
+  return `<iframe src="${embedUrl}" width="${variant.width}" height="${variant.height}" frameborder="0" title="${label}" loading="lazy" style="border:0;max-width:100%"></iframe>
 <p><a href="${toolUrl}">Powered by gardencalcs.com</a></p>`;
 }
 
