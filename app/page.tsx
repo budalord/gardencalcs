@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { tools, getToolsByCategory } from "@/config/tools";
+import { resolveTools } from "@/config/phase1Overrides";
 import { siteConfig } from "@/config/site";
 
 export const metadata: Metadata = {
@@ -15,14 +16,16 @@ export const metadata: Metadata = {
  * Serif masthead + botanical SVG, spotlight callout, then featured tools + guides + trust strip.
  */
 export default function HomePage() {
-  const byCategory = getToolsByCategory();
-  const featured = tools.slice(0, 6);
+  const resolvedTools = resolveTools(tools);
+  const byCategory = getToolsByCategory(resolvedTools);
+  const featured = resolvedTools.slice(0, 6);
   const categoryCount = Object.keys(byCategory).length;
 
   const guides = [
-    { slug: "understanding-soil-ph", tag: "Almanac · Soil", title: "Understanding soil pH for beginners", excerpt: "A field guide to reading your soil — what pH actually means for root uptake, and how to correct it over a season.", read: "12 min read" },
-    { slug: "composting-guide", tag: "Almanac · Composting", title: "The complete home-composting guide", excerpt: "Greens, browns, ratios, and the two-pile rhythm that actually works on a small lot.", read: "14 min read" },
-    { slug: "how-to-fertilize-vegetable-garden", tag: "Almanac · Fertilizer", title: "How to fertilize a vegetable garden", excerpt: "NPK, side-dressing, and the three deficiency signs every small-plot grower should recognize.", read: "11 min read" },
+    { slug: "tomato-growing-guide", href: "/grow/tomato", tag: "Almanac · Growing", title: "How to grow tomatoes in a home garden", excerpt: "Planting time, spacing, soil, feeding, watering, disease prevention, and harvest cues — with an extension source behind every number.", read: "Full guide" },
+    { slug: "understanding-soil-ph", href: "/guides/understanding-soil-ph", tag: "Almanac · Soil", title: "Understanding soil pH for beginners", excerpt: "A field guide to reading your soil — what pH actually means for root uptake, and how to correct it over a season.", read: "12 min read" },
+    { slug: "composting-guide", href: "/guides/composting-guide", tag: "Almanac · Composting", title: "The complete home-composting guide", excerpt: "Greens, browns, ratios, and the two-pile rhythm that actually works on a small lot.", read: "14 min read" },
+    { slug: "how-to-fertilize-vegetable-garden", href: "/guides/how-to-fertilize-vegetable-garden", tag: "Almanac · Fertilizer", title: "How to fertilize a vegetable garden", excerpt: "NPK, side-dressing, and the three deficiency signs every small-plot grower should recognize.", read: "11 min read" },
   ];
 
   const organizationSchema = {
@@ -45,7 +48,7 @@ export default function HomePage() {
     "@context": "https://schema.org",
     "@type": "ItemList",
     name: "Garden calculators",
-    itemListElement: tools.map((tool, index) => ({
+    itemListElement: resolvedTools.map((tool, index) => ({
       "@type": "ListItem",
       position: index + 1,
       name: tool.name,
@@ -76,15 +79,15 @@ export default function HomePage() {
                 Spring 2026 · Soil spotlight
               </p>
               <h1 className="font-serif font-semibold text-[52px] md:text-[64px] leading-[1.05] tracking-[-0.02em] text-moss-deep">
-                Garden math, <span className="italic font-normal text-ink">answered.</span>
+                Garden math, <span className="font-normal text-ink">answered.</span>
               </h1>
               <p className="font-serif text-[20px] leading-[1.55] text-ink mt-6 max-w-[560px]">
-                {tools.length} free, source-cited calculators for growers who want a number, not a newsletter.
+                {resolvedTools.length} free, source-cited calculators for growers who want a number, not a newsletter.
               </p>
 
               <div className="flex flex-wrap items-center gap-x-7 gap-y-2 mt-6 font-sans text-[13px] text-soil tabular">
-                <span><strong className="text-ink">{tools.length}</strong> tools</span>
-                <span><strong className="text-ink">3</strong> long-reads</span>
+                <span><strong className="text-ink">{resolvedTools.length}</strong> tools</span>
+                <span><strong className="text-ink">{guides.length}</strong> long-reads</span>
                 <span>Updated <strong className="text-ink">weekly</strong></span>
               </div>
 
@@ -151,14 +154,14 @@ export default function HomePage() {
             <div>
               <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-soil mb-2">Featured calculators</p>
               <h2 className="font-serif font-semibold text-[28px] tracking-tight text-moss-deep">
-                The most-used tools this week
+                Practical calculators for common garden jobs
               </h2>
               <p className="font-serif italic text-[14px] text-soil mt-1">
-                Drawn from search traffic and University Extension citations.
+                Start with any tool below; each one shows its source basis and assumptions.
               </p>
             </div>
             <Link href="/tools" className="hidden sm:inline font-sans text-sm text-moss-deep hover:text-moss whitespace-nowrap">
-              See all {tools.length} tools →
+              See all {resolvedTools.length} tools →
             </Link>
           </div>
 
@@ -224,11 +227,11 @@ export default function HomePage() {
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {guides.map((g) => (
               <Link
                 key={g.slug}
-                href={`/guides/${g.slug}`}
+                href={g.href}
                 className="group block border-t-2 border-moss-deep pt-5"
               >
                 <p className="font-mono text-[11px] uppercase tracking-[0.12em] text-soil mb-2">{g.tag}</p>

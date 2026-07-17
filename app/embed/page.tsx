@@ -3,6 +3,7 @@ import Link from "next/link";
 import EmbedCodeOptions from "@/components/EmbedCodeOptions";
 import { siteConfig } from "@/config/site";
 import { tools } from "@/config/tools";
+import { resolveTool } from "@/config/phase1Overrides";
 
 const pageUrl = `${siteConfig.domain}/embed`;
 
@@ -16,7 +17,8 @@ const featuredSlugs = [
 
 const featuredTools = featuredSlugs
   .map((slug) => tools.find((tool) => tool.slug === slug))
-  .filter((tool): tool is NonNullable<typeof tool> => Boolean(tool));
+  .filter((tool): tool is NonNullable<typeof tool> => Boolean(tool))
+  .map(resolveTool);
 
 export const metadata: Metadata = {
   title: "Embed Free Garden Calculators on Your Site",

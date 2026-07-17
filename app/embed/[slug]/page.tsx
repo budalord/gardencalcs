@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { tools } from "@/config/tools";
+import { resolveTool } from "@/config/phase1Overrides";
 import { siteConfig } from "@/config/site";
 
 import FertilizerCalculator from "@/components/FertilizerCalculator";
@@ -28,7 +29,8 @@ export function generateStaticParams() {
 }
 
 export function generateMetadata({ params }: { params: { slug: string } }): Metadata {
-  const tool = tools.find((t) => t.slug === params.slug);
+  const baseTool = tools.find((t) => t.slug === params.slug);
+  const tool = baseTool ? resolveTool(baseTool) : undefined;
   const name = tool?.name ?? "Garden Calculator";
   return {
     title: `${name} — embeddable widget`,
@@ -39,7 +41,8 @@ export function generateMetadata({ params }: { params: { slug: string } }): Meta
 }
 
 export default function EmbedToolPage({ params }: { params: { slug: string } }) {
-  const tool = tools.find((t) => t.slug === params.slug);
+  const baseTool = tools.find((t) => t.slug === params.slug);
+  const tool = baseTool ? resolveTool(baseTool) : undefined;
   const Calculator = embedComponents[params.slug];
   if (!tool || !Calculator) notFound();
 

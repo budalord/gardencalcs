@@ -3,14 +3,25 @@ import Link from "next/link";
 import { siteConfig } from "@/config/site";
 
 export const metadata: Metadata = {
-  title: "Garden Guides — Composting, Soil pH & Fertilizing",
-  description: "Plain-English gardening guides from extension sources — how to compost at home, read a soil pH test, and fertilize a vegetable garden without guessing.",
+  title: "Garden Guides — Growing, Soil, Compost & Fertilizer",
+  description: "Extension-cited garden guides for growing tomatoes, composting at home, reading soil pH, and fertilizing a vegetable garden without guessing.",
   alternates: { canonical: `${siteConfig.domain}/guides` },
 };
 
 const guides = [
   {
+    slug: "tomato-growing-guide",
+    href: "/grow/tomato",
+    title: "How to Grow Tomatoes in a Home Garden",
+    dek: "Planting time, spacing, soil pH, fertilizer, watering, pest prevention, and harvest cues, with an extension source behind every number.",
+    readTime: "Full guide",
+    topic: "Growing",
+    related: "/tools/seed-spacing/tomato",
+    relatedName: "Tomato Spacing Guide",
+  },
+  {
     slug: "how-to-fertilize-vegetable-garden",
+    href: "/guides/how-to-fertilize-vegetable-garden",
     title: "How to Fertilize Your Vegetable Garden",
     dek: "When to fertilize, NPK basics, recommended rates for common vegetables, and organic vs synthetic comparison.",
     readTime: "11 min",
@@ -20,6 +31,7 @@ const guides = [
   },
   {
     slug: "understanding-soil-ph",
+    href: "/guides/understanding-soil-ph",
     title: "Understanding Soil pH for Beginners",
     dek: "What soil pH is, why it matters, how to test it, a pH chart for common plants, and how to adjust with lime or sulfur.",
     readTime: "9 min",
@@ -29,6 +41,7 @@ const guides = [
   },
   {
     slug: "composting-guide",
+    href: "/guides/composting-guide",
     title: "Complete Guide to Composting at Home",
     dek: "Greens vs browns, the C:N ratio explained, hot vs cold composting, and troubleshooting common problems.",
     readTime: "12 min",
@@ -66,7 +79,7 @@ export default function GuidesIndex() {
         {guides.map((g) => (
           <Link
             key={g.slug}
-            href={`/guides/${g.slug}`}
+            href={g.href}
             className="group block py-7 hover:bg-paper/60 transition-colors duration-fast px-2 -mx-2 rounded-sm"
           >
             <div className="grid grid-cols-[auto_1fr_auto] items-baseline gap-4 mb-2">
@@ -82,11 +95,11 @@ export default function GuidesIndex() {
             <p className="font-serif text-[16px] leading-[1.6] text-soil max-w-[680px] mb-3">
               {g.dek}
             </p>
-            <div className="flex items-center justify-between max-w-[680px]">
-              <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-moss-deep">
+            <div className="flex flex-col items-start gap-2 sm:flex-row sm:items-center sm:justify-between max-w-[680px]">
+              <span className="whitespace-nowrap font-mono text-[11px] uppercase tracking-[0.12em] text-moss-deep">
                 Read the guide →
               </span>
-              <span className="font-mono text-[11px] tabular text-soil">
+              <span className="whitespace-nowrap font-mono text-[11px] tabular text-soil">
                 Pairs with · <span className="text-moss-deep">{g.relatedName}</span>
               </span>
             </div>

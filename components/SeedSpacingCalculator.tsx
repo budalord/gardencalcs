@@ -1,27 +1,7 @@
 "use client";
 
 import { useState } from "react";
-
-const PLANT_DATA: Record<string, { rowSpacing: number; plantSpacing: number; name: string }> = {
-  tomato:       { name: "Tomato",               rowSpacing: 36, plantSpacing: 24 },
-  pepper:       { name: "Pepper (Bell)",        rowSpacing: 24, plantSpacing: 18 },
-  cucumber:     { name: "Cucumber",             rowSpacing: 36, plantSpacing: 12 },
-  zucchini:     { name: "Zucchini / Courgette", rowSpacing: 48, plantSpacing: 36 },
-  bean:         { name: "Bean (Bush)",          rowSpacing: 18, plantSpacing: 6  },
-  pea:          { name: "Pea",                  rowSpacing: 24, plantSpacing: 2  },
-  broccoli:     { name: "Broccoli",             rowSpacing: 24, plantSpacing: 18 },
-  cabbage:      { name: "Cabbage",              rowSpacing: 24, plantSpacing: 18 },
-  cauliflower:  { name: "Cauliflower",          rowSpacing: 30, plantSpacing: 18 },
-  kale:         { name: "Kale",                 rowSpacing: 18, plantSpacing: 12 },
-  "swiss-chard":{ name: "Swiss Chard",          rowSpacing: 18, plantSpacing: 12 },
-  lettuce:      { name: "Lettuce",              rowSpacing: 12, plantSpacing: 8  },
-  spinach:      { name: "Spinach",              rowSpacing: 12, plantSpacing: 6  },
-  onion:        { name: "Onion",                rowSpacing: 12, plantSpacing: 4  },
-  garlic:       { name: "Garlic",               rowSpacing: 12, plantSpacing: 6  },
-  beet:         { name: "Beet / Beetroot",      rowSpacing: 12, plantSpacing: 4  },
-  carrot:       { name: "Carrot",               rowSpacing: 12, plantSpacing: 3  },
-  radish:       { name: "Radish",               rowSpacing: 6,  plantSpacing: 2  },
-};
+import { seedSpacingCropMap, seedSpacingCrops } from "@/config/seedSpacingCrops";
 
 interface Result {
   rowSpacing: number;
@@ -48,27 +28,25 @@ export default function SeedSpacingCalculator() {
   const [width, setWidth] = useState("4");
   const [area, setArea] = useState("");
   const [result, setResult] = useState<Result | null>(null);
-  const [error, setError] = useState("");
+  const [errors, setErrors] = useState<Record<string, string>>({});
 
   function calculate() {
-    const data = PLANT_DATA[plant];
-    const rowSpacingFt = data.rowSpacing / 12;
-    const plantSpacingFt = data.plantSpacing / 12;
+    const data = seedSpacingCropMap[plant];
+    const rowSpacingFt = data.rowSpacingInches / 12;
+    const plantSpacingFt = data.plantSpacingInches / 12;
 
     let bedLengthFt = 0;
     let bedWidthFt = 0;
     let isRectangular = false;
+    const nextErrors: Record<string, string> = {};
 
     if (mode === "rect") {
       const l = parseFloat(length);
       const w = parseFloat(width);
-      if (!length || isNaN(l) || l <= 0) {
-        setError("Enter a bed length greater than 0.");
-        setResult(null);
-        return;
-      }
-      if (!width || isNaN(w) || w <= 0) {
-        setError("Enter a bed width greater than 0.");
+      if (!length || !Number.isFinite(l) || l <= 0) nextErrors.length = "Enter a bed length greater than 0.";
+      if (!width || !Number.isFinite(w) || w <= 0) nextErrors.width = "Enter a bed width greater than 0.";
+      if (Object.keys(nextErrors).length > 0) {
+        setErrors(nextErrors);
         setResult(null);
         return;
       }
@@ -77,8 +55,8 @@ export default function SeedSpacingCalculator() {
       isRectangular = true;
     } else {
       const areaNum = parseFloat(area);
-      if (!area || isNaN(areaNum) || areaNum <= 0) {
-        setError("Enter a garden area greater than 0.");
+      if (!area || !Number.isFinite(areaNum) || areaNum <= 0) {
+        setErrors({ area: "Enter a garden area greater than 0." });
         setResult(null);
         return;
       }
@@ -88,7 +66,7 @@ export default function SeedSpacingCalculator() {
       bedWidthFt = side;
       isRectangular = false;
     }
-    setError("");
+    setErrors({});
 
     // Lay rows along the long side; place plants along that direction so
     // the longer dimension hosts more plants than rows. Use floor without
@@ -96,14 +74,21 @@ export default function SeedSpacingCalculator() {
     // the mature canopy from spilling into walkways or neighboring beds.
     const longSide = Math.max(bedLengthFt, bedWidthFt);
     const shortSide = Math.min(bedLengthFt, bedWidthFt);
-    const rows = Math.max(1, Math.floor(shortSide / rowSpacingFt));
-    const plantsPerRow = Math.max(1, Math.floor(longSide / plantSpacingFt));
+    const rows = Math.floor(shortSide / rowSpacingFt);
+    const plantsPerRow = Math.floor(longSide / plantSpacingFt);
+    if (rows < 1 || plantsPerRow < 1) {
+      setErrors({
+        bed: `This bed is too small for one ${data.name.toLowerCase()} station using ${data.rowSpacingInches} in row spacing and ${data.plantSpacingInches} in plant spacing.`,
+      });
+      setResult(null);
+      return;
+    }
     const totalPlants = rows * plantsPerRow;
     const recommendedSeeds = Math.ceil(totalPlants * 1.15);
 
     setResult({
-      rowSpacing: data.rowSpacing,
-      plantSpacing: data.plantSpacing,
+      rowSpacing: data.rowSpacingInches,
+      plantSpacing: data.plantSpacingInches,
       rows,
       plantsPerRow,
       totalPlants,
@@ -120,18 +105,19 @@ export default function SeedSpacingCalculator() {
         How many seeds, how far apart?
       </h2>
       <p className="font-serif italic text-[14px] text-soil mb-6">
-        Pick a crop, give us your bed area, and we&apos;ll return a row-and-plant layout with a 15% germination buffer.
+        Pick from 20 extension-cited crops, enter your bed size, and get a row-and-plant layout with a 15% germination buffer.
       </p>
 
       <div className="mb-5">
-        <label className={fieldLabel}>Crop</label>
+        <label htmlFor="seed-spacing-crop" className={fieldLabel}>Crop</label>
         <select
+          id="seed-spacing-crop"
           value={plant}
-          onChange={(e) => { setPlant(e.target.value); setResult(null); }}
+          onChange={(e) => { setPlant(e.target.value); setResult(null); setErrors({}); }}
           className={`${fieldBase} font-sans text-[15px]`}
         >
-          {Object.entries(PLANT_DATA).map(([key, val]) => (
-            <option key={key} value={key}>{val.name}</option>
+          {seedSpacingCrops.map((crop) => (
+            <option key={crop.slug} value={crop.slug}>{crop.name}</option>
           ))}
         </select>
       </div>
@@ -145,12 +131,14 @@ export default function SeedSpacingCalculator() {
               <button
                 key={m}
                 type="button"
-                onClick={() => { setMode(m); setResult(null); }}
-                className={`px-3 py-1 transition-colors duration-fast ${
+                aria-label={m === "rect" ? "Use rectangular bed length and width" : "Use total area with a square-bed assumption"}
+                onClick={() => { setMode(m); setResult(null); setErrors({}); }}
+                aria-pressed={mode === m}
+                className={`whitespace-nowrap px-3 py-1 transition-colors duration-fast focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-moss focus-visible:ring-inset ${
                   mode === m ? "bg-moss-deep text-cream" : "bg-cream text-soil hover:text-ink"
                 }`}
               >
-                {m === "rect" ? "Length × Width" : "Total area"}
+                {m === "rect" ? "Rectangle" : "Area only"}
               </button>
             ))}
           </div>
@@ -160,54 +148,64 @@ export default function SeedSpacingCalculator() {
       {mode === "rect" ? (
         <div className="grid grid-cols-2 gap-4 mb-5">
           <div>
-            <label className={fieldLabel}>Length (ft)</label>
+            <label htmlFor="seed-spacing-length" className={fieldLabel}>Length (ft)</label>
             <input
+              id="seed-spacing-length"
               type="number" inputMode="decimal" min="0.5" step="0.5"
               value={length}
-              onChange={(e) => { setLength(e.target.value); setResult(null); }}
+              onChange={(e) => { setLength(e.target.value); setResult(null); setErrors((current) => ({ ...current, length: "", bed: "" })); }}
               placeholder="e.g. 8"
               className={`${fieldBase} font-mono tabular text-[17px] font-medium`}
-              aria-invalid={!!error}
+              aria-invalid={Boolean(errors.length)}
+              aria-describedby={errors.length ? "seed-spacing-length-error" : undefined}
             />
+            {errors.length && <p id="seed-spacing-length-error" role="alert" className="mt-1 font-mono text-[11px] text-terracotta">{errors.length}</p>}
           </div>
           <div>
-            <label className={fieldLabel}>Width (ft)</label>
+            <label htmlFor="seed-spacing-width" className={fieldLabel}>Width (ft)</label>
             <input
+              id="seed-spacing-width"
               type="number" inputMode="decimal" min="0.5" step="0.5"
               value={width}
-              onChange={(e) => { setWidth(e.target.value); setResult(null); }}
+              onChange={(e) => { setWidth(e.target.value); setResult(null); setErrors((current) => ({ ...current, width: "", bed: "" })); }}
               placeholder="e.g. 4"
               className={`${fieldBase} font-mono tabular text-[17px] font-medium`}
-              aria-invalid={!!error}
+              aria-invalid={Boolean(errors.width)}
+              aria-describedby={errors.width ? "seed-spacing-width-error" : undefined}
             />
+            {errors.width && <p id="seed-spacing-width-error" role="alert" className="mt-1 font-mono text-[11px] text-terracotta">{errors.width}</p>}
           </div>
         </div>
       ) : (
         <div className="mb-5">
-          <label className={fieldLabel}>Garden area (sq ft) — assumes square bed</label>
+          <label htmlFor="seed-spacing-area" className={fieldLabel}>Garden area (sq ft) — assumes square bed</label>
           <input
+            id="seed-spacing-area"
             type="number" inputMode="decimal" min="1"
             value={area}
-            onChange={(e) => { setArea(e.target.value); setResult(null); }}
+            onChange={(e) => { setArea(e.target.value); setResult(null); setErrors((current) => ({ ...current, area: "", bed: "" })); }}
             placeholder="e.g. 100"
             className={`${fieldBase} font-mono tabular text-[17px] font-medium`}
-            aria-invalid={!!error}
+            aria-invalid={Boolean(errors.area)}
+            aria-describedby={errors.area ? "seed-spacing-area-error" : undefined}
           />
+          {errors.area && <p id="seed-spacing-area-error" role="alert" className="mt-1 font-mono text-[11px] text-terracotta">{errors.area}</p>}
         </div>
       )}
-      {error && <p className="-mt-3 mb-3 font-mono text-[11px] text-terracotta">{error}</p>}
+      {errors.bed && <p role="alert" className="-mt-2 mb-4 font-mono text-[11px] leading-[1.5] text-terracotta">{errors.bed}</p>}
 
       <button
+        type="button"
         onClick={calculate}
-        className="w-full bg-moss-deep hover:bg-moss text-cream font-sans text-sm font-medium py-3 rounded-md transition-colors duration-fast"
+        className="w-full bg-moss-deep hover:bg-moss text-cream font-sans text-sm font-medium py-3 rounded-md transition-colors duration-fast focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-moss focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
       >
         Plan the bed
       </button>
 
       {result && (
-        <div className="mt-6 bg-cream border border-[color-mix(in_oklch,var(--moss)_35%,transparent)] border-l-[4px] border-l-moss rounded-md px-6 py-5">
+        <div aria-live="polite" className="mt-6 bg-cream border border-[color-mix(in_oklch,var(--moss)_35%,transparent)] border-l-[4px] border-l-moss rounded-md px-6 py-5">
           <p className="font-mono text-[11px] uppercase tracking-[0.08em] text-soil mb-1">
-            Layout · {PLANT_DATA[plant].name}
+            Layout · {seedSpacingCropMap[plant].name}
           </p>
           <p className="font-serif font-semibold text-[34px] leading-[1] text-moss-deep tabular">
             {result.totalPlants}
@@ -236,7 +234,7 @@ export default function SeedSpacingCalculator() {
           </dl>
 
           <p className="mt-4 font-mono text-[10px] uppercase tracking-[0.12em] text-soil">
-            Rates · USDA extension spacing guidelines · assumes square plot
+            Extension-cited crop spacing · rows run along the longest bed side
           </p>
         </div>
       )}

@@ -1,8 +1,23 @@
-import { seedSpacingCropLinks } from "@/config/seedSpacingCrops";
+import {
+  popularSeedSpacingCropTableRows,
+  seedSpacingCropLinks,
+  seedSpacingCrops,
+  seedSpacingCropTableRows,
+} from "@/config/seedSpacingCrops";
 import { soilPHCropLinks } from "@/config/soilPHCrops";
-import type { Tool } from "@/config/tools";
+import type { Tool, ToolQuickAnswer } from "@/config/tools";
 
-type ToolOverride = Partial<Tool>;
+type LinkedQuickAnswer = ToolQuickAnswer & {
+  rowHrefs?: Array<string | undefined>;
+};
+
+type ToolOverride = Omit<Partial<Tool>, "quickAnswer"> & {
+  quickAnswer?: LinkedQuickAnswer;
+  deferredQuickAnswer?: LinkedQuickAnswer;
+};
+
+const seedSpacingSourceHtml =
+  'Sources: <a href="https://extension.uga.edu/content/dam/extension-county-offices/gwinnett-county/anr/homeshow-resources/Vegetable%20Planting%20Chart.pdf">UGA Cooperative Extension planting chart</a>; <a href="https://cmg.extension.colostate.edu/Gardennotes/721.pdf">Colorado State Extension raised-bed planting guide</a>; <a href="https://content.ces.ncsu.edu/extension-gardener-handbook/16-vegetable-gardening">NC State Extension vegetable gardening handbook</a>; <a href="https://extension.umn.edu/vegetables">University of Minnesota Extension vegetable guides</a>.';
 
 export const phase1Overrides: Record<string, ToolOverride> = {
   "soil-ph-calculator": {
@@ -22,6 +37,16 @@ export const phase1Overrides: Record<string, ToolOverride> = {
         ["Potato", "4.8–5.5"],
         ["Blueberry", "4.5–5.5"],
         ["Strawberry", "5.5–6.5"],
+      ],
+      rowHrefs: [
+        "/tools/soil-ph/tomato",
+        "/tools/soil-ph/pepper",
+        "/tools/soil-ph/lettuce",
+        "/tools/soil-ph/carrot",
+        "/tools/soil-ph/cucumber",
+        "/tools/soil-ph/potato",
+        "/tools/soil-ph/blueberry",
+        "/tools/soil-ph/strawberry",
       ],
       sourceHtml:
         'Sources: <a href="https://extension.umd.edu/sites/extension.umd.edu/files/2021-03/B-1.pdf">University of Maryland Extension vegetable pH table</a>; <a href="https://extension.psu.edu/understanding-soil-ph/">Penn State Extension soil pH guide</a>; <a href="https://extension.msstate.edu/lawn-and-garden/vegetable-gardens/test-soil-find-its-ph-value">Mississippi State Extension vegetable garden pH guide</a>.',
@@ -97,38 +122,35 @@ export const phase1Overrides: Record<string, ToolOverride> = {
       {
         href: "/tools/compost-calculator",
         anchor: "Check compost balance before amending",
-        description: "Estimate the carbon-to-nitrogen mix if compost is part of your soil improvement plan.",
+        description: "Estimate finished volume or screen equal-volume brown and green parts if compost is part of your soil improvement plan.",
       },
     ],
   },
   "seed-spacing-calculator": {
-    tagline: "Plan vegetable rows, raised beds, and square-foot layouts with extension-cited row, plant, and seed-depth numbers for 15 home-garden crops.",
-    metaTitle: "Seed Spacing Calculator — Row × Plant + Depth (15 Crops)",
-    metaDescription: "Free seed spacing calculator: row spacing, plant spacing, and seed depth for 15 vegetables. Home gardens, raised beds, square-foot layouts. Extension-cited. No signup.",
+    tagline: "Plan rows and estimate plant and seed counts with extension-cited plant spacing, row spacing, and seed depth for 20 home-garden crops.",
+    metaTitle: "Seed Spacing Calculator: Plant & Row Spacing Chart",
+    metaDescription: "Choose from 20 vegetables to see extension-cited plant and row spacing, then estimate rows, plants, and seed count for your garden bed.",
     quickAnswer: {
       definition: "Use row spacing, plant spacing, and seed depth together so each crop gets enough light, airflow, and root room as it matures.",
-      recommendation: "Start with extension spacing, then tighten only where the crop tolerates intensive beds; overpacking usually cuts airflow before it raises yield.",
+      recommendation: "These five popular crops are a quick reference. Choose any of the 20 crops in the calculator, then use the complete chart below it for seed depth and spacing.",
       columns: ["Crop", "Row × Plant", "Seed depth"],
-      rows: [
-        ["Tomato", "36 × 24 in", "1/4 in"],
-        ["Pepper", "24 × 18 in", "1/4 in"],
-        ["Cucumber", "36 × 12 in", "1 in"],
-        ["Zucchini", "48 × 36 in", "1 in"],
-        ["Sweet corn", "30 × 10 in", "1 to 1 1/2 in"],
-        ["Bush bean", "18 × 6 in", "1 in"],
-        ["Potato", "30 × 12 in", "3 to 4 in"],
-        ["Broccoli", "24 × 18 in", "1/4 to 1/2 in"],
-        ["Kale", "18 × 12 in", "1/2 in"],
-        ["Lettuce", "12 × 8 in", "1/4 in"],
-        ["Spinach", "12 × 6 in", "1/2 in"],
-        ["Onion", "12 × 4 in", "1/2 in"],
-        ["Beet", "12 × 4 in", "1/2 in"],
-        ["Carrot", "12 × 3 in", "1/4 to 1/2 in"],
-        ["Radish", "6 × 2 in", "1/2 in"],
-      ],
-      sourceHtml:
-        'Sources: <a href="https://extension.uga.edu/content/dam/extension-county-offices/gwinnett-county/anr/homeshow-resources/Vegetable%20Planting%20Chart.pdf">UGA Cooperative Extension planting chart</a>; <a href="https://cmg.extension.colostate.edu/Gardennotes/721.pdf">Colorado State Extension raised-bed planting guide</a>; <a href="https://content.ces.ncsu.edu/extension-gardener-handbook/16-vegetable-gardening">NC State Extension vegetable gardening handbook</a>; <a href="https://extension.umn.edu/vegetables">University of Minnesota Extension vegetable guides</a>.',
+      rows: popularSeedSpacingCropTableRows,
     },
+    deferredQuickAnswer: {
+      definition: "The calculator and all 20 crop guides use this same extension-cited spacing dataset, so the chart stays consistent with the selected crop and result.",
+      recommendation: "Treat these as home-garden baselines. Variety, support method, harvest stage, and local disease pressure can justify more room; follow the linked crop guide when you need that context.",
+      columns: ["Crop", "Row × Plant", "Seed depth"],
+      rows: seedSpacingCropTableRows,
+      rowHrefs: seedSpacingCrops.map((crop) => `/tools/seed-spacing/${crop.slug}`),
+      sourceHtml: seedSpacingSourceHtml,
+    },
+    howToSteps: [
+      "Select one of the 20 vegetables from the crop list.",
+      "Use Length × Width for a real rectangular bed, or Total area for a square estimate when dimensions are unknown.",
+      "Enter the bed dimensions and choose Plan the bed.",
+      "Review the number of rows, plants per row, plant count, and 15% seed buffer.",
+      "Check the complete plant and row spacing chart below the calculator before final planting.",
+    ],
     faqs: [
       {
         q: "What is the difference between plant spacing and row spacing?",
@@ -178,26 +200,33 @@ export const phase1Overrides: Record<string, ToolOverride> = {
     internalLinks: seedSpacingCropLinks,
   },
   "watering-schedule-calculator": {
-    tagline: "Estimate weekly garden watering by crop, soil, season, and growing method with a quick chart first.",
+    tagline: "Estimate net weekly irrigation in inches and gallons by crop, soil, season, growing method, bed area, and recent rainfall.",
     metaTitle: "Watering Schedule Calculator — Weekly Gallons by Crop",
-    metaDescription: "How often to water tomatoes, peppers, lettuce? Weekly schedule by crop, soil, and season. Free calculator with extension-cited FAQ. No signup required.",
+    metaDescription: "Estimate weekly garden irrigation in gallons using crop, soil, season, bed or container area, growing method, and recent rainfall.",
     quickAnswer: {
-      definition: "Most vegetables need steady deep watering, not daily light sprinkling, and soil type changes how often you repeat it.",
-      recommendation: "Aim for the weekly target, water early, and adjust with your finger test or local rainfall before adding another session.",
-      columns: ["Crop", "Typical frequency", "Water each time"],
+      definition: "Summer baseline for established crops in loamy, in-ground beds before rainfall. The calculator opens with these same soil, season, and growing-method settings.",
+      recommendation: "Use the weekly depth as a starting target, subtract measured rainfall, and check soil moisture before running the remaining irrigation sessions.",
+      columns: ["Crop", "Summer frequency", "Weekly target"],
       rows: [
-        ["Tomato", "2× / week", "0.75 in"],
-        ["Pepper", "1–2× / week", "0.50 in"],
-        ["Cucumber", "2× / week", "0.75 in"],
-        ["Lettuce", "2–3× / week", "0.40 in"],
-        ["Carrot", "2× / week", "0.50 in"],
-        ["Basil", "2× / week", "0.50 in"],
-        ["Strawberry", "2× / week", "0.60 in"],
-        ["Blueberry", "2× / week", "0.75 in"],
+        ["Tomato", "2× / week", "1.0 in"],
+        ["Pepper", "2× / week", "1.0 in"],
+        ["Cucumber", "2× / week", "1.0 in"],
+        ["Lettuce", "2× / week", "1.0 in"],
+        ["Carrot", "2× / week", "1.0 in"],
+        ["Basil", "2× / week", "1.0 in"],
+        ["Strawberry", "2× / week", "1.0 in"],
+        ["Blueberry", "2× / week", "1.0 in"],
       ],
       sourceHtml:
         'Sources: <a href="https://extension.umn.edu/how/watering-vegetable-garden">UMN Extension watering the vegetable garden</a>; <a href="https://extension.usu.edu/yardandgarden/research/water-recommendations-for-vegetables">USU Extension water recommendations for vegetables</a>; <a href="https://aggie-horticulture.tamu.edu/wp-content/uploads/sites/10/2013/09/eht_024_watering_your_vegetables.pdf">Texas A&M Easy Gardening watering guide</a>.',
     },
+    howToSteps: [
+      "Select the crop, soil type, season, and growing method.",
+      "Enter the bed or container surface area that receives water.",
+      "Enter rainfall already received during the current week.",
+      "Choose Build the schedule to subtract rainfall from the weekly target and convert the remaining depth to US gallons.",
+      "Use the suggested sessions as a starting rhythm, then check soil moisture before irrigating.",
+    ],
     faqs: [
       {
         q: "Should you water your lawn in October?",
@@ -239,6 +268,11 @@ export const phase1Overrides: Record<string, ToolOverride> = {
     ],
     internalLinks: [
       {
+        href: "/grow/tomato",
+        anchor: "Use the full tomato watering context",
+        description: "See how watering fits with tomato planting, soil preparation, spacing, feeding, disease prevention, and harvest timing.",
+      },
+      {
         href: "/guides/understanding-soil-ph",
         anchor: "Check soil conditions before irrigating harder",
         description: "A pH problem can look like drought stress, so confirm chemistry before you add more water.",
@@ -266,3 +300,16 @@ export const phase1Overrides: Record<string, ToolOverride> = {
     ],
   },
 };
+
+/**
+ * Return the single, public-facing representation of a tool.
+ * Listing pages, embeds, metadata, and calculator pages should all resolve
+ * through this helper so their claims cannot drift apart.
+ */
+export function resolveTool(tool: Tool): Tool {
+  return { ...tool, ...(phase1Overrides[tool.slug] ?? {}) };
+}
+
+export function resolveTools(toolList: Tool[]): Tool[] {
+  return toolList.map(resolveTool);
+}

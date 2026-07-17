@@ -1,12 +1,107 @@
 import Link from "next/link";
-import { type Tool } from "@/config/tools";
+import { type Tool, type ToolQuickAnswer } from "@/config/tools";
 import FAQSection from "./FAQSection";
 import RelatedTools from "./RelatedTools";
 import EmbedWidget from "./EmbedWidget";
 
+type LinkedQuickAnswer = ToolQuickAnswer & {
+  rowHrefs?: Array<string | undefined>;
+};
+
+type LayoutTool = Tool & {
+  quickAnswer?: LinkedQuickAnswer;
+  deferredQuickAnswer?: LinkedQuickAnswer;
+};
+
 interface ToolLayoutProps {
-  tool: Tool;
+  tool: LayoutTool;
   children: React.ReactNode;
+}
+
+function QuickAnswerCard({
+  answer,
+  placement,
+}: {
+  answer: LinkedQuickAnswer;
+  placement: "top" | "after-tool";
+}) {
+  const isFullChart = placement === "after-tool";
+  const headingId = isFullChart ? "full-spacing-chart-heading" : undefined;
+  const hasThreeColumns = answer.columns.length > 2;
+
+  return (
+    <section
+      aria-labelledby={headingId}
+      className={`bg-paper border border-[color-mix(in_oklch,var(--soil)_35%,transparent)] border-l-[4px] border-l-terracotta rounded-md px-6 py-5 ${
+        isFullChart ? "mb-12" : "mb-10"
+      }`}
+    >
+      <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-terracotta mb-3">
+        {isFullChart ? "Spacing reference" : "Quick Answer"}
+      </p>
+      {isFullChart && (
+        <h2 id={headingId} className="font-serif font-semibold text-[24px] leading-[1.25] text-ink mb-3">
+          Plant &amp; row spacing chart
+        </h2>
+      )}
+      <p className="font-serif text-[15px] leading-[1.7] text-ink mb-4">
+        {answer.definition}
+      </p>
+      <div className="overflow-x-auto">
+        <table className={`w-full border-collapse tabular ${hasThreeColumns ? "min-w-[440px]" : ""}`}>
+          <thead className={isFullChart ? "" : "sr-only"}>
+            <tr className={isFullChart ? "border-b border-[color-mix(in_oklch,var(--soil)_45%,transparent)]" : ""}>
+              {answer.columns.map((column, index) => (
+                <th
+                  key={column}
+                  scope="col"
+                  className={isFullChart
+                    ? `pb-2 font-mono text-[10px] uppercase tracking-[0.1em] text-soil ${index === 0 ? "text-left" : "text-right pl-4"}`
+                    : undefined}
+                >
+                  {column}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {answer.rows.map((row, rowIndex) => (
+              <tr key={`${row[0]}-${rowIndex}`} className="border-b border-dashed border-[color-mix(in_oklch,var(--soil)_35%,transparent)] last:border-0">
+                {row.map((cell, cellIndex) => {
+                  const href = cellIndex === 0 ? answer.rowHrefs?.[rowIndex] : undefined;
+                  return (
+                    <td
+                      key={`${cell}-${cellIndex}`}
+                      className={
+                        cellIndex === 0
+                          ? `py-2.5 pr-5 font-serif italic text-soil text-[15px] ${hasThreeColumns ? "w-[42%]" : "w-[58%]"}`
+                          : "py-2.5 pl-4 font-sans font-medium text-ink text-[15px] text-right"
+                      }
+                    >
+                      {href ? (
+                        <Link href={href} className="text-moss-deep underline decoration-dotted underline-offset-2 hover:text-moss focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-moss rounded-sm">
+                          {cell}
+                        </Link>
+                      ) : cell}
+                    </td>
+                  );
+                })}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p className="mt-4 font-serif text-[14px] leading-[1.7] text-ink">
+        {answer.recommendation}
+      </p>
+      {answer.sourceHtml && (
+        <p
+          className="mt-3 pt-3 border-t border-dashed border-[color-mix(in_oklch,var(--soil)_35%,transparent)] font-mono text-[10px] uppercase tracking-[0.12em] text-soil [&_a]:text-moss-deep [&_a]:underline"
+          dangerouslySetInnerHTML={{ __html: answer.sourceHtml }}
+        />
+      )}
+    </section>
+  );
 }
 
 /**
@@ -45,50 +140,15 @@ export default function ToolLayout({ tool, children }: ToolLayoutProps) {
 
       {/* Quick Answer callout */}
       {tool.quickAnswer && (
-        <section className="bg-paper border border-[color-mix(in_oklch,var(--soil)_35%,transparent)] border-l-[4px] border-l-terracotta rounded-md px-6 py-5 mb-10">
-          <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-terracotta mb-3">
-            Quick Answer
-          </p>
-          <p className="font-serif text-[15px] leading-[1.7] text-ink mb-4">
-            {tool.quickAnswer.definition}
-          </p>
-          <table className="w-full border-collapse tabular">
-            <thead className="sr-only">
-              <tr>{tool.quickAnswer.columns.map((c) => <th key={c}>{c}</th>)}</tr>
-            </thead>
-            <tbody>
-              {tool.quickAnswer.rows.map((row, index) => (
-                <tr key={`${row[0]}-${index}`} className="border-b border-dashed border-[color-mix(in_oklch,var(--soil)_35%,transparent)] last:border-0">
-                  {row.map((cell, ci) => (
-                    <td
-                      key={`${cell}-${ci}`}
-                      className={
-                        ci === 0
-                          ? "py-2.5 pr-5 font-serif italic text-soil text-[15px] w-[58%]"
-                          : "py-2.5 font-sans font-medium text-ink text-[15px] text-right"
-                      }
-                    >
-                      {cell}
-                    </td>
-                  ))}
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          <p className="mt-4 font-serif text-[14px] leading-[1.7] text-ink">
-            {tool.quickAnswer.recommendation}
-          </p>
-          {tool.quickAnswer.sourceHtml && (
-            <p
-              className="mt-3 pt-3 border-t border-dashed border-[color-mix(in_oklch,var(--soil)_35%,transparent)] font-mono text-[10px] uppercase tracking-[0.12em] text-soil [&_a]:text-moss-deep [&_a]:underline"
-              dangerouslySetInnerHTML={{ __html: tool.quickAnswer.sourceHtml }}
-            />
-          )}
-        </section>
+        <QuickAnswerCard answer={tool.quickAnswer} placement="top" />
       )}
 
       {/* Tool interactive area */}
       <div className="mb-14">{children}</div>
+
+      {tool.deferredQuickAnswer && (
+        <QuickAnswerCard answer={tool.deferredQuickAnswer} placement="after-tool" />
+      )}
 
       {/* How to use */}
       {tool.howToSteps.length > 0 && (

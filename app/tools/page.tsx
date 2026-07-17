@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { tools, getToolsByCategory } from "@/config/tools";
+import { resolveTools } from "@/config/phase1Overrides";
 import { siteConfig } from "@/config/site";
 
 export const metadata: Metadata = {
@@ -10,7 +11,8 @@ export const metadata: Metadata = {
 };
 
 export default function ToolsPage() {
-  const byCategory = getToolsByCategory();
+  const resolvedTools = resolveTools(tools);
+  const byCategory = getToolsByCategory(resolvedTools);
 
   return (
     <article className="max-w-[1024px] mx-auto px-6 md:px-8 pt-7 pb-24">
@@ -33,7 +35,7 @@ export default function ToolsPage() {
           All calculators
         </h1>
         <p className="font-serif italic text-[18px] md:text-[19px] leading-[1.45] text-soil">
-          {tools.length} free tools, no sign-up — each one cites its extension-service sources and shows its working.
+          {resolvedTools.length} free tools, no sign-up — each one cites its extension-service sources and shows its working.
         </p>
       </header>
 

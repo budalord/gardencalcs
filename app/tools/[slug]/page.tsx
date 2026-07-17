@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { tools } from "@/config/tools";
 import { siteConfig } from "@/config/site";
-import { phase1Overrides } from "@/config/phase1Overrides";
+import { resolveTool } from "@/config/phase1Overrides";
 import ToolLayout from "@/components/ToolLayout";
 import { ToolJsonLd } from "@/components/ToolJsonLd";
 
@@ -16,7 +16,7 @@ export function generateStaticParams() {
 export function generateMetadata({ params }: { params: { slug: string } }): Metadata {
   const baseTool = tools.find((t) => t.slug === params.slug);
   if (!baseTool) return {};
-  const tool = { ...baseTool, ...(phase1Overrides[params.slug] ?? {}) };
+  const tool = resolveTool(baseTool);
 
   const url = `${siteConfig.domain}/tools/${tool.slug}`;
   return {
@@ -57,7 +57,7 @@ export default function ToolPage({ params }: { params: { slug: string } }) {
   const baseTool = tools.find((t) => t.slug === params.slug);
   if (!baseTool) notFound();
 
-  const tool = { ...baseTool, ...(phase1Overrides[params.slug] ?? {}) };
+  const tool = resolveTool(baseTool);
   const ToolComponent = toolComponents[tool.slug];
 
   return (

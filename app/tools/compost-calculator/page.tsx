@@ -13,9 +13,9 @@ const CompostCalculator = dynamic(() => import("@/components/CompostCalculator")
   ),
 });
 
-const pageTitle = "Compost Calculator — How Much Do I Need? (yd³ / bags)";
+const pageTitle = "Compost Calculator: Cubic Yards & Bag Count";
 const pageDescription =
-  "How much compost for a 4×8 bed? Free calculator — cubic yards, bag count, and depth for beds, lawns, and topdress. C:N ratios for 20 materials. No signup required.";
+  "Calculate finished compost in cubic feet, cubic yards, cubic meters, and bags from area and depth. Or screen a pile's browns-and-greens mix by equal-volume parts.";
 const toolUrl = `${siteConfig.domain}/tools/compost-calculator`;
 
 const CORNELL_A1 = "https://cwmi.css.cornell.edu/AppendixATable1OFCH.pdf";
@@ -99,10 +99,10 @@ const howToSchema = {
   "@type": "HowTo",
   name: "How to use the Compost Calculator",
   step: [
-    { "@type": "HowToStep", position: 1, text: "Start with the area or bin size you want to evaluate, then decide whether you are estimating finished compost volume or balancing a fresh pile." },
-    { "@type": "HowToStep", position: 2, text: "Use the depth or bin-dimension inputs to estimate how many cubic feet or cubic yards of compost you need." },
-    { "@type": "HowToStep", position: 3, text: "Add your greens and browns by material type to compare the current pile against the target C:N ratio." },
-    { "@type": "HowToStep", position: 4, text: "Check the reference table and troubleshooting notes before adjusting moisture, aeration, or material mix." },
+    { "@type": "HowToStep", position: 1, text: "Use the default quantity tab for finished compost, or choose the pile-mix tab for a fresh compost recipe." },
+    { "@type": "HowToStep", position: 2, text: "For finished compost, enter surface area, your chosen layer depth, and the capacity printed on one bag." },
+    { "@type": "HowToStep", position: 3, text: "Read the calculated cubic feet, cubic yards, cubic meters, and whole bag count." },
+    { "@type": "HowToStep", position: 4, text: "For a pile mix, enter bin dimensions and equal-volume bucket or scoop parts for each green and brown material, then use the result as a field screen rather than a laboratory C:N result." },
   ],
 };
 
@@ -165,7 +165,7 @@ export default function CompostCalculatorPage() {
             Compost Calculator
           </h1>
           <p className="font-serif italic text-[18px] md:text-[19px] leading-[1.45] text-soil max-w-[640px]">
-            How much compost do you need? Estimate finished compost volume in cubic yards or bags for raised beds, lawns, and gardens — and check whether your browns and greens are close to a workable starting mix.
+            How much compost do you need? Estimate finished compost volume in cubic yards or bags for raised beds, lawns, and gardens — then screen a fresh pile by equal-volume brown and green parts.
           </p>
         </header>
 
@@ -173,9 +173,10 @@ export default function CompostCalculatorPage() {
         <section className="bg-paper border border-[color-mix(in_oklch,var(--soil)_35%,transparent)] border-l-[4px] border-l-terracotta rounded-md px-6 py-5 mb-10">
           <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-terracotta mb-3">Quick Answer</p>
           <p className="font-serif text-[15px] leading-[1.7] text-ink mb-4">
-            If your real question is <strong>how much compost do I need</strong>, start with area and depth, not bag marketing. For finished compost, cubic feet = square feet × depth in inches ÷ 12, and cubic yards = square feet × depth in inches ÷ 324. If your real question is the right starting pile blend, aim for roughly a 30:1 starting <strong>C:N ratio</strong> and adjust browns and greens from there.
+            If your real question is <strong>how much compost do I need</strong>, start with area and depth, not bag marketing. For finished compost, cubic feet = square feet × depth in inches ÷ 12, and cubic yards = square feet × depth in inches ÷ 324. For a fresh pile, the screen below uses about <strong>3 equal-volume parts of browns to 1 part of greens</strong>. That field rule is not the same as the roughly 25–30:1 elemental C:N target, which needs actual carbon, nitrogen, and moisture data to calculate.
           </p>
-          <table className="w-full border-collapse tabular">
+          <div className="overflow-x-auto">
+          <table className="w-full min-w-[520px] border-collapse tabular">
             <thead className="sr-only">
               <tr><th>Scenario</th><th>Formula</th><th>Meaning</th></tr>
             </thead>
@@ -183,8 +184,9 @@ export default function CompostCalculatorPage() {
               {[
                 ["Bed or lawn topdressing", "sq ft × depth (in) ÷ 12 = cubic feet",  "Best for raised-bed and lawn topdressing examples."],
                 ["Bulk order estimate",      "sq ft × depth (in) ÷ 324 = cubic yards", "Use this when buying by the yard instead of the bag."],
-                ["Bag count",                "cubic feet ÷ bag size (cu ft)",           "Turns the same volume into 1, 1.5, or 2-cu-ft bag counts."],
-                ["Fast pile target",         "start near 30:1",                         "Keeps browns and greens near a practical starting ratio."],
+                ["Bag count",                "round up (cubic feet ÷ bag size)",        "Use the capacity printed on the bag you plan to buy."],
+                ["Pile screen used below",   "about 3 brown : 1 green by volume",       "A field rule, not a calculated C:N ratio."],
+                ["Active-pile C:N context",  "roughly 25–30:1 elemental C:N",           "Requires measured composition and moisture data."],
               ].map(([label, formula, meaning]) => (
                 <tr key={label} className="border-b border-dashed border-[color-mix(in_oklch,var(--soil)_35%,transparent)] last:border-0">
                   <td className="py-2.5 pr-5 font-serif italic text-soil text-[15px] w-[32%] align-top">{label}</td>
@@ -194,8 +196,12 @@ export default function CompostCalculatorPage() {
               ))}
             </tbody>
           </table>
+          </div>
           <p className="mt-4 font-serif text-[14px] leading-[1.7] text-ink">
-            Example: a 4 × 8 raised bed is 32 sq ft. A 1-inch compost layer needs 32 × 1 ÷ 12 = 2.67 cubic feet, or about 1.78 bags if you buy 1.5-cu-ft bags. A 1,000-sq-ft lawn topdressed at 1/4 inch needs 1,000 × 0.25 ÷ 324 = 0.77 cubic yards.
+            Example: a 4 × 8 raised bed is 32 sq ft. An example 1-inch layer needs 32 × 1 ÷ 12 = 2.67 cubic feet. That is 1.78 of a 1.5-cu-ft bag, so the practical result rounds up to 2 bags. A 1,000-sq-ft lawn at an example 1/4-inch depth needs 1,000 × 0.25 ÷ 324 = 0.77 cubic yards.
+          </p>
+          <p className="mt-3 font-serif text-[14px] leading-[1.65] text-ink">
+            Need the calculation unpacked? See the <Link href="/answers/how-much-compost-for-raised-bed" className="text-moss-deep underline underline-offset-2">worked 4 × 8 raised-bed example</Link>. Example depths illustrate the formula; they are not application recommendations.
           </p>
           <p className="mt-3 pt-3 border-t border-dashed border-[color-mix(in_oklch,var(--soil)_35%,transparent)] font-mono text-[10px] uppercase tracking-[0.12em] text-soil [&_a]:text-moss-deep [&_a]:underline">
             Formula section is math-derived · compost ratio target supported by{" "}
@@ -203,6 +209,11 @@ export default function CompostCalculatorPage() {
             <a href="https://cwmi.css.cornell.edu/AppendixATable1OFCH.pdf">Cornell Waste Management Institute Appendix A</a>.
           </p>
         </section>
+
+        {/* Primary interaction follows the direct answer. */}
+        <div className="mb-14">
+          <CompostCalculator />
+        </div>
 
         {/* Intro content */}
         <div className="almanac-prose font-serif text-[17px] leading-[1.75] text-ink mb-12">
@@ -225,17 +236,13 @@ export default function CompostCalculatorPage() {
           </section>
         </div>
 
-        {/* The widget (already styled) */}
-        <div className="mb-14">
-          <CompostCalculator />
-        </div>
-
         {/* Post-widget content */}
         <div className="almanac-prose font-serif text-[17px] leading-[1.75] text-ink mb-12">
           <section>
             <h2>What&apos;s the right compost ratio for fast decomposition</h2>
             <p>Once the volume question is settled, the page can move into the second intent: what&apos;s the right compost ratio for the starting pile? Extension guidance usually points gardeners toward a starting <strong>C:N ratio</strong> around 30:1 because microbes need both carbon and nitrogen to work efficiently. If you drive the mixture too far toward nitrogen, the pile can smell like ammonia, mat down, and go short on oxygen. If you drive it too far toward carbon, decomposition slows and the pile can sit cool for weeks.</p>
             <p>This is why “greens versus browns” is a useful shortcut but not the whole story. Two brown materials can be very different from each other. Corrugated cardboard behaves very differently from leaves, and sawdust behaves very differently from straw. The same is true on the green side: coffee grounds, food scraps, and manures are not interchangeable once you look at their published C:N values.</p>
+            <p>The pile-mix tab therefore uses a coarse equal-volume field rule and keeps the published material C:N values visible for context. It does <strong>not</strong> calculate a combined C:N number from wet material weights: doing that responsibly would require measured carbon, nitrogen, and moisture data for each batch.</p>
           </section>
 
           <section>
@@ -294,9 +301,9 @@ export default function CompostCalculatorPage() {
               <p className="font-serif font-semibold text-[16px] text-ink group-hover:text-moss-deep transition-colors duration-fast">Read the full composting guide</p>
               <p className="mt-1 font-serif text-[14px] leading-[1.6] text-soil">Step-by-step explanation of pile setup, turning, curing, and material selection.</p>
             </Link>
-            <Link href="/tools/fertilizer-calculator" className="group block bg-paper border border-[color-mix(in_oklch,var(--soil)_25%,transparent)] hover:border-moss-deep rounded-md p-5 transition-colors duration-fast">
-              <p className="font-serif font-semibold text-[16px] text-ink group-hover:text-moss-deep transition-colors duration-fast">Compare compost with fertilizer planning</p>
-              <p className="mt-1 font-serif text-[14px] leading-[1.6] text-soil">Separate organic matter planning from nutrient-rate calculations in vegetable beds.</p>
+            <Link href="/answers/how-much-compost-for-raised-bed" className="group block bg-paper border border-[color-mix(in_oklch,var(--soil)_25%,transparent)] hover:border-moss-deep rounded-md p-5 transition-colors duration-fast">
+              <p className="font-serif font-semibold text-[16px] text-ink group-hover:text-moss-deep transition-colors duration-fast">See the 4 × 8 raised-bed math</p>
+              <p className="mt-1 font-serif text-[14px] leading-[1.6] text-soil">Follow one area, depth, volume, and whole-bag conversion from start to finish.</p>
             </Link>
           </div>
         </section>

@@ -1,3 +1,5 @@
+import { seedSpacingCrops } from "@/config/seedSpacingCrops";
+
 // AGENT: 每次建新站只需修改这个文件
 // 新增工具步骤：
 //   1. 在下方 tools 数组加一条记录（slug、name、tagline、category、keywords、params、howToSteps、faqs）
@@ -70,7 +72,7 @@ export const tools: Tool[] = [
   {
     slug: "compost-calculator",
     name: "Compost Calculator",
-    tagline: "Calculate your compost C:N ratio, bin volume, and get balancing recommendations.",
+    tagline: "Calculate finished compost volume and bag count, or screen a pile's browns-and-greens mix.",
     category: "Garden",
     keywords: [
       "compost calculator",
@@ -81,16 +83,16 @@ export const tools: Tool[] = [
       "carbon to nitrogen ratio compost",
     ],
     params: [
-      { id: "length", label: "Bin Length (ft)", type: "number", placeholder: "e.g. 3", required: true },
-      { id: "width",  label: "Bin Width (ft)",  type: "number", placeholder: "e.g. 3", required: true },
-      { id: "height", label: "Bin Height (ft)", type: "number", placeholder: "e.g. 3", required: true },
+      { id: "area", label: "Bed Area (sq ft)", type: "number", placeholder: "e.g. 32", required: true },
+      { id: "depth", label: "Compost Depth (in)", type: "number", placeholder: "e.g. 1", required: true },
+      { id: "bagSize", label: "Bag Size (cu ft)", type: "number", placeholder: "e.g. 1.5", required: true },
     ],
     howToSteps: [
-      "Enter your compost bin dimensions (length, width, height).",
-      "Add your compost materials using the material selector — choose from greens (nitrogen-rich) and browns (carbon-rich).",
-      "Enter the weight or volume of each material you plan to add.",
-      "Click Calculate to see your current C:N ratio and whether you need more greens or browns.",
-      "Follow the balancing recommendation to reach the ideal 25:1–30:1 ratio for fast composting.",
+      "Choose Finished amount for a bed or Pile mix for a fresh compost recipe.",
+      "For a finished-compost estimate, enter the bed area, compost depth, and the volume printed on the bag.",
+      "Calculate to see cubic feet, cubic yards, cubic meters, and the whole number of bags to buy.",
+      "For a pile mix, enter the bin dimensions and add green and brown materials as equal-volume bucket or scoop parts.",
+      "Use the browns-to-greens screen as a field starting point, then adjust for moisture, odor, temperature, and airflow.",
     ],
     faqs: [
       {
@@ -114,37 +116,37 @@ export const tools: Tool[] = [
       {
         heading: "What the compost calculator actually solves",
         paragraphs: [
-          "A compost pile works best when three basics are in balance: carbon, nitrogen, and air. Browns such as dry leaves, straw, cardboard, and sawdust supply carbon. Greens such as grass clippings, food scraps, coffee grounds, and fresh manure supply nitrogen. The job of a compost calculator is to turn those materials into a practical number you can work with before you build the pile. Instead of guessing, you can estimate your bin volume, compare your ingredient mix, and see whether you are close to the target carbon-to-nitrogen ratio that supports fast decomposition.",
-          "That matters because many home compost problems start with a ratio mistake. A pile that is too green heats up fast but can smell sour or release ammonia. A pile that is too brown stays cool and seems to sit there for weeks. When you know your dimensions and the rough weights of what you are adding, you can correct the mix early. This saves time, reduces odor, and gives you a more predictable path to finished compost that is crumbly, dark, and safe to spread on beds.",
+          "A compost pile works best when three basics are in balance: carbon-rich browns, nitrogen-rich greens, and air. The calculator estimates bin volume and screens the ingredient list using equal-volume parts. It deliberately does not claim a combined C:N number from wet material weights, because that would require measured carbon, nitrogen, and moisture data for each batch.",
+          "That still gives a useful field check. A pile that is too green can smell sour or release ammonia. A pile that is too brown can stay cool for weeks. Start with one consistent bucket or scoop, compare the brown and green parts, then correct the mix early while monitoring moisture and aeration.",
         ],
       },
       {
-        heading: "How to interpret your ratio and bin size",
+        heading: "How to interpret your mix and bin size",
         paragraphs: [
-          "Most gardeners aim for an initial C:N ratio between 25:1 and 30:1. Think of that range as the sweet spot where microbes have enough energy from carbon and enough protein-building nitrogen to multiply quickly. If your result is below that range, the pile is nitrogen-heavy. You usually fix that by mixing in dry leaves, shredded paper, or cardboard. If your result is above the range, the pile is carbon-heavy. In that case, add fresh grass clippings, kitchen scraps, or other moist green materials and then turn the pile so the new material is distributed evenly.",
+          "A common field starting point is roughly three equal-volume parts of dry browns to one part of greens. It is a coarse recipe rule, not the same thing as a laboratory C:N result. The material reference table remains useful because leaves, straw, cardboard, food scraps, coffee grounds, and manure do not behave identically even when they sit on the same side of the brown/green shorthand.",
           "Volume matters too. A pile that is too small often cannot hold heat, even with a good ratio. Many gardeners find that a bin around 3 ft by 3 ft by 3 ft is a practical minimum for hot composting. Larger piles hold temperature better, but they still need oxygen and moisture. Use the calculator's volume output as a planning number. If your bin is large enough but decomposition is still slow, the culprit is usually moisture or aeration rather than size alone.",
         ],
       },
       {
         heading: "How to use the result in the real garden",
         paragraphs: [
-          "Use the recommendation as a starting point, not as a rigid lab formula. Material weights vary by moisture level, and a bag of leaves in autumn is not exactly the same as a pile of partly wet leaves after rain. The best workflow is to build the pile in layers, compare the live texture to the calculator output, and then adjust. A good pile should feel about as damp as a wrung-out sponge. If it is slimy or compacted, add dry browns and turn. If it is dusty and cool, add greens and a little water.",
-          "After setup, check the pile every few days in the first two weeks. Hot piles often peak in temperature quickly, then need turning as oxygen drops. If your ratio is in range and your pile is at least moderately large, you can expect visible shrinkage within a week or two. Once the material looks more uniform and no longer resembles the original scraps, shift from chasing speed to letting the compost cure. Finished compost should smell earthy and no longer show obvious food waste, grass clumps, or intact cardboard pieces.",
+          "Use the recommendation as a starting point, not as a rigid lab formula. A bucket of dry leaves is not equivalent to a bucket of rain-soaked leaves. Build the pile in layers, compare the live texture to the screen, and adjust. A good pile should feel about as damp as a wrung-out sponge. If it is slimy or compacted, add dry browns and turn. If it is dusty and cool, add greens and a little water.",
+          "After setup, check the pile every few days in the first two weeks. Hot piles often peak in temperature quickly, then need turning as oxygen drops. Once the material looks more uniform and no longer resembles the original scraps, shift from chasing speed to letting the compost cure. Finished compost should smell earthy and no longer show obvious food waste, grass clumps, or intact cardboard pieces.",
         ],
       },
     ],
     workedExamples: [
       {
         title: "Example: a balanced backyard pile",
-        summary: "A gardener builds a 3 ft × 3 ft × 3 ft bin, which is 27 cubic feet. They add 20 lbs of grass clippings, 10 lbs of food scraps, and 25 lbs of dry leaves. The weighted ratio lands close to the ideal range, so the pile should heat up quickly if moisture and aeration are correct.",
+        summary: "A gardener builds a 3 ft × 3 ft × 3 ft bin, which is 27 cubic feet. Using the same bucket for every input, they start with three buckets of dry leaves for each bucket of mixed food scraps and grass, then adjust from the pile's moisture, odor, and temperature.",
       },
       {
         title: "Example: fixing a pile that smells like ammonia",
-        summary: "Suppose your current mix is 30 lbs of grass clippings and 10 lbs of coffee grounds. That is heavy on nitrogen. If the calculator reports a low C:N ratio, adding roughly 20 to 25 lbs of dry leaves or shredded cardboard brings the pile back toward a safer and faster-composting balance.",
+        summary: "A mix made almost entirely of grass clippings and coffee grounds is green-heavy. Add dry leaves or shredded cardboard by the same bucket or scoop until the pile has substantially more brown volume, then turn it to restore structure and air.",
       },
       {
         title: "Example: waking up a slow carbon-heavy pile",
-        summary: "If you fill a bin with 40 lbs of straw and 20 lbs of dry leaves, the ratio will usually be too high. Adding 15 to 20 lbs of fresh green material such as grass clippings lowers the ratio, adds moisture, and gives microbes the nitrogen they need to restart active decomposition.",
+        summary: "A bin filled only with straw and dry leaves is brown-heavy. Add measured bucket parts of moist greens, mix thoroughly, and stop treating the field screen as precise once material moisture and density begin to vary.",
       },
     ],
   },
@@ -378,31 +380,15 @@ export const tools: Tool[] = [
         id: "plant",
         label: "Plant / Vegetable",
         type: "select",
-        options: [
-          { label: "Tomato", value: "tomato" },
-          { label: "Cucumber", value: "cucumber" },
-          { label: "Lettuce", value: "lettuce" },
-          { label: "Carrot", value: "carrot" },
-          { label: "Pepper (Bell)", value: "pepper" },
-          { label: "Zucchini / Courgette", value: "zucchini" },
-          { label: "Spinach", value: "spinach" },
-          { label: "Kale", value: "kale" },
-          { label: "Radish", value: "radish" },
-          { label: "Beet / Beetroot", value: "beet" },
-          { label: "Onion", value: "onion" },
-          { label: "Garlic", value: "garlic" },
-          { label: "Pea", value: "pea" },
-          { label: "Bean (Bush)", value: "bean" },
-          { label: "Broccoli", value: "broccoli" },
-        ],
+        options: seedSpacingCrops.map((crop) => ({ label: crop.name, value: crop.slug })),
         required: true,
       },
       { id: "area", label: "Garden Area (sq ft)", type: "number", placeholder: "e.g. 100", required: true },
     ],
     howToSteps: [
       "Select the vegetable or plant you want to grow from the dropdown list.",
-      "Enter your garden area in square feet.",
-      "Click Calculate to see the recommended row spacing, plant spacing, and total seed count.",
+      "Enter the bed length and width, or use total area when the exact dimensions are unknown.",
+      "Plan the bed to see row spacing, plant spacing, station count, and a 15% seed buffer.",
       "Use the results to lay out your rows and mark planting spots before sowing.",
     ],
     faqs: [
@@ -513,8 +499,8 @@ export const tools: Tool[] = [
 ];
 
 // 按 category 分组，供导航使用
-export function getToolsByCategory(): Record<string, Tool[]> {
-  return tools.reduce((acc, tool) => {
+export function getToolsByCategory(toolList: Tool[] = tools): Record<string, Tool[]> {
+  return toolList.reduce((acc, tool) => {
     if (!acc[tool.category]) acc[tool.category] = [];
     acc[tool.category].push(tool);
     return acc;

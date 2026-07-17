@@ -182,6 +182,11 @@ export default function SoilPHCropPage({ params }: { params: { crop: string } })
             <p>
               If you have not run a soil test in the past one to two seasons, do that before adjusting anything. A real lab test from your state extension service or a private agronomy lab is far more reliable than a quick probe meter, especially when the proposed correction involves several pounds of lime or sulfur.
             </p>
+            {crop.slug === 'tomato' && (
+              <p>
+                Once the pH plan is set, use the <Link href="/grow/tomato" className="text-green-700 underline">complete tomato growing guide</Link> to coordinate soil preparation with spacing, transplant timing, fertilizer, watering, disease prevention, and harvest.
+              </p>
+            )}
           </div>
         </section>
 

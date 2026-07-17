@@ -817,6 +817,28 @@ export const seedSpacingCrops: SeedSpacingCrop[] = [
 
 export const seedSpacingCropMap = Object.fromEntries(seedSpacingCrops.map((crop) => [crop.slug, crop])) as Record<string, SeedSpacingCrop>
 
+const seedDepthForTable = (depth: string) =>
+  depth
+    .replace(/ inches?/g, ' in')
+    .replace(/inch/g, 'in')
+
+export const seedSpacingCropTableRows: string[][] = seedSpacingCrops.map((crop) => [
+  crop.name,
+  `${crop.rowSpacingInches} × ${crop.plantSpacingInches} in`,
+  seedDepthForTable(crop.seedDepthInches),
+])
+
+const popularSeedSpacingSlugs = ['tomato', 'pepper', 'cucumber', 'lettuce', 'carrot']
+
+export const popularSeedSpacingCropTableRows: string[][] = popularSeedSpacingSlugs.map((slug) => {
+  const crop = seedSpacingCropMap[slug]
+  return [
+    crop.name,
+    `${crop.rowSpacingInches} × ${crop.plantSpacingInches} in`,
+    seedDepthForTable(crop.seedDepthInches),
+  ]
+})
+
 export const seedSpacingCropLinks = seedSpacingCrops.map((crop) => ({
   href: `/tools/seed-spacing/${crop.slug}`,
   anchor: `${crop.titleName} spacing guide`,

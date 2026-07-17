@@ -53,7 +53,7 @@ const troubleshooting = [
   { problem: "Pile smells like ammonia",        cause: "Too much nitrogen (greens).",                                   fix: "Add carbon-rich browns — dry leaves, cardboard, or straw. Turn the pile to release the ammonia gas." },
   { problem: "Pile is not heating up",          cause: "Too much carbon, too dry, or pile is too small for thermal mass.", fix: "Add fresh greens (grass clippings, food scraps). Water until the pile feels like a wrung-out sponge. Hot composting wants roughly 1 yd³ (≈ 3×3×3 ft) of mass; smaller piles still compost as cold piles, just slower (6–12 months versus 4–8 weeks)." },
   { problem: "Pile is attracting pests",        cause: "Meat, dairy, or oily food scraps; food scraps on the surface.", fix: "Never add meat, dairy, or cooked food. Bury food scraps in the centre of the pile. Use a bin with a lid or hardware cloth base." },
-  { problem: "Compost is taking too long",      cause: "Wrong C:N ratio, too dry, not turned, or materials too large.",  fix: "Chop or shred materials into 2–3 inch pieces. Turn every 1–2 weeks. Check moisture. Adjust C:N ratio using the Compost Calculator." },
+  { problem: "Compost is taking too long",      cause: "Wrong C:N balance, too dry, not turned, or materials too large.",  fix: "Chop or shred materials into 2–3 inch pieces. Turn every 1–2 weeks. Check moisture. Use the material table and pile-mix screen to review browns and greens." },
 ];
 
 export default function CompostingGuide() {
@@ -99,7 +99,7 @@ export default function CompostingGuide() {
             <li><strong>Ideal range (25:1–30:1):</strong> The pile heats to 130–160°F (55–70°C), kills weed seeds and pathogens, and produces finished compost in 4–8 weeks.</li>
           </ul>
           <aside className="almanac-callout">
-            Not sure if your pile has the right ratio? Use our <Link href="/tools/compost-calculator">Compost Calculator</Link> to compute your current C:N ratio and get a recommendation for how much to add to balance it.
+            Not sure whether the pile is skewed toward browns or greens? Use the <Link href="/tools/compost-calculator">Compost Calculator</Link> to screen equal-volume parts and compare each ingredient with the published C:N reference table. The tool does not claim a lab-grade combined C:N result from wet weights.
           </aside>
         </section>
 

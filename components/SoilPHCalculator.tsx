@@ -1,18 +1,16 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import Link from "next/link";
+import { soilPHCropMap, soilPHCrops } from "@/config/soilPHCrops";
 
 // Ideal pH ranges for common plants (University Extension references)
+const CROP_PH = Object.fromEntries(
+  soilPHCrops.map((crop) => [crop.slug, { name: crop.name, min: crop.phMin, max: crop.phMax }]),
+) as Record<string, { name: string; min: number; max: number }>;
+
 const PLANT_PH: Record<string, { name: string; min: number; max: number }> = {
-  tomato:      { name: "Tomato",           min: 6.0, max: 6.8 },
-  blueberry:   { name: "Blueberry",        min: 4.5, max: 5.5 },
-  lettuce:     { name: "Lettuce",          min: 6.0, max: 7.0 },
-  potato:      { name: "Potato",           min: 4.8, max: 5.5 },
-  carrot:      { name: "Carrot",           min: 6.0, max: 6.8 },
-  pepper:      { name: "Pepper",           min: 6.0, max: 6.8 },
-  cucumber:    { name: "Cucumber",         min: 6.0, max: 7.0 },
-  spinach:     { name: "Spinach",          min: 6.0, max: 7.0 },
-  strawberry:  { name: "Strawberry",       min: 5.5, max: 6.5 },
+  ...CROP_PH,
   rose:        { name: "Rose",             min: 6.0, max: 6.5 },
   azalea:      { name: "Azalea / Rhododendron", min: 4.5, max: 5.5 },
   lawn:        { name: "Lawn Grass",       min: 6.0, max: 7.0 },
@@ -54,12 +52,40 @@ export default function SoilPHCalculator() {
   const [areaUnit, setAreaUnit] = useState<"sqft" | "sqm">("sqft");
   const [selectedPlant, setSelectedPlant] = useState("");
 
+  function cropTargetForCurrent(plantKey: string, currentValue: string) {
+    const range = PLANT_PH[plantKey];
+    const current = Number.parseFloat(currentValue);
+    if (!range || !Number.isFinite(current)) return null;
+    return Math.min(range.max, Math.max(range.min, current)).toFixed(1);
+  }
+
   function handlePlantSelect(val: string) {
     setSelectedPlant(val);
-    if (val && PLANT_PH[val]) {
-      const mid = ((PLANT_PH[val].min + PLANT_PH[val].max) / 2).toFixed(1);
-      setTargetPH(mid);
+    const target = cropTargetForCurrent(val, currentPH);
+    if (target) setTargetPH(target);
+  }
+
+  function handleCurrentPHChange(value: string) {
+    setCurrentPH(value);
+    if (!selectedPlant) return;
+    const target = cropTargetForCurrent(selectedPlant, value);
+    if (target) setTargetPH(target);
+  }
+
+  function handleTargetPHChange(value: string) {
+    setTargetPH(value);
+    // A manually entered target is a custom correction, not a crop-range target.
+    setSelectedPlant("");
+  }
+
+  function changeAreaUnit(next: "sqft" | "sqm") {
+    if (next === areaUnit) return;
+    const parsed = Number.parseFloat(area);
+    if (Number.isFinite(parsed)) {
+      const converted = next === "sqm" ? parsed * 0.092903 : parsed * 10.7639;
+      setArea(String(Number(converted.toFixed(next === "sqm" ? 4 : 2))));
     }
+    setAreaUnit(next);
   }
 
   const { result, liveErrors } = useMemo<{ result: Result | null; liveErrors: Record<string, string> }>(() => {
@@ -67,9 +93,9 @@ export default function SoilPHCalculator() {
     const cur = parseFloat(currentPH);
     const tgt = parseFloat(targetPH);
     const ar = parseFloat(area);
-    if (!currentPH || isNaN(cur) || cur < 3 || cur > 10) errs.currentPH = "pH must be 3.0–10.0";
-    if (!targetPH || isNaN(tgt) || tgt < 3 || tgt > 10) errs.targetPH = "pH must be 3.0–10.0";
-    if (!area || isNaN(ar) || ar <= 0) errs.area = "Enter an area > 0";
+    if (!currentPH || !Number.isFinite(cur) || cur < 3 || cur > 10) errs.currentPH = "pH must be 3.0–10.0";
+    if (!targetPH || !Number.isFinite(tgt) || tgt < 3 || tgt > 10) errs.targetPH = "pH must be 3.0–10.0";
+    if (!area || !Number.isFinite(ar) || ar <= 0) errs.area = "Enter an area > 0";
     if (Object.keys(errs).length > 0) return { result: null, liveErrors: errs };
 
     let areaSqFt = ar;
@@ -133,11 +159,16 @@ export default function SoilPHCalculator() {
 
   const cur = parseFloat(currentPH);
   const tgt = parseFloat(targetPH);
-  const curValid = !isNaN(cur) && cur >= 3 && cur <= 10;
-  const tgtValid = !isNaN(tgt) && tgt >= 3 && tgt <= 10;
+  const curValid = Number.isFinite(cur) && cur >= 3 && cur <= 10;
+  const tgtValid = Number.isFinite(tgt) && tgt >= 3 && tgt <= 10;
 
   const isLower = result?.direction === "lower";
   const isRaise = result?.direction === "raise";
+  const selectedPlantRange = selectedPlant ? PLANT_PH[selectedPlant] : undefined;
+  const currentWithinSelectedRange = Boolean(
+    selectedPlantRange && curValid && cur >= selectedPlantRange.min && cur <= selectedPlantRange.max,
+  );
+  const selectedCropGuide = selectedPlant ? soilPHCropMap[selectedPlant] : undefined;
 
   const fieldLabel = "block font-sans text-[11px] uppercase tracking-[0.08em] text-soil mb-1.5";
   const fieldInput =
@@ -167,7 +198,7 @@ export default function SoilPHCalculator() {
               style={{ left: scalePct(cur) }}
               aria-label={`Current pH ${cur}`}
             >
-              <span className="absolute -top-[22px] left-1/2 -translate-x-1/2 whitespace-nowrap font-mono text-[11px] font-semibold text-terracotta bg-paper px-1.5 py-[1px] rounded-sm border border-terracotta">
+              <span className="absolute -top-[22px] right-1 whitespace-nowrap font-mono text-[11px] font-semibold text-terracotta bg-paper px-1.5 py-[1px] rounded-sm border border-terracotta">
                 Now {cur.toFixed(1)}
               </span>
             </div>
@@ -178,7 +209,7 @@ export default function SoilPHCalculator() {
               style={{ left: scalePct(tgt) }}
               aria-label={`Target pH ${tgt}`}
             >
-              <span className="absolute -top-[22px] left-1/2 -translate-x-1/2 whitespace-nowrap font-mono text-[11px] font-semibold text-moss-deep bg-paper px-1.5 py-[1px] rounded-sm border border-moss">
+              <span className="absolute -top-[22px] left-1 whitespace-nowrap font-mono text-[11px] font-semibold text-moss-deep bg-paper px-1.5 py-[1px] rounded-sm border border-moss">
                 Target {tgt.toFixed(1)}
               </span>
             </div>
@@ -193,10 +224,11 @@ export default function SoilPHCalculator() {
 
       {/* Plant selector */}
       <div className="mb-4">
-        <label className={fieldLabel}>
+        <label htmlFor="soil-ph-plant" className={fieldLabel}>
           Plant (optional — auto-fills target pH)
         </label>
         <select
+          id="soil-ph-plant"
           value={selectedPlant}
           onChange={(e) => handlePlantSelect(e.target.value)}
           className={fieldInput.replace("font-mono", "font-sans") + " !text-[15px] !font-normal"}
@@ -213,50 +245,58 @@ export default function SoilPHCalculator() {
       {/* Input grid */}
       <div className="grid grid-cols-2 gap-4 mb-4">
         <div>
-          <label className={fieldLabel}>Current pH</label>
+          <label htmlFor="soil-ph-current" className={fieldLabel}>Current pH</label>
           <input
+            id="soil-ph-current"
             type="number" inputMode="decimal" min="3" max="10" step="0.1"
             value={currentPH}
-            onChange={(e) => setCurrentPH(e.target.value)}
+            onChange={(e) => handleCurrentPHChange(e.target.value)}
             className={fieldInput}
             aria-invalid={!!errors.currentPH}
+            aria-describedby={errors.currentPH ? "soil-ph-current-error" : undefined}
           />
-          {errors.currentPH && <p className="mt-1 font-mono text-[11px] text-terracotta">{errors.currentPH}</p>}
+          {errors.currentPH && <p id="soil-ph-current-error" role="alert" className="mt-1 font-mono text-[11px] text-terracotta">{errors.currentPH}</p>}
         </div>
         <div>
-          <label className={fieldLabel}>Target pH</label>
+          <label htmlFor="soil-ph-target" className={fieldLabel}>Target pH</label>
           <input
+            id="soil-ph-target"
             type="number" inputMode="decimal" min="3" max="10" step="0.1"
             value={targetPH}
-            onChange={(e) => setTargetPH(e.target.value)}
+            onChange={(e) => handleTargetPHChange(e.target.value)}
             className={fieldInput}
             aria-invalid={!!errors.targetPH}
+            aria-describedby={errors.targetPH ? "soil-ph-target-error" : undefined}
           />
-          {errors.targetPH && <p className="mt-1 font-mono text-[11px] text-terracotta">{errors.targetPH}</p>}
+          {errors.targetPH && <p id="soil-ph-target-error" role="alert" className="mt-1 font-mono text-[11px] text-terracotta">{errors.targetPH}</p>}
         </div>
       </div>
 
       {/* Area with unit toggle */}
-      <div className="grid grid-cols-2 gap-4 mb-5">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-5">
         <div>
-          <label className={fieldLabel}>
+          <label htmlFor="soil-ph-area" className={fieldLabel}>
             Area ({areaUnit === "sqft" ? "ft²" : "m²"})
           </label>
           <div className="flex gap-2">
             <input
-              type="number" inputMode="decimal" min="1"
+              id="soil-ph-area"
+              type="number" inputMode="decimal" min={areaUnit === "sqft" ? "0.1" : "0.01"} step="any"
               value={area}
               onChange={(e) => setArea(e.target.value)}
-              className={fieldInput + " flex-1"}
+              className={fieldInput + " min-w-0 flex-1"}
               aria-invalid={!!errors.area}
+              aria-describedby={errors.area ? "soil-ph-area-error" : undefined}
             />
             <div className="flex border border-[color-mix(in_oklch,var(--soil)_35%,transparent)] rounded-md overflow-hidden font-sans text-[12px]">
               {(["sqft", "sqm"] as const).map((u) => (
                 <button
                   key={u}
                   type="button"
-                  onClick={() => setAreaUnit(u)}
-                  className={`px-2.5 transition-colors duration-fast ${
+                  onClick={() => changeAreaUnit(u)}
+                  aria-label={`Use ${u === "sqft" ? "square feet" : "square meters"}`}
+                  aria-pressed={areaUnit === u}
+                  className={`px-2.5 transition-colors duration-fast focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-moss focus-visible:ring-inset ${
                     areaUnit === u
                       ? "bg-moss-deep text-cream"
                       : "bg-cream text-soil hover:text-moss-deep"
@@ -267,11 +307,12 @@ export default function SoilPHCalculator() {
               ))}
             </div>
           </div>
-          {errors.area && <p className="mt-1 font-mono text-[11px] text-terracotta">{errors.area}</p>}
+          {errors.area && <p id="soil-ph-area-error" role="alert" className="mt-1 font-mono text-[11px] text-terracotta">{errors.area}</p>}
         </div>
         <div>
-          <label className={fieldLabel}>Soil type</label>
+          <label htmlFor="soil-ph-soil" className={fieldLabel}>Soil type</label>
           <select
+            id="soil-ph-soil"
             value={soilType}
             onChange={(e) => setSoilType(e.target.value as keyof typeof SOIL_FACTORS)}
             className={fieldInput.replace("font-mono", "font-sans") + " !text-[15px] !font-normal"}
@@ -285,19 +326,22 @@ export default function SoilPHCalculator() {
 
       {/* Result card */}
       {result && result.direction === "none" && (
-        <div className="mt-5 bg-cream border border-[color-mix(in_oklch,var(--moss)_35%,transparent)] border-l-[4px] border-l-moss rounded-md px-6 py-5">
-          <p className="font-mono text-[11px] uppercase tracking-[0.08em] text-soil mb-1">You need</p>
+        <div aria-live="polite" className="mt-5 bg-cream border border-[color-mix(in_oklch,var(--moss)_35%,transparent)] border-l-[4px] border-l-moss rounded-md px-6 py-5">
+          <p className="font-mono text-[11px] uppercase tracking-[0.08em] text-soil mb-1">No amendment estimate</p>
           <p className="font-serif font-semibold text-[28px] leading-[1] text-moss-deep tabular">
-            0 <span className="font-sans font-medium text-[14px] text-soil ml-1.5">already at target</span>
+            0 <span className="font-sans font-medium text-[14px] text-soil ml-1.5">lb</span>
           </p>
           <p className="font-serif text-[14px] text-soil mt-2">
-            Your pH is within the comfort zone for {result.soilLabel.toLowerCase()}. Retest in 6–12 months.
+            {currentWithinSelectedRange && selectedPlantRange
+              ? `Current pH ${cur.toFixed(1)} is inside the ${selectedPlantRange.min.toFixed(1)}–${selectedPlantRange.max.toFixed(1)} target range for ${selectedPlantRange.name}. No lime or sulfur estimate is needed.`
+              : "Current pH matches the target you entered. No lime or sulfur estimate is needed."}
           </p>
         </div>
       )}
 
       {result && result.direction !== "none" && (
         <div
+          aria-live="polite"
           className={`mt-5 bg-cream border border-l-[4px] rounded-md px-6 py-5 ${
             isLower
               ? "border-[color-mix(in_oklch,var(--terracotta)_35%,transparent)] border-l-terracotta"
@@ -367,6 +411,26 @@ export default function SoilPHCalculator() {
             Rates · Penn State Extension · Clemson Cooperative Extension · Cornell Cooperative Extension
           </p>
         </div>
+      )}
+
+      {result && selectedCropGuide && (
+        <Link
+          href={`/tools/soil-ph/${selectedCropGuide.slug}`}
+          className="group mt-4 flex items-start justify-between gap-4 rounded-md border border-[color-mix(in_oklch,var(--moss)_35%,transparent)] bg-cream px-5 py-4 transition-colors duration-fast hover:border-moss-deep focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-moss focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
+        >
+          <span>
+            <span className="block font-mono text-[10px] uppercase tracking-[0.16em] text-terracotta mb-1">
+              Crop-specific next step
+            </span>
+            <span className="block font-serif font-semibold text-[16px] text-ink group-hover:text-moss-deep">
+              Read the {selectedCropGuide.titleName.toLowerCase()} soil pH guide
+            </span>
+            <span className="block mt-1 font-serif text-[13px] leading-[1.5] text-soil">
+              Check its pH {selectedCropGuide.phMin}–{selectedCropGuide.phMax} target, amendment timing, and common mistakes.
+            </span>
+          </span>
+          <span aria-hidden="true" className="mt-4 font-mono text-moss-deep">→</span>
+        </Link>
       )}
     </section>
   );

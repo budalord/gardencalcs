@@ -140,7 +140,7 @@ export default function GrowTomatoPage() {
     '@type': 'BreadcrumbList',
     itemListElement: [
       { '@type': 'ListItem', position: 1, name: 'Home', item: siteConfig.domain },
-      { '@type': 'ListItem', position: 2, name: 'Grow Guides', item: `${siteConfig.domain}/grow` },
+      { '@type': 'ListItem', position: 2, name: 'Guides', item: `${siteConfig.domain}/guides` },
       { '@type': 'ListItem', position: 3, name: 'Tomato', item: URL },
     ],
   }
@@ -198,7 +198,9 @@ export default function GrowTomatoPage() {
         <nav className="mb-4 text-sm text-gray-500" aria-label="Breadcrumb">
           <Link href="/" className="hover:text-green-700">Home</Link>
           <span className="mx-2">/</span>
-          <span className="text-gray-900">Grow Tomato</span>
+          <Link href="/guides" className="hover:text-green-700">Guides</Link>
+          <span className="mx-2">/</span>
+          <span className="text-gray-900">Tomato</span>
         </nav>
 
         <h1 className="text-3xl font-bold text-gray-900">How to Grow Tomatoes in a Home Garden</h1>

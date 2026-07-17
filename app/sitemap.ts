@@ -11,7 +11,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const staticRoutes: MetadataRoute.Sitemap = [
     { url: base, lastModified: now, changeFrequency: "weekly", priority: 1 },
     { url: `${base}/tools`, lastModified: now, changeFrequency: "weekly", priority: 0.9 },
+    { url: `${base}/guides`, lastModified: now, changeFrequency: "weekly", priority: 0.8 },
     { url: `${base}/embed`, lastModified: now, changeFrequency: "monthly", priority: 0.75 },
+    { url: `${base}/answers/how-much-compost-for-raised-bed`, lastModified: now, changeFrequency: "monthly", priority: 0.75 },
   ];
 
   const toolRoutes: MetadataRoute.Sitemap = tools.map((tool) => ({

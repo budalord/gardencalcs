@@ -292,6 +292,7 @@ export default function FertilizerCalculatorPage() {
             <h2>Fertilizer recommendations for common vegetable crops</h2>
             <p>The quick-reference table below is designed for home-garden planning, not for commercial nutrient prescriptions. It intentionally lists actual nutrient targets instead of product weight so you can plug them into the calculator no matter which fertilizer analysis you buy. Where extension guidance emphasizes nitrogen management and treats phosphorus and potassium as soil-test-driven, the table says that explicitly instead of pretending there is one universal P and K number for every bed.</p>
             <p>The frequency column matters as much as the nutrient line. Some crops need only a pre-plant application, while others perform better when part of the nitrogen is held back for side-dressing at head set, bulb expansion, tasseling, or first fruit. If you ignore timing, even the right nutrient amount can be delivered at the wrong biological moment.</p>
+            <p>Planning a tomato bed specifically? Use the <Link href="/grow/tomato">complete tomato growing guide</Link> to place the fertilizer calculation in context with soil pH, spacing, transplant timing, watering, disease prevention, and harvest.</p>
             <table>
               <thead>
                 <tr>

@@ -178,6 +178,11 @@ export default function SeedSpacingCropPage({ params }: { params: { crop: string
             <p>
               If you are using the site&apos;s main <Link href="/tools/seed-spacing-calculator" className="text-green-700 underline">seed spacing calculator</Link>, use this crop page as the precision layer after the calculator gives you a count. The calculator helps with geometry. This page helps you decide whether the geometry still makes biological sense for {crop.name.toLowerCase()} as it matures.
             </p>
+            {crop.slug === 'tomato' && (
+              <p>
+                Spacing is only one decision in a tomato season. The <Link href="/grow/tomato" className="text-green-700 underline">complete tomato growing guide</Link> connects this layout to transplant timing, soil pH, fertilizer, watering, disease prevention, and harvest.
+              </p>
+            )}
           </div>
         </section>
 
