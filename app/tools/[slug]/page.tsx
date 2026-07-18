@@ -19,8 +19,9 @@ export function generateMetadata({ params }: { params: { slug: string } }): Meta
   const tool = resolveTool(baseTool);
 
   const url = `${siteConfig.domain}/tools/${tool.slug}`;
+  const htmlTitle = tool.htmlTitle ?? tool.metaTitle;
   return {
-    title: tool.metaTitle ? { absolute: tool.metaTitle } : tool.name,
+    title: htmlTitle ? { absolute: htmlTitle } : tool.name,
     description: tool.metaDescription ?? tool.tagline,
     keywords: tool.keywords,
     alternates: { canonical: url },

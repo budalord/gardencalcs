@@ -52,6 +52,7 @@ export interface Tool {
   slug: string;           // URL slug，如 "json-formatter"
   name: string;           // 显示名，如 "JSON Formatter"
   tagline: string;        // 页面顶部一句话描述
+  htmlTitle?: string;     // HTML <title> only; keeps social metadata stable during title tests
   metaTitle?: string;     // SEO title override
   metaDescription?: string; // SEO meta description override
   category: string;       // 分类，用于导航分组

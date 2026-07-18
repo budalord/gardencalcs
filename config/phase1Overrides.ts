@@ -128,6 +128,7 @@ export const phase1Overrides: Record<string, ToolOverride> = {
   },
   "seed-spacing-calculator": {
     tagline: "Plan rows and estimate plant and seed counts with extension-cited plant spacing, row spacing, and seed depth for 20 home-garden crops.",
+    htmlTitle: "How Far Apart to Plant Seeds? Spacing Calculator (Inches)",
     metaTitle: "Seed Spacing Calculator: Plant & Row Spacing Chart",
     metaDescription: "Choose from 20 vegetables to see extension-cited plant and row spacing, then estimate rows, plants, and seed count for your garden bed.",
     quickAnswer: {
