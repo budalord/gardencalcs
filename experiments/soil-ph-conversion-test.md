@@ -64,7 +64,12 @@ The live page was fetched before implementation and checked for shopping content
 
 - Associate ID/tag: `gardencalcs-20` (provided by the site owner on 2026-07-18)
 - Tagged text-link destinations: Amazon search results for soil pH meters, garden lime, and elemental sulfur
-- Production deployment: pending
-- Custom-domain verification: pending
+- Module behavior: renders after a valid calculator result, outside the result card; disclosure appears immediately below the module title
+- Cloudflare `main` preview deployment completed: 2026-07-18 17:30:07 CST (UTC+08:00), deployment `253b4b7b-56f8-4501-b09c-ab4f4f338b57`
+- Cloudflare `master` production deployment completed: 2026-07-18 17:30:38 CST (UTC+08:00), deployment `06e9ad84-89e5-425e-be94-94ab26133c37`
+- Custom-domain verification: 2026-07-18 17:31:31 CST (UTC+08:00), HTTP 200, 3 tagged Amazon links, 3 `rel="sponsored nofollow"` attributes, 0 product images
+- Experiment start: 2026-07-18 17:31:31 CST (UTC+08:00)
+- Primary conversion source: Amazon Associates reporting for tag `gardencalcs-20`
+- SEO context guardrail: compare the frozen 16-query cohort and page-total GSC metrics against this baseline before attributing conversion changes to traffic quality
 
-The experiment clock and outbound-click baseline do not start until tagged links render on the production custom domain.
+The frozen query cohort above is the post-launch comparison baseline. Page totals remain separate because GSC withholds most query-level impressions for privacy.
