@@ -34,7 +34,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${base}/data/compost-cn-ratios`, lastModified: now, changeFrequency: "monthly", priority: 0.75 },
   ];
 
-  const staticPages = ["/about", "/privacy", "/contact"].map((p) => ({
+  const staticPages = ["/about", "/privacy", "/affiliate-disclosure", "/contact"].map((p) => ({
     url: `${siteConfig.domain}${p}`,
     lastModified: new Date(),
     changeFrequency: "yearly" as const,

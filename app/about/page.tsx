@@ -54,7 +54,7 @@ export default function AboutPage() {
         <section>
           <h2>Free, forever</h2>
           <p>
-            GardenCalcs is and will remain free to use. All calculations run entirely in your browser — no data is sent to any server. There are no accounts, no tracking, and no paywalls.
+            GardenCalcs is free to use and does not require an account. Calculator inputs and results stay in your browser, and there are no paywalls.
           </p>
           <p>
             Developers and bloggers are welcome to embed any tool on their own sites using the embed widget available on each tool page.

@@ -252,7 +252,7 @@ export default function HomePage() {
           {[
             { h: "Extension-sourced formulas", p: "Every calculator cites at least two .edu or .gov references — no Reddit, no Brainly." },
             { h: "Used by home growers", p: "Home gardeners, community plots, and master-gardener programs." },
-            { h: "No signup, no tracking", p: "Client-side calculators. Nothing to register. Embed freely." },
+            { h: "No account required", p: "Calculator inputs stay in your browser. Nothing to register. Embed freely." },
           ].map((t) => (
             <div key={t.h} className="flex gap-4">
               <div className="w-px bg-moss-deep flex-shrink-0" aria-hidden="true" />

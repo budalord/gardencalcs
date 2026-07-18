@@ -63,6 +63,7 @@ export default function Footer() {
               <li><Link href="/about" className="text-[13px] text-ink hover:text-moss-deep transition-colors duration-fast">About &amp; method</Link></li>
               <li><Link href="/contact" className="text-[13px] text-ink hover:text-moss-deep transition-colors duration-fast">Contact</Link></li>
               <li><Link href="/privacy" className="text-[13px] text-ink hover:text-moss-deep transition-colors duration-fast">Privacy</Link></li>
+              <li><Link href="/affiliate-disclosure" className="text-[13px] text-ink hover:text-moss-deep transition-colors duration-fast">Affiliate Disclosure</Link></li>
             </ul>
           </div>
         </div>

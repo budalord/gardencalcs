@@ -5,7 +5,7 @@ import { siteConfig } from "@/config/site";
 export const metadata: Metadata = {
   title: "Privacy Policy",
   description:
-    "GardenCalcs privacy policy — we do not collect personal information, use tracking cookies, or send your data to any server.",
+    "GardenCalcs privacy policy — calculator inputs stay in your browser, no account is required, and external links follow their destination site's privacy terms.",
   alternates: { canonical: `${siteConfig.domain}/privacy` },
 };
 
@@ -29,7 +29,7 @@ export default function PrivacyPage() {
           Privacy policy
         </h1>
         <p className="font-mono text-[11px] uppercase tracking-[0.12em] text-soil tabular">
-          Last updated · March 2026
+          Last updated · July 2026
         </p>
       </header>
 
@@ -42,30 +42,30 @@ export default function PrivacyPage() {
         </section>
 
         <section>
-          <h2>No tracking cookies</h2>
+          <h2>Cookies and hosting data</h2>
           <p>
-            This site does not use cookies to track your browsing behaviour. If analytics are added in the future, this policy will be updated before any tracking begins.
+            GardenCalcs does not currently set first-party advertising or analytics cookies. Our hosting provider may process standard request data, such as an IP address and browser details, to deliver and protect the site. If our analytics or cookie practices change, this policy will be updated.
           </p>
         </section>
 
         <section>
           <h2>Client-side calculations</h2>
           <p>
-            All calculator inputs and results are processed entirely within your browser. No form data, calculation inputs, or results are transmitted to GardenCalcs servers or any third party.
+            Calculator inputs and results are processed within your browser. The calculators do not submit those values to GardenCalcs or to a third party.
           </p>
         </section>
 
         <section>
           <h2>Embedded tools</h2>
           <p>
-            GardenCalcs tools may be embedded on third-party websites via an iframe widget. When a tool is embedded, GardenCalcs does not track the embedding site, the referring URL, or the end user&apos;s identity.
+            GardenCalcs tools may be embedded on third-party websites via an iframe widget. Calculator inputs still stay in the visitor&apos;s browser, but the embedding website may have its own analytics, cookies, and privacy practices.
           </p>
         </section>
 
         <section>
           <h2>External links</h2>
           <p>
-            This site may contain links to external websites (e.g., university extension resources). GardenCalcs is not responsible for the privacy practices of those sites.
+            This site contains links to external websites, including university extension resources and, on clearly disclosed pages, Amazon. A destination site may receive standard referral information and apply its own cookies or tracking after you follow a link. GardenCalcs is not responsible for those sites&apos; privacy practices.
           </p>
         </section>
 

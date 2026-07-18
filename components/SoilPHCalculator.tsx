@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
+import AffiliateLink from "@/components/AffiliateLink";
 import { soilPHCropMap, soilPHCrops } from "@/config/soilPHCrops";
 
 // Ideal pH ranges for common plants (University Extension references)
@@ -431,6 +432,29 @@ export default function SoilPHCalculator() {
           </span>
           <span aria-hidden="true" className="mt-4 font-mono text-moss-deep">→</span>
         </Link>
+      )}
+
+      {result && (
+        <AffiliateLink
+          intro="Use a home meter for quick checks between lab tests, not as the sole basis for a large correction. Choose lime or sulfur only after confirming which direction your soil needs to move."
+          items={[
+            {
+              href: "https://www.amazon.com/s?k=soil+pH+meter&tag=gardencalcs-20",
+              label: "Compare soil pH meters on Amazon",
+              description: "Useful for quick comparisons between beds; confirm major amendment decisions with a lab soil test.",
+            },
+            {
+              href: "https://www.amazon.com/s?k=garden+lime&tag=gardencalcs-20",
+              label: "Browse garden lime on Amazon",
+              description: "For raising pH when the calculator calls for lime. Match the product label to your soil-test recommendation.",
+            },
+            {
+              href: "https://www.amazon.com/s?k=elemental+sulfur+soil&tag=gardencalcs-20",
+              label: "Browse elemental sulfur on Amazon",
+              description: "For lowering pH gradually. Follow the application cap and retesting interval shown above.",
+            },
+          ]}
+        />
       )}
     </section>
   );
