@@ -69,6 +69,7 @@ Commit `c1e6dde` changed this page on 2026-07-17, including its title, meta desc
 - Cloudflare `master` production deployment completed: 2026-07-18 16:37:05 CST (UTC+08:00), deployment `e6a9442e-06ef-4e24-a4f1-304f2cfc0a8b`
 - Production Pages artifact verified: 2026-07-18 16:37:29 CST; HTTP 200 and variant HTML title present
 - Custom-domain observation at 2026-07-18 16:38:12 CST: edge still served the prior cached HTML (`CF-Cache-Status: HIT`, `s-maxage=3600`). The API token lacks cache-purge permission. This is a delivery-cache delay, not a source or deployment failure; the experiment clock uses the production deployment completion above.
+- Custom-domain production verified: 2026-07-19 03:33:20 CST (UTC+08:00); HTTP 200, variant HTML title present, and frozen meta description / Open Graph title unchanged (`CF-Cache-Status: EXPIRED`; `Age` absent).
 - Day 0: 2026-07-18
 - Day 14 rhythm check due: 2026-08-01 16:37 CST; automation `gardencalcs-14`
 - Day 28 hold completes: 2026-08-15 16:37 CST
