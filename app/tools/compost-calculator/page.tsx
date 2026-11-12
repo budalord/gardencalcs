@@ -19,37 +19,40 @@ const pageDescription =
 const toolUrl = `${siteConfig.domain}/tools/compost-calculator`;
 
 const CORNELL_A1 = "https://cwmi.css.cornell.edu/AppendixATable1OFCH.pdf";
+const CSU_MAKING_COMPOST = "https://extension.colostate.edu/resource/making-compost/";
+const ARIZONA_AZ1632 = "https://extension.arizona.edu/sites/extension.arizona.edu/files/pubs/az1632-2014.pdf";
+// CSU Making Compost gives an instruction to use two green parts for each brown part without specifying volume or weight. Its own Table 1 values do not produce its stated 30:1 target when combined, an internal inconsistency; that instruction is not cited. CSU is used here only as corroboration for the 30:1 target and for its Table 1 material values.
 const materialRows = [
   // Greens (nitrogen-rich)
-  { material: "Poultry manure",       ratio: "3-10:1",    type: "Green", sourceUrl: CORNELL_A1 },
-  { material: "Vegetable wastes",     ratio: "12-20:1",   type: "Green", sourceUrl: CORNELL_A1 },
-  { material: "Alfalfa hay",          ratio: "12-15:1",   type: "Green", sourceUrl: CORNELL_A1 },
-  { material: "Food scraps",          ratio: "14-16:1",   type: "Green", sourceUrl: CORNELL_A1 },
-  { material: "Hay, general",         ratio: "15-32:1",   type: "Green", sourceUrl: CORNELL_A1 },
-  { material: "Seaweed",              ratio: "19:1",      type: "Green", sourceUrl: CORNELL_A1 },
-  { material: "Coffee grounds",       ratio: "20:1",      type: "Green", sourceUrl: CORNELL_A1 },
-  { material: "Fruit wastes",         ratio: "20-49:1",   type: "Green", sourceUrl: CORNELL_A1 },
-  { material: "Cow manure",           ratio: "11-30:1",   type: "Green", sourceUrl: CORNELL_A1 },
-  { material: "Horse manure",         ratio: "22-50:1",   type: "Green", sourceUrl: CORNELL_A1 },
-  { material: "Grass clippings",      ratio: "9-25:1",    type: "Green", sourceUrl: CORNELL_A1 },
+  { material: "Poultry manure (laying hens)", ratio: "3-10:1", type: "Green", sourceUrl: CORNELL_A1, sourceLabel: "Cornell A.1 — Laying hens" },
+  { material: "Vegetable wastes", ratio: "12-20:1", type: "Green", sourceUrl: CSU_MAKING_COMPOST, sourceLabel: "Colorado State Extension — Table 1" },
+  { material: "Hay – legume (incl. alfalfa hay)", ratio: "15-19:1", type: "Green", sourceUrl: CORNELL_A1, sourceLabel: "Cornell A.1 — Hay, legume" },
+  { material: "Food scraps", ratio: "14-16:1", type: "Green", sourceUrl: CORNELL_A1, sourceLabel: "Cornell A.1 — Garbage (food waste)" },
+  { material: "Hay, general", ratio: "15-32:1", type: "Green", sourceUrl: CORNELL_A1, sourceLabel: "Cornell A.1 — Hay, general" },
+  { material: "Seaweed", ratio: "5-27:1", type: "Green", sourceUrl: CORNELL_A1, sourceLabel: "Cornell A.1 — Seaweed" },
+  { material: "Coffee grounds", ratio: "20:1", type: "Green", sourceUrl: CORNELL_A1, sourceLabel: "Cornell A.1 — Coffee grounds" },
+  { material: "Fruit wastes", ratio: "20-49:1", type: "Green", sourceUrl: CORNELL_A1, sourceLabel: "Cornell A.1 — Fruit wastes" },
+  { material: "Cow manure", ratio: "20:1", type: "Green", sourceUrl: CSU_MAKING_COMPOST, sourceLabel: "Colorado State Extension — Cow manure" },
+  { material: "Horse manure", ratio: "25:1", type: "Green", sourceUrl: CSU_MAKING_COMPOST, sourceLabel: "Colorado State Extension — Horse manure" },
+  { material: "Grass clippings", ratio: "12-25:1", type: "Green", sourceUrl: CSU_MAKING_COMPOST, sourceLabel: "Colorado State Extension — Grass clippings" },
   // Browns (carbon-rich)
-  { material: "Dry leaves",           ratio: "40-80:1",   type: "Brown", sourceUrl: CORNELL_A1 },
-  { material: "Straw",                ratio: "48-150:1",  type: "Brown", sourceUrl: CORNELL_A1 },
-  { material: "Pine needles",         ratio: "60-110:1",  type: "Brown", sourceUrl: CORNELL_A1 },
-  { material: "Wood chips",           ratio: "100-500:1", type: "Brown", sourceUrl: CORNELL_A1 },
-  { material: "Bark, hardwoods",      ratio: "116-436:1", type: "Brown", sourceUrl: CORNELL_A1 },
-  { material: "Paper, mixed",         ratio: "170:1",     type: "Brown", sourceUrl: CORNELL_A1 },
-  { material: "Newspaper",            ratio: "175:1",     type: "Brown", sourceUrl: CORNELL_A1 },
-  { material: "Sawdust",              ratio: "200-750:1", type: "Brown", sourceUrl: CORNELL_A1 },
-  { material: "Corrugated cardboard", ratio: "563:1",     type: "Brown", sourceUrl: CORNELL_A1 },
+  { material: "Dry leaves", ratio: "30-80:1", type: "Brown", sourceUrl: CSU_MAKING_COMPOST, sourceLabel: "Colorado State Extension — Dry leaves" },
+  { material: "Straw", ratio: "40-100:1", type: "Brown", sourceUrl: CSU_MAKING_COMPOST, sourceLabel: "Colorado State Extension — Straw" },
+  { material: "Pine needles", ratio: "60-110:1", type: "Brown", sourceUrl: ARIZONA_AZ1632, sourceLabel: "Arizona Cooperative Extension — Pine needles" },
+  { material: "Wood chips", ratio: "100-500:1", type: "Brown", sourceUrl: CSU_MAKING_COMPOST, sourceLabel: "Colorado State Extension — Wood chips" },
+  { material: "Bark, hardwoods", ratio: "100-130:1", type: "Brown", sourceUrl: CSU_MAKING_COMPOST, sourceLabel: "Colorado State Extension — Bark" },
+  { material: "Paper, mixed", ratio: "127-178:1", type: "Brown", sourceUrl: CORNELL_A1, sourceLabel: "Cornell A.1 — Paper from domestic refuse" },
+  { material: "Newspaper", ratio: "398-852:1", type: "Brown", sourceUrl: CORNELL_A1, sourceLabel: "Cornell A.1 — Newsprint" },
+  { material: "Sawdust", ratio: "100-500:1", type: "Brown", sourceUrl: CSU_MAKING_COMPOST, sourceLabel: "Colorado State Extension — Sawdust" },
+  { material: "Corrugated cardboard", ratio: "563:1", type: "Brown", sourceUrl: CORNELL_A1, sourceLabel: "Cornell A.1 — Corrugated cardboard" },
 ] as const;
 
 const faqs: ToolFAQ[] = [
   {
     q: "What is the ideal carbon-to-nitrogen ratio for compost?",
-    a: "A starting C:N ratio around 30:1 is the usual target for active composting. That range gives microbes enough carbon for energy and enough nitrogen for growth without pushing the pile into a smelly, ammonia-heavy state. Finished compost usually ends up much lower than the starting ratio because carbon is lost as carbon dioxide during decomposition.",
+    a: "A starting C:N ratio around 30:1 by weight is the usual target for active composting. That range gives microbes enough carbon for energy and enough nitrogen for growth without pushing the pile into a smelly, ammonia-heavy state. Finished compost usually ends up much lower than the starting ratio because carbon is lost as carbon dioxide during decomposition.",
     sourceUrl: "https://extension.colostate.edu/resource/making-compost/",
-    displayHtml: 'A starting <strong>C:N ratio around 30:1</strong> is the usual target for active composting. That range gives microbes enough carbon for energy and enough nitrogen for growth without pushing the pile into a smelly, ammonia-heavy state. Finished compost usually ends up much lower than the starting ratio because carbon is lost as carbon dioxide during decomposition. <a href="https://extension.colostate.edu/resource/making-compost/">Source</a>.',
+    displayHtml: 'A starting <strong>C:N ratio around 30:1 by weight</strong> is the usual target for active composting. That range gives microbes enough carbon for energy and enough nitrogen for growth without pushing the pile into a smelly, ammonia-heavy state. Finished compost usually ends up much lower than the starting ratio because carbon is lost as carbon dioxide during decomposition. <a href="https://extension.colostate.edu/resource/making-compost/">Source</a>.',
   },
   {
     q: "What should I avoid putting in a home compost pile?",
@@ -173,7 +176,7 @@ export default function CompostCalculatorPage() {
         <section className="bg-paper border border-[color-mix(in_oklch,var(--soil)_35%,transparent)] border-l-[4px] border-l-terracotta rounded-md px-6 py-5 mb-10">
           <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-terracotta mb-3">Quick Answer</p>
           <p className="font-serif text-[15px] leading-[1.7] text-ink mb-4">
-            If your real question is <strong>how much compost do I need</strong>, start with area and depth, not bag marketing. For finished compost, cubic feet = square feet × depth in inches ÷ 12, and cubic yards = square feet × depth in inches ÷ 324. For a fresh pile, the screen below uses about <strong>3 equal-volume parts of browns to 1 part of greens</strong>. That field rule is not the same as the roughly 25–30:1 elemental C:N target, which needs actual carbon, nitrogen, and moisture data to calculate.
+            If your real question is <strong>how much compost do I need</strong>, start with area and depth, not bag marketing. For finished compost, cubic feet = square feet × depth in inches ÷ 12, and cubic yards = square feet × depth in inches ÷ 324. For a fresh pile, use <a href="https://www.epa.gov/sustainable-management-food/approaches-composting" className="underline decoration-dotted underline-offset-2">roughly three parts browns to one part greens by volume</a>. A starting C:N target is <a href="https://compost.css.cornell.edu/chemistry.html" className="underline decoration-dotted underline-offset-2">about 30:1 by weight</a>. A 3:1 browns-to-greens ratio by volume and a 30:1 C:N ratio by weight describe the same target: browns are loose and far less dense than greens, so by volume they have to make up most of the pile.
           </p>
           <div className="overflow-x-auto">
           <table className="w-full min-w-[520px] border-collapse tabular">
@@ -185,8 +188,8 @@ export default function CompostCalculatorPage() {
                 ["Bed or lawn topdressing", "sq ft × depth (in) ÷ 12 = cubic feet",  "Best for raised-bed and lawn topdressing examples."],
                 ["Bulk order estimate",      "sq ft × depth (in) ÷ 324 = cubic yards", "Use this when buying by the yard instead of the bag."],
                 ["Bag count",                "round up (cubic feet ÷ bag size)",        "Use the capacity printed on the bag you plan to buy."],
-                ["Pile screen used below",   "about 3 brown : 1 green by volume",       "A field rule, not a calculated C:N ratio."],
-                ["Active-pile C:N context",  "roughly 25–30:1 elemental C:N",           "Requires measured composition and moisture data."],
+                ["Pile screen used below",   "about 3 brown : 1 green by volume",       "Field rule from US EPA (by volume)."],
+                ["Active-pile C:N context",  "about 30:1 C:N by weight",                "Cornell Composting; needs measured composition and moisture data."],
               ].map(([label, formula, meaning]) => (
                 <tr key={label} className="border-b border-dashed border-[color-mix(in_oklch,var(--soil)_35%,transparent)] last:border-0">
                   <td className="py-2.5 pr-5 font-serif italic text-soil text-[15px] w-[32%] align-top">{label}</td>
@@ -204,9 +207,9 @@ export default function CompostCalculatorPage() {
             Need the calculation unpacked? See the <Link href="/answers/how-much-compost-for-raised-bed" className="text-moss-deep underline underline-offset-2">worked 4 × 8 raised-bed example</Link>. Example depths illustrate the formula; they are not application recommendations.
           </p>
           <p className="mt-3 pt-3 border-t border-dashed border-[color-mix(in_oklch,var(--soil)_35%,transparent)] font-mono text-[10px] uppercase tracking-[0.12em] text-soil [&_a]:text-moss-deep [&_a]:underline">
-            Formula section is math-derived · compost ratio target supported by{" "}
-            <a href="https://extension.colostate.edu/resource/making-compost/">Colorado State Extension</a>. Material C:N ratios quoted from{" "}
-            <a href="https://cwmi.css.cornell.edu/AppendixATable1OFCH.pdf">Cornell Waste Management Institute Appendix A</a>.
+            Formula section is math-derived · pile screen from{" "}
+            <a href="https://www.epa.gov/sustainable-management-food/approaches-composting">US EPA</a> · about 30:1 by weight supported by{" "}
+            <a href="https://compost.css.cornell.edu/chemistry.html">Cornell Composting</a>. Material C:N ratios are quoted from the extension table cited on each row.
           </p>
         </section>
 
@@ -267,12 +270,13 @@ export default function CompostCalculatorPage() {
                         {row.type}
                       </span>
                     </td>
-                    <td><a href={row.sourceUrl}>Cornell A.1</a></td>
+                    <td><a href={row.sourceUrl} target="_blank" rel="noopener nofollow">{row.sourceLabel}</a></td>
                   </tr>
                 ))}
               </tbody>
             </table>
-            <p className="!text-[13px] !text-soil">All ratios above are quoted directly from Cornell Waste Management Institute Appendix A Table A.1. Ranges remain ranges; single values remain single values. No synthetic averaging was added for this page.</p>
+            <p className="!text-[13px] !text-soil">Values are quoted directly from the source cited on each row. Ranges remain ranges and single values remain single values; no averaging was added.</p>
+            <p className="!text-[13px] !text-soil">Sources &amp; variation: <a href={ARIZONA_AZ1632} target="_blank" rel="noopener nofollow">Arizona Cooperative Extension (az1632)</a> also lists alfalfa hay at 15-19:1, the same range Cornell gives for legume hay. For pine needles, other extension publications list single values of 70:1 to 90:1, all inside the Arizona range shown in the table. Published values differ because moisture, particle size, and plant variety differ between samples.</p>
           </section>
 
           <section>

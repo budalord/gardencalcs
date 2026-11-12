@@ -8,3 +8,8 @@ vercel.json
 .secrets/
 reports/lighthouse/*.json
 !reports/lighthouse/_summary.json
+
+# Private: paid SEO agent answers, working docs, plaintext deploy token. Never publish.
+kb-feed/
+gardencalcs-docs/
+gardencalcs.md

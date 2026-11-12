@@ -201,8 +201,9 @@ export const phase1Overrides: Record<string, ToolOverride> = {
     internalLinks: seedSpacingCropLinks,
   },
   "watering-schedule-calculator": {
+    name: "Watering Calculator",
     tagline: "Estimate net weekly irrigation in inches and gallons by crop, soil, season, growing method, bed area, and recent rainfall.",
-    metaTitle: "Watering Schedule Calculator — Weekly Gallons by Crop",
+    metaTitle: "Watering Calculator: Weekly Gallons for Garden & Lawn",
     metaDescription: "Estimate weekly garden irrigation in gallons using crop, soil, season, bed or container area, growing method, and recent rainfall.",
     quickAnswer: {
       definition: "Summer baseline for established crops in loamy, in-ground beds before rainfall. The calculator opens with these same soil, season, and growing-method settings.",

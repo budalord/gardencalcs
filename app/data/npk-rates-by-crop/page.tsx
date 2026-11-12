@@ -77,14 +77,14 @@ const rows: Row[] = [
   { crop: "Pea",            feeder: "Light",    n: "0.5–1", p: "1–2",   k: "1–2",   timing: "All pre-plant; inoculate seed with rhizobia",    source: "Rutgers-FS129" },
 ];
 
-const SOURCES: Record<string, { title: string; publisher: string; url: string }> = {
-  "UMass-VegGuide":  { title: "New England Vegetable Management Guide — Nutrient Management",      publisher: "UMass Extension / New England Cooperative Extensions", url: "https://nevegetable.org/cultural-practices/nutrient-management" },
+const SOURCES: Record<string, { title: string; publisher: string; url?: string }> = {
+  "UMass-VegGuide":  { title: "New England Vegetable Management Guide — Nutrient Management",      publisher: "UMass Extension / New England Cooperative Extensions" },
   "PSU-AG-32":       { title: "Sweet Corn — Soil Fertility (AG-32)",                               publisher: "Penn State Extension",                                   url: "https://extension.psu.edu/sweet-corn-production" },
   "Rutgers-FS129":   { title: "Fertilizing the Home Vegetable Garden (FS129)",                     publisher: "Rutgers NJAES Cooperative Extension",                    url: "https://njaes.rutgers.edu/fs129/" },
-  "UGA-C1027":       { title: "Home Garden Fertilization (Circular 1027)",                         publisher: "UGA Cooperative Extension",                              url: "https://extension.uga.edu/publications/detail.html?number=C1027" },
-  "UMaine-2276":     { title: "Maine Home Garden News — Fertilizing Vegetables (Bulletin 2276)",   publisher: "University of Maine Cooperative Extension",              url: "https://extension.umaine.edu/gardening/manual/soils/soil-testing-fertilizer-for-home-gardens/" },
-  "Cornell-HomeVeg": { title: "Home Vegetable Gardening — Soil & Fertility",                       publisher: "Cornell Cooperative Extension",                          url: "https://cals.cornell.edu/school-integrative-plant-science/school-sections/horticulture-section/extension-outreach-0/home-gardening" },
-  "UMN-VegN":        { title: "Nutrient Management for Commercial Vegetable Crops — Home-garden Equivalents", publisher: "University of Minnesota Extension",           url: "https://extension.umn.edu/nutrient-management/nutrient-management-vegetable-crops-minnesota" },
+  "UGA-C1027":       { title: "Home Garden Fertilization (Circular 1027)",                         publisher: "UGA Cooperative Extension" },
+  "UMaine-2276":     { title: "Maine Home Garden News — Fertilizing Vegetables (Bulletin 2276)",   publisher: "University of Maine Cooperative Extension" },
+  "Cornell-HomeVeg": { title: "Home Vegetable Gardening — Soil & Fertility",                       publisher: "Cornell Cooperative Extension" },
+  "UMN-VegN":        { title: "Nutrient Management for Commercial Vegetable Crops — Home-garden Equivalents", publisher: "University of Minnesota Extension" },
 };
 
 // g/m² conversion: lb/1000 sqft × 4.88
@@ -227,9 +227,13 @@ export default function NpkRatesByCropPage() {
                     </td>
                     <td className="px-3 py-2.5 font-serif text-[13px] text-ink border-b border-[color-mix(in_oklch,var(--soil)_15%,transparent)]">{r.timing}</td>
                     <td className="px-3 py-2.5 font-mono text-[11px] text-soil border-b border-[color-mix(in_oklch,var(--soil)_15%,transparent)]">
-                      <a href={SOURCES[r.source].url} target="_blank" rel="noopener nofollow" className="hover:text-moss-deep underline decoration-dotted underline-offset-2">
-                        {r.source}
-                      </a>
+                      {SOURCES[r.source].url ? (
+                        <a href={SOURCES[r.source].url} target="_blank" rel="noopener nofollow" className="hover:text-moss-deep underline decoration-dotted underline-offset-2">
+                          {r.source}
+                        </a>
+                      ) : (
+                        <>{SOURCES[r.source].publisher} — {SOURCES[r.source].title} (page no longer available)</>
+                      )}
                     </td>
                   </tr>
                 ))}
@@ -305,9 +309,13 @@ export default function NpkRatesByCropPage() {
           <ol className="font-serif text-[15px] leading-[1.6] text-ink list-decimal pl-5 space-y-2.5 max-w-[720px]">
             {Object.entries(SOURCES).map(([key, s]) => (
               <li key={key}>
-                <a href={s.url} target="_blank" rel="noopener nofollow" className="text-moss-deep underline decoration-dotted underline-offset-2 hover:text-moss">
-                  {s.title}
-                </a>
+                {s.url ? (
+                  <a href={s.url} target="_blank" rel="noopener nofollow" className="text-moss-deep underline decoration-dotted underline-offset-2 hover:text-moss">
+                    {s.title}
+                  </a>
+                ) : (
+                  <>{s.title} (page no longer available)</>
+                )}
                 <span className="block font-mono text-[11.5px] uppercase tracking-[0.08em] text-soil mt-0.5">
                   {s.publisher} · cited as {key}
                 </span>

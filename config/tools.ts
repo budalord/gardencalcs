@@ -98,7 +98,7 @@ export const tools: Tool[] = [
     faqs: [
       {
         q: "What is the ideal carbon to nitrogen ratio for compost?",
-        a: "The ideal C:N ratio for active composting is between 25:1 and 30:1. Below 20:1 (too much nitrogen), your pile may smell like ammonia. Above 40:1 (too much carbon), decomposition slows significantly. Achieving the right balance is the single most important factor for fast, odor-free composting.",
+        a: "The ideal C:N ratio for active composting is about 30:1 by weight. Below 20:1 (too much nitrogen), your pile may smell like ammonia. Above 40:1 (too much carbon), decomposition slows significantly. Achieving the right balance is the single most important factor for fast, odor-free composting.",
       },
       {
         q: "What can I put in my compost bin?",
@@ -495,6 +495,33 @@ export const tools: Tool[] = [
       { q: "Why does this calculator use P₂O₅ instead of elemental phosphorus?", a: "Commercial fertilizer labels report phosphorus as P₂O₅ (phosphorus pentoxide), which is the industry standard. To convert to elemental P, multiply the P₂O₅ value by 0.436." },
       { q: "How much fertilizer do I need for 100 m²?", a: "It depends on the fertilizer type and NPK ratio. For example, Urea (46-0-0) requires about 0.65 kg per 100 m² to supply the recommended nitrogen dose. Use this calculator to get an exact figure for your specific fertilizer." },
       { q: "Can I use this calculator for any fertilizer brand?", a: "Yes. Select Custom and enter the N, P₂O₅, and K₂O percentages printed on your fertilizer bag. The calculator will compute the required amount based on standard nutrient application rates." },
+    ],
+  },
+  {
+    slug: "soil-calculator",
+    name: "Soil Calculator",
+    tagline: "Estimate soil volume in cubic feet, cubic yards, cubic meters, and whole bags.",
+    category: "Garden",
+    keywords: ["soil calculator", "how much soil do I need", "garden soil calculator", "potting soil calculator"],
+    params: [
+      { id: "shape", label: "Area Shape", type: "select", options: [{ label: "Rectangle", value: "rectangle" }, { label: "Circle", value: "circle" }] },
+      { id: "length", label: "Length or Diameter", type: "number", required: true },
+      { id: "width", label: "Width", type: "number" },
+      { id: "depth", label: "Depth", type: "number", required: true },
+      { id: "bagSize", label: "Bag Capacity", type: "number", required: true },
+    ],
+    howToSteps: [
+      "Choose a rectangular or circular footprint and select imperial or metric units.",
+      "Enter the footprint dimensions, the depth to fill, and the capacity printed on a bag.",
+      "Calculate to see cubic feet, cubic yards, cubic meters, and the whole bag count rounded up.",
+    ],
+    faqs: [
+      { q: "How much soil do I need for a 4 by 8 garden area?", a: "Multiply the footprint by the chosen fill depth. For a 4 ft by 8 ft area filled 10 inches deep, the math is 32 × 10 ÷ 12 = 26.67 cubic feet, or about 0.99 cubic yard. This is a math-derived example, not a recommended planting depth. Choose a depth that fits the planting situation and the soil beneath it.", sourceUrl: "https://yardandgarden.extension.iastate.edu/faq/how-do-i-determine-amount-soil-needed-fill-container-or-raised-bed" },
+      { q: "How many bags of soil make a cubic yard?", a: "Divide 27 cubic feet by the labeled capacity of one bag, then round up to a whole bag. For 1.5-cu-ft bags, 27 ÷ 1.5 = 18 bags. This is math-derived: one cubic yard equals 27 cubic feet, and the bag example uses the stated capacity rather than a product claim.", sourceUrl: "https://yardandgarden.extension.iastate.edu/faq/how-do-i-determine-amount-soil-needed-fill-container-or-raised-bed" },
+      { q: "How deep should soil be in a container?", a: "It depends on the crop and container. Maryland Extension lists small vegetable and herb containers at 4–6 inches of media, medium containers at 8–12 inches, and large vegetable containers at 12–16 inches. Those ranges are tied to the container categories in its guide, not a universal rule for every plant.", sourceUrl: "https://extension.umd.edu/resource/types-containers-growing-vegetables" },
+      { q: "Should I put rocks at the bottom of a pot?", a: "No. For containers, Washington State University explains that a coarse drainage layer can hinder water movement, so use a container with drainage openings and a suitable growing medium instead. That evidence addresses containers; it does not establish a universal rule for every in-ground planting area.", sourceUrl: "https://wpcdn.web.wsu.edu/wp-puyallup/uploads/sites/403/2015/03/container-drainage.pdf" },
+      { q: "What is the difference between topsoil and garden soil?", a: "Product names are not precise specifications. Rutgers describes bagged topsoil as mineral soil commonly improved with compost, while noting there are no legal specifications for the label. Minnesota Extension says bagged garden soil is intended for planting in the ground and is too heavy for pots or elevated boxes.", sourceUrl: "https://extension.rutgers.edu/fs1328" },
+      { q: "How much compost should I mix into garden soil?", a: "Published guidance differs by use and source. Oregon State says to add up to 25% compost by volume when filling a bed. Minnesota gives a topsoil and plant-based compost mixture of around 1/2–2/3 topsoil and 1/3–1/2 compost, without specifying whether those parts are measured by weight or volume. Keep the recommendations separate and follow the one that fits your project.", sourceUrl: "https://extension.oregonstate.edu/catalog/em-9308-how-use-compost-gardens-landscapes" },
     ],
   },
 ];

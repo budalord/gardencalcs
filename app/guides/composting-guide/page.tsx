@@ -87,16 +87,16 @@ export default function CompostingGuide() {
               <p className="font-serif italic text-[13px] text-soil mt-2">Dry leaves, straw, cardboard, wood chips, newspaper.</p>
             </div>
           </div>
-          <p>A common rule of thumb is a 3:1 ratio of browns to greens by volume. However, the more precise measure is the carbon-to-nitrogen (C:N) ratio of the combined pile.</p>
+          <p>A common rule of thumb is <a href="https://www.epa.gov/sustainable-management-food/approaches-composting">roughly three parts browns to one part greens by volume</a>. However, the more precise measure is the carbon-to-nitrogen (C:N) ratio of the combined pile.</p>
         </section>
 
         <section>
           <h2>The C:N ratio explained</h2>
-          <p>The carbon-to-nitrogen ratio is the single most important factor in composting speed and quality. The ideal range for active composting is <strong>25:1 to 30:1</strong> — meaning 25–30 parts carbon for every 1 part nitrogen by weight.</p>
+          <p>The carbon-to-nitrogen ratio is the single most important factor in composting speed and quality. A starting target for active composting is <a href="https://compost.css.cornell.edu/chemistry.html">about 30:1 by weight</a>.</p>
           <ul>
             <li><strong>Too much nitrogen (C:N below 20:1):</strong> The pile heats up fast but smells like ammonia. Nitrogen is lost as gas. Add more browns.</li>
             <li><strong>Too much carbon (C:N above 40:1):</strong> Decomposition slows dramatically. The pile stays cool and takes months or years to break down. Add more greens.</li>
-            <li><strong>Ideal range (25:1–30:1):</strong> The pile heats to 130–160°F (55–70°C), kills weed seeds and pathogens, and produces finished compost in 4–8 weeks.</li>
+            <li><strong>About 30:1 by weight:</strong> The pile heats to 130–160°F (55–70°C), kills weed seeds and pathogens, and produces finished compost in 4–8 weeks.</li>
           </ul>
           <aside className="almanac-callout">
             Not sure whether the pile is skewed toward browns or greens? Use the <Link href="/tools/compost-calculator">Compost Calculator</Link> to screen equal-volume parts and compare each ingredient with the published C:N reference table. The tool does not claim a lab-grade combined C:N result from wet weights.

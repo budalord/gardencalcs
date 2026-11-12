@@ -9,6 +9,7 @@ import SeedSpacingCalculator from "@/components/SeedSpacingCalculator";
 import SoilPHCalculator from "@/components/SoilPHCalculator";
 import WateringScheduleCalculator from "@/components/WateringScheduleCalculator";
 import CompostCalculator from "@/components/CompostCalculator";
+import SoilCalculator from "@/components/SoilCalculator";
 
 // Bare, chromeless calculator surface for <iframe> embeds on third-party sites.
 // Renders ONLY the interactive widget + a slim powered-by bar — no site header,
@@ -22,6 +23,7 @@ const embedComponents: Record<string, React.ComponentType> = {
   "soil-ph-calculator": SoilPHCalculator,
   "watering-schedule-calculator": WateringScheduleCalculator,
   "compost-calculator": CompostCalculator,
+  "soil-calculator": SoilCalculator,
 };
 
 export function generateStaticParams() {

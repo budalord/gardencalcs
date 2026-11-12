@@ -9,7 +9,7 @@ import { ToolJsonLd } from "@/components/ToolJsonLd";
 // 静态导出：预生成所有工具页
 export function generateStaticParams() {
   return tools
-    .filter((t) => !['fertilizer-calculator', 'compost-calculator'].includes(t.slug))
+    .filter((t) => !['fertilizer-calculator', 'compost-calculator', 'watering-schedule-calculator', 'soil-calculator'].includes(t.slug))
     .map((t) => ({ slug: t.slug }));
 }
 
