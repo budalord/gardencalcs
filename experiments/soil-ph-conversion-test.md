@@ -1,3 +1,19 @@
+---
+kb_feed: 1
+id: gardencalcs.exp.soil-ph-affiliate-2026-07
+type: experiment
+title: Soil pH calculator text-only Amazon affiliate module (SOIL-PH-AFFILIATE-2026-07)
+project: gardencalcs
+pages: [/tools/soil-ph-calculator]
+hypothesis: A three-link text-only recommendation module after the calculator result produces affiliate clicks without hurting the page's search performance
+kb_points: []
+started: 2026-07-18
+check_dates: [2026-11-19]
+status: running
+result: null
+closed_on: null
+---
+
 # Soil pH Calculator — affiliate conversion experiment
 
 ## Experiment contract
@@ -73,3 +89,7 @@ The live page was fetched before implementation and checked for shopping content
 - SEO context guardrail: compare the frozen 16-query cohort and page-total GSC metrics against this baseline before attributing conversion changes to traffic quality
 
 The frozen query cohort above is the post-launch comparison baseline. Page totals remain separate because GSC withholds most query-level impressions for privacy.
+
+## Check schedule
+
+No end date was set at launch; the day-14 audit flagged this. Check date added 2026-11-12: on 2026-11-19, compare Amazon Associates clicks and orders for tag `gardencalcs-20` since launch with the frozen GSC cohort above, then close or set a new check date. The Amazon report needs the site owner's login.

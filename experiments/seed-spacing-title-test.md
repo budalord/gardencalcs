@@ -1,3 +1,19 @@
+---
+kb_feed: 1
+id: gardencalcs.exp.ss-title-2026-07-18
+type: experiment
+title: Seed spacing calculator HTML-title-only test (SS-TITLE-2026-07-18)
+project: gardencalcs
+pages: [/tools/seed-spacing-calculator]
+hypothesis: A title phrased as the searcher's question ("How Far Apart to Plant Seeds?") raises CTR on the frozen query cohort
+kb_points: [kp.title-change-judgement, kp.onpage-copy-one-keyword]
+started: 2026-07-18
+check_dates: [2026-08-01, 2026-08-15]
+status: closed
+result: inconclusive
+closed_on: 2026-11-12
+---
+
 # Seed Spacing Calculator — title-only experiment
 
 ## Experiment contract
@@ -82,3 +98,62 @@ Commit `c1e6dde` changed this page on 2026-07-17, including its title, meta desc
 3. Separately report page-total clicks, impressions, CTR, and average position for context.
 4. Answer only: CTR improved / did not improve. Also state whether impression or position movement makes the comparison less comparable.
 5. If cohort CTR is not above 2.1739%, remove only `htmlTitle`, build, deploy, verify the baseline title, and record the rollback timestamp here. Do not stack another change.
+
+> **Rule 5 voided on 2026-11-12; the variant title stays.** Reasons, from GSC 2026-06-01 to 2026-08-31: (1) CTR is driven by position, and this page's daily position moved between 4.9 and 17.8, so a before/after CTR comparison mostly compares two position periods; (2) the sample is too small: the page family had 3,582 impressions and 23 clicks in 92 days, and at roughly 59 cohort impressions per 28 days, 1.49% versus 2.17% is less than half a click; (3) commit `c1e6dde` changed the page body the day before launch; (4) the 2.17% threshold is above the normal CTR for this position range (about 0.5–1%), so the rule would trigger a rollback whatever the title. Future title tests require all four: a 28-day average position stable in the top 5, at least 1,000 impressions in that window, no body, internal-link or backlink changes during the window, and a parallel control page on the site instead of a before/after comparison on the same page.
+
+
+## Day-28 result (evaluated late, 2026-11-12)
+
+The day-28 check due 2026-08-15 was not run on time. It was run on 2026-11-12 18:35 PST from the GSC Search Analytics API (`dataState: final`, property `https://gardencalcs.com/`, exact page filter). Both windows are final data, so the ~2-day GSC lag does not apply.
+
+- Before: 2026-06-19 to 2026-07-16 (28 days; the frozen baseline above).
+- After: 2026-07-19 to 2026-08-15 (28 days from the production-verification date).
+
+### Method
+
+Compare the same query in the same country, before and after, on position, impressions and clicks. Use the week-to-week spread of the four pre-change weeks as the noise band:
+
+- position, impressions and clicks all improve beyond the band → supported;
+- all three stay within the band (click difference within weekly spread, average-position difference under 1) → inconclusive;
+- a clear decline → not supported.
+
+### Page totals (all countries)
+
+| Window | Clicks | Impressions | CTR | Avg. position |
+| --- | ---: | ---: | ---: | ---: |
+| Before | 6 | 881 | 0.68% | 7.58 |
+| After | 4 | 1,033 | 0.39% | 9.00 |
+
+Weekly noise band (before, all countries):
+
+| | Week 1 | Week 2 | Week 3 | Week 4 | Band |
+| --- | --- | --- | --- | --- | --- |
+| Clicks | 1 | 3 | 0 | 2 | 0–3 |
+| Impressions | 145 | 246 | 241 | 249 | 145–249 |
+| Avg. position | 8.34 | 8.38 | 7.10 | 6.80 | 6.80–8.38 |
+
+After, weekly: clicks 1 / 2 / 0 / 1; impressions 228 / 239 / 323 / 243; position 7.36 / 8.74 / 9.57 / 10.01.
+
+### Primary query, same country (USA)
+
+| Query | Window | Clicks | Impressions | Avg. position |
+| --- | --- | ---: | ---: | ---: |
+| seed spacing calculator | Before | 1 | 12 | 8.50 |
+| seed spacing calculator | After | 0 | 14 | 11.36 |
+
+### Frozen cohort
+
+- All countries: before 1 click / 46 impressions / weighted position 19.63 (CTR 2.17%); after 1 / 67 / 11.06 (CTR 1.49%).
+- USA only: before 1 / 33 / 23.88; after 0 / 39 / 13.31.
+- The cohort's position "improvement" is mostly a composition change: `vegetable plant spacing calculator` (position ~64) fell from 6 impressions to 2, and `corn planting spacing calculation` and `row spacing calculator` dropped out.
+
+### Judgment: inconclusive
+
+1. **Clicks:** a change of 2 over 28 days is inside the weekly spread of 0–3.
+2. **Impressions:** rose 17%, but only one post week (323) is outside the band.
+3. **Position:** page-level position worsened by 1.4 (7.58 → 9.00), and the last two post weeks fall outside the band. On the primary query in the USA it moved from 8.5 to 11.4, but on 12 and 14 impressions.
+4. **Thin country data:** country-level rows cover only a small share of the page's impressions (USA 34 of 881 before, 50 of 1,033 after), so a same-query, same-country comparison rests on very few impressions.
+5. **Low volume:** 881 impressions and 6 clicks in 28 days is far below the volume at which title changes can be judged reliably.
+6. **Confound:** commit `c1e6dde` (2026-07-17) changed this page's meta description, body, crop count and calculator the day before launch, as recorded above and in the day-14 audit. The movement cannot be attributed to the title.
+
+**Next step:** no further title work on this page. With impressions but few clicks at an average position around 8–9, the next lever is ranking, so this page moves to the backlink target list. Rule 5 would have called for removing `htmlTitle` (cohort CTR 1.49% is not above 2.1739%), but the rule was voided on 2026-11-12 (see the note under the decision rule). The variant title stays unchanged until backlink work begins in December.
