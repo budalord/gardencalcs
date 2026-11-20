@@ -6,7 +6,7 @@ import FAQSection from "@/components/FAQSection";
 import type { ToolFAQ } from "@/config/tools";
 
 // Change to true when the raised-bed page goes live.
-const RAISED_BED_PAGE_LIVE = false;
+const RAISED_BED_PAGE_LIVE = true;
 
 const SoilCalculator = dynamic(() => import("@/components/SoilCalculator"), {
   loading: () => <div className="bg-paper border border-[color-mix(in_oklch,var(--soil)_25%,transparent)] rounded-lg p-6 font-mono text-[12px] uppercase tracking-[0.12em] text-soil">Loading soil calculator…</div>,

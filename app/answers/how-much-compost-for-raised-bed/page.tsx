@@ -214,7 +214,7 @@ export default function RaisedBedCompostAnswerPage() {
               Calculate your own raised bed
             </h2>
             <p className="mt-2 font-serif text-[15px] leading-[1.65] text-soil">
-              Enter your actual area, chosen depth, and bag size below. The same tool also has a separate equal-volume pile-mix screen. <Link href="/tools/compost-calculator" className="text-moss-deep underline underline-offset-2">Open the full compost calculator page</Link> for methodology and sources.
+              Enter your actual area, chosen depth, and bag size below. The same tool also has a separate equal-volume pile-mix screen. <Link href="/tools/compost-calculator" className="text-moss-deep underline underline-offset-2">Open the full compost calculator page</Link> for methodology and sources. To size the whole fill rather than the compost alone, use the <Link href="/tools/raised-bed-soil-calculator" className="text-moss-deep underline underline-offset-2">raised bed soil calculator</Link>.
             </p>
           </div>
           <CompostCalculator />

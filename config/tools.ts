@@ -524,6 +524,56 @@ export const tools: Tool[] = [
       { q: "How much compost should I mix into garden soil?", a: "Published guidance differs by use and source. Oregon State says to add up to 25% compost by volume when filling a bed. Minnesota gives a topsoil and plant-based compost mixture of around 1/2–2/3 topsoil and 1/3–1/2 compost, without specifying whether those parts are measured by weight or volume. Keep the recommendations separate and follow the one that fits your project.", sourceUrl: "https://extension.oregonstate.edu/catalog/em-9308-how-use-compost-gardens-landscapes" },
     ],
   },
+  {
+    slug: "raised-bed-soil-calculator",
+    name: "Raised Bed Soil Calculator",
+    tagline: "Estimate raised bed soil in cubic feet, cubic yards, and whole bags, with mix components split out.",
+    category: "Garden",
+    keywords: ["raised bed soil calculator", "how much soil for a raised bed", "raised bed soil mix", "mel's mix calculator"],
+    params: [
+      { id: "beds", label: "Number of Beds", type: "number", required: true },
+      { id: "length", label: "Length", type: "number", required: true },
+      { id: "width", label: "Width", type: "number", required: true },
+      { id: "depth", label: "Fill Depth", type: "number", required: true },
+      { id: "bagSize", label: "Bag Capacity", type: "number", required: true },
+    ],
+    howToSteps: [
+      "Enter the number of matching beds and their inside length, width, and fill depth.",
+      "Choose a single material, Mel's Mix, or a topsoil and compost split, and enter the bag capacity.",
+      "Calculate to see total cubic feet, cubic yards, cubic meters, and whole bags for each component.",
+    ],
+    faqs: [
+      { q: "How many bags of soil for a 4x8 raised bed?", a: "A 4 ft by 8 ft bed filled 12 inches deep holds 32 cubic feet, about 1.19 cubic yards. At an example capacity of 1.5 cubic feet per bag that is 21.33 bags, so buy 22. This is math-derived; use the capacity printed on your bag.", sourceUrl: "https://yardandgarden.extension.iastate.edu/faq/how-do-i-determine-amount-soil-needed-fill-container-or-raised-bed" },
+      { q: "What is Mel's Mix?", a: "The Square Foot Gardening Foundation describes Mel's Mix as one-third coarse vermiculite, one-third sphagnum peat moss or coconut coir, and one-third blended compost, measured in equal volumes rather than by weight.", sourceUrl: "https://squarefootgardening.org/method/" },
+      { q: "Should I put rocks in the bottom of a raised bed?", a: "No. Washington State University explains that water does not move from a fine soil into a coarser layer below until the fine soil is saturated. That evidence comes from container research; for a bed on native soil, leave the bottom open so roots and water reach the ground.", sourceUrl: "https://wpcdn.web.wsu.edu/wp-puyallup/uploads/sites/403/2015/03/container-drainage.pdf" },
+      { q: "How deep should a raised bed be for vegetables?", a: "UConn Extension says most annual vegetables need 12 to 18 inches of soil depth, with more for root vegetables. Utah State says a raised bed box should be at least 6 to 12 inches high.", sourceUrl: "https://homegarden.cahnr.uconn.edu/2026/04/14/raised-beds/" },
+    ],
+  },
+  {
+    slug: "mulch-calculator",
+    name: "Mulch Calculator",
+    tagline: "Estimate mulch in cubic feet, cubic yards, and whole bags, and compare bulk with bagged cost.",
+    category: "Garden",
+    keywords: ["mulch calculator", "how much mulch do I need", "mulch coverage calculator", "bags of mulch calculator"],
+    params: [
+      { id: "shape", label: "Area Shape", type: "select", options: [{ label: "Rectangle", value: "rectangle" }, { label: "Circle", value: "circle" }] },
+      { id: "length", label: "Length or Diameter", type: "number", required: true },
+      { id: "width", label: "Width", type: "number" },
+      { id: "depth", label: "Mulch Depth", type: "number", required: true },
+      { id: "bagSize", label: "Bag Capacity", type: "number", required: true },
+    ],
+    howToSteps: [
+      "Choose a rectangular or circular area and enter its dimensions.",
+      "Enter the mulch depth and the capacity printed on a bag; optionally add bulk and bag prices.",
+      "Calculate to see cubic feet, cubic yards, whole bags, coverage per cubic yard, and cost totals.",
+    ],
+    faqs: [
+      { q: "How many bags of mulch do I need?", a: "Multiply the area in square feet by the depth in inches, divide by 12 for cubic feet, then divide by the bag capacity and round up. A 10 ft by 20 ft bed at an example depth of 3 inches needs 50 cubic feet, or 25 bags of 2 cubic feet. This is math-derived.", sourceUrl: "https://extension.msstate.edu/publications/mulches-for-the-landscape" },
+      { q: "How much area does a yard of mulch cover?", a: "One cubic yard is 27 cubic feet, so it covers about 324 square feet at 1 inch deep, 162 at 2 inches, 108 at 3 inches, and 81 at 4 inches. These coverage figures are arithmetic, not recommendations.", sourceUrl: "https://extension.msstate.edu/publications/mulches-for-the-landscape" },
+      { q: "How deep should mulch be?", a: "It depends on the material. Minnesota Extension gives 2 to 4 inches in general; Utah State gives 1 to 2 inches for fine, dense material and 3 to 6 inches for coarse, fluffy material.", sourceUrl: "https://extension.umn.edu/garden-and-home/yard-and-garden/gardening-in-minnesota/mulching-for-soil-and-garden-health" },
+      { q: "Is it bad to put mulch against a tree trunk?", a: "Yes. Penn State says mulch covering the root flare and trunk keeps those tissues constantly wet, and suggests pulling mulch 3 to 5 inches away from young trees and 8 to 10 inches from mature trees.", sourceUrl: "https://extension.psu.edu/mulching-landscape-trees" },
+    ],
+  },
 ];
 
 // 按 category 分组，供导航使用
