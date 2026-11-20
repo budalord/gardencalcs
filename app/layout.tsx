@@ -53,6 +53,7 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+  const adsenseClient = process.env.NEXT_PUBLIC_ADSENSE_CLIENT;
   return (
     <html
       lang={siteConfig.locale}
@@ -65,6 +66,16 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         ["--font-mono" as string]: `var(--font-jetbrains), ui-monospace, Menlo, monospace`,
       }}
     >
+      {adsenseClient && (
+        <head>
+          {/* AdSense site code; rendered only when the publisher ID is set at build time. */}
+          <script
+            async
+            src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${adsenseClient}`}
+            crossOrigin="anonymous"
+          />
+        </head>
+      )}
       <body className="min-h-screen flex flex-col bg-cream text-ink">
         <Header />
         <main className="flex-1">{children}</main>

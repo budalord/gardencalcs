@@ -9,7 +9,8 @@ import { useEffect, useRef, useState } from "react";
  * and this unit's slot ID are set at build time, so a build without those
  * variables produces exactly the same HTML as before ads existed.
  *
- * The container reserves a fixed min-height for its format, so an unfilled
+ * Units are responsive (data-ad-format="auto"). The container reserves a
+ * fixed min-height for its format, so an unfilled
  * or late-filling unit does not shift the layout. The AdSense script is only
  * requested once the unit comes within 300px of the viewport.
  */
@@ -86,10 +87,11 @@ export default function AdSlot({ slot, format }: { slot: string | undefined; for
         {inView && (
           <ins
             className="adsbygoogle"
-            style={{ display: "block", width: "100%", height }}
+            style={{ display: "block", width: "100%" }}
             data-ad-client={client}
             data-ad-slot={slot}
-            data-full-width-responsive="false"
+            data-ad-format="auto"
+            data-full-width-responsive="true"
           />
         )}
       </div>
