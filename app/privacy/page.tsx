@@ -29,7 +29,7 @@ export default function PrivacyPage() {
           Privacy policy
         </h1>
         <p className="font-mono text-[11px] uppercase tracking-[0.12em] text-soil tabular">
-          Last updated · July 2026
+          Last updated · November 2026
         </p>
       </header>
 
@@ -44,7 +44,23 @@ export default function PrivacyPage() {
         <section>
           <h2>Cookies and hosting data</h2>
           <p>
-            GardenCalcs does not currently set first-party advertising or analytics cookies. Our hosting provider may process standard request data, such as an IP address and browser details, to deliver and protect the site. If our analytics or cookie practices change, this policy will be updated.
+            GardenCalcs uses Google AdSense to show third-party advertisements. Google and its partners may use cookies or device identifiers to serve ads based on your earlier visits to this site or to other websites. GardenCalcs itself does not set analytics cookies. Our hosting provider may process standard request data, such as an IP address and browser details, to deliver and protect the site.
+          </p>
+          <p>
+            You can turn off personalized advertising from Google in{" "}
+            <a href="https://adssettings.google.com/" rel="noopener">Google&apos;s ad settings</a>, and opt out of personalized ads from many other participating companies at{" "}
+            <a href="https://www.aboutads.info/" rel="noopener">www.aboutads.info</a>. Google explains how it uses information from sites that show its ads on{" "}
+            <a href="https://policies.google.com/technologies/partner-sites" rel="noopener">its partner-sites page</a>.
+          </p>
+        </section>
+
+        <section>
+          <h2>Advertising</h2>
+          <p>
+            Advertisements are placed after a page&apos;s content, never inside a calculator or between a calculator and its result. They are labeled as advertising and are chosen and delivered by Google, not by GardenCalcs; we do not see who views or clicks them.
+          </p>
+          <p>
+            A personalized ad is selected using information Google holds about your earlier browsing, such as the sites you have visited. A non-personalized ad is selected from the page you are reading and your general location, without a browsing profile. Where the law requires consent, Google asks for it before showing personalized ads, and you can change that choice at any time. Choosing non-personalized ads does not remove advertising; it changes how the ads are chosen.
           </p>
         </section>
 
