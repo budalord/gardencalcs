@@ -9,9 +9,9 @@ hypothesis: A three-link text-only recommendation module after the calculator re
 kb_points: []
 started: 2026-07-18
 check_dates: [2026-11-19]
-status: running
-result: null
-closed_on: null
+status: closed
+result: inconclusive
+closed_on: 2026-11-19
 ---
 
 # Soil pH Calculator — affiliate conversion experiment
@@ -93,3 +93,24 @@ The frozen query cohort above is the post-launch comparison baseline. Page total
 ## Check schedule
 
 No end date was set at launch; the day-14 audit flagged this. Check date added 2026-11-12: on 2026-11-19, compare Amazon Associates clicks and orders for tag `gardencalcs-20` since launch with the frozen GSC cohort above, then close or set a new check date. The Amazon report needs the site owner's login.
+
+## Result (checked 2026-11-19)
+
+### Amazon Associates (site owner's dashboard, all tracking IDs combined, last updated 2026-11-19)
+
+- Last 30 days (2026-10-20 to 2026-11-19): 1 click (around 2026-11-13), 0 ordered items, 0 shipped items, $0.00 commissions, $0.00 bounties.
+- Since launch (2026-07-18): the site owner reports 0 orders. Click counts before 2026-10-20 were not read, because the dashboard view covers 30 days only.
+
+### GSC guardrail (Search Analytics API, final data, exact page filter, pulled 2026-11-19 18:43 PST)
+
+| Window | Page clicks | Page impressions | Page avg. position | Cohort clicks | Cohort impressions | Cohort weighted position |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| Baseline 2026-06-19 to 07-16 (28 days) | 34 | 2,119 | 7.11 | 2 | 90 | 10.66 |
+| After launch 2026-07-19 to 11-16 (121 days) | 147 | 11,466 | 6.63 | 13 | 265 | 7.57 |
+| Latest 28 days 2026-10-20 to 11-16 | 26 | 2,107 | 5.26 | 5 | 46 | 3.93 |
+
+### Judgment: inconclusive
+
+1. **Search performance was not hurt.** Average position improved from 7.11 to 6.63 over the whole post-launch period and to 5.26 in the latest 28 days; the frozen cohort's weighted position improved from 10.66 to 3.93. Page clicks in the latest 28 days (26) are close to the baseline (34) on near-identical impressions.
+2. **Affiliate conversion cannot be judged.** About 26 search visits a month produced 1 affiliate click and 0 orders in the last 30 days. At this traffic level, even a module that works would be expected to produce close to zero orders, so the result neither supports nor rejects the module.
+3. **Decision:** the module stays as it is (it did not hurt search). The Associates account is left to its 180-day review rather than closed early. After that review (expected mid-January 2027, counted from the application date), the three links are removed or re-tagged if the current tag is no longer valid. Any new affiliate application waits until a page aimed at buying intent earns organic clicks, instead of following a calendar date.
