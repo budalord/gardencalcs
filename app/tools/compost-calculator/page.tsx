@@ -309,6 +309,14 @@ export default function CompostCalculatorPage() {
               <p className="font-serif font-semibold text-[16px] text-ink group-hover:text-moss-deep transition-colors duration-fast">See the 4 × 8 raised-bed math</p>
               <p className="mt-1 font-serif text-[14px] leading-[1.6] text-soil">Follow one area, depth, volume, and whole-bag conversion from start to finish.</p>
             </Link>
+            <Link href="/tools/raised-bed-soil-calculator" className="group block bg-paper border border-[color-mix(in_oklch,var(--soil)_25%,transparent)] hover:border-moss-deep rounded-md p-5 transition-colors duration-fast">
+              <p className="font-serif font-semibold text-[16px] text-ink group-hover:text-moss-deep transition-colors duration-fast">Size the whole raised bed fill</p>
+              <p className="mt-1 font-serif text-[14px] leading-[1.6] text-soil">Work out total soil and each part of a topsoil, compost, or Mel&apos;s Mix blend.</p>
+            </Link>
+            <Link href="/tools/mulch-calculator" className="group block bg-paper border border-[color-mix(in_oklch,var(--soil)_25%,transparent)] hover:border-moss-deep rounded-md p-5 transition-colors duration-fast">
+              <p className="font-serif font-semibold text-[16px] text-ink group-hover:text-moss-deep transition-colors duration-fast">Estimate mulch for the beds</p>
+              <p className="mt-1 font-serif text-[14px] leading-[1.6] text-soil">Turn area and depth into cubic yards and bags, and compare bulk with bagged cost.</p>
+            </Link>
           </div>
         </section>
       </article>

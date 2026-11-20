@@ -12,9 +12,9 @@ export const pageUpdatedAt: Record<string, string> = {
   "/embed": "2026-07-17",
   "/answers/how-much-compost-for-raised-bed": "2026-11-19",
 
-  "/tools/compost-calculator": "2026-11-11",
+  "/tools/compost-calculator": "2026-11-20",
   "/tools/watering-schedule-calculator": "2026-11-11",
-  "/tools/soil-calculator": "2026-11-19",
+  "/tools/soil-calculator": "2026-11-20",
   "/tools/raised-bed-soil-calculator": "2026-11-19",
   "/tools/mulch-calculator": "2026-11-19",
   "/tools/soil-ph-calculator": "2026-07-18",
