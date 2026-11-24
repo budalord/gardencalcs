@@ -36,6 +36,15 @@ export default function SeedSpacingCropPage({ params }: { params: { crop: string
   if (!crop) notFound()
 
   const url = `${siteConfig.domain}/tools/seed-spacing/${crop.slug}`
+  const cropSources = { primary: crop.primarySource, secondary: crop.secondarySource, tertiary: crop.tertiarySource }
+  const distinctFact = crop.distinctFact
+    ? { text: crop.distinctFact.text, url: cropSources[crop.distinctFact.source].url, label: cropSources[crop.distinctFact.source].label }
+    : null
+  // Garlic keeps its original wording this round (decision 2026-11-24); other crops drop the self-referential lines.
+  const keepOriginalWording = crop.slug === 'garlic'
+  const depthSourceSentence = keepOriginalWording
+    ? ' That depth comes from the secondary source cross-check listed in the source block below when the primary page is UMN-led, or from the main extension source when the crop page itself is not UMN-led.'
+    : ''
   const softwareApplicationSchema = {
     '@context': 'https://schema.org',
     '@type': 'SoftwareApplication',
@@ -192,7 +201,7 @@ export default function SeedSpacingCropPage({ params }: { params: { crop: string
           <h2 className="text-xl font-semibold text-gray-900">How deep to plant {crop.name.toLowerCase()} seeds or transplants</h2>
           <div className="mt-4 space-y-4 text-sm leading-7 text-gray-600">
             <p>
-              Depth and spacing should be planned together because uneven emergence can ruin a good spacing map just as quickly as crowding can. For this crop, the working seed or set depth on this page is <strong>{crop.seedDepthInches}</strong>. That depth comes from the secondary source cross-check listed in the source block below when the primary page is UMN-led, or from the main extension source when the crop page itself is not UMN-led. The goal is to keep the stand even enough that later thinning or transplant spacing actually holds.
+              Depth and spacing should be planned together because uneven emergence can ruin a good spacing map just as quickly as crowding can. For this crop, the working seed or set depth on this page is <strong>{crop.seedDepthInches}</strong>.{depthSourceSentence} The goal is to keep the stand even enough that later thinning or transplant spacing actually holds.
             </p>
             <p>
               Shallow planting can speed emergence, but only if the seed zone stays moist enough to support it. Plant too shallow and drying becomes the bigger risk. Plant too deep and emergence slows, which makes the row less uniform and can leave gaps you are tempted to overcorrect with extra seed or tight transplanting. That is why the seed-depth number belongs in the quick-answer table instead of being buried in a late paragraph.
@@ -212,9 +221,17 @@ export default function SeedSpacingCropPage({ params }: { params: { crop: string
             <p>
               This is where days to maturity becomes more than a planning convenience. A crop that matures in {crop.maturityDays} occupies the bed long enough for small spacing mistakes to compound. Light interception changes, weeds become harder to reach, and harvest lanes shrink. If the crop is crowded early and you wait to fix it later, your choices narrow fast because roots and branches are already committed to the space you gave them.
             </p>
-            <p>
-              The mature-stage view is also the reason crop-specific pages outperform generic spacing advice. A generic spacing chart can tell you the number. It usually cannot tell you why the number matters once {crop.name.toLowerCase()} is no longer a seedling. That explanation is what keeps this page from becoming a thin doorway clone of the mother page.
-            </p>
+            {distinctFact && (
+              <p>
+                {distinctFact.text} Source:{' '}
+                <a className="text-green-700 underline" href={distinctFact.url}>{distinctFact.label}</a>.
+              </p>
+            )}
+            {keepOriginalWording && (
+              <p>
+                The mature-stage view is also the reason crop-specific pages outperform generic spacing advice. A generic spacing chart can tell you the number. It usually cannot tell you why the number matters once {crop.name.toLowerCase()} is no longer a seedling. That explanation is what keeps this page from becoming a thin doorway clone of the mother page.
+              </p>
+            )}
           </div>
         </section>
 

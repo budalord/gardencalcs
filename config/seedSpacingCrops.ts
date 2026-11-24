@@ -30,6 +30,8 @@ export interface SeedSpacingCrop {
   secondarySource: SeedSpacingCropSource;
   tertiarySource: SeedSpacingCropSource;
   uniqueFaq: SeedSpacingCropFaq;
+  // One crop-specific fact taken from a source already listed on the page.
+  distinctFact?: { text: string; source: 'primary' | 'secondary' | 'tertiary' };
 }
 
 export const seedSpacingCrops: SeedSpacingCrop[] = [
@@ -148,6 +150,10 @@ export const seedSpacingCrops: SeedSpacingCrop[] = [
       q: 'Why do crowded carrots stay thin even when the tops look healthy?',
       a: 'Crowded carrots can maintain decent top growth while still competing underground for the exact space the root needs to widen and stay straight. That is why good-looking tops do not guarantee good root size. In carrots, spacing is fundamentally a root-shape issue as much as a canopy issue.',
       sourceUrl: 'https://extension.uga.edu/content/dam/extension-county-offices/gwinnett-county/anr/homeshow-resources/Vegetable%20Planting%20Chart.pdf',
+    },
+    distinctFact: {
+      source: 'tertiary',
+      text: 'University of Maryland Extension advises thinning carrots to 1 to 4 inches apart once seedlings are about 2 inches tall, and cutting the extra seedlings rather than pulling them so the roots left in the row are not disturbed.',
     },
   },
   {
@@ -383,6 +389,10 @@ export const seedSpacingCrops: SeedSpacingCrop[] = [
       a: 'Yes. Spinach can be planted much more densely for repeated baby-leaf cuts because the crop is harvested before each plant reaches full mature spread. But if your goal is larger leaves or bunch harvests, the stand still needs to be thinned to protect airflow, leaf quality, and harvest ease.',
       sourceUrl: 'https://extension.usu.edu/vegetableguide/leafy-greens/planting-spacing',
     },
+    distinctFact: {
+      source: 'primary',
+      text: 'Utah State University Extension notes that soil temperatures above 80°F can push spinach seed into dormancy, so it will not germinate until the soil cools again.',
+    },
   },
   {
     slug: 'kale',
@@ -421,6 +431,10 @@ export const seedSpacingCrops: SeedSpacingCrop[] = [
       q: 'Why does kale need more space for repeated harvest than for baby-leaf production?',
       a: 'Baby-leaf kale is harvested before each plant expands much, so it can stay closer. Repeated harvest kale is expected to keep producing large outer leaves over time, which means the mature plant needs more room for canopy growth, airflow, and hand access during harvest.',
       sourceUrl: 'https://extension.usu.edu/vegetableguide/leafy-greens/planting-spacing',
+    },
+    distinctFact: {
+      source: 'tertiary',
+      text: 'University of Maryland Extension notes that kale sown 2 to 4 inches apart produces a dense stand of small plants that can be harvested repeatedly as baby leaf, while full-size plants need wider in-row spacing.',
     },
   },
   {
@@ -500,6 +514,10 @@ export const seedSpacingCrops: SeedSpacingCrop[] = [
       a: 'When radishes are not thinned, each root has less room to expand and the stand competes harder for moisture. That competition can leave roots undersized, irregular, or prone to splitting once water swings sharply. For a crop this fast, thinning is one of the highest-return spacing jobs you can do.',
       sourceUrl: 'https://extension.umn.edu/vegetables/growing-radishes',
     },
+    distinctFact: {
+      source: 'primary',
+      text: 'University of Minnesota Extension recommends thinning small radishes to about 2 inches between plants once they reach an edible size, but larger varieties such as daikon need 4 to 6 inches between plants.',
+    },
   },
   {
     slug: 'beet',
@@ -538,6 +556,10 @@ export const seedSpacingCrops: SeedSpacingCrop[] = [
       q: 'Do beet seedlings need thinning even when the bed already looks sparse?',
       a: 'Usually yes, because one beet seedball can produce more than one seedling. A stand that looks light from above may still have too many plants sharing the same point underground. Thinning is often what separates a patch of beet greens from a patch of well-sized beet roots.',
       sourceUrl: 'https://extension.usu.edu/vegetableguide/root-crops/beets-and-turnips',
+    },
+    distinctFact: {
+      source: 'tertiary',
+      text: 'Each beet seed is actually a seed ball with several embryos, so University of Maryland Extension advises thinning when plants are about 2 inches tall unless you bought monogerm seed, which has one embryo per seed. The thinnings can go into salads.',
     },
   },
   {
@@ -578,6 +600,10 @@ export const seedSpacingCrops: SeedSpacingCrop[] = [
       a: 'Zucchini builds a large, broadleaf canopy very quickly once warm weather arrives, so the mature plant occupies far more room than the seedling or transplant suggests. That is why spacing has to be set for the adult mound and harvest access, not just for the young plant you put in the ground.',
       sourceUrl: 'https://extension.uga.edu/content/dam/extension-county-offices/gwinnett-county/anr/homeshow-resources/Vegetable%20Planting%20Chart.pdf',
     },
+    distinctFact: {
+      source: 'tertiary',
+      text: 'University of Maryland Extension gives two layouts for summer squash: hills of two to three plants set 3 to 4 feet apart in the row with 4 to 6 feet between rows, or single plants 2 to 3 feet apart with 3 to 5 feet between rows.',
+    },
   },
   {
     slug: 'potato',
@@ -616,6 +642,10 @@ export const seedSpacingCrops: SeedSpacingCrop[] = [
       q: 'Why does potato spacing have to leave room for hilling as well as plant growth?',
       a: 'Potatoes are not managed like surface-rooted greens. The crop needs row room for hilling soil around stems as tubers develop and for digging later without cutting too many potatoes. A row that looks efficient on planting day can become a management problem if it leaves no working room for hilling or harvest.',
       sourceUrl: 'https://extension.umn.edu/vegetables/growing-potatoes',
+    },
+    distinctFact: {
+      source: 'primary',
+      text: 'Small seed tubers about 1 to 1¼ inches across can be planted whole. Larger tubers are cut into 1¼-inch chunks, and University of Minnesota Extension says every piece needs at least one eye, with two or three eyes being better.',
     },
   },
   {
@@ -695,6 +725,10 @@ export const seedSpacingCrops: SeedSpacingCrop[] = [
       a: 'Pea vines climb a trellis rather than spreading sideways, so plants can stand close to each other without shading neighbors. But the row still needs width because each side of the trellis has to be reachable for picking, and the trellis itself takes up real ground space. Close in-row spacing fills the trellis; wide row spacing keeps the row workable.',
       sourceUrl: 'https://extension.umn.edu/vegetables/growing-peas',
     },
+    distinctFact: {
+      source: 'primary',
+      text: 'University of Minnesota Extension separates peas by habit: tall vining varieties can reach five feet and go in a single row at the base of a trellis, while two- to three-foot bush types can be sown in a 12- to 18-inch-wide band, rather than a single narrow row, where the plants hold each other up.',
+    },
   },
   {
     slug: 'cabbage',
@@ -772,6 +806,10 @@ export const seedSpacingCrops: SeedSpacingCrop[] = [
       q: 'Why does cauliflower need slightly wider spacing than broccoli or cabbage?',
       a: 'Cauliflower is more sensitive to growth interruptions than its brassica neighbors. Any stress — crowding, irregular water, heat spikes — can produce small or grainy heads. Wider spacing acts as a buffer against those stresses by giving each plant room to grow steadily without competing for light, water, or root space at critical curd-formation stages.',
       sourceUrl: 'https://extension.umn.edu/vegetables/growing-cauliflower',
+    },
+    distinctFact: {
+      source: 'primary',
+      text: 'For direct seeding, University of Minnesota Extension suggests dropping three seeds every 18 inches and thinning to one seedling per spot after emergence; transplants go in at the same 18-inch spacing.',
     },
   },
   {
