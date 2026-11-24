@@ -817,6 +817,21 @@ export const seedSpacingCrops: SeedSpacingCrop[] = [
 
 export const seedSpacingCropMap = Object.fromEntries(seedSpacingCrops.map((crop) => [crop.slug, crop])) as Record<string, SeedSpacingCrop>
 
+// Crops whose /tools/seed-spacing/<crop> page was removed on 2026-11-24 (return 404, not in sitemap).
+// Their spacing data stays here because the calculator and the mother-page chart still use it.
+export const unpublishedSeedSpacingSlugs = ['tomato', 'lettuce', 'pepper', 'cucumber', 'broccoli', 'bush-bean', 'sweet-corn', 'onion', 'cabbage']
+
+export const publishedSeedSpacingCrops = seedSpacingCrops.filter((crop) => !unpublishedSeedSpacingSlugs.includes(crop.slug))
+
+export const publishedSeedSpacingCropMap = Object.fromEntries(publishedSeedSpacingCrops.map((crop) => [crop.slug, crop])) as Record<string, SeedSpacingCrop>
+
+// Chart row links: published crop pages, or the matching grow guide for removed crops that have one.
+const seedSpacingGrowGuideHrefs: Record<string, string> = { tomato: '/grow/tomato' }
+
+export const seedSpacingCropRowHrefs: Array<string | undefined> = seedSpacingCrops.map((crop) =>
+  publishedSeedSpacingCropMap[crop.slug] ? `/tools/seed-spacing/${crop.slug}` : seedSpacingGrowGuideHrefs[crop.slug],
+)
+
 const seedDepthForTable = (depth: string) =>
   depth
     .replace(/ inches?/g, ' in')
@@ -839,7 +854,7 @@ export const popularSeedSpacingCropTableRows: string[][] = popularSeedSpacingSlu
   ]
 })
 
-export const seedSpacingCropLinks = seedSpacingCrops.map((crop) => ({
+export const seedSpacingCropLinks = publishedSeedSpacingCrops.map((crop) => ({
   href: `/tools/seed-spacing/${crop.slug}`,
   anchor: `${crop.titleName} spacing guide`,
   description: `See ${crop.titleName.toLowerCase()} row spacing, plant spacing, seed depth, maturity notes, and crop-specific FAQs.`,

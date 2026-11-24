@@ -310,9 +310,7 @@ export default function GrowTomatoPage() {
             <p>
               For a specific bed, run the dimensions through the{' '}
               <Link href="/tools/seed-spacing-calculator" className="text-green-700 underline">seed spacing calculator</Link>{' '}
-              to estimate plant count, and use the crop-specific{' '}
-              <Link href="/tools/seed-spacing/tomato" className="text-green-700 underline">tomato spacing guide</Link>{' '}
-              for the maturity-stage view of how spacing affects airflow and harvest later in the season.
+              to estimate plant count.
             </p>
           </div>
         </section>
@@ -434,9 +432,9 @@ export default function GrowTomatoPage() {
         <section className="mt-12 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
           <h2 className="text-xl font-semibold text-gray-900">Plan the next bed</h2>
           <div className="mt-4 grid gap-3 sm:grid-cols-2">
-            <Link href="/tools/seed-spacing/tomato" className="rounded-lg border border-gray-200 p-4 hover:border-green-500 hover:shadow-sm">
-              <p className="text-sm font-semibold text-gray-900">Tomato spacing & layout guide</p>
-              <p className="mt-1 text-sm leading-6 text-gray-600">Crop-specific row, plant, and seed-depth numbers with three extension cross-checks.</p>
+            <Link href="/tools/seed-spacing-calculator" className="rounded-lg border border-gray-200 p-4 hover:border-green-500 hover:shadow-sm">
+              <p className="text-sm font-semibold text-gray-900">Seed spacing calculator</p>
+              <p className="mt-1 text-sm leading-6 text-gray-600">Row, plant, and seed-depth numbers for 20 crops, with plant and seed counts for your bed.</p>
             </Link>
             <Link href="/tools/soil-ph/tomato" className="rounded-lg border border-gray-200 p-4 hover:border-green-500 hover:shadow-sm">
               <p className="text-sm font-semibold text-gray-900">Tomato soil pH guide</p>

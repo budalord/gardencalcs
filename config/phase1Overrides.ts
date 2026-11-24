@@ -1,7 +1,7 @@
 import {
   popularSeedSpacingCropTableRows,
   seedSpacingCropLinks,
-  seedSpacingCrops,
+  seedSpacingCropRowHrefs,
   seedSpacingCropTableRows,
 } from "@/config/seedSpacingCrops";
 import { soilPHCropLinks } from "@/config/soilPHCrops";
@@ -138,11 +138,11 @@ export const phase1Overrides: Record<string, ToolOverride> = {
       rows: popularSeedSpacingCropTableRows,
     },
     deferredQuickAnswer: {
-      definition: "The calculator and all 20 crop guides use this same extension-cited spacing dataset, so the chart stays consistent with the selected crop and result.",
+      definition: "The calculator and all 11 crop guides use this same extension-cited spacing dataset, so the chart stays consistent with the selected crop and result.",
       recommendation: "Treat these as home-garden baselines. Variety, support method, harvest stage, and local disease pressure can justify more room; follow the linked crop guide when you need that context.",
       columns: ["Crop", "Row × Plant", "Seed depth"],
       rows: seedSpacingCropTableRows,
-      rowHrefs: seedSpacingCrops.map((crop) => `/tools/seed-spacing/${crop.slug}`),
+      rowHrefs: seedSpacingCropRowHrefs,
       sourceHtml: seedSpacingSourceHtml,
     },
     howToSteps: [

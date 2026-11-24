@@ -16,8 +16,8 @@ const guides = [
     dek: "Planting time, spacing, soil pH, fertilizer, watering, pest prevention, and harvest cues, with an extension source behind every number.",
     readTime: "Full guide",
     topic: "Growing",
-    related: "/tools/seed-spacing/tomato",
-    relatedName: "Tomato Spacing Guide",
+    related: "/tools/seed-spacing-calculator",
+    relatedName: "Seed Spacing Calculator",
   },
   {
     slug: "how-to-fertilize-vegetable-garden",

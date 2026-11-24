@@ -1,5 +1,5 @@
 import { siteConfig } from "@/config/site";
-import { seedSpacingCrops } from "@/config/seedSpacingCrops";
+import { publishedSeedSpacingCrops } from "@/config/seedSpacingCrops";
 import { soilPHCrops } from "@/config/soilPHCrops";
 import { tools } from "@/config/tools";
 import { pageUpdatedAt } from "@/config/pageDates";
@@ -53,7 +53,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.7,
   }));
 
-  const seedSpacingCropRoutes: MetadataRoute.Sitemap = seedSpacingCrops.map((crop) => ({
+  const seedSpacingCropRoutes: MetadataRoute.Sitemap = publishedSeedSpacingCrops.map((crop) => ({
     url: `${base}/tools/seed-spacing/${crop.slug}`,
     lastModified: lastModified(`/tools/seed-spacing/${crop.slug}`),
     changeFrequency: "monthly",

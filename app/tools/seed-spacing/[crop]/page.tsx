@@ -2,14 +2,16 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { siteConfig } from '@/config/site'
-import { seedSpacingCropMap, seedSpacingCrops } from '@/config/seedSpacingCrops'
+import { publishedSeedSpacingCropMap, publishedSeedSpacingCrops } from '@/config/seedSpacingCrops'
+
+export const dynamicParams = false
 
 export function generateStaticParams() {
-  return seedSpacingCrops.map((crop) => ({ crop: crop.slug }))
+  return publishedSeedSpacingCrops.map((crop) => ({ crop: crop.slug }))
 }
 
 export function generateMetadata({ params }: { params: { crop: string } }): Metadata {
-  const crop = seedSpacingCropMap[params.crop]
+  const crop = publishedSeedSpacingCropMap[params.crop]
   if (!crop) return {}
 
   const title = `${crop.titleName} Seed Spacing: ${crop.rowSpacingInches} in Rows, ${crop.plantSpacingInches} in Apart`
@@ -30,7 +32,7 @@ export function generateMetadata({ params }: { params: { crop: string } }): Meta
 }
 
 export default function SeedSpacingCropPage({ params }: { params: { crop: string } }) {
-  const crop = seedSpacingCropMap[params.crop]
+  const crop = publishedSeedSpacingCropMap[params.crop]
   if (!crop) notFound()
 
   const url = `${siteConfig.domain}/tools/seed-spacing/${crop.slug}`
