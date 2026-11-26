@@ -27,8 +27,10 @@ export interface SeedSpacingCrop {
   airflowNote: string;
   harvestNote: string;
   primarySource: SeedSpacingCropSource;
-  secondarySource: SeedSpacingCropSource;
-  tertiarySource: SeedSpacingCropSource;
+  secondarySource?: SeedSpacingCropSource;
+  tertiarySource?: SeedSpacingCropSource;
+  // Which listed source backs the seed-depth FAQ; defaults to the secondary source. 'none' shows no source link.
+  depthFaqSource?: 'primary' | 'secondary' | 'tertiary' | 'none';
   uniqueFaq: SeedSpacingCropFaq;
   // One crop-specific fact taken from a source already listed on the page.
   distinctFact?: { text: string; source: 'primary' | 'secondary' | 'tertiary' };
@@ -129,30 +131,31 @@ export const seedSpacingCrops: SeedSpacingCrop[] = [
     airflowNote: 'Carrots do not need the same dramatic canopy airflow as tomatoes, but rows still need enough room for weeding, thinning, and clean irrigation access.',
     harvestNote: 'Spacing decisions show up directly at harvest: wider in-row room usually means fewer but more uniform roots, while crowding means more small roots.',
     primarySource: {
-      label: 'UGA Cooperative Extension planting chart',
-      url: 'https://extension.uga.edu/content/dam/extension-county-offices/gwinnett-county/anr/homeshow-resources/Vegetable%20Planting%20Chart.pdf',
+      label: 'Utah State University Extension — How to Grow Carrots in Your Garden',
+      url: 'https://extension.usu.edu/yardandgarden/research/carrots-in-the-garden',
       role: 'primary',
-      fieldUsed: 'row spacing, plant spacing, and seed depth',
+      fieldUsed: 'row spacing (12 to 18 inches), plant spacing (3 inches), and seed depth (1/4 to 1/2 inch)',
     },
     secondarySource: {
-      label: 'Utah State University Vegetable Guide',
-      url: 'https://extension.usu.edu/vegetableguide/root-crops/beets-and-turnips',
-      role: 'secondary',
-      fieldUsed: 'root-crop spacing pattern cross-check',
-    },
-    tertiarySource: {
       label: 'University of Maryland Extension — Growing Carrots in a Home Garden',
       url: 'https://extension.umd.edu/resource/growing-carrots-home-garden',
+      role: 'secondary',
+      fieldUsed: 'thinning (1 to 4 inches) and seed depth cross-check',
+    },
+    tertiarySource: {
+      label: 'UGA Extension Circular 963 vegetable planting chart',
+      url: 'https://fieldreport.caes.uga.edu/wp-content/uploads/2023/06/vegetable-planting-chart-for-Georgia-C963-UGA-extension.pdf',
       role: 'tertiary',
-      fieldUsed: 'thinning and in-row spacing reference',
+      fieldUsed: 'planting chart reference (field row widths)',
     },
     uniqueFaq: {
       q: 'Why do crowded carrots stay thin even when the tops look healthy?',
       a: 'Crowded carrots can maintain decent top growth while still competing underground for the exact space the root needs to widen and stay straight. That is why good-looking tops do not guarantee good root size. In carrots, spacing is fundamentally a root-shape issue as much as a canopy issue.',
-      sourceUrl: 'https://extension.uga.edu/content/dam/extension-county-offices/gwinnett-county/anr/homeshow-resources/Vegetable%20Planting%20Chart.pdf',
+      sourceUrl: 'https://extension.umd.edu/resource/growing-carrots-home-garden',
     },
+    depthFaqSource: 'primary',
     distinctFact: {
-      source: 'tertiary',
+      source: 'secondary',
       text: 'University of Maryland Extension advises thinning carrots to 1 to 4 inches apart once seedlings are about 2 inches tall, and cutting the extra seedlings rather than pulling them so the roots left in the row are not disturbed.',
     },
   },
@@ -373,8 +376,8 @@ export const seedSpacingCrops: SeedSpacingCrop[] = [
       fieldUsed: 'row spacing and plant spacing',
     },
     secondarySource: {
-      label: 'UGA Cooperative Extension planting chart',
-      url: 'https://extension.uga.edu/content/dam/extension-county-offices/gwinnett-county/anr/homeshow-resources/Vegetable%20Planting%20Chart.pdf',
+      label: 'UGA Extension Circular 963 vegetable planting chart',
+      url: 'https://fieldreport.caes.uga.edu/wp-content/uploads/2023/06/vegetable-planting-chart-for-Georgia-C963-UGA-extension.pdf',
       role: 'secondary',
       fieldUsed: 'seed depth cross-check',
     },
@@ -416,8 +419,8 @@ export const seedSpacingCrops: SeedSpacingCrop[] = [
       fieldUsed: 'row spacing and plant spacing',
     },
     secondarySource: {
-      label: 'UGA Cooperative Extension planting chart',
-      url: 'https://extension.uga.edu/content/dam/extension-county-offices/gwinnett-county/anr/homeshow-resources/Vegetable%20Planting%20Chart.pdf',
+      label: 'UGA Extension Circular 963 vegetable planting chart',
+      url: 'https://fieldreport.caes.uga.edu/wp-content/uploads/2023/06/vegetable-planting-chart-for-Georgia-C963-UGA-extension.pdf',
       role: 'secondary',
       fieldUsed: 'seed depth cross-check',
     },
@@ -498,8 +501,8 @@ export const seedSpacingCrops: SeedSpacingCrop[] = [
       fieldUsed: 'row spacing and plant spacing',
     },
     secondarySource: {
-      label: 'UGA Cooperative Extension planting chart',
-      url: 'https://extension.uga.edu/content/dam/extension-county-offices/gwinnett-county/anr/homeshow-resources/Vegetable%20Planting%20Chart.pdf',
+      label: 'UGA Extension Circular 963 vegetable planting chart',
+      url: 'https://fieldreport.caes.uga.edu/wp-content/uploads/2023/06/vegetable-planting-chart-for-Georgia-C963-UGA-extension.pdf',
       role: 'secondary',
       fieldUsed: 'seed depth cross-check',
     },
@@ -535,14 +538,14 @@ export const seedSpacingCrops: SeedSpacingCrop[] = [
     airflowNote: 'Leaf canopies are not huge, but spacing still protects access for weeding and keeps the root zone from becoming a tangled patch of undersized roots.',
     harvestNote: 'Uniform spacing is one of the easiest ways to get a more even harvest size instead of a mixed tray of very small and very large roots.',
     primarySource: {
-      label: 'Utah State University Extension',
-      url: 'https://extension.usu.edu/vegetableguide/root-crops/beets-and-turnips',
+      label: 'Utah State University Extension — Root Crops Planting and Spacing',
+      url: 'https://extension.usu.edu/vegetableguide/root-crops/planting-spacing',
       role: 'primary',
       fieldUsed: 'row spacing and plant spacing',
     },
     secondarySource: {
-      label: 'UGA Cooperative Extension planting chart',
-      url: 'https://extension.uga.edu/content/dam/extension-county-offices/gwinnett-county/anr/homeshow-resources/Vegetable%20Planting%20Chart.pdf',
+      label: 'UGA Extension Circular 963 vegetable planting chart',
+      url: 'https://fieldreport.caes.uga.edu/wp-content/uploads/2023/06/vegetable-planting-chart-for-Georgia-C963-UGA-extension.pdf',
       role: 'secondary',
       fieldUsed: 'seed depth cross-check',
     },
@@ -555,7 +558,7 @@ export const seedSpacingCrops: SeedSpacingCrop[] = [
     uniqueFaq: {
       q: 'Do beet seedlings need thinning even when the bed already looks sparse?',
       a: 'Usually yes, because one beet seedball can produce more than one seedling. A stand that looks light from above may still have too many plants sharing the same point underground. Thinning is often what separates a patch of beet greens from a patch of well-sized beet roots.',
-      sourceUrl: 'https://extension.usu.edu/vegetableguide/root-crops/beets-and-turnips',
+      sourceUrl: 'https://extension.usu.edu/vegetableguide/root-crops/planting-spacing',
     },
     distinctFact: {
       source: 'tertiary',
@@ -578,30 +581,31 @@ export const seedSpacingCrops: SeedSpacingCrop[] = [
     airflowNote: 'Good spacing keeps the plant open enough to spot powdery mildew, pollination issues, and hidden fruit before quality slips.',
     harvestNote: 'Zucchini is most productive when fruit is picked regularly, and adequate spacing makes that daily or near-daily harvest much easier.',
     primarySource: {
-      label: 'UGA Cooperative Extension planting chart',
-      url: 'https://extension.uga.edu/content/dam/extension-county-offices/gwinnett-county/anr/homeshow-resources/Vegetable%20Planting%20Chart.pdf',
+      label: 'University of Maryland Extension — Growing Summer Squash (Zucchini) in a Home Garden',
+      url: 'https://extension.umd.edu/resource/growing-summer-squash-zucchini-home-garden',
       role: 'primary',
-      fieldUsed: 'row spacing, plant spacing, and seed depth',
+      fieldUsed: 'row spacing and plant spacing (single plants)',
     },
     secondarySource: {
-      label: 'University of Minnesota Extension',
-      url: 'https://extension.umn.edu/vegetables/growing-squash',
+      label: 'University of Minnesota Extension — Growing summer squash and zucchini',
+      url: 'https://extension.umn.edu/vegetables/growing-summer-squash-and-zucchini',
       role: 'secondary',
       fieldUsed: 'maturity habit cross-check',
     },
     tertiarySource: {
-      label: 'University of Maryland Extension — Growing Summer Squash (Zucchini) in a Home Garden',
-      url: 'https://extension.umd.edu/resource/growing-summer-squash-zucchini-home-garden',
+      label: 'UGA Extension Circular 963 vegetable planting chart',
+      url: 'https://fieldreport.caes.uga.edu/wp-content/uploads/2023/06/vegetable-planting-chart-for-Georgia-C963-UGA-extension.pdf',
       role: 'tertiary',
-      fieldUsed: 'hill and row spacing reference',
+      fieldUsed: 'seed depth cross-check',
     },
     uniqueFaq: {
       q: 'Why does one zucchini plant seem to take over an entire corner of the bed?',
       a: 'Zucchini builds a large, broadleaf canopy very quickly once warm weather arrives, so the mature plant occupies far more room than the seedling or transplant suggests. That is why spacing has to be set for the adult mound and harvest access, not just for the young plant you put in the ground.',
-      sourceUrl: 'https://extension.uga.edu/content/dam/extension-county-offices/gwinnett-county/anr/homeshow-resources/Vegetable%20Planting%20Chart.pdf',
+      sourceUrl: 'https://extension.umd.edu/resource/growing-summer-squash-zucchini-home-garden',
     },
+    depthFaqSource: 'tertiary',
     distinctFact: {
-      source: 'tertiary',
+      source: 'primary',
       text: 'University of Maryland Extension gives two layouts for summer squash: hills of two to three plants set 3 to 4 feet apart in the row with 4 to 6 feet between rows, or single plants 2 to 3 feet apart with 3 to 5 feet between rows.',
     },
   },
@@ -624,13 +628,13 @@ export const seedSpacingCrops: SeedSpacingCrop[] = [
       label: 'University of Minnesota Extension',
       url: 'https://extension.umn.edu/vegetables/growing-potatoes',
       role: 'primary',
-      fieldUsed: 'row spacing and plant spacing',
+      fieldUsed: 'row spacing, plant spacing, and planting depth (3 to 5 inches)',
     },
     secondarySource: {
-      label: 'UGA Cooperative Extension planting chart',
-      url: 'https://extension.uga.edu/content/dam/extension-county-offices/gwinnett-county/anr/homeshow-resources/Vegetable%20Planting%20Chart.pdf',
+      label: 'UGA Extension Circular 963 vegetable planting chart',
+      url: 'https://fieldreport.caes.uga.edu/wp-content/uploads/2023/06/vegetable-planting-chart-for-Georgia-C963-UGA-extension.pdf',
       role: 'secondary',
-      fieldUsed: 'planting depth cross-check',
+      fieldUsed: 'planting date and row spacing reference',
     },
     tertiarySource: {
       label: 'Iowa State University Extension — Planting Potatoes in the Home Garden',
@@ -643,6 +647,7 @@ export const seedSpacingCrops: SeedSpacingCrop[] = [
       a: 'Potatoes are not managed like surface-rooted greens. The crop needs row room for hilling soil around stems as tubers develop and for digging later without cutting too many potatoes. A row that looks efficient on planting day can become a management problem if it leaves no working room for hilling or harvest.',
       sourceUrl: 'https://extension.umn.edu/vegetables/growing-potatoes',
     },
+    depthFaqSource: 'primary',
     distinctFact: {
       source: 'primary',
       text: 'Small seed tubers about 1 to 1¼ inches across can be planted whole. Larger tubers are cut into 1¼-inch chunks, and University of Minnesota Extension says every piece needs at least one eye, with two or three eyes being better.',
@@ -709,16 +714,16 @@ export const seedSpacingCrops: SeedSpacingCrop[] = [
       fieldUsed: 'row spacing and plant spacing',
     },
     secondarySource: {
-      label: 'UGA Cooperative Extension planting chart',
-      url: 'https://extension.uga.edu/content/dam/extension-county-offices/gwinnett-county/anr/homeshow-resources/Vegetable%20Planting%20Chart.pdf',
+      label: 'UGA Extension Circular 963 vegetable planting chart',
+      url: 'https://fieldreport.caes.uga.edu/wp-content/uploads/2023/06/vegetable-planting-chart-for-Georgia-C963-UGA-extension.pdf',
       role: 'secondary',
       fieldUsed: 'seed depth cross-check',
     },
     tertiarySource: {
-      label: 'University of Maryland Extension — Growing Peas in a Home Garden',
-      url: 'https://extension.umd.edu/resource/growing-peas-home-garden',
+      label: 'Utah State University Extension — How to Grow Peas in Your Garden',
+      url: 'https://extension.usu.edu/yardandgarden/research/peas-in-the-garden',
       role: 'tertiary',
-      fieldUsed: 'row spacing and trellis layout reference',
+      fieldUsed: 'row spacing and plant spacing',
     },
     uniqueFaq: {
       q: 'Why do peas need close in-row spacing but still need wide row spacing?',
@@ -788,13 +793,13 @@ export const seedSpacingCrops: SeedSpacingCrop[] = [
       label: 'University of Minnesota Extension — Growing Cauliflower',
       url: 'https://extension.umn.edu/vegetables/growing-cauliflower',
       role: 'primary',
-      fieldUsed: 'row spacing and plant spacing',
+      fieldUsed: 'row spacing, plant spacing, and seed depth (1/4 to 1/2 inch)',
     },
     secondarySource: {
-      label: 'UGA Cooperative Extension planting chart',
-      url: 'https://extension.uga.edu/content/dam/extension-county-offices/gwinnett-county/anr/homeshow-resources/Vegetable%20Planting%20Chart.pdf',
+      label: 'UGA Extension Circular 963 vegetable planting chart',
+      url: 'https://fieldreport.caes.uga.edu/wp-content/uploads/2023/06/vegetable-planting-chart-for-Georgia-C963-UGA-extension.pdf',
       role: 'secondary',
-      fieldUsed: 'seed depth cross-check',
+      fieldUsed: 'row spacing reference',
     },
     tertiarySource: {
       label: 'University of Maryland Extension — Growing Cauliflower in a Home Garden',
@@ -807,6 +812,7 @@ export const seedSpacingCrops: SeedSpacingCrop[] = [
       a: 'Cauliflower is more sensitive to growth interruptions than its brassica neighbors. Any stress — crowding, irregular water, heat spikes — can produce small or grainy heads. Wider spacing acts as a buffer against those stresses by giving each plant room to grow steadily without competing for light, water, or root space at critical curd-formation stages.',
       sourceUrl: 'https://extension.umn.edu/vegetables/growing-cauliflower',
     },
+    depthFaqSource: 'primary',
     distinctFact: {
       source: 'primary',
       text: 'For direct seeding, University of Minnesota Extension suggests dropping three seeds every 18 inches and thinning to one seedling per spot after emergence; transplants go in at the same 18-inch spacing.',
@@ -831,20 +837,9 @@ export const seedSpacingCrops: SeedSpacingCrop[] = [
       label: 'Utah State University Extension — Leafy Greens Planting Spacing',
       url: 'https://extension.usu.edu/vegetableguide/leafy-greens/planting-spacing',
       role: 'primary',
-      fieldUsed: 'row spacing and plant spacing',
+      fieldUsed: 'in-row spacing cross-check (12 to 15 inches)',
     },
-    secondarySource: {
-      label: 'UGA Cooperative Extension planting chart',
-      url: 'https://extension.uga.edu/content/dam/extension-county-offices/gwinnett-county/anr/homeshow-resources/Vegetable%20Planting%20Chart.pdf',
-      role: 'secondary',
-      fieldUsed: 'seed depth cross-check',
-    },
-    tertiarySource: {
-      label: 'University of Maryland Extension — Growing Leafy Greens in a Home Garden',
-      url: 'https://extension.umd.edu/resource/growing-leafy-greens-home-garden',
-      role: 'tertiary',
-      fieldUsed: 'row and plant spacing reference',
-    },
+    depthFaqSource: 'none',
     uniqueFaq: {
       q: 'Why does Swiss chard spacing matter for cut-and-come-again harvests?',
       a: 'Chard is a long-season repeat-harvest crop, not a one-cut salad green. Each plant keeps pushing new outer leaves from the crown for months, and crowded crowns produce smaller, weaker leaves with every cycle. Adequate spacing is what lets the plant keep replacing harvested leaves at full size instead of gradually shrinking the harvest as the season progresses.',

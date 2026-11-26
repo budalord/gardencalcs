@@ -37,8 +37,15 @@ export default function SeedSpacingCropPage({ params }: { params: { crop: string
 
   const url = `${siteConfig.domain}/tools/seed-spacing/${crop.slug}`
   const cropSources = { primary: crop.primarySource, secondary: crop.secondarySource, tertiary: crop.tertiarySource }
+  const listedSources = [
+    { heading: 'Primary source', source: crop.primarySource },
+    { heading: 'Secondary source', source: crop.secondarySource },
+    { heading: 'Tertiary source', source: crop.tertiarySource },
+  ].filter((entry): entry is { heading: string; source: NonNullable<typeof entry.source> } => Boolean(entry.source))
+  const depthFaqSourceUrl = crop.depthFaqSource === 'none' ? undefined : cropSources[crop.depthFaqSource ?? 'secondary']?.url
+  const sourceCountWords = ['no', 'one', 'two', 'three']
   const distinctFact = crop.distinctFact
-    ? { text: crop.distinctFact.text, url: cropSources[crop.distinctFact.source].url, label: cropSources[crop.distinctFact.source].label }
+    ? { text: crop.distinctFact.text, url: cropSources[crop.distinctFact.source]?.url ?? '', label: cropSources[crop.distinctFact.source]?.label ?? '' }
     : null
   // Garlic keeps its original wording this round (decision 2026-11-24); other crops drop the self-referential lines.
   const keepOriginalWording = crop.slug === 'garlic'
@@ -62,7 +69,7 @@ export default function SeedSpacingCropPage({ params }: { params: { crop: string
       {
         q: `How deep should ${crop.name.toLowerCase()} seeds or starts be planted?`,
         a: `${crop.name} planting depth on this page is set at ${crop.seedDepthInches}. That depth is shallow enough to help emergence, but still deep enough to keep seed or transplant placement stable. Depth should always be read together with spacing because crowded plants and uneven depth create weak, uneven stands.`,
-        sourceUrl: crop.secondarySource.url,
+        sourceUrl: depthFaqSourceUrl,
       },
       {
         q: `Can ${crop.name.toLowerCase()} be planted tighter in a raised bed than in a field row?`,
@@ -91,15 +98,11 @@ export default function SeedSpacingCropPage({ params }: { params: { crop: string
     '@context': 'https://schema.org',
     '@type': 'Dataset',
     name: `${crop.titleName} seed spacing dataset`,
-    description: `Row spacing, plant spacing, seed depth, and days-to-maturity for ${crop.name.toLowerCase()} grown in a home garden, cross-checked against three independent university extension sources.`,
+    description: `Row spacing, plant spacing, seed depth, and days-to-maturity for ${crop.name.toLowerCase()} grown in a home garden, cross-checked against ${sourceCountWords[listedSources.length]} independent university extension ${listedSources.length === 1 ? 'source' : 'sources'}.`,
     url,
     license: 'https://creativecommons.org/licenses/by/4.0/',
     creator: { '@type': 'Organization', name: 'gardencalcs.com', url: siteConfig.domain },
-    isBasedOn: [
-      { '@type': 'CreativeWork', name: crop.primarySource.label, url: crop.primarySource.url },
-      { '@type': 'CreativeWork', name: crop.secondarySource.label, url: crop.secondarySource.url },
-      { '@type': 'CreativeWork', name: crop.tertiarySource.label, url: crop.tertiarySource.url },
-    ],
+    isBasedOn: listedSources.map(({ source }) => ({ '@type': 'CreativeWork', name: source.label, url: source.url })),
     variableMeasured: [
       { '@type': 'PropertyValue', name: 'Row spacing', value: crop.rowSpacingInches, unitText: 'inch' },
       { '@type': 'PropertyValue', name: 'Plant spacing', value: crop.plantSpacingInches, unitText: 'inch' },
@@ -272,7 +275,7 @@ export default function SeedSpacingCropPage({ params }: { params: { crop: string
               {
                 q: `How deep should ${crop.name.toLowerCase()} seeds or starts be planted?`,
                 a: `${crop.name} planting depth on this page is set at ${crop.seedDepthInches}. That depth keeps emergence or transplant establishment more even while still matching the crop's need for stable placement. In practice, gardeners should hold the depth steady first, then adjust spacing with thinning or transplant layout if necessary.`,
-                sourceUrl: crop.secondarySource.url,
+                sourceUrl: depthFaqSourceUrl,
               },
               {
                 q: `Can ${crop.name.toLowerCase()} be planted tighter in a raised bed than in a field row?`,
@@ -284,7 +287,9 @@ export default function SeedSpacingCropPage({ params }: { params: { crop: string
                 <summary className="cursor-pointer text-base font-semibold text-gray-900">{faq.q}</summary>
                 <div className="mt-3 text-sm leading-7 text-gray-600">
                   <p>{faq.a}</p>
-                  <p className="mt-2 text-xs text-gray-500">Source: <a className="text-green-700 underline break-all" href={faq.sourceUrl}>{faq.sourceUrl}</a></p>
+                  {faq.sourceUrl && (
+                    <p className="mt-2 text-xs text-gray-500">Source: <a className="text-green-700 underline break-all" href={faq.sourceUrl}>{faq.sourceUrl}</a></p>
+                  )}
                 </div>
               </details>
             ))}
@@ -294,18 +299,12 @@ export default function SeedSpacingCropPage({ params }: { params: { crop: string
         <section className="mt-12 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
           <h2 className="text-xl font-semibold text-gray-900">Sources</h2>
           <ul className="mt-4 space-y-3 text-sm leading-7 text-gray-600">
-            <li>
-              <strong>Primary source ({crop.primarySource.fieldUsed}):</strong>{' '}
-              <a className="text-green-700 underline break-all" href={crop.primarySource.url}>{crop.primarySource.label}</a>
-            </li>
-            <li>
-              <strong>Secondary source ({crop.secondarySource.fieldUsed}):</strong>{' '}
-              <a className="text-green-700 underline break-all" href={crop.secondarySource.url}>{crop.secondarySource.label}</a>
-            </li>
-            <li>
-              <strong>Tertiary source ({crop.tertiarySource.fieldUsed}):</strong>{' '}
-              <a className="text-green-700 underline break-all" href={crop.tertiarySource.url}>{crop.tertiarySource.label}</a>
-            </li>
+            {listedSources.map(({ heading, source }) => (
+              <li key={heading}>
+                <strong>{heading} ({source.fieldUsed}):</strong>{' '}
+                <a className="text-green-700 underline break-all" href={source.url}>{source.label}</a>
+              </li>
+            ))}
           </ul>
         </section>
 

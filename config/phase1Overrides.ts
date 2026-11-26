@@ -17,7 +17,7 @@ type ToolOverride = Omit<Partial<Tool>, "quickAnswer"> & {
 };
 
 const seedSpacingSourceHtml =
-  'Sources: <a href="https://extension.uga.edu/content/dam/extension-county-offices/gwinnett-county/anr/homeshow-resources/Vegetable%20Planting%20Chart.pdf">UGA Cooperative Extension planting chart</a>; <a href="https://cmg.extension.colostate.edu/Gardennotes/721.pdf">Colorado State Extension raised-bed planting guide</a>; <a href="https://content.ces.ncsu.edu/extension-gardener-handbook/16-vegetable-gardening">NC State Extension vegetable gardening handbook</a>; <a href="https://extension.umn.edu/vegetables">University of Minnesota Extension vegetable guides</a>.';
+  'Sources: <a href="https://fieldreport.caes.uga.edu/wp-content/uploads/2023/06/vegetable-planting-chart-for-Georgia-C963-UGA-extension.pdf">UGA Extension Circular 963 vegetable planting chart</a>; <a href="https://cmg.extension.colostate.edu/Gardennotes/721.pdf">Colorado State Extension raised-bed planting guide</a>; <a href="https://content.ces.ncsu.edu/extension-gardener-handbook/16-vegetable-gardening">NC State Extension vegetable gardening handbook</a>; <a href="https://extension.umn.edu/yard-and-garden/vegetables">University of Minnesota Extension vegetable guides</a>.';
 
 export const phase1Overrides: Record<string, ToolOverride> = {
   "soil-ph-calculator": {
